@@ -1,0 +1,1360 @@
+2007-12-31  KAWABATA Taichi <kawabata@m17n.org>
+
+	* iiimcf-sc.el
+	(iiimcf-server-control-parse-hostname): fixed minor bug.
+
+2007-12-09  KAWABATA Taichi <kawabata@m17n.org>
+
+	* iiimp.el:
+	(iiimp-string-conversion-or-coding-system): bugs fixed, error removed.
+	(iiimp-use-mule-ucs): new variable.
+	(iiimp-unichar-to-string): new function
+	(iiimp-text-unpack): use iiimp-unichar-to-string instead of char-to-string.
+
+2007-12-05  KAWABATA Taichi <kawabata@m17n.org>
+
+	* iiimcf.el
+	(iiimcf-version): changed to 0.7.
+	(iiimcf-connect-im): tentatively remove call to (iiimcf-send-client-descriptor).
+	* iiimcf-sc.el
+	(iiimcf-server-control-version): changed to 0.7.
+	(iiimcf-server-control-default-proto): commented out.
+	(iiimcf-server-control-parse-hostname): re-written.
+	(iiimcf-server-control-hostlist): default value changed for IIIMF R12.
+
+2005-06-04  KAWABATA Taichi <kawabata@m17n.org>
+
+	* iiimp.el (iiimp-unixdomain-socket-path): removed.
+	(iiimp-basic-opcode-spec-list): opcode for
+	iiimp-im-protocol-version, iiimp-im-file-operation and
+	iiimp-im-file-operation-reply are added.
+
+	* iiimcf-sc.el (iiimcf-server-control-initial-state-keymap):
+	`prior' and `next' keys are added to keymap.  They should be used
+	to switch language engines.
+	(iiimcf-server-control-parse-hostname): hostname specification
+	rule is changed.
+	(iiimcf-server-control-send-region): new variable.
+	(iiimcf-server-control-activate): send region string to the server
+	when specified by 'iiimcf-server-control-send-region' function.
+
+	* iiimcf.el (iiimcf-forward-event): make string as event acceptable.
+
+2005-05-28  KAWABATA Taichi <kawabata@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-initial-state-keymap): add
+	`iiimcf-server-control-keyforward' keybinds for alt+chars.
+	(iiimcf-server-control-preedit-state-keymap): likewise.
+	(iiimcf-server-control-switch-keyboard): change name from
+	iiimcf-server-control-toggle-keyboard.
+	(iiimcf-server-control-keyboard-list): new variable.
+	(iiimcf-server-control-preedit-state-keymap): add
+	`zenkaku-hankaku' keybind.
+
+	* iiimcf.el (iiimcf-keycode-spec-alist): add `zenkaku-hankaku' keycode.
+
+2005-04-17  KAWABATA Taichi <kawabata@m17n.org>
+
+	* iiimcf.el (iiimcf-keycode-spec-alist): modifiers and
+	non-existent keyboard symbols are removed, control characters are
+	added.
+	(iiimcf-ascii-keycode-spec-alist): New variable.
+	(iiimcf-current-keycode-spec-alist): New variable.
+	(iiimcf-keycode-hash-obarray): change `obarray' to `sobarray'.
+	(iiimcf-emacs-base-event-pre-translate): re-written to check for
+	iiimcf-current-keycode-spec-alist.
+	(iiimcf-basic-event-type-to-keycode): removed.
+	(iiimcf-translate-emacs-event): re-written.
+	(iiimcf-use-kana-table): removed.
+	(iiimcf-kana-keycode-spec-alist): re-written.
+	(iiimcf-numseq): new function.
+
+	* iiimcf-sc.el (iiimcf-server-control-preedit-state-keymap):
+	support for various modifier keys and function keys.
+	(iiimcf-server-control-toggle-keyboard): New function.
+	(iiimcf-server-control-hostlist): Default value is changed to
+	'unix/:9010'
+	(iiimcf-server-control-parse-hostname): re-written.
+
+2005-04-16  KAWABATA Taichi <kawabata@m17n.org>
+
+	* iiimcf.el (iiimcf-dispatch-emacs-event-internal): change
+	(input-pending-p) to `unread-command-events' for event
+	consumption.
+	(iiimcf-set-icfocus): New function.
+	(iiimcf-unset-icfocus): New function.
+
+	* iiimcf-sc.el (iiimcf-server-control-focused-ic-id): New
+	variable.
+	(iiimcf-server-control-activate): focus after toggle.
+
+	* iiimp.el: change `emacs-unicode-p' to `iiimp-emacs-unicode-p'.
+
+2005-03-28  Akira TAGOH <tagoh@redhat.com>
+
+	* iiimcf.el (iiimcf-kana-keycode-spec-alist): New constant for kana.
+	(iiimcf-keycode-hash-obarray): Support for kana keys.
+	(iiimcf-emacs-base-event-pre-translate): likewise.
+	(iiimcf-translate-emacs-event): likewise.
+	(iiimcf-use-kana-table): new variable.
+
+2005-03-21  KAWABATA Taichi <kawabata@m17n.org>
+
+	* iiimp.el: Remove #xXXXX quote from various codes.
+
+	* iiimp.el (iiimp-network-sentinel): Return nil when 'hangup is
+	received.
+	(iiimp-open-network-channel): Use `make-network-process' to
+	communicate with IIIM server when specified.
+
+	* iiimcf-UI.el (iiimcf-UI-keyboard-translate-table): removed.
+	(iiimcf-UI-toggle-preedit): keyboard-transle-table handling code
+	is removed.
+
+	* iiimcf-sc.el (iiimcf-server-control-keyboard-translate-table):
+	new variable.
+	(iiimcf-server-control-maintain-preedit-text):
+	keyboard-transle-table handling code is added.
+
+2005-03-20  KAWABATA Taichi <kawabata@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-register-hotkeys):
+	New function.
+	(iiimcf-server-control-select-hotkey-profile): New function.
+	(iiimcf-server-control-get-hotkeys-by-label): New function.
+	(iiimcf-server-control-switch-le): New function.
+	(iiimcf-server-control-initial-state-keymap): Add new keymap to
+	change Language Engine.
+	(iiimcf-server-control-activate): Do not send `notify-trigger' if
+	this function is not invoked by 'toggle-input-method
+	(i.e. notify-trigger is invoked from the server at le-switch).
+
+	* iiimp.el (iiimp-message-register-hotkeys-scope): New function
+	(iiimp-message-register-hotkeys-profie-id): New function
+	(iiimp-message-register-hotkeys-hotkeys): New function
+	(iiimp-message-select-hotkey-profile-id): New function
+
+2005-03-15  Hiroshi Miura <miura@da-cha.org>
+
+	* iiimp.el (iiimp-parse-unexpected): New function.
+	(iiimp-select-message-parser): if non-supported message
+	is invoked, call iiimp-parse-unexpected.
+
+	* iiimcf.el (iiimcf-pumped-message-list): remove.
+	(iiimcf-message-manager): do not use iiimcf-pumped-message-list.
+
+2005-03-13  KAWABATA Taichi  <kawabata@m17n.org>
+
+	* EMIL.el: some minor fixes to eliminate compiler warnings.
+
+	* PCE.el: some minor fixes to eliminate compiler warnings.
+
+	* iiimp.el (iiimp-parse-header): When unknown protocol is used by
+	the server, the opcode is set as integer (protocol num), not nil.
+	(iiimp-opcode-spec): Likewise.
+	(iiimp-debug-flag): Make it official variable.
+
+	* iiimcf-UI.el (iiimcf-UI-toggle-preedit): Preserve
+	`keyboard-translation-table' values during preedit.
+	(iiimcf-UI-preedit-text-properties): remove `intangible' text
+	property so that preedit would work with show-paren-mode and
+	column-number-mode.
+	(iiimcf-UI-preedit-text-properties-end): likewise.
+
+	* iiimcf.el
+	(iiimcf-translate-emacs-event): Added support for keymods in the
+	list (for `%' character).
+	(iiimcf-keycode-spec-alist): likewise.
+	(iiimcf-event-to-char): Exclude control events from valid
+	characters.  (Wnn8 sometimes fails when control codes are sent as
+	character.)
+	(iiimcf-translate-emacs-event): If function keys such as `tab' are
+	pressed, make sure that corresponding events are sent as
+	independent keycodes, not the control+alphabet combination events.
+	(iiimcf-dispatch-emacs-event-internal): Make sure that
+	`current-prefix-arg' is nil before the cmd is
+	called-interactively.
+
+2005-03-06  KAWABATA Taichi  <kawabata@m17n.org>
+
+	* iiimcf-UI.el: Now `lookup-choice' draws its title and current
+	selection.
+	(iiimcf-UI-draw-lookup-choice-echo-line): Prints title and
+	indicator for a current selection.
+	(iiimcf-UI-draw-lookup-choice-buffer): Ditto.
+	(iiimcf-server-control-draw-lookup-choice): Ditto.
+
+	* iiimcf-sc.el
+	(iiimcf-server-control-draw-lookup-choice): If the size of the
+	lookup-choice is 0, change it to the actual size.  (Wnn8 sometimes
+	sends 0 for lookup-choice size.)
+
+2005-02-27  KAWABATA Taichi  <kawabata@m17n.org>
+
+	* iiimp.el: Hotkey protocol and Language-Engine switch is supported.
+	(iiimp-basic-opcode-spec-list): Add handlers for Hotkeys.
+	(iiimp-hotkey-unpack): New function.
+	(iiimp-parse-im-register-hotkeys): New function.
+	(iiimp-send-im-hotkey-notify): New function.
+	(iiimp-send-im-hotkey-notify-reply): New function.
+
+	* iiimcf.el: Add new functions to support Hotkey Protocol.
+	(iiimcf-im-hotkey-notify-handler-default): New function.
+	(iiimcf-im-hotkey-state-notify-handler-default): New function.
+
+2005-02-26  KAWABATA Taichi  <kawabata@m17n.org>
+
+	* iiimp.el: Mule-UCS is no longer needed if emacs supports unicode.
+	* EIMIL.el: likewise.
+
+	* iiimp.el
+	(iiimp-string-conversion-or-coding-system): Use `utf-16be' if it
+	exists.
+	(iiimp-write-channel): Apply `string-make-unibyte' if platform is
+	emacs-unicode.
+	(iiimp-text-unpack): Add support for surrogate pairs.
+
+	* iiimcf.el
+	(iiimcf-update-preedit): Add support for surrogate pairs.
+	(iiimcf-surpos-to-charpos): New function.
+
+2005-01-15  Hiroshi Miura <miura@da-cha.org>
+
+	* iiimcf-sc.el
+	(iiimcf-server-control-default-proto): New variable.
+	(iiimcf-server-control-parse-hostname):
+	(iiimcf-connect-com): Support for unix domain socket.
+	(iiimcf-server-control-draw-aux-data): Support for new `ATOK for
+	Linux' aux data.
+
+	* iiimp.el
+	(iiimp-helper-path "udclient"): New variable
+	(iiimp-unixdomain-socket-path): New variable
+	(iiimp-construct-com-id): Support for Unix domain socket.
+	(iiimp-check-channel-connection): likewise.
+	(iiimp-proc-to-com-id): likewise.
+	(iiimp-open-network-channel): likewise.
+	(iiimp-create-network-channel): likewise.
+	(iiimp-destroy-network-channel): likewise.
+
+2002-07-15  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-notify-trigger):
+	Moved to iiimcf.el.
+	(iiimcf-server-control-activate): Use iiimcf-notify-trigger
+	instead of iiimcf-server-control-notify-trigger.
+
+	* iiimcf.el (iiimcf-trigger-state): New function.
+	(iiimcf-notify-trigger): New function (that was originally
+	iiimcf-server-control-notify-trigger@iiimcf-sc.el).
+
+2002-07-09  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-ic-id): Make it buffer-local again.
+	(iiimcf-server-control-prepare-uic): When iiimcf-server-control-ic-id's
+	preedit is enabled, we regrad it as being in use, so prepare new ic.
+	(iiimcf-server-control-delete-ic): When the ic-id is occupied by a
+	certain buffer of iiimcf-server-control-ic-id, release it also by
+	setting iiimcf-server-control-ic-id to nil.
+	(iiimcf-server-control-delete-buffer-ic): New function for cleanup.
+	(kill-buffer-hook): Add iiimcf-server-control-delete-buffer-ic to it.
+
+2002-07-08  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* PCE.el: New file.
+
+	* EIMIL.el: New file.
+
+	* iiimcf-sc.el: Now this module is almost totally reconstructed by
+	extracting IIIMCF-common operations to iiimcf.el and extracting
+	reusable UI-related part to iiimcf-UI.el.  Threfore, roughly speaking,
+	this module only mediates IIIMCF interface and Emacs IM interface.
+	(iiimcf-server-control-version): Set version to 0.6.
+	(iiimcf-server-control-preedit-open-string): Moved to iiimcf-UI.
+	(iiimcf-server-control-preedit-close-string): Likewise.
+	(iiimcf-server-control-preedit-reverse-face): Likewise.
+	(iiimcf-server-control-preedit-underline-face): Likewise.
+	(iiimcf-server-control-preedit-highlight-face): Likewise.
+	(iiimcf-server-control-preedit-warning-face): Likewise.
+	(iiimcf-server-control-preedit-face-alist): Likewise.
+	(iiimcf-server-control-preedit-use-face-p): Likewise.
+	(iiimcf-server-control-private-com-id-database-alist): Removed.
+	(iiimcf-server-control-register-com-id): Removed.
+	(iiimcf-server-control-unregister-com-id): Removed.
+	(iiimcf-server-control-com-id-get): Removed.
+	(iiimcf-server-control-com-id-put): Removed.
+	(iiimcf-server-control-private-im-id-database-alist): Removed.
+	(iiimcf-server-control-register-im-id): Removed.
+	(iiimcf-server-control-unregister-im-id): Removed.
+	(iiimcf-server-control-im-id-get): Removed.
+	(iiimcf-server-control-im-id-put): Removed.
+	(iiimcf-server-control-private-ic-id-database-alist): Removed.
+	(iiimcf-server-control-register-ic-id): Removed.
+	(iiimcf-server-control-unregister-ic-id): Removed.
+	(iiimcf-server-control-ic-id-get): Removed.
+	(iiimcf-server-control-ic-id-put): Removed.
+	(iiimcf-server-control-ic-id): Now this variable is not buffer-local.
+	(iiimcf-server-control-editing-buffer): Removed.
+	(iiimcf-server-control-mode-line): Removed.  And don't add it to mode-line-format.
+	(iiimcf-server-control-status): Removed.
+	(iiimcf-server-control-current-lookup-choice): Removed.
+	(iiimcf-server-control-lookup-choice-configuration): Removed.
+	(iiimcf-server-control-own-event-loop): New variable.
+	(iiimcf-server-control-event-loop-uic): New variable.
+	(iiimcf-server-control-ic-level-handler-alist):
+	Removed iiimcf-server-control-prepare-lookup-choice and
+	iiimcf-server-control-redraw-lookup-choice.
+	(iiimcf-server-control-convert-iiim-feedback): Removed.
+	(iiimcf-server-control-get-ic-attribute): Now this function takes
+	only one argument, im-id.  And enable 'input-method attribute.
+	(iiimcf-server-control-im-setup): Removed.
+	(iiimcf-server-control-ic-setup): Removed.
+	(iiimcf-server-control-im-destruct): Removed.
+	(iiimcf-server-control-ic-destruct): Removed.
+	(iiimcf-server-control-ic-operation): Removed.
+	(iiimcf-server-control-prepare-uic): New function.
+	(iiimcf-server-control-current-uic): New function.
+	(iiimcf-server-control-message-uic): New function.
+	(iiimcf-server-control-release-ic): New function.
+	(iiimcf-server-control-dispatch-emacs-event): Use
+	iiimcf-UI-dispatch-emacs-event.  So we don't have to bind
+	iiimcf-server-control-preedit-mode(Removed).
+	(iiimcf-server-control-setup-com-id): New function.
+	(iiimcf-server-control-setup-im-id): New function.
+	(iiimcf-server-control-delete-ic): New function.
+	(iiimcf-server-control-ic-shutdown): New function.
+	(iiimcf-server-control-im-shutdown): New function.
+	(iiimcf-server-control-shutdown): Use the above shutdown functions.
+	(iiimcf-server-control-maintain-language-list): Use iiimcf-com-id-put,
+	instead of iiimcf-server-control-com-id-put.
+	(iiimcf-server-control-change-language): Likewise.
+	(iiimcf-server-control-maintain-input-method-list): Likewise.
+	(iiimcf-server-control-change-input-method): Likewise.
+	(iiimcf-server-control-preedit-text-properties): Removed.
+	(iiimcf-server-control-preedit-text-properties-end): Removed.
+	(iiimcf-server-control-preedit-enable-p): Removed.
+	(iiimcf-server-control-current-context): Removed.
+	(iiimcf-server-control-prepare-current-ic-id): Removed.
+	(iiimcf-server-control-enter-or-leave-preedit): Removed.
+	(iiimcf-server-control-put-face-to-preedit): Removed.
+	(iiimcf-server-control-enclose-preedit-with-string): Removed.
+	(iiimcf-server-control-maintain-preedit-text-internal): Removed.
+	(iiimcf-server-control-maintain-preedit-text): It only manages
+	its own event loop and call iiimcf-UI preedit manager.
+	(iiimcf-server-control-clear-preedit-text): Removed.
+	(iiimcf-server-control-prepare-lookup-choice): Removed.
+	(iiimcf-server-control-draw-lookup-choice): Construct lookup-choice
+	candidates and pass it to iiimcf-UI.
+	(iiimcf-server-control-clear-lookup-choice): Only turn off lookup-choice
+	by iiimcf-UI-toggle-lookup-choice.
+	(iiimcf-server-control-draw-status): Only calls iiimcf-UI-update-status.
+	(iiimcf-server-control-commit-string): Only calls iiimcf-UI-commit-string.
+	(iiimcf-server-control-keyforward): Don't forwargint events by itself, use
+	iiimcf-forward-event instead.
+
+	* iiimcf.el (iiimcf-version): Set version to 0.6.
+	(iiimcf-event-loop): New function.
+	(iiimcf-dispatch-emacs-event-internal): Bind input-method-function to nil
+	before dispatching events.
+	(iiimcf-com-alist): New variable.
+	(iiimcf-im-alist): New variable.
+	(iiimcf-ic-alist): New variable.
+	(iiimcf-register-com-id, iiimcf-register-im-id)
+	(iiimcf-register-ic-id): New functions.
+	(iiimcf-unregister-com-id, iiimcf-unregister-im-id)
+	(iiimcf-unregister-ic-id): New functions.
+	(iiimcf-com-id-get, iiimcf-im-id-get, iiimcf-ic-id-get): New functions.
+	(iiimcf-com-id-put, iiimcf-im-id-put, iiimcf-ic-id-put): New functions.
+	(iiimcf-map-all-coms, iiimcf-map-all-ims, iiimcf-map-all-ics): New functions.
+	(iiimcf-connect-com, iiimcf-destroy-com): New functions.
+	(iiimcf-connect-im, iiimcf-disconnect-im): New functions.
+	(iiimcf-create-ic, iiimcf-destroy-ic): New functions.
+	(iiimcf-forward-event): New function.
+	(iiimcf-get-current-preedit-text)
+	(iiimcf-get-current-preedit-caret)
+	(iiimcf-get-current-preedit): New functions.
+	(iiimcf-update-preedit): New default handler.
+	(iiimcf-set-lookup-choice-config): New default handler.
+	(iiimcf-update-lookup-choice): Ditto.
+	(iiimcf-update-lookup-choice-process): Ditto.
+	(iiimcf-clear-lookup-choice): Ditto.
+
+	* iiimp.el (iiimp-communication-list): Removed.
+	(iiimp-current-com-id): New buffer local variable.
+	(iiimp-construct-com-id): New function.
+	(iiimp-proc-to-com-id): Take the value of iiimp-current-com-id
+	assciated with the buffer of proc.
+	(iiimp-im-id-to-com-id, iiimp-im-id-to-handle)
+	(iiimp-construct-im-id): Change the structure of im-id object.
+	(iiimp-ic-id-to-com-id, iiimp-construct-ic-id)
+	(iiimp-ic-id-to-handle): Likewise.
+	(iiimp-ic-id-to-im-id): New function.
+	(iiimp-create-network-channel): Use iiimp-construct-com-id.
+	(iiimp-ic-attribute-pack): Support input-method attribute.
+
+	* iiimcf-UI.el: New file.  This module is made by extracting
+	UI-related codes from iiimcf-sc.el.  It handles (1) UI-context
+	that UI state; (2) preedit, lookup-choice and status by updating,
+	drawing, and erasing them; (3) keymap that is associated with
+	UI-context.
+
+2001-11-02  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-preedit-text-properties): New function.
+	(iiimcf-server-control-preedit-text-properties-end): New function.
+	(iiimcf-server-control-setup-preedit-text): Use
+	iiimcf-server-control-preedit-text-properties and
+	iiimcf-server-control-preedit-text-properties-end to obtain
+	text property list.
+	(iiimcf-server-control-insert-preedit): Now this function take com-id, im-id,
+	and ic-id also.  And set text properties again to inserted text.
+	(iiimcf-server-control-maintain-preedit-text-internal): Call
+	iiimcf-server-control-insert-preedit with com-id, im-id, and ic-id also.
+
+2001-09-28  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-notify-trigger): Remember
+	the trigger state of ic to prevent sending iiimp-im-trigger-notify
+	more than needed because Solaris 8 htt_server shutdown the connection
+	if we send it more than once.
+
+	* iiimp.el (iiimp-protocol-version): Define it by defconst.
+
+2001-07-22  MIYASHITA Hisashi  <himi@meadowy.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-update-preedit-text):
+	Don't format a preedit string at this stage, only update
+	the preedit text by the message.
+	(iiimcf-server-control-maintain-preedit-text-internal):
+	Don't store the formatted preedit-text to the slot of
+	ic database.  Set the formated text to showtext not to
+	preedit-text.
+
+	* iiimcf.el (iiimcf-im-destroyic-reply-handler-default):
+	Removed.  This was unused.
+	(iiimcf-im-trigger-notify-handler-default):
+	Remove duplicated registration.
+
+	* iiimp.el (iiimp-proc-to-com-id): New function.
+	(iiimp-network-sentinel): New function.
+	(iiimp-open-network-channel): Set the created process sentinel
+	to iiimp-network-sentinel.
+	(iiimp-destroy-network-channel): Before destroying the connection,
+	remove the process sentinel.
+	(iiimp-disable-async-invocation): New function.
+	(iiimp-check-channel-bytes): Almost rewritten.
+	When wait is t, check the current network status at intervals,
+	and if the connection is closed, immediately return nil.
+
+2001-07-02  MIYASHITA Hisashi  <himi@meadowy.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-version): Set version
+	to 0.4 (Inugami).
+
+	* iiimcf.el (iiimcf-version): Set verstion to 0.4 (Oikedake).
+
+2001-07-02  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-setup): Remove
+	an unused variable, mes.
+	(iiimcf-server-control-enter-or-leave-preedit): Remove
+	unused variables, com-id, im-id, and ic-id.
+	(iiimcf-server-control-draw-status): Remove unused
+	variables, com-id, and im-id.
+	(iiimcf-server-control-commit-string): Ditto.
+
+2001-07-02  MIYASHITA Hisashi  <himi@meadowy.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-register-im-id): Now im-id
+	can be a unique identifier throughtout Emacs.  Not limited to the
+	connection.  Therefore, directly regist it to the database without
+	paring it with com-id.
+	(iiimcf-server-control-unregister-im-id): Likewise.
+	(iiimcf-server-control-im-id-get): Likewise.
+	(iiimcf-server-control-im-id-put): Likewise.
+	(iiimcf-server-control-register-ic-id): Now im-id can be a unique
+	identifier throughtout Emacs.  Not limited to the im connection.
+	Therefore, directly regist it to the database without paring it
+	with com-id and im-id
+	(iiimcf-server-control-unregister-ic-id): Likewise.
+	(iiimcf-server-control-ic-id-get): Likewise.
+	(iiimcf-server-control-ic-id-put): Likewise.
+	(iiimcf-server-control-im-setup): Call
+	iiimcf-server-control-register-im-id without com-id.
+	(iiimcf-server-control-ic-setup): Call
+	iiimcf-server-control-register-ic-id without com-id nor im-id.
+	(iiimcf-server-control-im-destruct): Call
+	iiimcf-server-control-unregister-im-id without com-id.
+	(iiimcf-server-control-ic-destruct): Call
+	iiimcf-server-control-unregister-ic-id without com-id nor im-id.
+	(iiimcf-server-control-forward-event): Use iiimp-message-*
+	interface instead of directly accessing message data.
+	(iiimcf-server-control-maintain-language-list): Likewise.
+	(iiimcf-server-control-maintain-input-method-list): Likewise.
+	(iiimcf-server-control-trigger-notify): Likewise.
+	(iiimcf-server-control-update-preedit-text): Likewise.
+	(iiimcf-server-control-draw-aux-data): Likewise.  And more,
+	change the output format of jp.co.justsystem.*.LookupAux
+	(iiimcf-server-control-draw-status): Likewise.  And more,
+	call iiimcf-server-control-ic-id-get with only ic-id.
+	It dose not require either im-id or com-id.
+	(iiimcf-server-control-commit-string): Likewise.  And more,
+	call iiimcf-server-control-ic-id-get with only ic-id.
+	It dose not require either im-id or com-id.
+	(iiimcf-server-control-draw-lookup-choice): Likewise.  And more,
+	use aref to access the data of lookup-choice because now it is a
+	vector.
+	(iiimcf-server-control-setup-preedit-text): Call
+	iiimcf-server-control-ic-id-put with only ic-id.  It dose not
+	require either im-id or com-id.
+	(iiimcf-server-control-maintain-preedit-text-internal): Likewise.
+	(iiimcf-server-control-clear-preedit-text): Likewise.
+
+	* iiimcf.el (iiimcf-im-destroyic-reply-handler-default):
+	Don't directly access message data.  Use iiimp-message-* interfaces
+	instead.
+	(iiimcf-im-trigger-notify-handler-default): Likewise.
+	(iiimcf-im-setimvalues-handler-default): Likewise.
+	(iiimcf-im-forward-event-handler-default): Likewise.
+	(iiimcf-im-forward-event-with-operations-handler-default): Likewise.
+	(iiimcf-im-preedit-start-handler-default): Likewise.
+	(iiimcf-im-preedit-draw-handler-default): Likewise.
+	(iiimcf-im-preedit-done-handler-default): Likewise.
+	(iiimcf-im-status-start-handler-default): Likewise.
+	(iiimcf-im-status-draw-handler-default): Likewise.
+	(iiimcf-im-status-done-handler-default): Likewise.
+	(iiimcf-im-lookup-choice-start-handler-default): Likewise.
+	(iiimcf-im-lookup-choice-draw-handler-default): Likewise.
+	(iiimcf-im-lookup-choice-process-handler-default): Likewise.
+	(iiimcf-im-lookup-choice-done-handler-default): Likewise.
+	(iiimcf-im-aux-start-handler-default): Likewise.
+	(iiimcf-im-aux-draw-handler-default): Likewise.
+	(iiimcf-im-aux-done-handler-default): Likewise.
+
+	* iiimp.el: Reconsidering all data format, COM-ID, many messages,
+	and so on.
+	(iiimp-com-id-process): New function.  Don't directly access com-id
+	without these interfaces.
+	(iiimp-com-id-buffer): Likewise.
+	(iiimp-com-id-host): Likewise.
+	(iiimp-com-id-port): Likewise.
+	(iiimp-com-id-end-point): Likewise.
+	(iiimp-record-end-point): Recreated for the new format of com-id.
+	(iiimp-im-id-to-com-id): New function.  Don't directly access im-id
+	without these interfaces.
+	(iiimp-im-id-to-handle): Likewise.
+	(iiimp-construct-im-id): New function for constructing im-id.
+	(iiimp-ic-id-to-com-id): New function.  Don't directly access im-id
+	without these interfaces.
+	(iiimp-ic-id-to-handle): Likewise.
+	(iiimp-construct-ic-id): New function for constructing im-id.
+	(iiimp-create-network-channel): New create com-id as a vector.
+	(iiimp-destroy-network-channel): Use iiimp-com-id-process and
+	iiimp-com-id-buffer instead of directly accessing com-id.
+	(iiimp-enable-async-invocation): Likewise.
+	(iiimp-communication): Likewise.
+	(iiimp-check-channel-connection): Likewise.
+	(iiimp-check-channel-bytes): Likewise.
+	(iiimp-write-channel): Likewise.
+	(iiimp-wait-message): Likewise.
+	(iiimp-packet-erase): New com-id is a vector, not a list.
+	(iiimp-pack-im-ic): New function(by no means optimized:-P).
+	(iiimp-message-specific-data): New function to access message data.
+	(iiimp-parse-im-ic-reply-message-internal): im-id and ic-id is not a
+	number any longer.  Use iiimp-construct-im-id and iiimp-construct-ic-id.
+	(iiimp-parse-im-connect-reply): Likewise.  But it has no
+	valid ic-id.  Pad nil instead.
+	(iiimp-parse-im-disconnect-reply): Likewise.  But it has no
+	valid ic-id.  Pad nil instead.
+	(iiimp-parse-im-register-trigger-keys): Likewise.  But it has no
+	valid ic-id.  Pad nil instead.
+	(iiimp-parse-im-trigger-notify): Likewise.
+	(iiimp-parse-imvalues-internal): Likewise.  But it has no
+	valid ic-id.  Pad nil instead.
+	(iiimp-parse-im-setimvalues-reply): Likewise.  But it has no
+	valid ic-id.  Pad nil instead.
+	(iiimp-parse-im-geticvalues-reply): Likewise.
+	(iiimp-parse-im-forward-event): Likewise.
+	(iiimp-parse-im-forward-event-with-operations): Likewise.
+	(iiimp-parse-im-forward-event-with-operations-reply): Likewise.
+	(iiimp-parse-im-commit-string): Likewise.
+	(iiimp-parse-im-preedit-draw):
+	(iiimp-parse-im-status-draw):
+	(iiimp-parse-im-lookup-choice-start): Likewise.  And more, change
+	the format of im-lookup-choice-start message.
+	(iiimp-parse-im-lookup-choice-draw): Likewise.  And more, change
+	the format of im-lookup-choice-draw message.
+	(iiimp-parse-im-lookup-choice-process): Likewise.
+	(iiimp-parse-im-aux-start): Likewise.
+	(iiimp-parse-im-aux-draw): Likewise.
+	(iiimp-parse-im-aux-done): Likewise.
+	(iiimp-parse-im-aux-setvalues-reply): Likewise.
+	(iiimp-send-im-ic-request-internal): Use iiimp-pack-im-ic to pack
+	im-id or ic-id.
+	(iiimp-send-im-disconnect): Likewise.
+	(iiimp-send-im-trigger-notify): Likewise.
+	(iiimp-send-im-setimvalues): Likewise.
+	(iiimp-send-im-setimvalues-reply): Likewise.
+	(iiimp-send-im-getimvalues): Likewise.
+	(iiimp-send-im-createic): Likewise.
+	(iiimp-send-im-seticvalues): Likewise.
+	(iiimp-send-im-geticvalues): Likewise.
+	(iiimp-send-im-forward-event): Likewise.
+	(iiimp-send-im-forward-event-with-operations): Likewise.
+	(iiimp-send-im-forward-event-with-operations-reply): Likewise.
+	(iiimp-send-im-preedit-start-reply): Likewise.
+	(iiimp-send-im-aux-start-reply): Likewise.
+	(iiimp-send-im-aux-draw-reply): Likewise.
+	(iiimp-send-im-aux-done-reply): Likewise.
+	(iiimp-send-im-aux-setvalues): Likewise.
+	(iiimp-message-im-language-list): New function to access message data.
+	(iiimp-message-trigger-on-key-list): Ditto.
+	(iiimp-message-trigger-off-key-list): Ditto.
+	(iiimp-message-trigger-notify-flag): Ditto.
+	(iiimp-message-im-attribute-list): Ditto.
+	(iiimp-message-ic-attribute-list): Ditto.
+	(iiimp-message-forward-event-contents): Ditto.
+	(iiimp-message-forward-event-operations): Ditto.
+	(iiimp-message-committed-string): Ditto.
+	(iiimp-message-preedit-draw-data): Ditto.
+	(iiimp-message-status-draw-contents): Ditto.
+	(iiimp-message-lookup-choice-start-data): Ditto.
+	(iiimp-message-lookup-choice-draw-data): Ditto.
+	(iiimp-message-lookup-choice-process-type): Ditto.
+	(iiimp-message-lookup-choice-process-value): Ditto.
+	(iiimp-message-aux-window-id): Ditto.
+	(iiimp-message-aux-im-name): Ditto.
+	(iiimp-message-aux-int-list): Ditto.
+	(iiimp-message-aux-string-list): Ditto.
+
+2001-05-29  MIYASHITA Hisashi  <himi@meadowy.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-register-com-id): When already
+	registered, do nothing.
+	(iiimcf-server-control-register-im-id): Likewise.
+	(iiimcf-server-control-register-ic-id): Likewise.
+	(iiimcf-server-control-ic-id): Make it a permanent local variable.
+	(iiimcf-server-control-draw-status): Even if the marker has not
+	been initialized yet, set iiimcf-server-control-mode-line.
+
+2001-05-28  MIYASHITA Hisashi  <himi@meadowy.org>
+
+	* iiimp.el (iiimp-parse-im-lookup-choice-start): Bug fix.
+	if dir is 0, set 'horizontal as the direction; otherwise,
+	set 'vertical.
+	(iiimp-message-opcode): New function.
+	(iiimp-message-com-id): New function.
+	(iiimp-message-im-id): New function.
+	(iiimp-message-ic-id): New function.
+
+	* iiimcf-sc.el (iiimcf-server-control-private-com-id-database-alist):
+	New variable
+	(iiimcf-server-control-register-com-id): Revised.
+	(iiimcf-server-control-unregister-com-id): Revised.
+	(iiimcf-server-control-com-id-get): Revised.
+	(iiimcf-server-control-com-id-put): Revised.
+	(iiimcf-server-control-private-im-id-database-alist):
+	New variable
+	(iiimcf-server-control-register-im-id): New function.
+	(iiimcf-server-control-unregister-im-id): New function.
+	(iiimcf-server-control-im-id-get): New function.
+	(iiimcf-server-control-im-id-put): New function.
+	(iiimcf-server-control-private-ic-id-database-alist):
+	New variable
+	(iiimcf-server-control-register-ic-id): New function.
+	(iiimcf-server-control-unregister-ic-id): New function.
+	(iiimcf-server-control-ic-id-get): New function.
+	(iiimcf-server-control-ic-id-put): New function.
+	(iiimcf-server-control-preedit): Removed.
+	(iiimcf-server-control-preedit-marker): Removed.
+	(iiimcf-server-control-maintaining-preedit-text): Removed.
+	(iiimcf-server-control-status): New variable. Make it a local-variable.
+	(iiimcf-server-control-com-id-plists): Removed.
+	(iiimcf-server-control-im-setup): New function.
+	(iiimcf-server-control-ic-setup): Use iiimp-message-ic-id to retrieve
+	ic-id, and register it with iiimcf-server-control-register-ic-id.
+	(iiimcf-server-control-im-destruct): New function.
+	(iiimcf-server-control-ic-destruct): Unregister the destructed
+	ic-id with iiimcf-server-control-unregister-ic-id.
+	(iiimcf-server-control-setup): Set up im-id with
+	iiimcf-server-control-im-setup, but don't set up ic-id at
+	this time.
+	(iiimcf-server-control-shutdown): Destruct im-id with
+	iiimcf-server-control-im-destruct.
+	(iiimcf-server-control-notify-trigger): Add arguments,
+	com-id, im-id, and ic-id.  And use them instead of
+	iiimcf-server-control-com-id, iiimcf-server-control-im-id, and
+	iiimcf-server-control-ic-id.
+	(iiimcf-server-control-activate): At inactivation, don't
+	clear preedit text explicitly.  But notify a trigger to
+	turn off the ic.  Set iiimcf-server-control-mode-line to
+	"".
+	At activation, call iiimcf-server-control-prepare-current-ic-id,
+	and set iiimcf-server-control-mode-line.
+	(iiimcf-server-control-completing-read):
+	Don't bind completion-setup-hook to nil, only preserve the
+	original value.
+	(iiimcf-server-control-maintain-language-list): 
+	Use iiimp-message-com-id to get com-id.
+	(iiimcf-server-control-maintain-input-method-list): Likewise.
+	(iiimcf-server-control-change-language): Don't recreate	ic-id.
+	(iiimcf-server-control-change-input-method): Likewise.
+	(iiimcf-server-control-preedit-enable-p): Check the text property
+	at the current point instead of checking iiimcf-server-control-preedit.
+	(iiimcf-server-control-current-context): New function.
+	(iiimcf-server-control-prepare-current-ic-id): New function.
+	(iiimcf-server-control-enter-or-leave-preedit): New function.
+	(iiimcf-server-control-setup-preedit-text): Add new arguments,
+	com-id, im-id, ic-id, and marker.  Add point-entered, point-left,
+	and iiimcf-server-control-ids attributes to a preedit text.
+	Create a marker if the argument marker is nil, and set the
+	marker to the position where preedit text is set up.
+	(iiimcf-server-control-insert-preedit): Add a new argument, marker.
+	And use it instead of iiimcf-server-control-preedit-marker.
+	(iiimcf-server-control-show-preedit-minibuffer-p):
+	Call iiimcf-server-control-preedit-enable-p instead of checking
+	the validity of iiimcf-server-control-preedit-marker.
+	(iiimcf-server-control-update-preedit-text):
+	New function (extracted from
+	iiimcf-server-control-maintain-preedit-text-internal).
+	(iiimcf-server-control-maintain-preedit-text-internal):
+	Call iiimcf-server-control-update-preedit-text to update
+	new preedit-text.  And retrieve the marker from ic database.
+	If it dose not exist, call iiimcf-server-control-setup-preedit-text.
+	(iiimcf-server-control-maintain-preedit-text):
+	Bind inhibit-point-motion-hooks to t during manipulating preedit-text.
+	(iiimcf-server-control-clear-preedit-text): Add new arguments
+	com-id, im-id, and ic-id.  Retrieve the marker from the database.
+	Don't use iiimcf-server-control-preedit-marker.
+	(iiimcf-server-control-draw-status): Get the buffer from
+	the marker, which is obtained from the ic database.
+	And set the current buffer to it during updating the mode line.
+	(iiimcf-server-control-commit-string): Bind
+	inhibit-point-motion-hooks to t during dispatching generated events.
+	(iiimcf-server-control-keyforward): Get ic-id with
+	iiimcf-server-control-prepare-current-ic-id.  Don't use
+	iiimcf-server-control-ic-id.
+
+2001-03-07  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimp.el (iiimp-send-im-preedit-done-reply):
+	Bug fix.  Send correct message that is iiimp-im-preedit-done-reply,
+	not iiimp-im-preedit-draw-reply.
+
+2000-11-30  MIYASHITA Hisashi  <himi@meadowy.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-draw-aux-data):
+	In the case of LookupAux, don't erase candate message at
+	this time even if the message has no candidates.
+
+2000-11-12  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf.el (iiimcf-version): Set verstion to 0.3 (Tenpozan).
+
+	* iiimcf-sc.el (iiimcf-server-control-get-ic-attribute):
+	As a provisional treatment, ignore
+	iiimcf-server-control-default-input-method.
+	(iiimcf-server-control-change-language): Remove a excess
+	`progn' form.
+	(iiimcf-server-control-maintain-input-method-list): Bug
+	fix.  Take the second element of the list not take cdr.
+	(iiimcf-server-control-change-input-method): Bug fix.
+	Correct the nest.
+
+	* iiimcf-sc.el (iiimcf-server-control-default-language):
+	Set the default value to nil.
+	(iiimcf-server-control-default-input-method): New variable.
+	(iiimcf-server-control-preedit-warning-face): New face.
+	(iiimcf-server-control-preedit-face-alist): Add a new entry
+	for unknown-ucs property.
+	(iiimcf-server-control-com-id-plists): New variable.
+	(iiimcf-server-control-register-com-id): New function.
+	(iiimcf-server-control-unregister-com-id): New function.
+	(iiimcf-server-control-com-id-get): New function.
+	(iiimcf-server-control-com-id-put): New function.
+	(iiimcf-server-control-initial-state-keymap): Add a new key
+	binding for iiimcf-server-control-change-input-method.
+	Remove the binding for iiimcf-server-control-switch-ic-attribute.
+	(iiimcf-server-control-com-level-handler-alist): New variable.
+	(iiimcf-server-control-ic-level-handler-alist): New variable.
+	(iiimcf-server-control-register-handlers): New function.
+	(iiimcf-server-control-remove-handlers): New function.
+	(iiimcf-server-control-convert-iiim-feedback): To preserve
+	the order of the generated properties, apply nreverse to
+	the result.
+	(iiimcf-server-control-get-ic-attribute): New function.
+	(iiimcf-server-control-ic-setup): Use the above function
+	to generate ic-attribute, not generate it by itself.
+	(iiimcf-server-control-ic-destruct): New function.
+	(iiimcf-server-control-setup): Call iiimcf-server-control-register-com-id
+	to register generated com-id.
+	(iiimcf-server-control-setup): Use iiimcf-server-control-register-handlers
+	to register handlers.
+	(iiimcf-server-control-shutdown): Call iiimcf-server-control-ic-destruct
+	to release ic, not call iiimp functions directly.
+	Call iiimcf-server-control-unregister-com-id just after destroying com-id.
+	Use iiimcf-server-control-remove-handlers to remove handlers.
+	(iiimcf-server-control-completing-read): New function.
+	(iiimcf-server-control-maintain-language-list): New handler.
+	(iiimcf-server-control-change-language): New function.
+	(iiimcf-server-control-maintain-input-method-list): New handler.
+	(iiimcf-server-control-change-input-method): New function.
+
+	* iiimcf.el (iiimcf-get-language-description): New function.
+
+	* iiimp.el (iiimp-text-warning-char): New variable.
+	(iiimp-text-unpack): If the received UCS codepoint
+	cannot be translated into an Emacs char, use
+	iiimp-text-warning-char instead, and add 'unknow-ucs
+	and ucs property to the corresponding iiim-feedback.
+
+2000-11-10  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-preedit-face-alist):
+	Bug fix.  Remove quotes in front of string cells to enclose.
+	(iiimcf-server-control-default-overriding-keymap): Removed.
+	(iiimcf-server-control-original-overriding-keymap): Removed.
+	(iiimcf-server-control-dispatch-emacs-event): New function.
+	(iiimcf-server-control-remove-minor-mode-map): New function.
+	(iiimcf-server-control-register-minor-mode-map): New function.
+	(iiimcf-server-control-activate): Now, I use minor-mode map
+	instead of overriding-local-map.  At activation, register
+	keymaps to minor-mode-map-alist.  At inactivation, unregister
+	them.  And remove all the code on overriding-local-map.
+	(iiimcf-server-control-setup-minibuffer): Removed.
+	(iiimcf-server-control-keyforward): Don't call
+	iiimcf-dispatch-emacs-event directly.  Use
+	iiimcf-server-control-dispatch-emacs-event instead.
+	(iiimcf-server-control-forward-event): Likewise.
+	(iiimcf-server-control-commit-string): Likewise.
+	(iiimcf-server-control-maintain-preedit-text): Set or reset
+	iiimcf-server-control-preedit-mode.  And remove the part on
+	overriding-local-map.
+	(iiimcf-server-control-show-preedit-minibuffer-p): New function.
+	(iiimcf-server-control-clear-preedit-text): Use
+	iiimcf-server-control-show-preedit-minibuffer-p whether the
+	current preedit is shown in minibuffer.
+	And in order to calculate the end point of preedit fence,
+	add not 1 but the length of iiimcf-server-control-preedit-close-string
+	to pte.
+	(iiimcf-server-control-maintain-preedit-text-internal): Use
+	iiimcf-server-control-show-preedit-minibuffer-p whether preedit
+	text should be shown in minibuffer.
+	(iiimcf-server-control-insert-preedit): Add not 1 but
+	th length of iiimcf-server-control-preedit-open-string to
+	calculate the starting point of enclosed text.
+
+	* iiimcf.el (iiimcf-language-alist): New variable.
+	(iiimcf-get-im-attributes): New function.
+
+	* iiimp.el (iiimp-im-attribute-unpack): Fix typo.
+	(iiimp-im-attribute-pack): Ditto.
+
+2000-11-04  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf.el (iiimcf-make-client-descriptor): Use the long application
+	name again because I found long client-descriptor does not affect ATOK X
+	htt_server directly.
+
+	* iiimcf-sc.el (iiimcf-server-control-version): Set version to 0.3 (Yodo).
+	(iiimcf-server-control-enable): New permanent buffer local variable.
+	(iiimcf-server-control-default-overriding-keymap): New variable to store
+	default value of overriding-local-map.
+	(iiimcf-server-control-ic-setup): New function.
+	(iiimcf-server-control-ic-operation): New macro to enclose ic operation,
+	but not used currently.
+	(iiimcf-server-control-setup): Use iiimcf-server-control-ic-setup to
+	create ic.
+	(iiimcf-server-control-keyforward): Bug fix.  Enclose the trial form of
+	condition-case with `progn'.
+	(iiimcf-server-control-activate): At activation, add
+	iiimcf-server-control-setup-minibuffer to minibuffer-setup-hook to protect
+	overriding-local-map from the strange restoration of Emacs(not occurred on
+	XEmacs).  And use iiimcf-set-overriding-local-map to set overriding-local-map
+	locally.
+	(iiimcf-server-control-setup-minibuffer): New function.
+	(iiimcf-server-control-maintain-preedit-text): When switching overriding-local-map,
+	first of all, check if iiimcf-server-control-enable is non-nil, and use
+	iiimcf-set-overriding-local-map and iiimcf-set-overriding-local-map for
+	setting or restoring overriding-local-map.
+
+	* iiimcf.el (iiimcf-keycode-hash-obarray): New variable.
+	(iiimcf-emacs-base-event-pre-translate): New function.
+	(iiimcf-iiim-keycode-pre-translate): New function.
+	(iiimcf-translate-emacs-event): Use iiimcf-emacs-base-event-pre-translate
+	instead of directly accessing iiimcf-keycode-spec-alist.
+	(iiimcf-translate-iiim-keyevent): Bug fix.
+	Use iiimcf-iiim-keycode-pre-translate to translate a IIIM keycode
+	at first.
+	(iiimcf-set-overriding-local-map): New function.
+	(iiimcf-reset-overriding-local-map): New function.
+	(iiimcf-dispatch-emacs-event-internal): Bind overriding-local-map
+	only when we look up events.  But on XEmacs, if we dispatch or execute
+	command despite binding overriding-local-map, check the value of
+	overriding-local-map after event dispatch.
+	If it is changed, we use it as a new value of overriding-local-map
+	after all.
+
+	* iiimp.el (iiimp-basic-opcode-spec-list):
+	Add iiimp-im-no-protocol opcode entry.
+	(iiimp-show-message): Use iiimp-packet-substring instead of
+	buffer-substring to extract a part of packet data.
+	(iiimp-parse-header): New function.
+	(iiimp-wait-message): Use the above function instead of directly
+	accessing the head of incomming packets.
+	(iiimp-send-im-seticfocus): fix typo.
+	(iiimp-send-im-unseticfocus): Ditto.
+
+2000-10-21  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-setup):
+	Change application name to send as client descriptor
+	to IIIM-SC because too long descriptor string crashes
+	the htt_server of ATOK X for Linux.
+
+	* iiimcf.el (iiimcf-make-client-descriptor):
+	Don't append emacs-version to appname for the same
+	reason.
+
+2000-10-20  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-shutdown):
+	First of all, inactivate input method.
+	(iiimcf-server-control-activate): When inactivating
+	the input method, check the channel connection before
+	IIIM communication.
+
+2000-10-19  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-preedit-reverse-face): New face.
+	(iiimcf-server-control-preedit-underline-face): New face.
+	(iiimcf-server-control-preedit-highlight-face): New face.
+	(iiimcf-server-control-preedit-face-alist): Use the above faces.
+	(iiimcf-server-control-input-method-filtered-events): Removed.
+	(iiimcf-server-control-caret-overlay): Commented out.
+	(iiimcf-server-control-mode-line mode-line-format): When inserting
+	this into mode-line-format, check modeline-multibyte-status as well.
+	(iiimcf-server-control-original-overriding-keymap): New buffer-local
+	variable.
+	(iiimcf-server-control-initial-state-keymap): New keymap.
+	(iiimcf-server-control-preedit-state-keymap): New keymap.
+	(iiimcf-server-control-keymap): Removed.
+	(iiimcf-server-control-activate): Don't use input-method-function.
+	Use overriding-local-map instead.
+	(iiimcf-server-control-dispatch-event): Moved to iiimcf.el,
+	and renamed to iiimcf-dispatch-emacs-event.
+	(iiimcf-server-control-dispatch-event-internal): Likewise.
+	(iiimcf-server-control-input-method-filter): Removed.
+	(iiimcf-server-control-keyforward): Use iiimcf-translate-emacs-event
+	instead of iiimcf-translate-key, which have been removed.
+	And use iiimcf-dispatch-emacs-event instead of
+	iiimcf-server-control-dispatch-event.
+	(iiimcf-server-control-forward-event): Use iiimcf-dispatch-emacs-event
+	instead of iiimcf-server-control-dispatch-event.
+	(iiimcf-server-control-preedit-enable-p): New function.
+	(iiimcf-server-control-setup-preedit-text): Add start-open
+	property to prop-end for XEmacs.
+	(iiimcf-server-control-show-preedit-in-minibuffer): New function.
+	Extracted from iiimcf-server-control-maintain-preedit-text-internal.
+	(iiimcf-server-control-maintain-preedit-text-internal): Extract
+	the part on minibuffer drawing of preedit text to
+	iiimcf-server-control-show-preedit-in-minibuffer.
+	(iiimcf-server-control-maintain-preedit-text): Rewite almost all.
+	This function have not already maintain event loop for itself,
+	And it only switches overriding-local-map whether preedit is enable,
+	then, return at once.
+	(iiimcf-server-control-clear-preedit-text): Comment out
+	overlay operations
+	(iiimcf-server-control-commit-string): Dispatch generated events
+	immediately.
+
+	* iiimcf.el: Fix comments on IIIM keyevent.
+	(iiimcf-version): Set version to 0.2 (Nyoigatake).
+	(iiimcf-keycode-spec-alist): Use ?\r instead of 13,
+	because this should be a character; Correct the
+	entry of pause; and add a new entry for `space'.
+	(iiimcf-emacs-string-to-events): New function.
+	This absorbes the differences between Emacs and XEmacs.
+	(iiimcf-char-to-event): Likewise.
+	(iiimcf-basic-event-type-to-keycode): If this system has
+	characterp and the given `base' is character, call char-to-ucs
+	to convert it into UCS number.
+	(iiimcf-translate-emacs-event): Renamed from iiimcf-translate-key.
+	And use iiimcf-event-basic-type instead of event-basic-type.
+	(iiimcf-event-basic-type): New function.  This absorbes the
+	differences between Emacs and XEmacs.
+	(iiimcf-translate-iiim-keyevent): Use iiimcf-char-to-event
+	to translate a character to an event.
+	(iiimcf-dispatch-emacs-event-internal): Moved from iiimcf-sc.el
+	(iiimcf-dispatch-emacs-event): Likewise.
+
+	* iiimp.el (iiimp-coding-system-or-name-p): New alias.
+	(iiimp-string-conversion-or-coding-system): To set
+	the default coding system, use iiimp-coding-system-or-name-p
+	instead of coding-system-p.
+	(iiimp-open-network-channel): Call set-buffer-multibyte
+	only if this system has it.
+	(iiimp-attribid-alist): Remove all hexadecimal literals
+	because of imcompatibility between Emacs20 and XEmacs.
+	(iiimp-send-im-preedit-start-reply): Likewise.
+	(iiimp-pack-number): Bug fix.  Don't call lsh by the bit
+	count larger than 28 because the result of logical shift
+	of larger counts than system expects is undefined.
+	And check the bitsepc if this function can accept it.
+	(iiimp-unpack-number): Remove unused temporary variable
+	bindings, num and sbits.
+	(iiimp-string-pack): Correct the arguments of aref.
+	and set `len' after `bytes' is fixed.
+
+2000-09-17  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-version):
+	Set verstion to 0.2 (Takase).
+
+	* iiimcf-sc.el (iiimcf-server-control-maintain-preedit-text):
+	Use nconc to append iiimcf-server-control-input-method-filtered-events
+	to unread-command-events.
+	(iiimcf-server-control-dispatch-event): While input-pending-p is t,
+	dispatch all unattended events.
+
+2000-09-17  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-minor-mode-keymap):
+	New keymap for the new Emacs event handling method.
+	(iiimcf-server-control-input-method-filtered-events): New variable.
+	(iiimcf-server-control-activate): Set input-method-function
+	to iiimcf-server-control-input-method-filter.
+	(iiimcf-server-control-input-method-filter): New function.
+	This function is the entry of input-method-function.
+	(iiimcf-server-control-keyforward): Return
+	iiimcf-server-control-input-method-filtered-events that has
+	unattended events.
+	(iiimcf-server-control-commit-string): If this function
+	is invoked by the input-method function handler, store
+	generated events to iiimcf-server-control-input-method-filtered-events
+	temporarily.
+	(iiimcf-server-control-maintain-preedit-text): If
+	iiimcf-server-control-input-method-filtered-events has any unattended
+	events, deal with them first by iiimcf-server-control-dispatch-event.
+
+	* iiimcf.el: modify comments on the keyevent translation.
+
+2000-09-09  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-sc.el (iiimcf-server-control-setup):
+	Use iiimcf-server-control-default-language instead of
+	iiimcf-server-control-language.
+	(iiimcf-server-control-setup): If connection is down,
+	call iiimcf-server-control-shutdown at first.
+
+2000-09-08  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-sc.el: New file
+	(iiimcf-server-control): New group for custom package.
+	(iiimcf-server-control-default-port): New defcustom variable.
+	(iiimcf-server-control-hostlist): New defcustom variable.
+	This replaces iiimcf-server-control-host.
+	(iiimcf-server-control-host): removed.
+	(iiimcf-server-control-parse-hostname): New function.
+	(iiimcf-server-control-setup): Adapt it to the new format
+	of iiimcf-server-control-hostlist.
+
+	* iiimcf.el (iiimcf-version): New variable.
+	(iiimcf-make-client-descriptor): New function.
+	(iiimcf-send-client-descriptor): New function.
+	(iiimcf-im-setimvalues-handler-default): New function.
+	And register it as a handler.
+
+	* iiimcf.el: Moved iiimcf-server-control-part to iiimcf-sc.el.
+
+	* iiimp.el (iiimp-string-conversion-or-coding-system):
+	Set utf-16-be-no-signature-unix by default if it exists.
+	(iiimp-string-pack): If iiimp-string-conversion-or-coding-system
+	is not utf-16-be-no-signature-unix, and the encoded string has BOM
+	at the head, strip it.
+
+2000-09-07  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimp.el (iiimp-send-im-setimvalues): Bug fix.
+	Call iiimp-im-attribute-pack instead of iiimp-imattribute-pack.
+	(iiimp-attribid-unpack): Bug fix.  Get car of the slot
+	obtained by rassq.
+
+2000-08-30  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimp.el (iiimp-packet-erase): When removing buffer region,
+	use (point-min) as a start point instead of 1.
+
+	* iiimcf.el (iiimcf-event-to-char): Bug fix.  The number of
+	normal ASCII events must be larger than 0.
+	(iiimcf-server-control-host): Set the default host to localhost.
+	(iiimcf-server-control-com-id): Move it to the internal variable section.
+	(iiimcf-server-control-im-id): likewise.
+	(iiimcf-server-control-ic-id): likewise.
+	(iiimcf-server-control-preedit-open-string): New variable.
+	(iiimcf-server-control-preedit-close-string): New variable.
+	(iiimcf-server-control-preedit-face-alist): Change the format of
+	each slot.  The third element consists of start and end strings.
+	(iiimcf-server-control-preedit-use-face-p): New variable.
+	(iiimcf-server-control-convert-iiim-feedback): Adapt it to the above
+	change.
+	(iiimcf-server-control-put-face-to-preedit): Moved from
+	iiimcf-server-control-format-textprops.
+	(iiimcf-server-control-enclose-preedit-with-string): New function.
+	(iiimcf-server-control-format-preedit): New function.
+	This function replaces iiimcf-server-control-format-textprops.
+	It can also modify a preedit string for display.
+	(iiimcf-server-control-format-textprops): Removed.
+	(iiimcf-server-control-setup-preedit-text):
+	Use iiimcf-server-control-preedit-open-string and
+	iiimcf-server-control-preedit-close-string instead of
+	directly embedding strings.  And set-markser-insertion-type
+	to t(moved when insertion) on iiimcf-server-control-preedit-marker.
+	(iiimcf-server-control-insert-preedit): Take the second argument, `caret'.
+	And generate new string for display from iiimcf-server-control-preedit.
+	At this time, update `caret' that corresponds to the new string.
+
+2000-08-29  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimp.el (iiimp-write-channel): If iiimp-debug-flag
+	is dump or verbose, dump hexadecimal binary that is
+	sent to a server.
+
+2000-08-29  MIYASHITA Hisashi  <himi@meadowy.org>
+
+	* iiimcf.el (iiimcf-prevent-error):
+	(iiimcf-error): Move error handling part for the front.
+	(iiimcf-server-control-async-handler): When iiimp-fatal error
+	is occurred, shutdown the connection, and propergate the error.
+	(iiimcf-server-control-keyforward): likewise.
+	(iiimcf-server-control-shutdown): If the connection is closed,
+	initialize iiimcf-server-control-ic-id and
+	iiimcf-server-control-im-id without sending messages.
+	(iiimcf-server-control-forward-event): Discard all forwarded
+	events that cannot be translated to Emacs events.
+	(iiimcf-server-control-maintain-preedit-text): When the command
+	where we dispatches a message is not iiimcf-server-control-keyforward,
+	restore position and current buffer in order to deal with inserstions
+	that may be caused by the command.
+	(iiimcf-server-control-commit-string): Don't directly insert the string.
+	instead, generate events from it
+	("iiim-server-control"): Change the indicator string.
+
+	* iiimp.el (iiimp-connection-error):
+	New function.
+	(iiimp-connection-error): New error symbol.
+	Put an error message.
+	(iiimp-check-channel-connection): New function.
+	(iiimp-wait-message): If the channel of com-id is closed,
+	cause iiimp-connection-error.
+	(iiimp-send-message): likewise.
+
+2000-08-26  MIYASHITA Hisashi  <himi@meadowy.org>
+
+	* iiimcf.el: Add commnets on Emacs event and IIIM keyevent.
+	(iiimcf-keycode-spec-alist): Change the format of each slot.
+	Third element in each slot, if any, specifies a keychar.
+	(iiimcf-event-to-char): New function.
+	(iiimcf-basic-event-type-to-keycode): New function.
+	(iiimcf-translate-key): Split this function.
+	A part on converting event to keycode is moved to
+	iiimcf-basic-event-type-to-keycode, and another part
+	on converting event to keychar is moved to
+	iiimcf-event-to-char.
+	(iiimcf-im-destroyic-reply-handler-default):
+	Use iiimp-send-message instead of calling
+	iiimp-send-im-trigger-notify-reply directly.
+	(iiimcf-im-trigger-notify-handler-default): Likewise.
+	(iiimcf-im-forward-event-handler-default): Likewise.
+	(iiimcf-im-forward-event-with-operations-handler-default):
+	Likewise.
+	(iiimcf-im-preedit-start-handler-default): Likewise.
+	(iiimcf-im-preedit-draw-handler-default): Likewise.
+	(iiimcf-im-preedit-done-handler-default): Likewise.
+	(iiimcf-im-status-start-handler-default): Likewise.
+	(iiimcf-im-status-draw-handler-default): Likewise.
+	(iiimcf-im-status-done-handler-default): Likewise.
+	(iiimcf-im-lookup-choice-start-handler-default): Likewise.
+	(iiimcf-im-lookup-choice-draw-handler-default): Likewise.
+	(iiimcf-im-lookup-choice-process-handler-default): Likewise.
+	(iiimcf-im-lookup-choice-done-handler-default): Likewise.
+	(iiimcf-im-aux-start-handler-default): Likewise.
+	(iiimcf-im-aux-draw-handler-default): Likewise.
+	(iiimcf-im-aux-done-handler-default): Likewise.
+	(iiimcf-server-control-setup): Likewise.
+	(iiimcf-server-control-shutdown): Likewise.
+	(iiimcf-server-control-notify-trigger): Likewise.
+	(iiimcf-server-control-keyforward): Likewise.
+	("iiim-server-control"): Change the indicator string.
+
+	* iiimp.el (iiimp-debug-flag): evaluate lso at byte compilation
+	time in order to chagen compilated code.
+	(iiimp-async-invocation-handler): make it a permanent
+	buffer-local variable at declaration time.
+	(iiimp-opcode-send-function): New function, which
+	retrieves an appropreate sending function.
+	(iiimp-opcode-number): Make it a defsubst function.
+	(iiimp-client-descriptor-pack): Use defun to define
+	function instead of defsubst.
+	(iiimp-client-descriptor-unpack): Likewise.
+	(iiimp-object-descriptor-pack): Likewise.
+	(iiimp-object-descriptor-unpack): Likewise.
+	(iiimp-jarfile-object-pack): Likewise.
+	(iiimp-jarfile-object-unpack): Likewise.
+	(iiimp-im-descriptor-pack): Likewise.
+	(iiimp-im-descriptor-unpack): Likewise.
+	(iiimp-im-attribute-pack): Likewise.
+	(iiimp-im-attribute-unpack): Likewise.
+	(iiimp-ic-attribute-pack): Likewise.
+	(iiimp-ic-attribute-unpack): Likewise.
+	(iiimp-keyevent-pack): Likewise.
+	(iiimp-keyevent-unpack): Likewise.
+	(iiimp-contents-pack): Likewise.
+	(iiimp-contents-unpack): Likewise.
+	(iiimp-send-message): New function, from here, use
+	this function to send IIIMP messages instead of
+	calling specific sending functions.
+
+2000-08-13  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimp.el (iiimp-basic-opcode-spec-list):
+	Register send functions.
+
+2000-08-06  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimp.el (iiimp-basic-opcode-spec-list):
+	Add handlers for parse: iiimp-parse-im-setimvalues,
+	iiimp-parse-im-setimvalues-reply,
+	iiimp-parse-im-seticvalues-reply,
+	and iiimp-parse-im-geticvalues-reply.
+	(iiimp-basic-opcode-vector):
+	Put iiimp-opcode property to each iiimp message symbol.
+	(iiimp-opcode-spec): New function.
+	(iiimp-opcode-number): Rewritten simply.
+	(iiimp-attribid-pack): When attribid is a symbol registered
+	in iiimp-attribid-alist, use the corresponding attibid-ID.
+	(iiimp-attribid-unpack): When attribid is a registered ID
+	in iiimp-attribid-alist, use the correspoinding symbol
+	as unpacked value.
+	(iiimp-im-attribute-pack): If the given attribid is
+	a known symbol, pack values in the fashion that is
+	defined by the attribid.
+	(iiimp-im-attribute-unpack): If the unpacked attribid
+	is a known ID, unpack values in the fashion that is
+	defined by the attribid.
+	(iiimp-ic-attribute-pack): Use let instead of let*.
+	(iiimp-ic-attribute-unpack): When at is 2 or 3,
+	i.e, attribid is character-subsets or input-method,
+	unpack attatched binary as is instead of causing an error.
+	(iiimp-parse-imvalues-internal): New function.
+	(iiimp-parse-im-getimvalues-reply): Use the above function.
+	(iiimp-parse-im-setimvalues): New function.
+	(iiimp-parse-im-setimvalues-reply): New function.
+	(iiimp-parse-im-seticvalues-reply): New function.
+	(iiimp-parse-im-geticvalues-reply): New function.
+	(iiimp-select-message-parser): Use iiimp-opcode-spec
+	instead of accessing iiimp-basic-opcode-spec-list.
+	(iiimp-send-im-setimvalues): New function.
+	(iiimp-send-im-setimvalues-reply): New function.
+	(iiimp-send-im-getimvalues): Bug fix.  Modify
+	the protocol format.
+	(iiimp-send-im-seticvalues): New function.
+	(iiimp-send-im-geticvalues): New function.
+
+2000-08-04  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf.el (iiimcf-server-control-setup):
+	Add a handler, iiimcf-server-control-trigger-notify.
+	(iiimcf-server-control-dispatch-event):
+	Bind input-method-function to nil before calling
+	read-key-sequence and call-interactively.
+	(iiimcf-server-control-trigger-notify):
+	New function.
+	(iiimcf-server-control-forward-event):
+	Set the current buffer to
+	iimcf-server-control-editing-buffer
+	before dispatching events.
+	("iiim-server-control"):
+	Modify explanation strings.
+
+	* iiimp.el (iiimp-open-network-channel):
+	Disble newly created buffer's undo list.
+
+2000-08-03  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimp.el (iiimp-pack-annotation-interval):
+	Add elem to let's varlist.
+	(iiimp-text-unpack):
+	Add sidx, eidx, and len-v to let's varlist.
+	(iiimp-contents-unpack):
+	Add len to let's varlist.
+	(iiimp-parse-im-lookup-choice-start):
+	Fix typo.  Change `labelowner' to `labelownp'.
+	(iiimp-wait-message):
+	Add type to let's varlist.
+
+	* iiimcf.el (iiimcf-server-control-editing-buffer):
+	New variable.
+	(iiimcf-server-control-keyforward):
+	Set the above variable.
+	(iiimcf-server-control-setup-preedit-text):
+	Before setting iiimcf-server-control-preedit-marker,
+	set the current buffer to iiimcf-server-control-editing-buffer.
+	(iiimcf-server-control-commit-string):
+	Before inserting committed string,
+	set the current buffer to iiimcf-server-control-editing-buffer.
+	(iiimcf-server-control-clear-preedit-text):
+	Set buffer-undo-list to t during removing preedit text
+	in order not to record undo infomation.
+	(iiimcf-server-control-setup-preedit-text):
+	Set buffer-undo-list to t during setting up preedit text
+	in order not to record undo infomation.
+	(iiimcf-server-control-insert-preedit):
+	likewise.
+	(iiimcf-server-control-clear-preedit-text):
+	Use let to use mbuf.
+
+2000-08-02  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf.el (iiimcf-server-control-insert-preedit):
+	If iiimcf-server-control-preedit-marker is invalid,
+	regard it as an evidence that a setup for preedit
+	text is not completed, then call
+	iiimcf-server-control-setup-preedit-text.
+	(iiimcf-server-control-maintain-preedit-text):
+	Don't try to process unread events.
+
+	* iiimcf.el (iiimcf-server-control-dispatch-event):
+	Extract iiimcf-server-control-forward-event.
+	(iiimcf-server-control-forward-event):
+	Use the above function.
+	(iiimcf-server-control-keyforward):
+	If we don't forward events, dispatch them by
+	iiimcf-server-control-dispatch-event instead of
+	sending back to the preedit event loop.
+	(iiimcf-server-control-setup):
+	Add handlers:
+	iiimcf-server-control-prepare-lookup-choice,
+	iiimcf-server-control-draw-lookup-choice,
+	iiimcf-server-control-redraw-lookup-choice, and
+	iiimcf-server-control-clear-lookup-choice.
+	(iiimcf-server-control-shutdown):
+	Bug fix.  Remove iiimcf-server-control-setup-event-flow-mode
+	handler instead of registering.
+	And remove the above 4 handlers.
+	(iiimcf-server-control-maintain-preedit-text-internal):
+	If iiimcf-server-control-preedit-marker is valid,
+	draw preedit text in inline mode.  And when
+	the reviced preedit text is empty, call
+	iiimcf-server-control-clear-preedit-text.
+	(iiimcf-server-control-maintain-preedit-text):
+	Don't call iiimcf-server-control-clear-preedit-text
+	in the end.
+	(iiimcf-server-control-prepare-lookup-choice):
+	(iiimcf-server-control-draw-lookup-choice):
+	(iiimcf-server-control-redraw-lookup-choice):
+	(iiimcf-server-control-clear-lookup-choice):
+	New functions as handlers
+
+	* IIIMECF first import dark-0.01.
+
