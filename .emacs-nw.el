@@ -28,6 +28,17 @@
 (set-scroll-bar-mode nil)
 (setq wb-line-number-scroll-bar t)
 
+;; 256 colors
+(load "emacs21-256color-hack.el")
+(require 'color-theme)
+(load "my-color-theme")
+(my-color-theme)
+
+;; ;; flymake color settings
+;; (custom-set-faces
+;;   '(flymake-errline ((((class color)) (:background "Gray30"))))
+;;   '(flymake-warnline ((((class color)) (:background "Gray55")))))
+
 ;; 折り返し
 ;;(setq truncate-line nil)
 
@@ -39,51 +50,10 @@
 (setq install-elisp-repository-directory "~/.emacs.d/")
 
 ;; mmm-mode
-;;(add-to-list 'load-path "~/.emacs.d/mmm-mode")
 (require 'mmm-mode)
 (require 'mmm-auto)
 (setq mmm-global-mode 'maybe)
 (setq mmm-submode-decoration-level 2)
-;;(set-face-background 'mmm-output-submode-face "LightBlue")
-;;(set-face-background 'mmm-code-submode-face "LightGray")
-;;(set-face-background 'mmm-comment-submode-face "LightYellow")
-;;(set-face-background 'mmm-special-submode-face "Yellow")
-
-;;(mmm-add-classes
-;;  '((erb-code
-;;     :submode ruby-mode
-;;     :match-face (("<%#" . mmm-comment-submode-face)
-;;                  ("<%=" . mmm-output-submode-face)
-;;                  ("<%"  . mmm-code-submode-face))
-;;     :front "<%[#=]?"
-;;     :back "%>"
-;;     :insert ((?% erb-code       nil @ "<%"  @ " " _ " " @ "%>" @)
-;;              (?# erb-comment    nil @ "<%#" @ " " _ " " @ "%>" @)
-;;              (?= erb-expression nil @ "<%=" @ " " _ " " @ "%>" @))
-;;     )))
-;;(mmm-add-classes
-;;  '((gettext
-;;     :submode gettext-mode
-;;     :front "_(['\"]"
-;;     :face mmm-special-submode-face
-;;     :back "[\"'])")))
-;;(mmm-add-classes
-;;  '((html-script
-;;     :submode javascript-mode
-;;     :front "<script>"
-;;     :back "</script>")))
-;;
-;;(add-to-list 'auto-mode-alist '("\\.rhtml$" . html-mode))
-;;(add-to-list 'auto-mode-alist '("\\.erb$" . html-mode))
-;;
-;;(add-hook 'html-mode-hook
-;;          (lambda()
-;;             (setq mmm-classes '(erb-code html-js html-script gettext emmbeded-css))
-;;             (mmm-mode-on)))
-;;
-;;(add-to-list 'mmm-mode-ext-classes-alist '(ruby-mode nil gettext))
-;;
-;;(global-set-key [f8] 'mmm-parse-buffer)
 
 ;; nxml-mode & rhtml
 (add-to-list 'load-path "~/.emacs.d/rhtml")
@@ -132,8 +102,8 @@
 (setq rct-find-tag-if-available nil)
 (defun make-ruby-scratch-buffer ()
   (with-current-buffer (get-buffer-create "*ruby scratch*")
-		       (ruby-mode)
-		       (current-buffer)))
+    (ruby-mode)
+    (current-buffer)))
 (defun ruby-scratch ()
   (interactive)
   (pop-to-buffer (make-ruby-scratch-buffer)))
@@ -143,63 +113,6 @@
   (define-key ruby-mode-map "\C-c\C-d" 'xmp)
   (define-key ruby-mode-map "\C-c\C-f" 'rct-ri))
 (add-hook 'ruby-mode-hook 'ruby-mode-hook-rcodetools)
-
-;;;; ecb
-;;(load-file "~/.emacs.d/cedet-1.0pre4/common/cedet.el")
-;;(semantic-load-enable-code-helpers)
-;;(add-to-list 'load-path "~/.emacs.d/ecb-2.32")
-;;(require 'ecb)
-;;;;(require 'ecb-autoloads)
-;;(setq ecb-tip-of-the-day nil)
-;;(setq ecb-windows-width 0.25)
-;;
-;;(defun ecb-toggle ()
-;;  (interactive)
-;;  (if ecb-minor-mode
-;;      (ecb-deactivate) 
-;;    (ecb-activate)))
-;;(global-set-key [f2] 'ecb-toggle)
-
-;;;; svn
-;;(autoload 'svn-status "psvn" nil t)
-;;(add-hook 'dired-mode-hook
-;;          '(lambda ()
-;;             (require 'dired-x)
-;;             ;;(define-key dired-mode-map "V" 'cvs-examine)
-;;             (define-key dired-mode-map "V" 'svn-status)
-;;             (turn-on-font-lock)
-;;             ))
-;;(setq svn-status-hide-unmodified t)
-;;(setq process-coding-system-alist
-;;      (cons '("svn" . utf-8) process-coding-system-alist))
-
-;;;; ecb
-;;(custom-set-variables
-;;  ;; custom-set-variables was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;; '(ecb-minor-mode-text "")
-;; '(ecb-options-version "2.32")
-;; '(ecb-source-path (quote ("~/public_html/"))))
-;;(custom-set-faces
-;;  ;; custom-set-faces was added by Custom.
-;;  ;; If you edit it by hand, you could mess it up, so be careful.
-;;  ;; Your init file should contain only one such instance.
-;;  ;; If there is more than one, they won't work right.
-;; '(erb-delim-face ((t (:background "color-78" :foreground "brightblack"))))
-;; '(erb-exec-face ((t (:inherit erb-face :background "black"))))
-;; '(erb-face ((t (:background "color-233"))))
-;; '(flymake-errline ((((class color)) (:background "color-160"))))
-;; '(mmm-cleanup-submode-face ((t (:foreground "color-184"))))
-;; '(mmm-code-submode-face ((t (:foreground "color-34"))))
-;; '(mmm-comment-submode-face ((t (:foreground "brightcyan"))))
-;; '(mmm-declaration-submode-face ((t (:foreground "color-159"))))
-;; '(mmm-default-submode-face ((t (:foreground "color-251" :weight normal))))
-;; '(mmm-init-submode-face ((t (:foreground "color-213"))))
-;; '(mmm-output-submode-face ((t (:foreground "color-162"))))
-;; '(mmm-special-submode-face ((t (:foreground "color-118"))))
-;; '(tool-bar ((default (:foreground "white" :box (:line-width 1 :style released-button))) (nil nil))))
 
 ;;; yaml-mode の設定
 (require 'yaml-mode)
