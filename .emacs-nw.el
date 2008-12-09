@@ -265,3 +265,8 @@
 ;; reverse other-window
 (global-set-key "\C-xp" (lambda () (interactive) (other-window -1)))
 
+;; Outputz
+(require 'outputz)
+(setq outputz-key "Q.Oe0fNtr-XZ")      ;; 復活の呪文
+(setq outputz-uri "http://stnard.jp/%s") ;; 適当なURL。%sにmajor-modeの名前が入るので、major-modeごとのURLで投稿できます。
+(global-outputz-mode t)

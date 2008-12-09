@@ -1,5 +1,5 @@
 (defun my-color-theme ()
-  "Color theme by Shin-ichiro OGAWA, created 2008-10-27."
+  "Color theme by Shin-ichiro OGAWA, created 2008-11-05."
   (interactive)
   (color-theme-install
    '(my-color-theme
@@ -21,6 +21,7 @@
       (snippet-bound-face . bold)
       (snippet-field-face . highlight)
       (tags-tag-face . default)
+      (vc-annotate-very-old-color . "#3F3FFF")
       (view-highlight-face . highlight)
       (whitespace-display-spaces-in-color . t)
       (widget-mouse-face . highlight))
@@ -82,7 +83,7 @@
      (font-lock-comment-face ((t (:foreground "red"))))
      (font-lock-constant-face ((t (:foreground "brightmagenta"))))
      (font-lock-doc-face ((t (:foreground "color-202"))))
-     (font-lock-function-name-face ((t (:bold t :foreground "color-21" :weight bold))))
+     (font-lock-function-name-face ((t (:bold t :foreground "color-26" :weight bold))))
      (font-lock-keyword-face ((t (:bold t :foreground "brightcyan" :weight extra-bold))))
      (font-lock-negation-char-face ((t (nil))))
      (font-lock-preprocessor-face ((t (:foreground "Orchid"))))
@@ -182,6 +183,7 @@
      (speedbar-selected-face ((t (:foreground "red" :underline t))))
      (speedbar-separator-face ((t (:background "blue" :foreground "white" :overline "gray"))))
      (speedbar-tag-face ((t (:foreground "brown"))))
+     (tmm-inactive ((t (:foreground "grey50"))))
      (tool-bar ((t (:foreground "black" :box (:line-width 1 :style released-button)))))
      (tooltip ((t (:background "lightyellow" :foreground "black" :family "helv"))))
      (trailing-whitespace ((t (:background "unspecified" :foreground "red" :strike-through nil :underline t))))
