@@ -1,0 +1,3 @@
+[submodule ".emacs.d/emacs-rails"]
+	path = .emacs.d/emacs-rails
+	url = git@github.com:rust/emacs-rails.git
