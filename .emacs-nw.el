@@ -270,3 +270,10 @@
 (setq outputz-key "Q.Oe0fNtr-XZ")      ;; 復活の呪文
 (setq outputz-uri "http://stnard.jp/%s") ;; 適当なURL。%sにmajor-modeの名前が入るので、major-modeごとのURLで投稿できます。
 (global-outputz-mode t)
+
+;; 行末の空白を自動削除
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;; タブを空白に自動変換
+(defun untabify-before-save ()
+  (untabify 1 (point-max)))
+(add-hook 'before-save-hook 'untabify-before-save)
