@@ -271,6 +271,19 @@
 (setq outputz-uri "http://stnard.jp/%s") ;; 適当なURL。%sにmajor-modeの名前が入るので、major-modeごとのURLで投稿できます。
 (global-outputz-mode t)
 
+;; snippet for RSpec
+(require 'snippet)
+(add-hook 'rails-minor-mode-hook
+          '(lambda()
+             (setq-default abbrev-mode t)
+             (snippet-with-abbrev-table 'local-abbrev-table
+                                        ("it" ."it \"$${spec}\" do\n$>$.\nend$>\n")
+                                        ("sbt"."should be_true")
+                                        ("sbi"."should be_an_instance_of($${klass})")
+                                        ("se"."shoud == ")
+                                        )
+             ))
+
 ;; 行末の空白を自動削除
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;; タブを空白に自動変換
