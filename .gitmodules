@@ -1,3 +1,12 @@
 [submodule ".emacs.d/emacs-rails"]
 	path = .emacs.d/emacs-rails
 	url = git@github.com:rust/emacs-rails.git
+[submodule ".emacs.d/rinari"]
+	path = .emacs.d/rinari
+	url = git://github.com/eschulte/rinari.git
+[submodule ".emacs.d/rhtml-mode"]
+	path = .emacs.d/rhtml-mode
+	url = git://github.com/eschulte/rhtml.git
+[submodule ".emacs.d/yasnippets-rails"]
+	path = .emacs.d/yasnippets-rails
+	url = git://github.com/eschulte/yasnippets-rails.git

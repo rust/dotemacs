@@ -49,81 +49,6 @@
 (require 'install-elisp)
 (setq install-elisp-repository-directory "~/.emacs.d/")
 
-;; mmm-mode
-(require 'mmm-mode)
-(require 'mmm-auto)
-(setq mmm-global-mode 'maybe)
-(setq mmm-submode-decoration-level 2)
-
-;; nxml-mode & rhtml
-(add-to-list 'load-path "~/.emacs.d/rhtml")
-(require 'nxml-mode)
-(require 'rhtml-mode)
-(require 'rhtml-erb)
-
-;; rails
-(defun try-complete-abbrev (old)
-       (if (expand-abbrev) t nil))
-(setq hippie-expand-try-functions-list
-      '(try-complete-abbrev
-        try-complete-file-name
-        try-expand-dabbrev))
-
-(setq load-path (cons "~/.emacs.d/emacs-rails" load-path))
-(require 'rails)
-(setq rails-ri-command "fri")
-
-(add-hook 'nxml-mode-hook
-          (lambda ()
-            (define-key nxml-mode-map "r" 'newline-and-indent)
-            (setq indent-tabs-mode nil)
-            (setq local-abbrev-table nxml-mode-abbrev-table)
-            (message "My nxml-mode customizations loaded")))
-
-;; ruby
-(require 'ruby-mode)
-(require 'inf-ruby)
-(add-hook 'ruby-mode-hook 'inf-ruby-keys)
-;; auto-mode by ruby
-(add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.cgi$" . ruby-mode))
-;; indent
-(setq ruby-deep-indent-paren-style nil)
-(require 'ruby-electric)
-(add-hook 'ruby-mode-hook (lambda()(ruby-electric-mode 1)))
-(setq ruby-electric-expand-delimiters-list '( ?\{))
-
-;; fastri
-(setq ri-ruby-script "/usr/local/bin/ri-emacs")
-(load "ri-ruby")
-
-(require 'rcodetools)
-(setq rct-find-tag-if-available nil)
-(defun make-ruby-scratch-buffer ()
-  (with-current-buffer (get-buffer-create "*ruby scratch*")
-    (ruby-mode)
-    (current-buffer)))
-(defun ruby-scratch ()
-  (interactive)
-  (pop-to-buffer (make-ruby-scratch-buffer)))
-(defun ruby-mode-hook-rcodetools ()
-  (define-key ruby-mode-map "\M-\C-i" 'rct-complete-symbol)
-  (define-key ruby-mode-map "\C-c\C-t" 'ruby-toggle-buffer)
-  (define-key ruby-mode-map "\C-c\C-d" 'xmp)
-  (define-key ruby-mode-map "\C-c\C-f" 'rct-ri))
-(add-hook 'ruby-mode-hook 'ruby-mode-hook-rcodetools)
-
-;;; yaml-mode の設定
-(require 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-(add-hook 'yaml-mode-hook
-          '(lambda ()
-             (setq comment-start "#")
-             (setq comment-start-skip "\\(^\\s-*\\|\\=\\s-*\\)#+ *")
-             (setq comment-end-skip "$")
-             (set (make-local-variable 'comment-style) 'indent) ))
-
 ;; howm
 (autoload 'howm-menu "howm-mode" "Howm mode" t)
 (autoload 'howm-list-all "howm-mode" "Howm mode" t)
@@ -149,27 +74,27 @@
 (setq howm-view-keep-one-window t)
 (setq howm-list-normalizer 'howm-view-sort-by-mtime)
 
-;; for M-x align
-(add-to-list 'align-rules-list
-             '(ruby-comma-delimiter
-               (regexp . ",\\(\\s-*\\)[^# \t\n]")
-               (repeat . t)
-               (modes  . '(ruby-mode))))
-(add-to-list 'align-rules-list
-             '(ruby-hash-literal
-               (regexp . "\\(\\s-*\\)=>\\s-*[^# \t\n]")
-               (repeat . t)
-               (modes  . '(ruby-mode))))
-(add-to-list 'align-rules-list
-             '(ruby-assignment-literal
-               (regexp . "\\(\\s-*\\)=\\s-*[^# \t\n]")
-               (repeat . t)
-               (modes  . '(ruby-mode))))
-(add-to-list 'align-rules-list          ;TODO add to rcodetools.el
-             '(ruby-xmpfilter-mark
-               (regexp . "\\(\\s-*\\)# => [^#\t\n]")
-               (repeat . nil)
-               (modes  . '(ruby-mode))))
+;; ;; for M-x align
+;; (add-to-list 'align-rules-list
+;;              '(ruby-comma-delimiter
+;;                (regexp . ",\\(\\s-*\\)[^# \t\n]")
+;;                (repeat . t)
+;;                (modes  . '(ruby-mode))))
+;; (add-to-list 'align-rules-list
+;;              '(ruby-hash-literal
+;;                (regexp . "\\(\\s-*\\)=>\\s-*[^# \t\n]")
+;;                (repeat . t)
+;;                (modes  . '(ruby-mode))))
+;; (add-to-list 'align-rules-list
+;;              '(ruby-assignment-literal
+;;                (regexp . "\\(\\s-*\\)=\\s-*[^# \t\n]")
+;;                (repeat . t)
+;;                (modes  . '(ruby-mode))))
+;; (add-to-list 'align-rules-list          ;TODO add to rcodetools.el
+;;              '(ruby-xmpfilter-mark
+;;                (regexp . "\\(\\s-*\\)# => [^#\t\n]")
+;;                (repeat . nil)
+;;                (modes  . '(ruby-mode))))
 
 ;; Makefile
 (add-to-list 'auto-mode-alist '("\\.make$" . makefile-gmake-mode))
@@ -290,3 +215,98 @@
 (defun untabify-before-save ()
   (untabify 1 (point-max)))
 (add-hook 'before-save-hook 'untabify-before-save)
+
+;;; Interactively Do Things
+(require 'ido)
+(ido-mode t)
+;; Rinari
+(add-to-list 'load-path "~/.emacs.d/rinari")
+(require 'rinari)
+
+;;; rhtml-mode
+(add-to-list 'load-path "~/.emacs.d/rhtml-mode")
+(require 'rhtml-mode)
+(add-hook 'rhtml-mode-hook
+          (lambda () (rinari-launch)))
+(add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
+
+;; yasnippet
+(setq load-path (cons (expand-file-name "~/.emacs.d/yasnippet-0.5.7") load-path))
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/yasnippets-rails/rails-snippets/")
+
+;; ;; mmm-mode
+;; (require 'mmm-mode)
+;; (require 'mmm-auto)
+;; (setq mmm-global-mode 'maybe)
+;; (setq mmm-submode-decoration-level 2)
+
+;; ;; nxml-mode & rhtml
+;; (add-to-list 'load-path "~/.emacs.d/rhtml")
+;; (require 'nxml-mode)
+;; (require 'rhtml-mode)
+;; (require 'rhtml-erb)
+
+;; ;; rails
+;; (defun try-complete-abbrev (old)
+;;        (if (expand-abbrev) t nil))
+;; (setq hippie-expand-try-functions-list
+;;       '(try-complete-abbrev
+;;         try-complete-file-name
+;;         try-expand-dabbrev))
+
+;; (setq load-path (cons "~/.emacs.d/emacs-rails" load-path))
+;; (require 'rails)
+;; (setq rails-ri-command "fri")
+
+;; (add-hook 'nxml-mode-hook
+;;           (lambda ()
+;;             (define-key nxml-mode-map "r" 'newline-and-indent)
+;;             (setq indent-tabs-mode nil)
+;;             (setq local-abbrev-table nxml-mode-abbrev-table)
+;;             (message "My nxml-mode customizations loaded")))
+
+;; ruby
+(require 'ruby-mode)
+(require 'inf-ruby)
+(add-hook 'ruby-mode-hook 'inf-ruby-keys)
+;; auto-mode by ruby
+(add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.cgi$" . ruby-mode))
+;; indent
+(setq ruby-deep-indent-paren-style nil)
+(require 'ruby-electric)
+(add-hook 'ruby-mode-hook (lambda()(ruby-electric-mode 1)))
+(setq ruby-electric-expand-delimiters-list '( ?\{))
+
+;; fastri
+(setq ri-ruby-script "/usr/local/bin/ri-emacs")
+(load "ri-ruby")
+
+(require 'rcodetools)
+(setq rct-find-tag-if-available nil)
+(defun make-ruby-scratch-buffer ()
+  (with-current-buffer (get-buffer-create "*ruby scratch*")
+    (ruby-mode)
+    (current-buffer)))
+(defun ruby-scratch ()
+  (interactive)
+  (pop-to-buffer (make-ruby-scratch-buffer)))
+(defun ruby-mode-hook-rcodetools ()
+  (define-key ruby-mode-map "\M-\C-i" 'rct-complete-symbol)
+  (define-key ruby-mode-map "\C-c\C-t" 'ruby-toggle-buffer)
+  (define-key ruby-mode-map "\C-c\C-d" 'xmp)
+  (define-key ruby-mode-map "\C-c\C-f" 'rct-ri))
+(add-hook 'ruby-mode-hook 'ruby-mode-hook-rcodetools)
+
+;;; yaml-mode の設定
+(require 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+(add-hook 'yaml-mode-hook
+          '(lambda ()
+             (setq comment-start "#")
+             (setq comment-start-skip "\\(^\\s-*\\|\\=\\s-*\\)#+ *")
+             (setq comment-end-skip "$")
+             (set (make-local-variable 'comment-style) 'indent) ))
