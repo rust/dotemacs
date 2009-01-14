@@ -1,7 +1,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; .emacs
 (if window-system
-    (load "~/.emacs-window.el")
+    (load "~/.emacs-nw.el")
   (load "~/.emacs-nw.el"))
 (custom-set-variables
   ;; custom-set-variables was added by Custom.

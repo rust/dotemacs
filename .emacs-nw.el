@@ -74,28 +74,6 @@
 (setq howm-view-keep-one-window t)
 (setq howm-list-normalizer 'howm-view-sort-by-mtime)
 
-;; ;; for M-x align
-;; (add-to-list 'align-rules-list
-;;              '(ruby-comma-delimiter
-;;                (regexp . ",\\(\\s-*\\)[^# \t\n]")
-;;                (repeat . t)
-;;                (modes  . '(ruby-mode))))
-;; (add-to-list 'align-rules-list
-;;              '(ruby-hash-literal
-;;                (regexp . "\\(\\s-*\\)=>\\s-*[^# \t\n]")
-;;                (repeat . t)
-;;                (modes  . '(ruby-mode))))
-;; (add-to-list 'align-rules-list
-;;              '(ruby-assignment-literal
-;;                (regexp . "\\(\\s-*\\)=\\s-*[^# \t\n]")
-;;                (repeat . t)
-;;                (modes  . '(ruby-mode))))
-;; (add-to-list 'align-rules-list          ;TODO add to rcodetools.el
-;;              '(ruby-xmpfilter-mark
-;;                (regexp . "\\(\\s-*\\)# => [^#\t\n]")
-;;                (repeat . nil)
-;;                (modes  . '(ruby-mode))))
-
 ;; Makefile
 (add-to-list 'auto-mode-alist '("\\.make$" . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("\\.mak$"  . makefile-gmake-mode))
@@ -219,22 +197,6 @@
 ;;; Interactively Do Things
 (require 'ido)
 (ido-mode t)
-;; Rinari
-(add-to-list 'load-path "~/.emacs.d/rinari")
-(require 'rinari)
-
-;;; rhtml-mode
-(add-to-list 'load-path "~/.emacs.d/rhtml-mode")
-(require 'rhtml-mode)
-(add-hook 'rhtml-mode-hook
-          (lambda () (rinari-launch)))
-(add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
-
-;; yasnippet
-(setq load-path (cons (expand-file-name "~/.emacs.d/yasnippet-0.5.7") load-path))
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/yasnippets-rails/rails-snippets/")
 
 ;; ;; mmm-mode
 ;; (require 'mmm-mode)
@@ -310,3 +272,44 @@
              (setq comment-start-skip "\\(^\\s-*\\|\\=\\s-*\\)#+ *")
              (setq comment-end-skip "$")
              (set (make-local-variable 'comment-style) 'indent) ))
+
+;; for M-x align
+(require 'align)
+(add-to-list 'align-rules-list
+             '(ruby-comma-delimiter
+               (regexp . ",\\(\\s-*\\)[^# \t\n]")
+               (repeat . t)
+               (modes  . '(ruby-mode))))
+(add-to-list 'align-rules-list
+             '(ruby-hash-literal
+               (regexp . "\\(\\s-*\\)=>\\s-*[^# \t\n]")
+               (repeat . t)
+               (modes  . '(ruby-mode))))
+(add-to-list 'align-rules-list
+             '(ruby-assignment-literal
+               (regexp . "\\(\\s-*\\)=\\s-*[^# \t\n]")
+               (repeat . t)
+               (modes  . '(ruby-mode))))
+(add-to-list 'align-rules-list          ;TODO add to rcodetools.el
+             '(ruby-xmpfilter-mark
+               (regexp . "\\(\\s-*\\)# => [^#\t\n]")
+               (repeat . nil)
+               (modes  . '(ruby-mode))))
+
+;; Rinari
+(add-to-list 'load-path "~/.emacs.d/rinari")
+(require 'rinari)
+
+;;; rhtml-mode
+(add-to-list 'load-path "~/.emacs.d/rhtml-mode")
+(require 'rhtml-mode)
+(add-hook 'rhtml-mode-hook
+          (lambda () (rinari-launch)))
+(add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
+
+;; yasnippet
+(setq load-path (cons (expand-file-name "~/.emacs.d/yasnippet-0.5.7") load-path))
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/yasnippets-rails/rails-snippets/")
+
