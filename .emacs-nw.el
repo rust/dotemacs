@@ -313,3 +313,6 @@
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/yasnippets-rails/rails-snippets/")
 
+;; rabbit-mode
+(autoload 'rabbit-mode "rabbit-mode" "major mode for Rabbit" t)
+(add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))
