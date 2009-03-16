@@ -237,6 +237,7 @@
 (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.cgi$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
 ;; indent
 (setq ruby-deep-indent-paren-style nil)
 (require 'ruby-electric)
@@ -313,3 +314,6 @@
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/yasnippets-rails/rails-snippets/")
 
+;; for rabbit-mode
+(autoload 'rabbit-mode "rabbit-mode" "major mode for Rabbit" t)
+(add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))
