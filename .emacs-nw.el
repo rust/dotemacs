@@ -323,3 +323,6 @@
 (add-hook 'ruby-mode-hook
           (lambda ()
             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
+
+(require 'twittering-mode)
+(load "~/.twitter.el")
