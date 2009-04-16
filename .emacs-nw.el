@@ -106,7 +106,8 @@
                                       'javascript-mode
                                       'ruby-mode
                                       'text-mode
-                                      'fundamental-mode))))
+                                      'fundamental-mode
+                                      'js2-mode))))
   (when (boundp 'jaspace-alternate-jaspace-string)
     (setq jaspace-alternate-jaspace-string "□"))
   (when (boundp 'jaspace-highlight-tabs)
@@ -332,3 +333,18 @@
 
 ;; git.el をロードする
 (load-library "/usr/share/doc/git-core/contrib/emacs/git.el")
+
+(setq-default c-basic-offset 2)
+
+;; js2-mode
+(autoload 'js2-mode "js2" nil t)
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-hook 'js2-mode-hook
+          '(lambda ()
+             (setq js2-basic-offset       2
+                   tab-width              2
+                   indent-tabs-mode       nil
+                   js2-bounce-indent-flag nil
+                   js-indent-level        2
+                   js-mirror-mode         nil
+                   js2-cleanup-whitespace nil)))
