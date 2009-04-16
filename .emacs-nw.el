@@ -326,3 +326,9 @@
 
 (require 'twittering-mode)
 (load "~/.twitter.el")
+
+;; YaTeX が漢字コードを毎回 ISO-2022-JP に設定しないようにする
+(setq YaTeX-kanji-code nil)
+
+;; git.el をロードする
+(load-library "/usr/share/doc/git-core/contrib/emacs/git.el")
