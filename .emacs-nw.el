@@ -171,8 +171,7 @@
 
 ;; Outputz
 (require 'outputz)
-(setq outputz-key "Q.Oe0fNtr-XZ")      ;; 復活の呪文
-(setq outputz-uri "http://stnard.jp/%s") ;; 適当なURL。%sにmajor-modeの名前が入るので、major-modeごとのURLで投稿できます。
+(load "~/.outputz.el")
 (global-outputz-mode t)
 
 ;; snippet for RSpec
