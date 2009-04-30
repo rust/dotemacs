@@ -331,7 +331,7 @@
 (setq YaTeX-kanji-code nil)
 
 ;; git.el をロードする
-(load-library "/usr/share/doc/git-core/contrib/emacs/git.el")
+(load-library "~/.emacs.d/git.el")
 
 (setq-default c-basic-offset 2)
 
