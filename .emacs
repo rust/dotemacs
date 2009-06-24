@@ -331,6 +331,12 @@
 (add-hook 'haskell-mode-hook 'font-lock-mode)
 (add-hook 'haskell-mode-hook 'imenu-add-menubar-index)
 
+;; anything
+(require 'anything)
+(require 'anything-config)
+(require 'anything-match-plugin)
+(global-set-key (kbd "C-x b") 'anything)
+
 ;;
 (if window-system
     (load "~/.emacs-window.el")
