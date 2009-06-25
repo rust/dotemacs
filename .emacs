@@ -7,11 +7,6 @@
 (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
 (setq load-path (cons (expand-file-name "~/.emacs.d/iiimcf/") load-path))
 
-
-(if window-system
-    (load "~/.emacs-window.el")
-  (load "~/.emacs-nw.el"))
-
 ;; Startup message
 (setq inhibit-startup-message t)
 ;; 終了時にオートセーブファイルを消す
@@ -121,23 +116,23 @@
                 (face-spec-set 'jaspace-highlight-tab-face
                                '((((class color) (background light))
                                   (:foreground "red"
-                                   :background "unspecified"
-                                   :strike-through nil
-                                   :underline t))
+                                               :background "unspecified"
+                                               :strike-through nil
+                                               :underline t))
                                  (t (:foreground "purple"
-                                     :background "unspecified"
-                                     :strike-through nil
-                                     :underline t))))
+                                                 :background "unspecified"
+                                                 :strike-through nil
+                                                 :underline t))))
                 (face-spec-set 'trailing-whitespace
                                '((((class color) (background light))
                                   (:foreground "red"
-                                   :background "unspecified"
-                                   :strike-through nil
-                                   :underline t))
+                                               :background "unspecified"
+                                               :strike-through nil
+                                               :underline t))
                                  (t (:foreground "purple"
-                                     :background "unspecified"
-                                     :strike-through nil
-                                     :underline t))))))))
+                                                 :background "unspecified"
+                                                 :strike-through nil
+                                                 :underline t))))))))
 
 ;; ミニバッファ履歴リストの最大長：tなら無限
 (setq history-length t)
@@ -286,9 +281,6 @@
           (lambda ()
             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
 
-(require 'twittering-mode)
-(load "~/.twitter.el")
-
 ;; YaTeX が漢字コードを毎回 ISO-2022-JP に設定しないようにする
 (setq YaTeX-kanji-code nil)
 
@@ -322,3 +314,12 @@
 (require 'anything-config)
 (require 'anything-match-plugin)
 (global-set-key (kbd "C-x b") 'anything)
+
+;; window or no-window
+(cond
+ ((eq window-system 'x)
+  (setq default-frame-alist
+        (append (list '(foreground-color . "black"))))
+  (load "~/.emacs-window.el"))
+ ((null window-system)
+  (load "~/.emacs-nw.el")))
