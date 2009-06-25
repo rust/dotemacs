@@ -1,24 +1,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; .emacs
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(howm-list-normalizer (quote howm-view-sort-by-reverse-date))
- '(howm-list-prefer-word nil))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- )
-
+;;
 (put 'upcase-region 'disabled nil)
 
 ;; load-path
 (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
 (setq load-path (cons (expand-file-name "~/.emacs.d/iiimcf/") load-path))
+
+
+(if window-system
+    (load "~/.emacs-window.el")
+  (load "~/.emacs-nw.el"))
 
 ;; Startup message
 (setq inhibit-startup-message t)
@@ -28,12 +20,6 @@
 ;; default to better frame titles
 (setq frame-title-format
       (concat  "%b - emacs@" (system-name)))
-
-;; 256 colors
-(load "emacs21-256color-hack.el")
-(require 'color-theme)
-(load "my-color-theme")
-(my-color-theme)
 
 ;; default to unified diffs
 (setq diff-switches "-u")
@@ -336,8 +322,3 @@
 (require 'anything-config)
 (require 'anything-match-plugin)
 (global-set-key (kbd "C-x b") 'anything)
-
-;;
-(if window-system
-    (load "~/.emacs-window.el")
-  (load "~/.emacs-nw.el"))
