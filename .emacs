@@ -1,6 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; .emacs
-;;
+
 (put 'upcase-region 'disabled nil)
 
 ;; load-path
