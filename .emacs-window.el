@@ -13,9 +13,9 @@
 (tool-bar-mode nil)
 
 (setq fontname (cond
-                ((equal system-name "rust-worker")
+                ((string-match "rust-worker" system-name)
                  "M+2VM+IPAG circle-8")
-                (else
+                ((string-match "precision" system-name)
                  "M+2VM+IPAG circle-9")))
 (add-to-list 'default-frame-alist (cons 'font fontname))
 (set-default-font fontname)

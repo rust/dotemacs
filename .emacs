@@ -1,6 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; .emacs
-;;
+
 (put 'upcase-region 'disabled nil)
 
 ;; load-path
@@ -323,4 +323,3 @@
   (load "~/.emacs-window.el"))
  ((null window-system)
   (load "~/.emacs-nw.el")))
-
