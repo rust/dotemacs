@@ -26,7 +26,6 @@
 ;; wb-line-number
 (require 'wb-line-number)
 (wb-line-number-toggle)
-;;(setq truncate-partial-width-windows nil)
 (set-scroll-bar-mode nil)
 (setq wb-line-number-scroll-bar t)
 
@@ -314,6 +313,10 @@
 (require 'anything-config)
 (require 'anything-match-plugin)
 (global-set-key (kbd "C-x b") 'anything)
+
+;; truncate lines
+(setq truncate-lines t)
+(setq truncate-partial-width-windows t)
 
 ;; window or no-window
 (cond
