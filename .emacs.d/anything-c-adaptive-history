@@ -1,3 +1,3 @@
 ;; -*- mode: emacs-lisp -*-
 ;; History entries used for anything adaptive display.
-(setq anything-c-adaptive-history (quote ((buffer ("*Messages*" ("" . 3) ("*Me" . 1)) (".emacs" ("" . 2)) ("*scratch*" ("" . 2)) (".emacs-window.el" ("" . 2)) ("dcmail.rb" ("" . 1)) ("mime_message_sender.rb" ("" . 3))) (file (".." ("" . 1))))))
+(setq anything-c-adaptive-history (quote ((buffer ("*Messages*" ("" . 4) ("*Me" . 1)) ("style.css" ("" . 2)) ("*scratch*" ("" . 4)) ("web_app_theme.css" ("" . 1)) (".emacs-window.el" ("" . 2)) ("dcmail.rb" ("" . 1)) ("mime_message_sender.rb" ("" . 3)) (".emacs" ("" . 1))) (file (".." ("" . 1))))))
