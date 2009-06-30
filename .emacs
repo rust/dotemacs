@@ -318,6 +318,11 @@
 (setq truncate-lines t)
 (setq truncate-partial-width-windows t)
 
+;; emacs-nav
+(add-to-list 'load-path "~/.emacs.d/emacs-nav/")
+(require 'nav)
+(setq nav-width 12)
+
 ;; window or no-window
 (cond
  ((eq window-system 'x)
