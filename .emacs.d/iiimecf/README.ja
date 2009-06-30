@@ -1,0 +1,204 @@
+--------------------------------------------------------------
+IIIMECF (Internet/Intranet Input Method Emacs Client Framework)
+        Brief manual.
+
+	Modified by KAWABATA Taichi (kawabata@m17n.org)
+	on 2007/12/5.
+	Modified by Hiroshi Miura (miura@da-cha.org)
+	on 2005/1/15.
+        Written by MIYASHITA Hisashi (himi@m17n.org)
+	on 2000/9/8.
+--------------------------------------------------------------
+
+o ... License
+
+  IIIMECFは、フリーソフトウェアです。GNU General Public License
+Version 2か、もしくはあなたが望むなら、それ以降のversionの定める
+規則に基づき、再配布、もしくは変更が許されます。
+
+  IIIMECFには、GNU General Public Licenseが記述されているCOPYING
+ファイルが同梱されているはずですが、もし、受け取っていない場合は、
+the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+Boston, MA 02111-1307, USA.
+宛に連絡を取ってください。
+
+o ... IIIMECFってなあに?
+
+  IIIMECFは、Sun Microsystems社の定めるIIIM Protocolに基づき、Emacs上で
+IIIM対応のapplicationを構築するためのlibraryと、それを用いた、Server sideで
+制御されるシンプルなInput Method libraryによって構成されています。(この
+input-methodを、iiimcf-scと以降は記述します。)
+
+  IIIMECFは、現状、Emacs 20.6以降、もしくは、Meadow 1.10以降で動作しま
+す。Emacs 23より以前のEmacsでは、Mule-UCSが必須です。Mule-UCS version
+0.82以降と組み合わせて用いることを推奨します。
+
+  なお、iiimcf-scは、ATOK X for Linux, 及び Solaris 8上のATOK/IIIMFと
+共に動作することが、確認されています。
+
+  Mule-UCSは、現在、ftp://ftp.m17n.org/pub/mule/Mule-UCSから取得可能で
+す。また、IIIMECFは、http://www.openi18n.org/を一次配布元としています。
+
+  XEmacsへの対応も、現在検討中です。
+
+o ... Install方法
+
+  iiimcf-comp.elを用いて、byte-compileを行ってください。
+  以下のcommandにより、byte-compile出来ます。
+--
+  emacs -q --no-site-file -batch -l iiimcf-comp.el
+--
+  Meadowでは、以下を参考にしてください。
+--
+  Meadow95(NT) -q --no-site-file -batch -l iiimcf-comp.el
+--
+
+  その後、lisp ディレクトリにある、すべてのファイルをload-pathの通った
+ディレクトリにコピーしてください。
+
+  以上で、基本的にinstallは完了です。設定に関しては、「iiimcf-scの設定」の
+セクションを参照してください。
+
+o ... Module構成
+
+  現状で、IIIMECFは、以下のModuleによって構成されます。
+
+  (1) ... iiimp.el
+
+	IIIM の protocol library です。IIIMPを解釈/送出する基本的な機能を
+        提供します。
+
+  (2) ... iiimcf.el
+
+	IIIM Clientを構成する上で、基本的な機能、例えば、eventを配送したり、
+        messageをEmacsの為にtranslateしたり、client情報を生成したりする
+	機能をつかさどります。	
+
+  (3) ... iiimcf-sc.el
+
+	IIIM を利用した、シンプルなinput methodを提供するlibraryです。
+	基本的に、変換に関わる、ほとんどすべての操作は、serverに送られ、
+	serverから制御を受けることによって動作します。
+
+  (4) ... iiimcf-UI.el
+
+	IIIM input method のユーザインタフェースをつかさどります。
+
+
+o ... iiimcf-scの設定
+
+  最低限、確認もしくは設定しなくてはならない変数は以下のとおりです。
+
+  * iiimcf-server-control-hostlist … default: "/tmp/.iiim-(user-login-name)/:1.0"
+
+    IIIM serverを指定します。形式は、"tcp:<SERVER>:<PORT>" （TCPによる
+  通信）または "unix:/socket-path" （IPCによる通信）のように指定し、複
+  数のサーバーを指定することが出来ます。(現状では、最初に指定したサーバー
+  にしか接続を試みないが、将来的には自動的に切り替える予定)
+
+  例:  (setq iiimcf-server-control-hostlist
+             '("/var/run/iiim/.iiimp-unix/9010"
+               "iiim:9010" "iiim.foo.com:9000"))
+
+  なお、"unix:"や"tcp:"と、<PORT>は省略可能です。TCP通信で<PORT>を省略
+  した場合、iiimcf-server-control-default-portが使用されます。この変数
+  の値のdefaultは、9010です。
+
+  ("unix:/socket_name")を指定した場合は、unix domain socket 経由での接
+  続を試みます。IIIMF R11の場合は "/var/run/iiim/.iiimp-unix/9010"
+  を、IIIMF R12の場合は、"/tmp/.iiim-(user-login-name)/:1.0" を
+  設定してください。
+
+  * iiimcf-server-control-username … default: (user-login-name)@(system-name)
+
+    IIIM serverに送出するusernameです。通常は設定する必要はありませんが、
+  ユーザー名や、自分のマシン名を明示的に指定したい場合は、設定してください。
+  なお、初期のhtt_serverにはバグがあるので、@以降の部分を省略すると、不具合が
+  発生するおそれがあります。
+
+  例:  (setq iiimcf-server-control-username "himi@tae.m17n.org")
+	
+  * iiimcf-server-control-default-language … deafult: nil
+
+    defaultで使用する言語です。nilの場合、serverから送られてきた
+  一番目の候補を使用します。なお、iiimcf-scを起動後 C-cC-\C-lで
+  後から切り替えることも可能です。
+
+  例:  (setq iiimcf-server-control-default-language "ja")
+
+  * iiimcf-server-control-default-input-method … default: nil
+
+    defaultで、選択するserver側のinput methodを指定します。
+  nilであると、serverに対して、特定のinput methodを要求しません。
+  この場合、server側に、input methodの選択を委任することになります。
+  なお、iiimcf-scを起動後、C-cC-\C-iで、後から切り替えることも可能です。
+
+  例:  (setq iiimcf-server-control-default-input-method "atokx3")
+
+
+  他にも、
+    iiimcf-UI-preedit-open-string
+    iiimcf-UI-preedit-close-string
+    iiimcf-UI-preedit-face-alist
+    iiimcf-UI-preedit-use-face-p
+  などの変数が設定できますが、これらに関しては、documentation stringを
+  参照してください。
+
+  (なお、設定に関わる変数類は、すべてcustom packageを利用しており、M-x
+  customize-group iiimcf-server-controlを実行することにより、設定が可能
+  です。)
+  
+  当然、設定の最後にiiimcf-scをloadしなくてはいけません。
+  (require 'iiimcf-sc)を追加してください。
+  load後は、iiim-server-controlというinput methodを利用できます。
+  defaultで用いたい場合は、
+  (setq default-input-method 'iiim-server-control)
+  を、加えてください。
+
+  .emacs 設定例
+--
+  (setq iiimcf-server-control-hostlist (list (concat "/tmp/.iiim-" (user-login-name) "/:1.0")))
+  (when (and (= 0 (shell-command
+                    (concat
+                      "netstat --unix -l | grep -q " (car iiimcf-server-control-hostlist))))
+             (require 'iiimcf-sc nil t))
+    (setq iiimcf-server-control-default-language "ja")
+    (setq iiimcf-server-control-default-input-method "atokx3")
+    (setq default-input-method 'iiim-server-control))
+--
+
+o ... Language Engine およびキーボードの切り替えについて
+
+  IIIMECFでは、複数のLanguage Engine (LE)を切り替えることができる IIIM
+  server に対しては、M-x iiimcf-server-control-switch-le (C-c C-\ C-s)
+  で LE を切り替えることができます。その場合、LEリストの一覧のスクロー
+  ルには、“Page Up”および“Page Down”キーをお使いください。
+
+  また、ASCIIやJIS以外の、たとえば「かな」キー配列を使いたい場合には、
+  M-x iiimcf-server-control-switch-keyboard (C-c C-\ C-k) で切り替える
+  ことができます。自分でキー配列を変更したい場合は、
+  iiimcf-kana-keycode-spec-alist などを参考にしてください。
+
+o ... Unix Domain Socketによる通信について
+
+  version 22 以前のEmacs は、Unix Domain Socket (local IPC) を使用した
+  通信はできません。IIIMECFには、パイプとUnix Domain Socketを変換する
+  udclient.c が同梱されています。version 22 以前のEmacsで Unix Domain
+  Socketを使ってIIIM server と通信する場合は、udclient.cをコンパイルし
+  て実行パスの通っている場所にインストールしてください。
+  （make-network-process 関数を持つUnix用のEmacsでは不要です。）
+
+o ... Mailing List.
+
+  IIIMECF MLのアドレスは、次の通りです。
+    openi18n-iiimecf@openi18n.org    (英語)
+    openi18n-iiimecf.ja@openi18n.org (日本語)
+  MLに参加するには、メール本文に "subscribe あなたの名前"と
+  書いて、
+    openi18n-iiimecf-ctl@openi18n.org    (英語)
+    openi18n-iiimecf.ja-ctl@openi18n.org (日本語)
+  に送ってください。
+  詳しい案内を得るには、
+    openi18n-iiimecf-ctl@openi18n.org    (英語)
+    openi18n-iiimecf.ja-ctl@openi18n.org (日本語)
+  に本文が空のメールを送ってください。

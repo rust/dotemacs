@@ -1,0 +1,156 @@
+--------------------------------------------------------------
+IIIMECF (Internet/Intranet Input Method Emacs Client Framework)
+        Brief manual.
+
+	Modified by Hiroshi Miura (miura@da-cha.org)
+	on 2005/1/15.
+        Written by MIYASHITA Hisashi (himi@m17n.org)
+	on 2000/9/8.
+--------------------------------------------------------------
+
+o ... License
+
+  IIIMECF is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2, or (at your option)
+any later version.
+
+  You should have received a copy of the GNU General Public License
+along with IIIMECF; see the file COPYING.  If not, write to
+the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+Boston, MA 02111-1307, USA.
+
+o ... What is IIIMECF?
+
+  IIIMECF conforms IIIM Protocol Specification defined by Sun Microsystems,
+and consists of a library to create IIIM awared applications and a simple
+input method library controlled by IIIM server(s).
+(This input-method is denoted by "iiimcf-sc" hereafter.)
+
+  This version supports Emacs 20.6 or later; and Meadow 1.10 or later.
+Mule-UCS is indispensable.  I recommend to use this library with Mule-UCS
+version 0.82 or later.
+
+  I confirmed that iiimcf-sc can work with ATOK X for Linux and ATOK/IIIMF
+on Solaris 8.
+
+  You can obtain Mule-UCS from ftp://ftp.m17n.org/pub/mule/Mule-UCS.
+And ftp://ftp.m17n.org/pub/mule/IIIM is the primary distribution site
+of IIIMECF.
+
+  I am planning to adapt IIIMECF to XEmacs too.
+
+o ... Installation
+
+  To byte compile IIIMECF, you can use iiimcf-comp.el.
+Enter the following command line:
+--
+  emacs -q --no-site-file -batch -l iiimcf-comp.el
+--
+If you use Meadow, enter the following:
+--
+  Meadow95(NT) -q --no-site-file -batch -l iiimcf-comp.el
+--
+And then, you will obtain byte-compiled emacs-lisp files.
+Finally, you should install lisp directory to your site-lisp directory.
+
+  That's all for usual installation processes.  For configuration,
+please refer to the section of "Configuration of iiimcf-sc".
+
+o ... Modules
+
+  Currently, IIIMECF consists of the following modules.
+
+  (1) ... iiimp.el
+
+	A IIIM protocol library.  This module provides
+	fundamental facilities to communicate with IIIM servers.
+
+  (2) ... iiimcf.el
+
+	This module provides general facilities to compose IIIM clients,
+	e.g., dispatching events, translating messages for Emacs,
+	generating client descriptor, and so on.
+
+  (3) ... iiimcf-sc.el
+
+	This module provides a simple input method, which forwards almost
+	all of the operations related to input method conversions to
+	IIIM server, and is controlled by IIIM server.
+
+o ... Configuration of iiimcf-sc.
+
+  You should configure or confirm at least the following variables.
+
+  iiimcf-server-control-hostlist  The default value is '("unix:/var/run/iiim/.iiimp-unix/9010")
+
+    Specifies IIIM servers.  The format is like "<PROTO>:<SERVER>:<PORT>".
+  You can specify more than one server.  Although, currently, iiim-sc
+  tries to connect the first server, it will be able to switch servers
+  dynamically in the future.
+
+  Example:  (setq iiimcf-server-control-hostlist
+             '("localhost" "tcp:iiim:9010" "iiim.foo.com:9000"
+               "unix:/var/run/iiim/.iiimp-unix/9010"))
+
+  If you omit <PORT>, iiimcf-server-control-default-port will be used.
+  The default value of this variable is 9010. If you omit <PROTO>,
+  use iiimcf-server-control-default-protocol. The default value of this is tcp.
+
+  If you specify "unix/:9010", it tries to connect through unix domain socket.
+
+  iiimcf-server-control-username  The default value is (user-login-name)@(system-name)
+
+    Username sent to IIIM server.  Normally, you don't have to set this variable,
+  but if you would like to specify username and machine name explicitly, set this
+  variable.  Note that the old htt_server may work wrong if you omit the part
+  after `@'.
+
+  Example:  (setq iiimcf-server-control-username "himi@tae.m17n.org")
+	
+  iiimcf-server-control-default-language  The default value is nil.
+
+    Input method language used by default.  If nil, use the first
+  candidate sent by server.  FYI, you can switch this by C-cC-\C-l
+  later.
+
+  You can customize iiimcf-server-control-preedit-open-string,
+  iiimcf-server-control-preedit-close-string,
+  iiimcf-server-control-preedit-face-alist,
+  iiimcf-server-control-preedit-use-face-p, .etc.
+  As to these variables, please refer the documentation strings.
+
+  (BTW, iiim-sc uses custom package to define all of the customizable
+   variables.  Thus, by executing M-x customize-group
+   iiimcf-server-control, you can configure them.)
+
+  Naturally, you need to load iiimcf-sc.
+  To do this, add (require 'iiimcf-sc) to your configuration file.
+
+  After you load iiimcf-sc, you can use a new input method,
+  iiim-server-control.
+  If you can use this by default, please add:
+  (setq default-input-method 'iiim-server-control)
+
+  Example.
+--
+  (setq iiimcf-server-control-hostlist
+        '("localhost" "iiim:9010" "iiim.foo.com:9000" ))
+  (setq default-input-method 'iiim-server-control)
+  (require 'iiimcf-sc)
+--
+
+o ... Mailing List.
+
+  IIIMECF mailing list addresses are 
+    li18nux-iiimecf@li18nux.org    (Engilsh)
+    li18nux-iiimecf.ja@li18nux.org (Japanese).
+
+  If you'd like to join in it, please send mail that has
+  "subscribe <your name>" in the body to 
+    li18nux-iiimecf-ctl@li18nux.org    (Engilsh)
+    li18nux-iiimecf.ja-ctl@li18nux.org (Japanese)
+  For detail, please send empty mail to 
+    li18nux-iiimecf-ctl@li18nux.org    (Engilsh)
+    li18nux-iiimecf.ja-ctl@li18nux.org (Japanese)
+  then you will receive a guide message.

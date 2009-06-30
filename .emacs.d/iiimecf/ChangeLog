@@ -1,0 +1,88 @@
+2007-12-07  KAWABATA, Taichi  <kawabata@m17n.org>
+
+	* README.ja: updated for IIIMF R12.
+	* IIIMECF 0.72 Release
+
+2007-04-01  KAWABATA, Taichi  <kawabata@m17n.org>
+
+	* IIIMECF 0.7 Release
+
+2005-06-04  KAWABATA, Taichi  <kawabata@m17n.org>
+
+	* README.ja: Updated for new features.
+	* README: likewise, but not fully documented.
+
+2005-06-04  Hiroshi Miura <miura@da-cha.org>
+
+	* util/udclient.c: use poll.h for polling input & output stream.
+	* util/udclient.h, Makefile: likewise.
+
+2005-04-04  Jens Petersen  <petersen@redhat.com>
+
+	* util/Makefile (build): Use CFLAGS when compiling [Takanori Matsuura].
+
+2005-01-15  Hiroshi Miura <miura@da-cha.org>
+
+	* iiimp.el: Support unix domain socket.
+	* util/udclient.c, util/udclient.h, util/Makefile: helper program
+	to communicate with unix domain socket.
+	* README, README.ja: add description about unix domain socket.
+
+2001-07-02  MIYASHITA Hisashi  <himi@meadowy.org>
+
+	* IIIMECF 0.6 Release.
+
+2002-07-08  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-comp.el (compile-file-list-1st): Add iiimcf-UI, PCE, and EIMIL.
+
+2001-09-28  Toshiro HIKITA  <toshi@sodan.org>
+
+	* README: Update for new ML server
+	* README.ja: Ditto.
+
+2001-07-02  MIYASHITA Hisashi  <himi@meadowy.org>
+
+	* IIIMECF 0.4 Release.
+
+	* README: fix mistakes.
+	* README.ja: Likewise.
+
+2000-11-12  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* IIIMECF 0.3 Release.
+
+	* README: Change the description on iiimcf-server-control-default-language.
+	* README.ja: Likewise, but add the description also on
+	iiimcf-server-control-default-input-method.
+
+2000-11-04  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* README: Modify the part on iiimcf-server-control-username.
+	* README.ja: Ditto.
+
+2000-10-19  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-comp.el: Fix comments.
+
+2000-09-17  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* IIIMECF 0.2 Release.
+
+2000-09-09  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* IIIMECF 0.1 Release.
+
+	* iiimcf-comp.el: Check if Mule-UCS is installed.
+	If Emacs cannot find it, ask the path of Mule-UCS.
+
+2000-09-08  MIYASHITA Hisashi  <himi@m17n.org>
+
+	* iiimcf-comp.el: New file.
+
+	* COPYING: New file.
+
+	* README.ja: New file.
+
+	* README: New file.
+
