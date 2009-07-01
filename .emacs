@@ -5,7 +5,6 @@
 
 ;; load-path
 (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
-(setq load-path (cons (expand-file-name "~/.emacs.d/iiimcf/") load-path))
 
 ;; Startup message
 (setq inhibit-startup-message t)
@@ -322,6 +321,13 @@
 (add-to-list 'load-path "~/.emacs.d/emacs-nav/")
 (require 'nav)
 (setq nav-width 12)
+
+;;; sdic-mode 用の設定
+(setq load-path (cons "/home/ogawa/.emacs.d/sdic" load-path))
+(autoload 'sdic-describe-word "sdic" "英単語の意味を調べる" t nil)
+(global-set-key "\C-cw" 'sdic-describe-word)
+(autoload 'sdic-describe-word-at-point "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
+(global-set-key "\C-cW" 'sdic-describe-word-at-point)
 
 ;; window or no-window
 (cond

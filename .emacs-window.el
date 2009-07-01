@@ -42,6 +42,7 @@
 (global-hl-line-mode)
 
 ;; iiimcf
+(setq load-path (cons (expand-file-name "~/.emacs.d/iiimcf/") load-path))
 (setq iiimcf-server-control-hostlist (list (concat "/tmp/.iiim-" (user-login-name) "/:0.0")))
 (when (and (= 0 (shell-command
                  (concat
