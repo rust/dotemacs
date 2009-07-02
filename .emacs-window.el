@@ -51,8 +51,8 @@
   (setq iiimcf-server-control-default-language "ja")
   (setq iiimcf-server-control-default-input-method "atokx3")
   (setq default-input-method 'iiim-server-control)
-  (global-set-key [henkan] 'toggle-input-method)
-  (global-set-key "\C-o" 'toggle-input-method)
+  (setq iiimcf-UI-input-method-title-format "<ATOK:%s>")
+  (setq iiimcf-UI-preedit-use-face-p "window-system") ;; 変換時の色が見えないのを抑制
   (progn
       ;;; キーバインドの追加
     ;; from http://okutomi-lab.ctrl.titech.ac.jp/~tkanda/atok_x3_install.htm
@@ -78,8 +78,9 @@
              (6 114 65535) ; C-f
              )
            iiimcf-keycode-spec-alist))))
-(setq iiimcf-UI-input-method-title-format "<ATOK:%s>")
-(setq iiimcf-UI-preedit-use-face-p "window-system")
+;; key-bind
+(global-set-key [henkan] 'toggle-input-method)
+(global-set-key "\C-o" 'toggle-input-method)
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.

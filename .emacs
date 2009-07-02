@@ -59,6 +59,15 @@
 (setq howm-menu-todo-num 10)
 (setq howm-view-keep-one-window t)
 (setq howm-list-normalizer 'howm-view-sort-by-mtime)
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(howm-menu-key-face ((((class color) (background dark)) (:foreground "gold" :weight extra-bold))))
+ '(howm-mode-title-face ((((class color)) (:foreground "deep sky blue" :weight extra-bold))))
+ '(howm-reminder-normal-face ((((class color)) (:foreground "RoyalBlue1"))))
+ '(howm-reminder-separator-face ((((class color) (background dark)) (:foreground "gray45")))))
 
 ;; Makefile
 (add-to-list 'auto-mode-alist '("\\.make$" . makefile-gmake-mode))
