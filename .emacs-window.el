@@ -78,6 +78,8 @@
              (6 114 65535) ; C-f
              )
            iiimcf-keycode-spec-alist))))
+(setq iiimcf-UI-input-method-title-format "<ATOK:%s>")
+(setq iiimcf-UI-preedit-use-face-p "window-system")
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
