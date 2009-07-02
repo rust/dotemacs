@@ -42,6 +42,7 @@
 (global-hl-line-mode)
 
 ;; iiimcf
+(setq load-path (cons (expand-file-name "~/.emacs.d/iiimcf/") load-path))
 (setq iiimcf-server-control-hostlist (list (concat "/tmp/.iiim-" (user-login-name) "/:0.0")))
 (when (and (= 0 (shell-command
                  (concat
@@ -77,6 +78,8 @@
              (6 114 65535) ; C-f
              )
            iiimcf-keycode-spec-alist))))
+(setq iiimcf-UI-input-method-title-format "<ATOK:%s>")
+(setq iiimcf-UI-preedit-use-face-p "window-system")
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.

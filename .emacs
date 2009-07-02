@@ -5,7 +5,6 @@
 
 ;; load-path
 (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
-(setq load-path (cons (expand-file-name "~/.emacs.d/iiimcf/") load-path))
 
 ;; Startup message
 (setq inhibit-startup-message t)
