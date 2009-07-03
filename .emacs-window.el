@@ -52,7 +52,6 @@
   (setq iiimcf-server-control-default-input-method "atokx3")
   (setq default-input-method 'iiim-server-control)
   (setq iiimcf-UI-input-method-title-format "<ATOK:%s>")
-  (setq iiimcf-UI-preedit-use-face-p "window-system") ;; 変換時の色が見えないのを抑制
   (progn
       ;;; キーバインドの追加
     ;; from http://okutomi-lab.ctrl.titech.ac.jp/~tkanda/atok_x3_install.htm
@@ -102,5 +101,9 @@
  '(font-lock-keyword-face ((t (:foreground "#00ffff" :weight extra-bold))))
  '(font-lock-type-face ((t (:foreground "green" :weight extra-bold))))
  '(font-lock-variable-name-face ((t (:foreground "yellow" :weight bold))))
+;; '(iiimcf-UI-preedit-highlight-face ((t (:foreground "DarkSlateGray1" :background "black"))))
+ '(iiimcf-UI-preedit-reverse-face ((t (:foreground "DarkSlateGray1" :background "black"))))
+;; '(iiimcf-UI-preedit-underline-face ((t (:foreground "DarkSlateGray1" :background "black"))))
+;; '(iiimcf-UI-preedit-warning-face ((t (:foreground "DarkSlateGray1" :background "black"))))
  '(isearch ((((class color) (min-colors 88) (background dark)) (:background "palevioletred2" :foreground "gray29"))))
  '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "paleturquoise4" :foreground "black")))))
