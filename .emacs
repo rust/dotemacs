@@ -22,12 +22,6 @@
 (line-number-mode t)
 (column-number-mode t)
 
-;; wb-line-number
-(require 'wb-line-number)
-(wb-line-number-toggle)
-(set-scroll-bar-mode nil)
-(setq wb-line-number-scroll-bar t)
-
 (show-paren-mode t) ; 対応する括弧を光らせる。
 (transient-mark-mode t) ; 選択部分のハイライト
 
@@ -339,29 +333,18 @@
 (autoload 'sdic-describe-word-at-point "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
 (global-set-key "\C-cW" 'sdic-describe-word-at-point)
 
-;; ansi-term-toggle
-(load "~/.emacs.d/shell-toggle-patched.el")
-(autoload 'shell-toggle "shell-toggle"
-  "Toggles between the *shell* buffer and whatever buffer you are editing." t)
-(autoload 'shell-toggle-cd "shell-toggle"
-  "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
-(global-set-key "\C-ct" 'shell-toggle)
-(global-set-key "\C-cd" 'shell-toggle-cd)
-;; shell-pop
-(require 'shell-pop)
-(shell-pop-set-internal-mode "ansi-term")
-(shell-pop-set-internal-mode-shell "/usr/bin/zsh")
-(shell-pop-set-window-height 20)
-(defvar ansi-term-after-hook nil)
-(add-hook 'ansi-term-after-hook
-          (function
-           (lambda ()
-             (define-key term-raw-map "\C-t" 'shell-pop))))
-(defadvice ansi-term (after ansi-term-after-advice (arg))
-  "run hook as after advice"
-  (run-hooks 'ansi-term-after-hook))
-(ad-activate 'ansi-term)
-(global-set-key "\C-t" 'shell-pop)
+;; multi-term
+(require 'multi-term)
+(setq multi-term-program "/usr/bin/zsh")
+(global-set-key "\C-t" 'multi-term)
+(setq multi-term-dedicated-window-height 10)
+(when window-system
+  (setq
+   term-default-fg-color "White"
+   term-default-bg-color "Black"
+   ansi-term-color-vector
+        [unspecified "black" "#ff5555" "#55ff55" "#ffff55" "#5555ff"
+         "#ff55ff" "#55ffff" "white"]))
 
 ;; org-mode + remember-mode
 (require 'org-install)

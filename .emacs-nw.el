@@ -16,3 +16,9 @@
 (require 'color-theme)
 (load "my-color-theme")
 (my-color-theme)
+
+;; wb-line-number
+(require 'wb-line-number)
+(wb-line-number-toggle)
+(set-scroll-bar-mode nil)
+(setq wb-line-number-scroll-bar t)
