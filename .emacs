@@ -30,9 +30,8 @@
 (setq install-elisp-repository-directory "~/.emacs.d/")
 
 ;; howm
-(autoload 'howm-menu "howm-mode" "Howm mode" t)
-(autoload 'howm-list-all "howm-mode" "Howm mode" t)
-(autoload 'howm-create "howm-mode" "Howm mode" t)
+(setq load-path (cons (expand-file-name "~/.emacs.d/howm") load-path))
+(require 'howm)
 (global-set-key "\C-c,," 'howm-menu)
 (global-set-key "\C-c,a" 'howm-list-all)
 (global-set-key "\C-c,c" 'howm-create)
@@ -52,16 +51,8 @@
 (setq howm-menu-recent-num 10)
 (setq howm-menu-todo-num 10)
 (setq howm-view-keep-one-window t)
-(setq howm-list-normalizer 'howm-view-sort-by-mtime)
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(howm-menu-key-face ((((class color) (background dark)) (:foreground "gold" :weight extra-bold))))
- '(howm-mode-title-face ((((class color)) (:foreground "deep sky blue" :weight extra-bold))))
- '(howm-reminder-normal-face ((((class color)) (:foreground "RoyalBlue1"))))
- '(howm-reminder-separator-face ((((class color) (background dark)) (:foreground "gray45")))))
+(setq howm-normalizer 'howm-view-sort-by-reverse-date)
+(setq howm-list-prefer-word nil)
 
 ;; Makefile
 (add-to-list 'auto-mode-alist '("\\.make$" . makefile-gmake-mode))
@@ -338,6 +329,8 @@
 (setq multi-term-program "/usr/bin/zsh")
 (global-set-key "\C-t" 'multi-term)
 (setq multi-term-dedicated-window-height 10)
+(setq multi-term-dedicated-max-window-height 20)
+(setq term-unbind-key-list (quote ("C-z" "C-x" "C-c" "C-h" "C-y" "<ESC>")))
 (when window-system
   (setq
    term-default-fg-color "White"
@@ -359,9 +352,16 @@
         ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
         ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
         ))
+(setq org-display-custom-times t)
+(setq org-time-stamp-custom-formats (quote ("<%Y年%m月%d日(%a)>" . "<%Y年%m月%d日(%a)%H時%M分>")))
+
 (custom-set-variables
-  '(org-display-custom-times t)
-  '(org-time-stamp-custom-formats (quote ("<%Y年%m月%d日(%a)>" . "<%Y年%m月%d日(%a)%H時%M分>"))))
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(show-paren-mode t))
 
 ;; window or no-window
 (cond
