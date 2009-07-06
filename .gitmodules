@@ -10,3 +10,6 @@
 [submodule ".emacs.d/yasnippets-rails"]
 	path = .emacs.d/yasnippets-rails
 	url = git://github.com/eschulte/yasnippets-rails.git
+[submodule ".emacs.d/org-mode"]
+	path = .emacs.d/org-mode
+	url = git://repo.or.cz/org-mode.git
