@@ -332,11 +332,21 @@
 (setq nav-width 12)
 
 ;;; sdic-mode 用の設定
-(setq load-path (cons "/home/ogawa/.emacs.d/sdic" load-path))
+(add-to-list 'load-path "~/.emacs.d/sdic")
+(require 'sdic)
 (autoload 'sdic-describe-word "sdic" "英単語の意味を調べる" t nil)
 (global-set-key "\C-cw" 'sdic-describe-word)
 (autoload 'sdic-describe-word-at-point "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
 (global-set-key "\C-cW" 'sdic-describe-word-at-point)
+
+;; ansi-term-toggle
+(load "~/.emacs.d/shell-toggle-patched.el")
+(autoload 'shell-toggle "shell-toggle"
+  "Toggles between the *shell* buffer and whatever buffer you are editing." t)
+(autoload 'shell-toggle-cd "shell-toggle"
+  "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
+(global-set-key "\C-ct" 'shell-toggle)
+(global-set-key "\C-cd" 'shell-toggle-cd)
 
 ;; window or no-window
 (cond
