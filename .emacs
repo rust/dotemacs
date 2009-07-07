@@ -22,12 +22,6 @@
 (line-number-mode t)
 (column-number-mode t)
 
-;; wb-line-number
-(require 'wb-line-number)
-(wb-line-number-toggle)
-(set-scroll-bar-mode nil)
-(setq wb-line-number-scroll-bar t)
-
 (show-paren-mode t) ; 対応する括弧を光らせる。
 (transient-mark-mode t) ; 選択部分のハイライト
 
@@ -36,9 +30,8 @@
 (setq install-elisp-repository-directory "~/.emacs.d/")
 
 ;; howm
-(autoload 'howm-menu "howm-mode" "Howm mode" t)
-(autoload 'howm-list-all "howm-mode" "Howm mode" t)
-(autoload 'howm-create "howm-mode" "Howm mode" t)
+(setq load-path (cons (expand-file-name "~/.emacs.d/howm") load-path))
+(require 'howm)
 (global-set-key "\C-c,," 'howm-menu)
 (global-set-key "\C-c,a" 'howm-list-all)
 (global-set-key "\C-c,c" 'howm-create)
@@ -58,16 +51,8 @@
 (setq howm-menu-recent-num 10)
 (setq howm-menu-todo-num 10)
 (setq howm-view-keep-one-window t)
-(setq howm-list-normalizer 'howm-view-sort-by-mtime)
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(howm-menu-key-face ((((class color) (background dark)) (:foreground "gold" :weight extra-bold))))
- '(howm-mode-title-face ((((class color)) (:foreground "deep sky blue" :weight extra-bold))))
- '(howm-reminder-normal-face ((((class color)) (:foreground "RoyalBlue1"))))
- '(howm-reminder-separator-face ((((class color) (background dark)) (:foreground "gray45")))))
+(setq howm-normalizer 'howm-view-sort-by-reverse-date)
+(setq howm-list-prefer-word nil)
 
 ;; Makefile
 (add-to-list 'auto-mode-alist '("\\.make$" . makefile-gmake-mode))
@@ -339,14 +324,44 @@
 (autoload 'sdic-describe-word-at-point "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
 (global-set-key "\C-cW" 'sdic-describe-word-at-point)
 
-;; ansi-term-toggle
-(load "~/.emacs.d/shell-toggle-patched.el")
-(autoload 'shell-toggle "shell-toggle"
-  "Toggles between the *shell* buffer and whatever buffer you are editing." t)
-(autoload 'shell-toggle-cd "shell-toggle"
-  "Pops up a shell-buffer and insert a \"cd <file-dir>\" command." t)
-(global-set-key "\C-ct" 'shell-toggle)
-(global-set-key "\C-cd" 'shell-toggle-cd)
+;; multi-term
+(require 'multi-term)
+(setq multi-term-program "/usr/bin/zsh")
+(global-set-key "\C-t" 'multi-term)
+(setq multi-term-dedicated-window-height 10)
+(setq multi-term-dedicated-max-window-height 20)
+(setq term-unbind-key-list (quote ("C-z" "C-x" "C-c" "C-h" "C-y" "<ESC>")))
+(when window-system
+  (setq
+   term-default-fg-color "White"
+   term-default-bg-color "Black"
+   ansi-term-color-vector
+        [unspecified "black" "#ff5555" "#55ff55" "#ffff55" "#5555ff"
+         "#ff55ff" "#55ffff" "white"]))
+
+;; org-mode + remember-mode
+(require 'org-install)
+(setq org-startup-truncated nil)
+(setq org-return-follows-link t)
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(org-remember-insinuate)
+(setq org-directory "~/memo/")
+(setq org-default-notes-file (concat org-directory "agenda.org"))
+(setq org-remember-templates
+      '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
+        ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
+        ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
+        ))
+(setq org-display-custom-times t)
+(setq org-time-stamp-custom-formats (quote ("<%Y年%m月%d日(%a)>" . "<%Y年%m月%d日(%a)%H時%M分>")))
+
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(show-paren-mode t))
 
 ;; window or no-window
 (cond
