@@ -33,7 +33,6 @@
 ;; \t を使わない
 (setq-default indent-tabs-mode nil)
 
-
 ;; install-elips
 (require 'install-elisp)
 (setq install-elisp-repository-directory "~/.emacs.d/")

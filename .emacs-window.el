@@ -120,3 +120,5 @@
 (require 'elscreen-gf)
 (require 'elscreen-howm)
 (require 'elscreen-w3m)
+(global-set-key (kbd "C-z SPC") 'elscreen-next)
+(global-set-key (kbd "C-z DEL") 'elscreen-previous)
