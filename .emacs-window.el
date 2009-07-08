@@ -79,7 +79,7 @@
            iiimcf-keycode-spec-alist))))
 ;; key-bind
 (global-set-key [henkan] 'toggle-input-method)
-(global-set-key "\C-o" 'toggle-input-method)
+;; (global-set-key "\C-o" 'toggle-input-method)
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -104,4 +104,21 @@
 ;; '(iiimcf-UI-preedit-underline-face ((t (:foreground "DarkSlateGray1" :background "black"))))
 ;; '(iiimcf-UI-preedit-warning-face ((t (:foreground "DarkSlateGray1" :background "black"))))
  '(isearch ((((class color) (min-colors 88) (background dark)) (:background "palevioletred2" :foreground "gray29"))))
+ '(howm-reminder-today-face ((t (:foreground "orange" :background "black"))))
  '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "paleturquoise4" :foreground "black")))))
+
+;; w3m
+(require 'w3m)
+;; Cookie
+(setq w3m-use-cookies t)
+;; favicon cache
+(setq w3m-favicon-cache-expire-wait nil)
+
+;; elscreen
+(add-to-list 'load-path "~/.emacs.d/elscreen")
+(require 'elscreen)
+(require 'elscreen-gf)
+(require 'elscreen-howm)
+(require 'elscreen-w3m)
+(global-set-key (kbd "C-z SPC") 'elscreen-next)
+(global-set-key (kbd "C-z DEL") 'elscreen-previous)
