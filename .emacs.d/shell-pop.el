@@ -113,6 +113,14 @@ selected window height (10-90): ")
                                            shell-pop-internal-mode-shell)))
   (setq shell-pop-internal-mode-shell shell))
 
+(defun shell-pop-handle-close ()
+  "Close current term buffer when `exit' from term buffer."
+  (when (ignore-errors (get-buffer-process (current-buffer)))
+    (set-process-sentinel (get-buffer-process (current-buffer))
+                          (lambda (proc change)
+                            (when (string-match "\\(finished\\|exited\\)" change)
+                              (kill-buffer (process-buffer proc)))))))
+
 (defun shell-pop ()
   (interactive)
   (if (equal (buffer-name) shell-pop-internal-mode-buffer)

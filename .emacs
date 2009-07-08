@@ -1,6 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; .emacs
-
 (put 'upcase-region 'disabled nil)
 
 ;; load-path
@@ -18,12 +17,22 @@
 ;; default to unified diffs
 (setq diff-switches "-u")
 
+;;
 (temp-buffer-resize-mode 1)
 (line-number-mode t)
 (column-number-mode t)
 
+;;
 (show-paren-mode t) ; 対応する括弧を光らせる。
 (transient-mark-mode t) ; 選択部分のハイライト
+
+;; TAB を 2文字分に
+(setq-default tab-width 2)
+(setq tab-width 2)
+(setq-default c-basic-offset 2)
+;; \t を使わない
+(setq-default indent-tabs-mode nil)
+
 
 ;; install-elips
 (require 'install-elisp)
@@ -53,6 +62,7 @@
 (setq howm-view-keep-one-window t)
 (setq howm-normalizer 'howm-view-sort-by-reverse-date)
 (setq howm-list-prefer-word nil)
+(add-to-list 'auto-mode-alist '("\\.howm$" . howm-mode))
 
 ;; Makefile
 (add-to-list 'auto-mode-alist '("\\.make$" . makefile-gmake-mode))
@@ -279,8 +289,6 @@
 ;; git.el をロードする
 (load-library "~/.emacs.d/git.el")
 
-(setq-default c-basic-offset 2)
-
 ;; js2-mode
 (autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
@@ -324,13 +332,38 @@
 (autoload 'sdic-describe-word-at-point "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
 (global-set-key "\C-cW" 'sdic-describe-word-at-point)
 
-;; multi-term
-(require 'multi-term)
-(setq multi-term-program "/usr/bin/zsh")
-(global-set-key "\C-t" 'multi-term)
-(setq multi-term-dedicated-window-height 10)
-(setq multi-term-dedicated-max-window-height 20)
-(setq term-unbind-key-list (quote ("C-z" "C-x" "C-c" "C-h" "C-y" "<ESC>")))
+;; ;; multi-term
+;; (require 'multi-term)
+;; (setq multi-term-program "/usr/bin/zsh")
+;; (global-set-key "\C-t" 'multi-term)
+;; (setq multi-term-dedicated-window-height 10)
+;; (setq multi-term-dedicated-max-window-height 20)
+;; (setq term-unbind-key-list (quote ("C-z" "C-x" "C-c" "C-h" "C-y" "<ESC>")))
+
+;; shell-pop
+(require 'shell-pop)
+(shell-pop-set-internal-mode "ansi-term")
+(shell-pop-set-internal-mode-shell "/usr/bin/zsh")
+(shell-pop-set-window-height 20)
+(defvar ansi-term-after-hook nil)
+(add-hook 'ansi-term-after-hook
+          (function
+           (lambda ()
+             (define-key term-raw-map "\C-t" 'shell-pop))))
+(defadvice ansi-term (after ansi-term-after-advice (arg))
+  "run hook as after advice"
+  (run-hooks 'ansi-term-after-hook))
+(ad-activate 'ansi-term)
+(global-set-key "\C-t" 'shell-pop)
+(defun shell-pop-handle-close ()
+  "Close current term buffer when `exit' from term buffer."
+  (when (ignore-errors (get-buffer-process (current-buffer)))
+    (set-process-sentinel (get-buffer-process (current-buffer))
+                          (lambda (proc change)
+                            (when (string-match "\\(finished\\|exited\\)" change)
+                              (kill-buffer (process-buffer proc)))))))
+
+;; terminal colors
 (when window-system
   (setq
    term-default-fg-color "White"
