@@ -13,3 +13,6 @@
 [submodule ".emacs.d/org-mode"]
 	path = .emacs.d/org-mode
 	url = git://repo.or.cz/org-mode.git
+[submodule ".emacs.d/emoji"]
+	path = .emacs.d/emoji
+	url = git://github.com/imakado/emoji.git
