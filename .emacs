@@ -386,6 +386,7 @@
         ))
 (setq org-display-custom-times t)
 (setq org-time-stamp-custom-formats (quote ("<%Y年%m月%d日(%a)>" . "<%Y年%m月%d日(%a)%H時%M分>")))
+(define-key global-map "\C-cr" 'org-remember)
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.

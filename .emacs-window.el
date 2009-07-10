@@ -53,28 +53,27 @@
   (setq default-input-method 'iiim-server-control)
   (setq iiimcf-UI-input-method-title-format "<ATOK:%s>")
   (progn
-      ;;; キーバインドの追加
+    ;;; キーバインドの追加
     ;; from http://okutomi-lab.ctrl.titech.ac.jp/~tkanda/atok_x3_install.htm
     ;; http://genmei.itline.jp/~svx/diary/?date=20071220
-    ;; C-k/C-l        文節区切り収縮/伸張
-    ;; C-i/C-o        同上
-    ;; C-g    変換キャンセル
-    ;; C-p    前候補
-    ;; C-n    次候補グループ
-    ;; C-b/C-f        文節前移動/文節後移動
-    ;; C-b/C-f は文節移動にしてありますが，
-    ;; ただし、ATOK 側で F2/F3 を文節移動に割り振っておく。
+    ;; C-k/C-l        文節区切り収縮/伸張   (F2/F3)
+    ;; C-g            変換キャンセル
+    ;; C-b/C-f        文節前移動/文節後移動 (F4/F5)
+    ;; C-u            ひらがな変換
+    ;; C-i            カタカナ変換
+    ;; C-o            半角変換
+    ;; C-p            全角無変換
     (setq iiimcf-keycode-spec-alist
           (append
-           '((11 37 65535) ; C-k
-             (12 39 65535) ; C-l
-             (9 37 65535)  ; C-i
-             (15 39 65535) ; C-o
-             (7 27 65535)  ; C-g
-             (16 38 65535) ; C-p
-             (14 28 65535) ; C-n
-             (2 113 65535) ; C-b
-             (6 114 65535) ; C-f
+           '((11 113 65535) ; C-k
+             (12 114 65535) ; C-l
+             (7   27 65535) ; C-g
+             (9   37 65535) ; C-b
+             (15  39 65535) ; C-f
+             (21 117 65535) ; C-u
+             (9  118 65535) ; C-i
+             (15 119 65535) ; C-o
+             (16 120 65535) ; C-p
              )
            iiimcf-keycode-spec-alist))))
 ;; key-bind
