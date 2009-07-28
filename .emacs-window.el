@@ -127,3 +127,12 @@
 ;; emoji
 (add-to-list 'load-path "~/.emacs.d/emoji")
 (require 'emoji)
+
+;; skype
+(add-to-list 'load-path "~/.emacs.d/skype")
+(defun my-skype ()
+  (interactive)
+  (require 'skype)
+  (setq skype--my-user-handle "stnard")
+  (skype--init)
+  (skype--open-all-users-buffer-command))
