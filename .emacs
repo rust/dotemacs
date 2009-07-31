@@ -396,6 +396,9 @@
  '(column-number-mode t)
  '(show-paren-mode t))
 
+;; Ctrl+h -> backspace
+(global-set-key "\C-h" 'backward-delete-char)
+
 ;; window or no-window
 (cond
  ((eq window-system 'x)
