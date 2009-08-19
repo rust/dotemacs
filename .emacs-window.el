@@ -124,6 +124,10 @@
 (global-set-key (kbd "C-z SPC") 'elscreen-next)
 (global-set-key (kbd "C-z DEL") 'elscreen-previous)
 
+;; window
+(windmove-default-keybindings)
+(setq windmove-wrap-around t)
+
 ;; emoji
 (add-to-list 'load-path "~/.emacs.d/emoji")
 (require 'emoji)

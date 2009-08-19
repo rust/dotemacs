@@ -117,21 +117,17 @@
                 (face-spec-set 'jaspace-highlight-tab-face
                                '((((class color) (background light))
                                   (:foreground "red"
-                                               :background "unspecified"
                                                :strike-through nil
                                                :underline t))
                                  (t (:foreground "purple"
-                                                 :background "unspecified"
                                                  :strike-through nil
                                                  :underline t))))
                 (face-spec-set 'trailing-whitespace
                                '((((class color) (background light))
                                   (:foreground "red"
-                                               :background "unspecified"
                                                :strike-through nil
                                                :underline t))
                                  (t (:foreground "purple"
-                                                 :background "unspecified"
                                                  :strike-through nil
                                                  :underline t))))))))
 
@@ -399,6 +395,10 @@
 
 ;; Ctrl+h -> backspace
 (global-set-key "\C-h" 'backward-delete-char)
+
+;; smalltalk
+(require 'smalltalk-mode)
+(require 'gst-mode)
 
 ;; window or no-window
 (cond
