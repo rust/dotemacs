@@ -284,6 +284,7 @@
 
 ;; YaTeX が漢字コードを毎回 ISO-2022-JP に設定しないようにする
 (setq YaTeX-kanji-code nil)
+(setq YaTeX-use-AMS-LaTeX t)
 
 ;; git.el をロードする
 (load-library "~/.emacs.d/git.el")
