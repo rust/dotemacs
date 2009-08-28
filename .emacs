@@ -400,6 +400,18 @@
 (require 'smalltalk-mode)
 (require 'gst-mode)
 
+;; hatena-mode
+(setq load-path (cons (expand-file-name "~/.emacs.d/hatena-mode") load-path))
+(load "hatena-mode")
+(setq hatena-usrid "conceal-rs")
+(setq hatena-plugin-directory "~/.emacs.d/hatena-mode")
+
+;; Wanderlust
+(require 'mime-setup)
+(require 'wl)
+(require 'wl-draft)
+(autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
+
 ;; window or no-window
 (cond
  ((eq window-system 'x)
