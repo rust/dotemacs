@@ -405,6 +405,12 @@
 (setq hatena-usrid "conceal-rs")
 (setq hatena-plugin-directory "~/.emacs.d/hatena-mode")
 
+;; Wanderlust
+(require 'mime-setup)
+(require 'wl)
+(require 'wl-draft)
+(autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
+
 ;; window or no-window
 (cond
  ((eq window-system 'x)
