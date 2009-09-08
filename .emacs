@@ -155,9 +155,9 @@
 (global-set-key "\C-xp" (lambda () (interactive) (other-window -1)))
 
 ;; Outputz
-(require 'outputz)
+(require 'typing-outputz)
+(global-typing-outputz-mode t)
 (load "~/.outputz.el")
-(global-outputz-mode t)
 
 ;; snippet for RSpec
 (require 'snippet)
