@@ -1,7 +1,7 @@
 ;;; howm-mode.el --- Wiki-like note-taking tool
-;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008
+;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
 ;;;   by HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-mode.el,v 1.307 2008-07-24 15:12:00 hira Exp $
+;;; $Id: howm-mode.el,v 1.309 2009-07-23 14:08:50 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -587,6 +587,7 @@ key	binding
 (defun howm-normalize-show (name item-list
                                  &optional keyword comefrom-regexp no-list-title
                                  fl-keywords)
+  ;; comefrom-regexp and no-list-title are never used now. [2009-07-23]
   (howm-with-normalizer
     (if (howm-normalize-oldp)
         ;; for backward compatibility.
@@ -609,6 +610,7 @@ key	binding
 
 (defun howm-normalize (item-list
                        &optional keyword comefrom-regexp no-list-title)
+  ;; no-list-title is never used now. [2009-07-23]
   "Sort ITEM-LIST in the standard order."
   (let ((matched nil)
         (entitled-item-list nil))
@@ -1116,7 +1118,7 @@ KEYWORD itself is always at the head of the returneded list.
                                    (default-value 'howm-keyword-format)
                                  howm-keyword-format))
                               (r (howm-normalize items aliases
-                                                 comefrom-regexp t)))
+                                                 comefrom-regexp)))
                          (setq items-pair (cdr r))
                          (car r))))
          (keyword-matched (member 'keyword matched))

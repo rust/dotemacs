@@ -1,7 +1,7 @@
 ;;; howm-view.el --- Wiki-like note-taking tool
-;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008
+;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
 ;;;   by HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-view.el,v 1.235 2008-11-05 14:18:57 hira Exp $
+;;; $Id: howm-view.el,v 1.237 2009-05-30 13:54:03 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -686,19 +686,10 @@ global value of font-lock-keywords is set wrongly."
 
 (defun howm-view-remove-by-contents (regexp)
 ;;   (interactive "s(Reject) Search in result (grep): ")
-  (let* ((orig (howm-view-item-list))
-         (folder (howm-make-folder-from-items orig)))
-    (if howm-view-search-in-result-correctly
-        (let ((rejects (howm-view-search-folder-items regexp folder)))
-          (howm-view-summary-rebuild (howm-item-list-filter orig rejects t)))
-      ;; old code
-      (let ((rejects (howm-cl-remove-duplicates*
-                      (mapcar #'howm-item-name
-                              (howm-view-search-folder-items regexp folder)))))
-        (howm-view-summary-rebuild
-         (howm-cl-remove-if (lambda (item)
-                              (member (howm-item-name item) rejects))
-                            orig))))))
+  (let ((howm-v-r-b-c-regexp regexp))
+    (howm-view-sort/filter-doit
+     (lambda (item-list switch)
+       (howm-filter-items-by-contents item-list howm-v-r-b-c-regexp t)))))
 
 (defun howm-view-sort/filter-doit (proc &optional switch)
   (let ((kw font-lock-keywords))
@@ -810,6 +801,17 @@ global value of font-lock-keywords is set wrongly."
               (howm-view-string< cs ts))))
      item-list remove-p)))
 
+(defun howm-filter-items-by-contents (item-list regexp &optional remove-p)
+  (let* ((match (howm-view-search-folder-items-fi regexp item-list)))
+    (if howm-view-search-in-result-correctly
+        (howm-item-list-filter item-list match remove-p)
+      ;; old behavior
+      (let ((match-names (howm-cl-remove-duplicates*
+                          (mapcar #'howm-item-name match))))
+        (howm-filter-items (lambda (item)
+                             (member (howm-item-name item) match-names))
+                           item-list remove-p)))))
+
 (defun howm-view-file-name-format ()
   howm-file-name-format) ;; defined in howm-common.el
 
@@ -918,8 +920,7 @@ to see file names."
     (howm-entitle-items-style2 title-regexp item-list)))
 
 (defun howm-entitle-items-style1 (title-regexp item-list)
-  (let* ((folder (howm-make-folder-from-items item-list))
-         (items (howm-view-search-folder-items title-regexp folder)))
+  (let ((items (howm-view-search-folder-items-fi title-regexp item-list)))
     (if howm-view-search-in-result-correctly
         (let* ((hit-items (howm-item-list-filter items item-list))
                (nohit-items (howm-item-list-filter item-list
@@ -1049,10 +1050,9 @@ list of items in ITEM-LIST which do not satisfy the above condition."
         (howm-cl-mapcan (lambda (item)
                           (if (howm-item-place item)
                               (list item)
-                            (let ((f (howm-make-folder-from-items (list item))))
-                              (or (howm-view-search-folder-items
-                                   (howm-view-title-regexp-grep) f)
-                                  (list item)))))
+                            (or (howm-view-search-folder-items-fi
+                                 (howm-view-title-regexp-grep) (list item))
+                                (list item))))
                         item-list))
   (let* ((alist (howm-item-list-rangeset reference-item-list))
          (matcher (lambda (item)
@@ -1234,6 +1234,12 @@ list of items in ITEM-LIST which do not satisfy the above condition."
                                                 file place content))))
           found)
     found))
+
+;; sorry for confusing functions...
+
+(defun howm-view-search-folder-items-fi (regexp item-list &rest args)
+  (apply #'howm-view-search-folder-items
+         regexp (howm-make-folder-from-items item-list) args))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; sort

@@ -1,7 +1,7 @@
 ;;; howm-cl.el --- Wiki-like note-taking tool
-;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008
+;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
 ;;;   by HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-cl.el,v 1.9 2008-07-10 13:34:44 hira Exp $
+;;; $Id: howm-cl.el,v 1.10 2009-02-05 15:00:55 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by

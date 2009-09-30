@@ -1,7 +1,7 @@
 ;;; howm-backend.el --- Wiki-like note-taking tool
-;;; Copyright (c) 2005, 2006, 2007, 2008
+;;; Copyright (c) 2005, 2006, 2007, 2008, 2009
 ;;;   by HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-backend.el,v 1.38 2008-07-24 12:46:18 hira Exp $
+;;; $Id: howm-backend.el,v 1.41 2009-06-01 14:38:50 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -577,9 +577,9 @@ ssearch: ")
       (add-opt fixed-p howm-view-grep-fixed-option)
       (add-opt (not fixed-p) howm-view-grep-extended-option))
     (with-temp-buffer
-      (let* ((fs (mapcar #'expand-file-name file-list))
-             (lines (howm-call-process grep-command
-                                       `(,@opt ,@eopt ,str ,@fs)))
+      (let* ((fs (howm-expand-file-names file-list))
+             (lines (howm-call-process* grep-command
+                                        `(,@opt ,@eopt ,str) fs))
              (parsed (mapcar 'howm-grep-parse-line lines)))
         (remove nil parsed)))))
 
@@ -598,12 +598,12 @@ ssearch: ")
         (add-opt fixed-p howm-view-grep-fixed-option)
         (add-opt (not fixed-p) howm-view-grep-extended-option))
       (with-temp-buffer
-        (let* ((fs (mapcar #'expand-file-name file-list))
+        (let* ((fs (howm-expand-file-names file-list))
                (pat (apply #'concat
                            (mapcar (lambda (s) (concat s "\n")) str-list)))
-               (lines (howm-call-process grep-command
-                                              `(,@opt ,@eopt ,@fs)
-                                              nil pat))
+               (lines (howm-call-process* grep-command
+                                          `(,@opt ,@eopt) fs
+                                          nil pat))
                (parsed (mapcar 'howm-grep-parse-line lines)))
           (remove nil parsed))))))
 

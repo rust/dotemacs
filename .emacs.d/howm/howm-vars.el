@@ -1,7 +1,7 @@
 ;;; howm-vars.el --- Wiki-like note-taking tool
-;;; Copyright (c) 2005, 2006, 2007, 2008
+;;; Copyright (c) 2005, 2006, 2007, 2008, 2009
 ;;;   by HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-vars.el,v 1.44 2008-08-11 13:32:14 hira Exp $
+;;; $Id: howm-vars.el,v 1.48 2009-06-08 14:13:13 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -150,6 +150,8 @@ max-specpdl-size must be increased from the default value 600.
 Otherwise, an error occurs both in byte-compilation and in run time.
 To avoid such troubles, this variable is prepared as a fixed string.")
 
+(defvar howm-excluded-dirs '("RCS" "CVS" ".svn" "_darcs"))
+
 (defvar howm-excluded-file-regexp-common-list
   (list "[~#]$"
         "\\.\\(bak\\|elc\\|gz\\|aux\\|toc\\|idx\\|dvi\\)$"
@@ -160,20 +162,19 @@ To avoid such troubles, this variable is prepared as a fixed string.")
       "[/\\\\]" ;; / or \ for win
     "/")) ;; / otherwise
 (let ((dir-head (concat "\\(^\\|" howm-excluded-file-regexp-dir-sep "\\)"))
-      (cvs (concat "CVS" howm-excluded-file-regexp-dir-sep)))
+      (excluded-dirs (concat (regexp-opt howm-excluded-dirs t)
+                   howm-excluded-file-regexp-dir-sep)))
   (defvar howm-excluded-file-regexp-dots-ok
     (mapconcat #'identity
-               `(,(concat dir-head cvs) ;; "\\(^\\|/\\)CVS/"
+               `(,(concat dir-head excluded-dirs)
                  "^[.][.]"
                  ,@howm-excluded-file-regexp-common-list)
                "\\|"))
   (defvar howm-excluded-file-regexp-dots-ng
     (mapconcat #'identity
-               `(,(concat dir-head "\\([.]\\|" cvs "\\)")
-                 ;; "\\(^\\|/\\)\\([.]\\|CVS/\\)"
+               `(,(concat dir-head "\\([.]\\|" excluded-dirs "\\)")
                  ,@howm-excluded-file-regexp-common-list)
                "\\|")))
-;;   "\\(^\\|/\\)\\([.]\\|CVS/\\)\\|[~#]$\\|\\.\\(bak\\|elc\\|gz\\|aux\\|toc\\|idx\\|dvi\\|jpg\\|gif\\|png\\)$"
 
 (howm-defcustom-risky howm-excluded-file-regexp howm-excluded-file-regexp-dots-ng
   "Regexp for excluded files.
@@ -654,9 +655,19 @@ When the value is elisp function, it is used instead of `howm-fake-grep'."
 (howm-defvar-risky howm-view-fgrep-command nil
   "*Command name for fgrep.
 This variable is obsolete and may be removed in future.")
-(howm-defcustom-risky howm-view-grep-option "-Hnr"
+(defvar howm-view-grep-default-option
+  (concat "-Hnr "
+          (mapconcat (lambda (d) (concat "--exclude-dir=" d))
+                     howm-excluded-dirs " ")))
+(howm-defcustom-risky howm-view-grep-option howm-view-grep-default-option
   "*Common grep option for howm."
-  :type 'string
+  :type `(radio (const :tag "scan all files"
+                       ,howm-view-grep-default-option)
+                (const :tag "scan *.howm only"
+                       ,(concat howm-view-grep-default-option
+                                " --include=*.howm"))
+                string)
+  :group 'howm-efficiency
   :group 'howm-grep)
 (howm-defcustom-risky howm-view-grep-extended-option "-E"
   "*Grep option for extended regular expression."
@@ -679,6 +690,11 @@ This variable is obsolete and may be removed in future.")
 If this is nil, pattern is received as command line argument."
   :type '(radio (const :tag "Off" nil)
                 string)
+  :group 'howm-grep)
+
+(howm-defcustom-risky howm-command-length-limit 10000
+  "*Maximum length of command line for call-process."
+  :type 'integer
   :group 'howm-grep)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -886,6 +902,11 @@ If the value is t, it means 'always'."
     (t ()))
   "*Face for deadline."
   :group 'howm-faces)
+(defface howm-reminder-late-deadline-face
+  '((((class color)) (:background "red" :foreground "black"))
+    (t ()))
+  "*Face for late deadline."
+  :group 'howm-faces)
 (defface howm-reminder-schedule-face
   '((((class color) (background light)) (:foreground "dark green"))
     (((class color) (background dark)) (:foreground "green"))
@@ -942,6 +963,8 @@ If the value is t, it means 'always'."
   "*Face for defer.")
 (defvar howm-reminder-deadline-face 'howm-reminder-deadline-face
   "*Face for deadline.")
+(defvar howm-reminder-late-deadline-face 'howm-reminder-late-deadline-face
+  "*Face for late deadline.")
 (defvar howm-reminder-schedule-face 'howm-reminder-schedule-face
   "*Face for schedule.")
 (defvar howm-reminder-done-face     'howm-reminder-done-face

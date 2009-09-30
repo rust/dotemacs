@@ -1,7 +1,7 @@
 ;;; howm-date.el --- Wiki-like note-taking tool
-;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008
+;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
 ;;;   by HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-date.el,v 1.30 2008-07-10 13:34:44 hira Exp $
+;;; $Id: howm-date.el,v 1.31 2009-02-05 15:00:55 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@
      ((string-match "^~\\([0-9]+\\)$" c)
       (howm-action-lock-date-repeat (match-string-no-properties 1 c) date))
      ((string-match "^[.]$" c)
-      (howm-action-lock-date-set (format-time-string "%Y%m%d") date))
+      (howm-datestr-replace (howm-time-to-datestr)))
      ((and (string-match "^[-+~]$" c) pass-through)
       (insert c))
      (t (error (format "Can't understand %s." c))))))
@@ -140,6 +140,10 @@
          (m (second ymd))
          (d (third ymd)))
     (encode-time 0 0 0 d m y)))
+
+(defun howm-time-to-datestr (&optional time)
+  (let ((x (decode-time time)))
+    (howm-make-datestr (nth 5 x) (nth 4 x) (nth 3 x))))
 
 (defun howm-datestr-day-of-week (date)
   (format-time-string "%a" (howm-datestr-to-time date)))

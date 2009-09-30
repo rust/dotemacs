@@ -1,7 +1,7 @@
 ;;; gfunc.el --- support for generic function
-;;; Copyright (c) 2005, 2006, 2007, 2008
+;;; Copyright (c) 2005, 2006, 2007, 2008, 2009
 ;;;   by HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: gfunc.el,v 1.12 2008-07-10 13:34:44 hira Exp $
+;;; $Id: gfunc.el,v 1.13 2009-02-05 15:00:55 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
