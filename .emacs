@@ -59,7 +59,8 @@
 (setq howm-menu-recent-num 10)
 (setq howm-menu-todo-num 10)
 (setq howm-view-keep-one-window t)
-(setq howm-normalizer 'howm-view-sort-by-reverse-date)
+(setq howm-list-normalizer 'howm-view-sort-by-reverse-date)
+;; (setq howm-normalizer 'howm-view-sort-by-reverse-date)
 (setq howm-list-prefer-word nil)
 (add-to-list 'auto-mode-alist '("\\.howm$" . howm-mode))
 
