@@ -1,7 +1,7 @@
 ;;; howm-common.el --- Wiki-like note-taking tool
-;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008
+;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
 ;;;   by HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-common.el,v 1.81 2008-07-11 17:21:31 hira Exp $
+;;; $Id: howm-common.el,v 1.84 2009-06-01 14:38:50 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -54,6 +54,10 @@ When TARGET and DIR are same, (not STRICT) is returned."
         ((boundp 'howm-view-header-abbrev) howm-view-header-abbrev)
         (t howm-abbreviate-file-name)))
 ;; (defun howm-abbreviate-file-name-p () howm-abbreviate-file-name)
+
+(defun howm-expand-file-names (file-list)
+  (mapcar (lambda (f) (directory-file-name (expand-file-name f)))
+          file-list))
 
 (defun howm-fontify (&optional i-dont-understand-this)
   (cheat-font-lock-fontify i-dont-understand-this))
@@ -472,6 +476,39 @@ examples:
     (when buf
       (set-buffer buf))
     (split-string (buffer-substring (point-min) (point-max)) "\n")))
+
+(defun howm-call-process* (command common-args rest-args &rest options)
+  ;; (howm-call-process* "grep" '("pattern") '("001" ... "999"))
+  ;; is expanded to concatenation of
+  ;; (howm-call-process "grep" '("pattern" "001" ... "099"))
+  ;; (howm-call-process "grep" '("pattern" "101" ... "199"))
+  ;; ..., depending on howm-command-length-limit.
+  (labels ((div (a limit measure)
+                ;; (div '(3 1 4 1 5 9 2 6 5 3 5 8 9 7 9 3 2 3 8) 20 #'identity)
+                ;; ==> ((3 1 4 1 5) (9 2 6) (5 3 5) (8 9) (7 9 3) (2 3 8))
+                ;; [create new group when sum >= 20]
+                (let ((sum limit) ;; measure >= 0 is assumed.
+                      (ans nil))
+                  (mapc (lambda (x)
+                          (let* ((w (funcall measure x))
+                                 (new-sum (+ sum w)))
+                            (if (< new-sum limit)
+                                (setq sum new-sum
+                                      ans (cons (cons x (car ans)) (cdr ans)))
+                              (setq sum w
+                                    ans (cons (list x) ans)))))
+                        a)
+                  (reverse (mapcar #'reverse ans)))))
+    ;; XEmacs 21.4 lacks "string-bytes".
+    (let* ((len (symbol-function
+                 (howm-cl-find-if #'fboundp '(string-bytes length))))
+           (limit (apply #'- howm-command-length-limit
+                         (mapcar len (cons command common-args))))
+           (as (div rest-args limit len)))
+      (mapcan (lambda (args)
+                (apply #'howm-call-process
+                       command (append common-args args) options))
+              as))))
 
 ;;; schedule-interval & reminder-setting (clean me)
 

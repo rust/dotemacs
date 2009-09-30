@@ -1,7 +1,7 @@
 ;;; riffle.el --- template of list browser with immediate preview
-;;; Copyright (c) 2004, 2005, 2006, 2007, 2008
+;;; Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009
 ;;;   by HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: riffle.el,v 1.33 2008-10-07 12:48:10 hira Exp $
+;;; $Id: riffle.el,v 1.35 2009-05-30 13:54:03 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -388,12 +388,14 @@ This function returns effective value of ITEM-LIST."
 
 (defun riffle-line-number (&optional pos)
   (save-excursion
-    (when pos
-      (goto-char pos))
-    (let ((raw (count-lines (point-min) (point))))
-      (if (bolp)
-          (+ raw 1)
-        raw))))
+    (save-restriction
+      (widen)
+      (when pos
+        (goto-char pos))
+      (let ((raw (count-lines (point-min) (point))))
+        (if (bolp)
+            (+ raw 1)
+          raw)))))
 
 (defun riffle-persistent-p (z)
   "Return whether the buffer should be persistent or not.

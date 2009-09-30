@@ -1,7 +1,7 @@
 ;;; howm-reminder.el --- Wiki-like note-taking tool
-;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008
+;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
 ;;;   by HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-reminder.el,v 1.73 2008-08-05 13:54:50 hira Exp $
+;;; $Id: howm-reminder.el,v 1.75 2009-06-08 14:13:13 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -91,7 +91,9 @@ schedules outside the range in %reminder in the menu.")
           (,(howm-reminder-regexp "[-]?") (0 howm-reminder-normal-face prepend))
           (,(howm-reminder-regexp "[+]") (0 howm-reminder-todo-face prepend))
           (,(howm-reminder-regexp "[~]") (0 howm-reminder-defer-face prepend))
-          (,(howm-reminder-regexp "[!]") (0 howm-reminder-deadline-face prepend))
+          (,(howm-reminder-regexp "[!]")
+           (0 howm-reminder-deadline-face prepend)
+           (,howm-reminder-regexp-type-pos (howm-reminder-deadline-type-face) prepend))
           (,(howm-reminder-regexp "[@]") (0 howm-reminder-schedule-face prepend))
           (,(howm-reminder-regexp "[.]") (0 howm-reminder-done-face prepend))
           ))
@@ -155,7 +157,9 @@ schedules outside the range in %reminder in the menu.")
         (,(howm-reminder-regexp "[-]") (0 howm-reminder-normal-face prepend))
         (,(howm-reminder-regexp "[+]") (0 howm-reminder-todo-face prepend))
         (,(howm-reminder-regexp "[~]") (0 howm-reminder-defer-face prepend))
-        (,(howm-reminder-regexp "[!]") (0 howm-reminder-deadline-face prepend))
+        (,(howm-reminder-regexp "[!]")
+         (0 howm-reminder-deadline-face prepend)
+         (,howm-reminder-regexp-type-pos (howm-reminder-deadline-type-face) prepend))
         (,(howm-reminder-regexp "[@]") (0 howm-reminder-schedule-face prepend))
         (,(howm-reminder-regexp "[.]") (0 howm-reminder-done-face prepend))
         ))
@@ -216,6 +220,12 @@ schedules outside the range in %reminder in the menu.")
     (defun howm-action-lock-done-modify (date type lazy desc)
       (concat date type lazy desc))
     ))
+
+(defun howm-reminder-deadline-type-face ()
+  (let ((late (cadr (howm-todo-parse-string (match-string-no-properties 0)))))
+    (if (>= late 0)
+        howm-reminder-late-deadline-face
+      howm-reminder-deadline-face)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Reminder: schedule & todo
@@ -708,28 +718,40 @@ When D is t, the beginning of today is encoded."
           "$"))
 
 (defun howm-action-lock-forward-invoke (form-reg cursor-reg)
+  (howm-modify-in-background (lambda (&rest dummy)
+                               ;; open the target file
+                               ;; and go to the corresponding line
+                               (howm-action-lock-forward-open))
+                             (lambda (form-reg cursor-reg)
+                               (howm-action-lock-forward-modify-current-line
+                                form-reg cursor-reg))
+                             howm-action-lock-forward-save-buffer
+                             howm-action-lock-forward-kill-buffer
+                             form-reg
+                             cursor-reg))
+
+(defun howm-modify-in-background (opener modifier save-p kill-p &rest args)
   (save-excursion
     (save-window-excursion
       (let ((original-buffers (buffer-list)))
-        (howm-action-lock-forward-open)
-        ;; Now we are on the corresponding line in the target file.
+        (apply opener args)
+        ;; We are in the target buffer now.
         (let ((initially-modified-p (buffer-modified-p)))
           (prog1
-              ;; Let's modify this line.
-              (howm-action-lock-forward-modify-current-line form-reg cursor-reg)
-            ;; And save/kill buffer if required.
-            (when (and howm-action-lock-forward-save-buffer
+              (apply modifier args)
+            (when (and save-p
                        (not initially-modified-p)
                        (buffer-modified-p))
               (save-buffer))
-            (when (and howm-action-lock-forward-kill-buffer
+            (when (and kill-p
                        (not (buffer-modified-p))
                        (not (member (current-buffer) original-buffers)))
-              (kill-buffer (current-buffer))))))))
-  ;; We are back to the original line in the original buffer.
-  )
+              (kill-buffer (current-buffer)))))))))
 
 (defun howm-action-lock-forward-modify-current-line (form-reg cursor-reg)
+  (howm-modify-form #'action-lock-invoke form-reg cursor-reg))
+
+(defun howm-modify-form (proc form-reg cursor-reg &rest args)
   (labels
       ((f-cursor ()
                  (beginning-of-line)
@@ -765,9 +787,9 @@ When D is t, the beginning of today is encoded."
     ;; Sigh...
     (switch-to-buffer (current-buffer) t)
     ;; Now we are at the corresponding position.
-    ;; Let's hit magic-return!
+    ;; Let's call proc to modify the form!
     (undo-boundary)
-    (action-lock-invoke))
+    (apply proc args))
   ;; We are back to the beginning of the form.
   ;; Report the modified tail.
   (buffer-substring-no-properties (point) (line-end-position)))
@@ -790,6 +812,44 @@ When D is t, the beginning of today is encoded."
          (howm-view-summary-check t))
         (t
          (error "Not supported on this buffer."))))
+
+;;; extend deadlines (experimental)
+
+(put 'howm-extend-deadlines 'disabled t)
+(defun howm-extend-deadlines (days)
+  "Extend all overdue deadlines for DAYS from today."
+  (interactive "nHow many days? ")
+  (let ((hit (howm-cl-remove-if (lambda (item)
+                             (< (second (howm-reminder-parse item)) 0))
+                           (howm-reminder-search "!"))))
+    (mapc (lambda (item)
+            (howm-modify-in-background (lambda (item dummy)
+                                         (howm-view-open-item item))
+                                       #'howm-extend-deadline-here
+                                       nil nil item days))
+          hit)
+    (howm-menu-refresh-background)
+    (message "Extended %s deadline(s)." (length hit))))
+
+(defun howm-extend-deadline-here (item days)
+  (apply (lambda (form-reg cursor-reg) ;; use apply for destructuring-bind
+           (howm-modify-form #'howm-extend-deadline-doit
+                             form-reg cursor-reg days))
+         (let ((summary (howm-item-summary item)))
+           (string-match (howm-reminder-regexp ".") summary)
+           (mapcar (lambda (p)
+                     (concat (regexp-quote
+                              (substring summary (match-beginning p)))
+                             "$"))
+                   (list howm-reminder-regexp-date-pos
+                         howm-reminder-regexp-year-pos)))))
+
+(defun howm-extend-deadline-doit (days)
+  (or (looking-at howm-date-regexp)
+      (re-search-backward howm-date-regexp (line-beginning-position) t)
+      (error "Can't find corresponding date form."))
+  (howm-datestr-replace
+   (howm-datestr-shift (howm-time-to-datestr) 0 0 days)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; customize
