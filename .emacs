@@ -311,6 +311,14 @@
 (require 'anything-match-plugin)
 (global-set-key (kbd "C-x b") 'anything)
 
+;; descbinds-anything
+(require 'descbinds-anything)
+(descbinds-anything-install)
+
+;; ac-complete.el
+(require 'ac-anything)
+(define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-anything)
+
 ;; truncate lines
 (setq truncate-lines t)
 (setq truncate-partial-width-windows t)
