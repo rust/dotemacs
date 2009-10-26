@@ -106,15 +106,15 @@
  '(howm-reminder-today-face ((t (:foreground "orange" :background "black"))))
  '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "paleturquoise4" :foreground "black")))))
 
-;; Wanderlust
-(require 'mime-setup)
-(require 'wl)
-(require 'wl-draft)
-(autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
+;; ;; Wanderlust
+;; (require 'mime-setup)
+;; (require 'wl)
+;; (require 'wl-draft)
+;; (autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
 
-;; w3m
-(require 'w3m)
-(require 'mime-w3m)
+;; ;; w3m
+;; (require 'w3m)
+;; (require 'mime-w3m)
 ;; Cookie
 (setq w3m-use-cookies t)
 ;; favicon cache

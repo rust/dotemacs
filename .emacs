@@ -415,6 +415,19 @@
 (setq hatena-usrid "conceal-rs")
 (setq hatena-plugin-directory "~/.emacs.d/hatena-mode")
 
+;; scala
+(add-to-list 'load-path "/usr/local/scala/misc/scala-tool-support/emacs")
+(require 'scala-mode-auto)
+(setq scala-interpreter "/usr/local/bin/scala")
+
+;; hiki-mode
+(load "~/.hiki.el")
+;; 更新の際に browser を起動したいなら有効に
+;;(setq hiki-browser-function 'browse-url)
+(autoload 'hiki-edit "hiki-mode" nil t)
+(autoload 'hiki-edit-url "hiki-mode" nil t)
+(autoload 'hiki-index "hiki-mode" nil t)
+
 ;; window or no-window
 (cond
  ((eq window-system 'x)
