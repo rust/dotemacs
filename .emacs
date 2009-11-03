@@ -4,6 +4,8 @@
 
 ;; load-path
 (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
+(setq load-path (cons (expand-file-name "~/.emacs.d/ruby/") load-path))
+(setq load-path (cons (expand-file-name "~/.emacs.d/haskell-mode/") load-path))
 
 ;; Startup message
 (setq inhibit-startup-message t)
@@ -405,9 +407,9 @@
 ;; Ctrl+h -> backspace
 (global-set-key "\C-h" 'backward-delete-char)
 
-;; smalltalk
-(require 'smalltalk-mode)
-(require 'gst-mode)
+;; ;; smalltalk
+;; (require 'smalltalk-mode)
+;; (require 'gst-mode)
 
 ;; hatena-mode
 (setq load-path (cons (expand-file-name "~/.emacs.d/hatena-mode") load-path))
@@ -434,5 +436,7 @@
   (setq default-frame-alist
         (append (list '(foreground-color . "black"))))
   (load "~/.emacs-window.el"))
+ ((eq window-system 'ns)
+  (load "~/.emacs-ns.el"))
  ((null window-system)
   (load "~/.emacs-nw.el")))
