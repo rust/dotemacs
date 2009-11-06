@@ -350,7 +350,9 @@
 ;; shell-pop
 (require 'shell-pop)
 (shell-pop-set-internal-mode "ansi-term")
-(shell-pop-set-internal-mode-shell "/usr/bin/zsh")
+(cond
+ ((eq window-system 'ns) (shell-pop-set-internal-mode-shell "/opt/local/bin/zsh"))
+ (else (shell-pop-set-internal-mode-shell "/usr/bin/zsh")))
 (shell-pop-set-window-height 20)
 (defvar ansi-term-after-hook nil)
 (add-hook 'ansi-term-after-hook
