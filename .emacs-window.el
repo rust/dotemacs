@@ -145,3 +145,9 @@
   (setq skype--my-user-handle "stnard")
   (skype--init)
   (skype--open-all-users-buffer-command))
+
+;;; git commit したときのバッファを utf-8 にする
+(add-hook 'server-visit-hook
+          (function (lambda ()
+                      (if (string-match "COMMIT_EDITMSG" buffer-file-name)
+                          (set-buffer-file-coding-system 'utf-8)))))
