@@ -297,9 +297,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; for tex
-;;;; YaTeX が漢字コードを毎回 ISO-2022-JP に設定しないようにする
-(setq YaTeX-kanji-code nil)
-(setq YaTeX-use-AMS-LaTeX t)
+(setq load-path (cons (expand-file-name "~/.emacs.d/yatex/") load-path))
+(setq auto-mode-alist
+      (cons (cons "\\.tex$" 'yatex-mode) auto-mode-alist))
+(autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; git.el
@@ -434,7 +435,9 @@
 ;; shell-pop
 (require 'shell-pop)
 (shell-pop-set-internal-mode "ansi-term")
-(shell-pop-set-internal-mode-shell "/usr/bin/zsh")
+(cond
+ ((eq window-system 'ns) (shell-pop-set-internal-mode-shell "/opt/local/bin/zsh"))
+ ((eq window-system 'x) (shell-pop-set-internal-mode-shell "/usr/bin/zsh")))
 (shell-pop-set-window-height 20)
 (defvar ansi-term-after-hook nil)
 (add-hook 'ansi-term-after-hook
@@ -482,10 +485,10 @@
 (setq org-time-stamp-custom-formats (quote ("<%Y年%m月%d日(%a)>" . "<%Y年%m月%d日(%a)%H時%M分>")))
 (define-key global-map "\C-cr" 'org-remember)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; smalltalk
-(require 'smalltalk-mode)
-(require 'gst-mode)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;; smalltalk
+;; (require 'smalltalk-mode)
+;; (require 'gst-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; hatena-mode
@@ -517,7 +520,9 @@
   (setq default-frame-alist
         (append (list '(foreground-color . "black"))))
   (load "emacs-window"))
- (((eq window-system 'ns) or (eq window-system 'mac))
+ ((eq window-system 'ns)
+  (load "emacs-ns"))
+ ((eq window-system 'mac)
   (load "emacs-ns"))
  ((null window-system)
   (load "emacs-nw")))
