@@ -1,43 +1,45 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; .emacs
-(put 'upcase-region 'disabled nil)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; default settings
+(put 'upcase-region 'disabled nil) ;; 大文字変換を無効化
 ;; load-path
 (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
 (setq load-path (cons (expand-file-name "~/.emacs.d/ruby/") load-path))
-
-;; Startup message
+(setq load-path (cons (expand-file-name "~/.emacs.d/haskell-mode/") load-path))
+;; Startup message を非表示
 (setq inhibit-startup-message t)
 ;; 終了時にオートセーブファイルを消す
 (setq delete-auto-save-files t)
-
-;; default to better frame titles
-(setq frame-title-format
-      (concat  "%b - emacs@" (system-name)))
-
+;; フレームフォーマット
+(setq frame-title-format (concat  "%b - emacs@" (system-name)))
 ;; default to unified diffs
 (setq diff-switches "-u")
-
 ;;
 (temp-buffer-resize-mode 1)
 (line-number-mode t)
 (column-number-mode t)
-
 ;;
 (show-paren-mode t) ; 対応する括弧を光らせる。
 (transient-mark-mode t) ; 選択部分のハイライト
-
 ;; TAB を 2文字分に
 (setq-default tab-width 2)
 (setq tab-width 2)
 (setq-default c-basic-offset 2)
 ;; \t を使わない
 (setq-default indent-tabs-mode nil)
+;; truncate lines
+(setq truncate-lines t)
+(setq truncate-partial-width-windows t)
+;; Ctrl+h -> backspace
+(global-set-key "\C-h" 'backward-delete-char)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; install-elips
 (require 'install-elisp)
 (setq install-elisp-repository-directory "~/.emacs.d/")
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; howm
 (setq load-path (cons (expand-file-name "~/.emacs.d/howm") load-path))
 (require 'howm)
@@ -65,13 +67,16 @@
 (setq howm-list-prefer-word nil)
 (add-to-list 'auto-mode-alist '("\\.howm$" . howm-mode))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Makefile
 (add-to-list 'auto-mode-alist '("\\.make$" . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("\\.mak$"  . makefile-gmake-mode))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Header-file
 (add-to-list 'auto-mode-alist '("\\.h$"    . c++-mode))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Gauche
 (modify-coding-system-alist 'process "gosh" '(utf-8 . utf-8))
 (setq scheme-program-name "gosh -i")
@@ -88,6 +93,7 @@
 (define-key global-map
   "\C-cs" 'scheme-other-window)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; タブ, 全角スペース、改行直前の半角スペースを表示する
 (when (require 'jaspace nil t)
   (when (boundp 'jaspace-modes)
@@ -133,8 +139,11 @@
                                                  :strike-through nil
                                                  :underline t))))))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ミニバッファ履歴リストの最大長：tなら無限
 (setq history-length t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; session.el
 ;;   kill-ringやミニバッファで過去に開いたファイルなどの履歴を保存する
 (when (require 'session nil t)
@@ -149,18 +158,22 @@
 ;;   minibufでisearchを使えるようにする
 (require 'minibuf-isearch nil t)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; css-mode
 (require 'css-mode)
 (setq cssm-indent-function #'cssm-c-style-indenter)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; reverse other-window
 (global-set-key "\C-xp" (lambda () (interactive) (other-window -1)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Outputz
 (require 'typing-outputz)
 (global-typing-outputz-mode t)
 (load "~/.outputz.el")
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; snippet for RSpec
 (require 'snippet)
 (add-hook 'rails-minor-mode-hook
@@ -174,6 +187,7 @@
                                         )
              ))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 行末の空白を自動削除
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;; タブを空白に自動変換
@@ -181,10 +195,12 @@
   (untabify 1 (point-max)))
 (add-hook 'before-save-hook 'untabify-before-save)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Interactively Do Things
 (require 'ido)
 (ido-mode t)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ruby
 (require 'ruby-mode)
 (require 'inf-ruby)
@@ -199,11 +215,10 @@
 (require 'ruby-electric)
 (add-hook 'ruby-mode-hook (lambda()(ruby-electric-mode 1)))
 (setq ruby-electric-expand-delimiters-list '( ?\{))
-
 ;; fastri
 (setq ri-ruby-script "/usr/local/bin/ri-emacs")
 (load "ri-ruby")
-
+;; rcodetools
 (require 'rcodetools)
 (setq rct-find-tag-if-available nil)
 (defun make-ruby-scratch-buffer ()
@@ -219,7 +234,16 @@
   (define-key ruby-mode-map "\C-c\C-d" 'xmp)
   (define-key ruby-mode-map "\C-c\C-f" 'rct-ri))
 (add-hook 'ruby-mode-hook 'ruby-mode-hook-rcodetools)
+;; for rabbit-mode
+(autoload 'rabbit-mode "rabbit-mode" "major mode for Rabbit" t)
+(add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))
+;; for auto-complete
+(require 'auto-complete-ruby)
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; yaml-mode の設定
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
@@ -230,6 +254,7 @@
              (setq comment-end-skip "$")
              (set (make-local-variable 'comment-style) 'indent) ))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; for M-x align
 (require 'align)
 (add-to-list 'align-rules-list
@@ -253,88 +278,151 @@
                (repeat . nil)
                (modes  . '(ruby-mode))))
 
-;; Rinari
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; for rails
+;;;; Rinari
 (add-to-list 'load-path "~/.emacs.d/rinari")
 (require 'rinari)
-
-;;; rhtml-mode
+;;;; rhtml-mode
 (add-to-list 'load-path "~/.emacs.d/rhtml-mode")
 (require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook
           (lambda () (rinari-launch)))
 (add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
-
-;; yasnippet
+;;;; yasnippet
 (setq load-path (cons (expand-file-name "~/.emacs.d/yasnippet-0.5.7") load-path))
 (require 'yasnippet)
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/yasnippets-rails/rails-snippets/")
 
-;; for rabbit-mode
-(autoload 'rabbit-mode "rabbit-mode" "major mode for Rabbit" t)
-(add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))
-
-;; for auto-complete
-(require 'auto-complete-ruby)
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
-
-;; YaTeX が漢字コードを毎回 ISO-2022-JP に設定しないようにする
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; for tex
 (setq load-path (cons (expand-file-name "~/.emacs.d/yatex/") load-path))
 (setq auto-mode-alist
       (cons (cons "\\.tex$" 'yatex-mode) auto-mode-alist))
 (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
-(setq YaTeX-kanji-code nil)
-(setq YaTeX-use-AMS-LaTeX t)
 
-;; git.el をロードする
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; git.el
 (load-library "~/.emacs.d/git.el")
 
-;; js2-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; js2-mode
 (autoload 'js2-mode "js2" nil t)
 (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-hook 'js2-mode-hook
-          '(lambda ()
-             (setq js2-basic-offset       2
-                   tab-width              2
-                   indent-tabs-mode       nil
-                   js2-bounce-indent-flag nil
-                   js-indent-level        2
-                   js-mirror-mode         nil
-                   js2-cleanup-whitespace nil)))
+;; fixing indentation
+;; refer to http://mihai.bazon.net/projects/editing-javascript-with-emacs-js2-mode
+(autoload 'espresso-mode "espresso")
 
-;; for haskell
-(setq load-path (cons (expand-file-name "~/.emacs.d/haskell-mode/") load-path))
+(defun my-js2-indent-function ()
+  (interactive)
+  (save-restriction
+    (widen)
+    (let* ((inhibit-point-motion-hooks t)
+           (parse-status (save-excursion (syntax-ppss (point-at-bol))))
+           (offset (- (current-column) (current-indentation)))
+           (indentation (espresso--proper-indentation parse-status))
+           node)
+
+      (save-excursion
+
+        ;; I like to indent case and labels to half of the tab width
+        (back-to-indentation)
+        (if (looking-at "case\\s-")
+            (setq indentation (+ indentation (/ espresso-indent-level 2))))
+
+        ;; consecutive declarations in a var statement are nice if
+        ;; properly aligned, i.e:
+        ;;
+        ;; var foo = "bar",
+        ;;     bar = "foo";
+        (setq node (js2-node-at-point))
+        (when (and node
+                   (= js2-NAME (js2-node-type node))
+                   (= js2-VAR (js2-node-type (js2-node-parent node))))
+          (setq indentation (+ 4 indentation))))
+
+      (indent-line-to indentation)
+      (when (> offset 0) (forward-char offset)))))
+
+(defun my-indent-sexp ()
+  (interactive)
+  (save-restriction
+    (save-excursion
+      (widen)
+      (let* ((inhibit-point-motion-hooks t)
+             (parse-status (syntax-ppss (point)))
+             (beg (nth 1 parse-status))
+             (end-marker (make-marker))
+             (end (progn (goto-char beg) (forward-list) (point)))
+             (ovl (make-overlay beg end)))
+        (set-marker end-marker end)
+        (overlay-put ovl 'face 'highlight)
+        (goto-char beg)
+        (while (< (point) (marker-position end-marker))
+          ;; don't reindent blank lines so we don't set the "buffer
+          ;; modified" property for nothing
+          (beginning-of-line)
+          (unless (looking-at "\\s-*$")
+            (indent-according-to-mode))
+          (forward-line))
+        (run-with-timer 0.5 nil '(lambda(ovl)
+                                   (delete-overlay ovl)) ovl)))))
+
+(defun my-js2-mode-hook ()
+  (require 'espresso)
+  (setq espresso-indent-level 2
+        indent-tabs-mode nil
+        c-basic-offset 2)
+  (c-toggle-auto-state 0)
+  (c-toggle-hungry-state 1)
+  (set (make-local-variable 'indent-line-function) 'my-js2-indent-function)
+  ; (define-key js2-mode-map [(meta control |)] 'cperl-lineup)
+  (define-key js2-mode-map "\C-\M-\\"
+    '(lambda()
+       (interactive)
+       (insert "/* -----[ ")
+       (save-excursion
+         (insert " ]----- */"))
+       ))
+  (define-key js2-mode-map "\C-m" 'newline-and-indent)
+  ; (define-key js2-mode-map [(backspace)] 'c-electric-backspace)
+  ; (define-key js2-mode-map [(control d)] 'c-electric-delete-forward)
+  (define-key js2-mode-map "\C-\M-q" 'my-indent-sexp)
+  (if (featurep 'js2-highlight-vars)
+      (js2-highlight-vars-mode))
+  (message "My JS2 hook"))
+
+(add-hook 'js2-mode-hook 'my-js2-mode-hook)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; haskell-mode
 (load "haskell-site-file")
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 (add-hook 'haskell-mode-hook 'font-lock-mode)
 (add-hook 'haskell-mode-hook 'imenu-add-menubar-index)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; anything
 (require 'anything)
 (require 'anything-config)
 (require 'anything-match-plugin)
 (global-set-key (kbd "C-x b") 'anything)
-
 ;; descbinds-anything
 (require 'descbinds-anything)
 (descbinds-anything-install)
-
 ;; ac-complete.el
 (require 'ac-anything)
 (define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-anything)
 
-;; truncate lines
-(setq truncate-lines t)
-(setq truncate-partial-width-windows t)
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; emacs-nav
 (add-to-list 'load-path "~/.emacs.d/emacs-nav/")
 (require 'nav)
 (setq nav-width 12)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; sdic-mode 用の設定
 (add-to-list 'load-path "~/.emacs.d/sdic")
 (require 'sdic)
@@ -343,14 +431,7 @@
 (autoload 'sdic-describe-word-at-point "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
 (global-set-key "\C-cW" 'sdic-describe-word-at-point)
 
-;; ;; multi-term
-;; (require 'multi-term)
-;; (setq multi-term-program "/usr/bin/zsh")
-;; (global-set-key "\C-t" 'multi-term)
-;; (setq multi-term-dedicated-window-height 10)
-;; (setq multi-term-dedicated-max-window-height 20)
-;; (setq term-unbind-key-list (quote ("C-z" "C-x" "C-c" "C-h" "C-y" "<ESC>")))
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; shell-pop
 (require 'shell-pop)
 (shell-pop-set-internal-mode "ansi-term")
@@ -376,6 +457,7 @@
                             (when (string-match "\\(finished\\|exited\\)" change)
                               (kill-buffer (process-buffer proc)))))))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; terminal colors
 (when window-system
   (setq
@@ -385,6 +467,7 @@
         [unspecified "black" "#ff5555" "#55ff55" "#ffff55" "#5555ff"
          "#ff55ff" "#55ffff" "white"]))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; org-mode + remember-mode
 (require 'org-install)
 (setq org-startup-truncated nil)
@@ -402,32 +485,25 @@
 (setq org-time-stamp-custom-formats (quote ("<%Y年%m月%d日(%a)>" . "<%Y年%m月%d日(%a)%H時%M分>")))
 (define-key global-map "\C-cr" 'org-remember)
 
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(show-paren-mode t))
-
-;; Ctrl+h -> backspace
-(global-set-key "\C-h" 'backward-delete-char)
-
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ;; smalltalk
 ;; (require 'smalltalk-mode)
 ;; (require 'gst-mode)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; hatena-mode
 (setq load-path (cons (expand-file-name "~/.emacs.d/hatena-mode") load-path))
 (load "hatena-mode")
 (setq hatena-usrid "conceal-rs")
 (setq hatena-plugin-directory "~/.emacs.d/hatena-mode")
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; scala
 (add-to-list 'load-path "/usr/local/scala/misc/scala-tool-support/emacs")
 (require 'scala-mode-auto)
 (setq scala-interpreter "/usr/local/bin/scala")
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; hiki-mode
 (load "~/.hiki.el")
 ;; 更新の際に browser を起動したいなら有効に
@@ -436,13 +512,17 @@
 (autoload 'hiki-edit-url "hiki-mode" nil t)
 (autoload 'hiki-index "hiki-mode" nil t)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; window or no-window
 (cond
  ((eq window-system 'x)
   (setq default-frame-alist
         (append (list '(foreground-color . "black"))))
-  (load "~/.emacs-window.el"))
- ((or (eq window-system 'ns) (eq window-system 'mac))
-  (load "~/.emacs-ns.el"))
+  (require 'emacs-window))
+ ((eq window-system 'ns)
+  (require 'emacs-ns))
+ ((eq window-system 'mac)
+  (require 'emacs-ns))
  ((null window-system)
-  (load "~/.emacs-nw.el")))
+  (require 'emacs-nw)))
