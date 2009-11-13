@@ -5,7 +5,6 @@
 ;; load-path
 (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
 (setq load-path (cons (expand-file-name "~/.emacs.d/ruby/") load-path))
-(setq load-path (cons (expand-file-name "~/.emacs.d/haskell-mode/") load-path))
 
 ;; Startup message
 (setq inhibit-startup-message t)
@@ -282,6 +281,10 @@
             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
 
 ;; YaTeX が漢字コードを毎回 ISO-2022-JP に設定しないようにする
+(setq load-path (cons (expand-file-name "~/.emacs.d/yatex/") load-path))
+(setq auto-mode-alist
+      (cons (cons "\\.tex$" 'yatex-mode) auto-mode-alist))
+(autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
 (setq YaTeX-kanji-code nil)
 (setq YaTeX-use-AMS-LaTeX t)
 
@@ -302,6 +305,7 @@
                    js2-cleanup-whitespace nil)))
 
 ;; for haskell
+(setq load-path (cons (expand-file-name "~/.emacs.d/haskell-mode/") load-path))
 (load "haskell-site-file")
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
@@ -352,7 +356,7 @@
 (shell-pop-set-internal-mode "ansi-term")
 (cond
  ((eq window-system 'ns) (shell-pop-set-internal-mode-shell "/opt/local/bin/zsh"))
- (else (shell-pop-set-internal-mode-shell "/usr/bin/zsh")))
+ ((eq window-system 'x) (shell-pop-set-internal-mode-shell "/usr/bin/zsh")))
 (shell-pop-set-window-height 20)
 (defvar ansi-term-after-hook nil)
 (add-hook 'ansi-term-after-hook
@@ -438,7 +442,7 @@
   (setq default-frame-alist
         (append (list '(foreground-color . "black"))))
   (load "~/.emacs-window.el"))
- ((eq window-system 'ns)
+ ((or (eq window-system 'ns) (eq window-system 'mac))
   (load "~/.emacs-ns.el"))
  ((null window-system)
   (load "~/.emacs-nw.el")))

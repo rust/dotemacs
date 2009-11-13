@@ -1,26 +1,46 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; .emacs-ns.el
+;;Color
+(set-frame-parameter nil 'alpha 85)
+(setq initial-frame-alist '((width . 200)(height . 100)(top . 0)(left . 62)))
+
+;; frame title
+(setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
+
 ;; font
-(setq my-font "-*-*-medium-r-normal--11-*-*-*-*-*-fontset-hiramaru")
-(setq fixed-width-use-QuickDraw-for-ascii t)
+(setq my-font "-apple-M+2VM+IPAG_circle-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1")
 (setq mac-allow-anti-aliasing t)
-(if (= emacs-major-version 22)
-    (require 'carbon-font))
 (set-default-font my-font)
 (add-to-list 'default-frame-alist `(font . ,my-font))
-(when (= emacs-major-version 23)
-  (set-fontset-font
-   (frame-parameter nil 'font)
-   'japanese-jisx0208
-   '("Hiragino Maru Gothic Pro" . "iso10646-1"))
-  (setq face-font-rescale-alist
-  '(("^-apple-hiragino.*" . 1.2)
-    (".*osaka-bold.*" . 1.2)
-    (".*osaka-medium.*" . 1.2)
-    (".*courier-bold-.*-mac-roman" . 1.0)
-    (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
-    (".*monaco-bold-.*-mac-roman" . 0.9)
-    ("-cdac$" . 1.3))))
+(set-fontset-font
+ (frame-parameter nil 'font)
+ 'japanese-jisx0208
+ '("M+2VM+IPAG circle" . "iso10646-1"))
+(setq face-font-rescale-alist
+      '(("^-apple-M+2VM+IPAG_circle.*" . 1.2)
+        (".*osaka-bold.*" . 1.2)
+        (".*osaka-medium.*" . 1.2)
+        (".*courier-bold-.*-mac-roman" . 1.0)
+        (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
+        (".*monaco-bold-.*-mac-roman" . 0.9)
+        ("-cdac$" . 1.3)))
+
+;; (setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
+;; (setq mac-allow-anti-aliasing t)
+;; (set-default-font my-font)
+;; (add-to-list 'default-frame-alist `(font . ,my-font))
+;; (set-fontset-font
+;;  (frame-parameter nil 'font)
+;;  'japanese-jisx0208
+;;  '("M+2VM+IPAG circle" . "iso10646-1"))
+;; (setq face-font-rescale-alist
+;;       '(("^-apple-M+2VM+IPAG_circle.*" . 1.2)
+;;         (".*osaka-bold.*" . 1.2)
+;;         (".*osaka-medium.*" . 1.2)
+;;         (".*courier-bold-.*-mac-roman" . 1.0)
+;;         (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
+;;         (".*monaco-bold-.*-mac-roman" . 0.9)
+;;         ("-cdac$" . 1.3)))
 (tool-bar-mode nil)
 
 (require 'color-theme)
@@ -35,7 +55,7 @@
       (background dark))
      ;;(:background "dark state gray"))
      (:background "gray10"
-                  :underline "gray24"))
+                  :underline nil))
     (((class color)
       (background light))
      (:background "ForestGreen"
@@ -100,21 +120,18 @@
 (add-to-list 'load-path "~/.emacs.d/emoji")
 (require 'emoji)
 
-;; maximize
-(require 'maxframe)
-(add-hook 'window-setup-hook
-          (lambda ()
-            (maximize-frame)))
-
 ;; hide menu
 (display-time-mode t)
 (tool-bar-mode nil)
 (transient-mark-mode t)
 
-;;Color
-(if window-system (progn
-   (set-background-color "Black")
-   (set-foreground-color "LightGray")
-   (set-cursor-color "Gray")
-   (set-frame-parameter nil 'alpha 80)
-   ))
+(global-linum-mode)
+
+(define-key global-map [165] nil)
+(define-key global-map [67109029] nil)
+(define-key global-map [134217893] nil)
+(define-key global-map [201326757] nil)
+(define-key function-key-map [165] [?\\])
+(define-key function-key-map [67109029] [?\C-\\])
+(define-key function-key-map [134217893] [?\M-\\])
+(define-key function-key-map [201326757] [?\C-\M-\\])
