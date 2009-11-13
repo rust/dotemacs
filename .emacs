@@ -516,8 +516,8 @@
  ((eq window-system 'x)
   (setq default-frame-alist
         (append (list '(foreground-color . "black"))))
-  (require 'emacs-window))
+  (load "emacs-window"))
  (((eq window-system 'ns) or (eq window-system 'mac))
-  (require 'emacs-ns))
+  (load "emacs-ns"))
  ((null window-system)
-  (require 'emacs-nw)))
+  (load "emacs-nw")))
