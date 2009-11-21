@@ -110,6 +110,7 @@
 (add-to-list 'load-path "~/.emacs.d/emoji")
 (require 'emoji)
 
+(tool-bar-mode nil)
 (global-linum-mode)
 
 (define-key global-map [165] nil)
