@@ -3,7 +3,10 @@
 ;;Color
 (set-frame-parameter nil 'alpha 85)
 (setq initial-frame-alist '((width . 200)(height . 120)(top . 0)(left . 48)))
+;; hide menu
+(display-time-mode t)
 (tool-bar-mode nil)
+(transient-mark-mode t)
 
 ;; frame title
 (setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
@@ -106,11 +109,6 @@
 ;; emoji
 (add-to-list 'load-path "~/.emacs.d/emoji")
 (require 'emoji)
-
-;; hide menu
-(display-time-mode t)
-(tool-bar-mode nil)
-(transient-mark-mode t)
 
 (global-linum-mode)
 
