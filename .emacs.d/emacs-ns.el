@@ -2,46 +2,33 @@
 ;;; .emacs-ns.el
 ;;Color
 (set-frame-parameter nil 'alpha 85)
-(setq initial-frame-alist '((width . 200)(height . 100)(top . 0)(left . 62)))
+(setq initial-frame-alist '((width . 200)(height . 120)(top . 0)(left . 48)))
+(tool-bar-mode nil)
 
 ;; frame title
 (setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
 
 ;; font
 (setq my-font "-apple-M+2VM+IPAG_circle-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1")
+(setq fixed-width-use-QuickDraw-for-ascii t)
 (setq mac-allow-anti-aliasing t)
-(set-default-font my-font)
-(add-to-list 'default-frame-alist `(font . ,my-font))
-(set-fontset-font
- (frame-parameter nil 'font)
- 'japanese-jisx0208
- '("M+2VM+IPAG circle" . "iso10646-1"))
-(setq face-font-rescale-alist
-      '(("^-apple-M+2VM+IPAG_circle.*" . 1.2)
-        (".*osaka-bold.*" . 1.2)
-        (".*osaka-medium.*" . 1.2)
-        (".*courier-bold-.*-mac-roman" . 1.0)
-        (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
-        (".*monaco-bold-.*-mac-roman" . 0.9)
-        ("-cdac$" . 1.3)))
-
-;; (setq my-font "-*-*-medium-r-normal--12-*-*-*-*-*-fontset-hiramaru")
-;; (setq mac-allow-anti-aliasing t)
-;; (set-default-font my-font)
-;; (add-to-list 'default-frame-alist `(font . ,my-font))
-;; (set-fontset-font
-;;  (frame-parameter nil 'font)
-;;  'japanese-jisx0208
-;;  '("M+2VM+IPAG circle" . "iso10646-1"))
-;; (setq face-font-rescale-alist
-;;       '(("^-apple-M+2VM+IPAG_circle.*" . 1.2)
-;;         (".*osaka-bold.*" . 1.2)
-;;         (".*osaka-medium.*" . 1.2)
-;;         (".*courier-bold-.*-mac-roman" . 1.0)
-;;         (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
-;;         (".*monaco-bold-.*-mac-roman" . 0.9)
-;;         ("-cdac$" . 1.3)))
-(tool-bar-mode nil)
+(if (= emacs-major-version 22)
+    (require 'carbon-font))
+(when (= emacs-major-version 23)
+  (set-default-font my-font)
+  (add-to-list 'default-frame-alist `(font . ,my-font))
+  (set-fontset-font
+   (frame-parameter nil 'font)
+   'japanese-jisx0208
+   '("M+2VM+IPAG circle" . "iso10646-1"))
+  (setq face-font-rescale-alist
+        '(("^-apple-M+2VM+IPAG_circle.*" . 1.2)
+          (".*osaka-bold.*" . 1.2)
+          (".*osaka-medium.*" . 1.2)
+          (".*courier-bold-.*-mac-roman" . 1.0)
+          (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
+          (".*monaco-bold-.*-mac-roman" . 0.9)
+          ("-cdac$" . 1.3))))
 
 (require 'color-theme)
 ;; (load "my-color-theme-window")
