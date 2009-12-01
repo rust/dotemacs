@@ -2,7 +2,7 @@
 ;;; .emacs-ns.el
 ;;Color
 (set-frame-parameter nil 'alpha 85)
-(setq initial-frame-alist '((width . 200)(height . 120)(top . 0)(left . 48)))
+(setq initial-frame-alist '((width . 200)(height . 120)(top . 0)(left . 45)))
 ;; hide menu
 (display-time-mode t)
 (tool-bar-mode nil)

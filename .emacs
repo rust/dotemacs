@@ -7,6 +7,8 @@
 (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
 (setq load-path (cons (expand-file-name "~/.emacs.d/ruby/") load-path))
 (setq load-path (cons (expand-file-name "~/.emacs.d/haskell-mode/") load-path))
+(setq load-path (cons (expand-file-name "~/.emacs.d/remember") load-path))
+(setq load-path (cons (expand-file-name "~/.emacs.d/org-mode") load-path))
 ;; Startup message を非表示
 (setq inhibit-startup-message t)
 ;; 終了時にオートセーブファイルを消す
