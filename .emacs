@@ -7,8 +7,9 @@
 (setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
 (setq load-path (cons (expand-file-name "~/.emacs.d/ruby/") load-path))
 (setq load-path (cons (expand-file-name "~/.emacs.d/haskell-mode/") load-path))
-(setq load-path (cons (expand-file-name "~/.emacs.d/remember") load-path))
-(setq load-path (cons (expand-file-name "~/.emacs.d/org-mode") load-path))
+(setq load-path (cons (expand-file-name "~/.emacs.d/remember/") load-path))
+(setq load-path (cons (expand-file-name "~/.emacs.d/org-mode/") load-path))
+(setq load-path (cons (expand-file-name "~/.emacs.d/auto-install/") load-path))
 ;; Startup message を非表示
 (setq inhibit-startup-message t)
 ;; 終了時にオートセーブファイルを消す
@@ -40,6 +41,11 @@
 ;; install-elips
 (require 'install-elisp)
 (setq install-elisp-repository-directory "~/.emacs.d/")
+;; auto-install
+(require 'auto-install)
+(setq auto-install-directory "~/.emacs.d/auto-install/")
+(auto-install-update-emacswiki-package-name t)
+(auto-install-compatibility-setup)             ; 互換性確保
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; howm
@@ -244,6 +250,9 @@
 (add-hook 'ruby-mode-hook
           (lambda ()
             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
+;; るりま
+(require 'anything-rurima)
+(setq anything-rurima-index-file "~/Dropbox/rurima/rubydoc/rurima.e")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; yaml-mode の設定
