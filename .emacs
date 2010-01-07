@@ -4,12 +4,21 @@
 ;;;; default settings
 (put 'upcase-region 'disabled nil) ;; 大文字変換を無効化
 ;; load-path
-(setq load-path (cons (expand-file-name "~/.emacs.d/") load-path))
-(setq load-path (cons (expand-file-name "~/.emacs.d/ruby/") load-path))
-(setq load-path (cons (expand-file-name "~/.emacs.d/haskell-mode/") load-path))
-(setq load-path (cons (expand-file-name "~/.emacs.d/remember/") load-path))
-(setq load-path (cons (expand-file-name "~/.emacs.d/org-mode/") load-path))
-(setq load-path (cons (expand-file-name "~/.emacs.d/auto-install/") load-path))
+(add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/ruby/")
+(add-to-list 'load-path "~/.emacs.d/haskell-mode/")
+(add-to-list 'load-path "~/.emacs.d/remember/")
+(add-to-list 'load-path "~/.emacs.d/org-mode/")
+(add-to-list 'load-path "~/.emacs.d/auto-install/")
+(add-to-list 'load-path "~/.emacs.d/howm/")
+(add-to-list 'load-path "~/.emacs.d/yasnippet-0.5.7/")
+(add-to-list 'load-path "~/.emacs.d/rinari")
+(add-to-list 'load-path "~/.emacs.d/rhtml-mode")
+(add-to-list 'load-path "~/.emacs.d/yatex/")
+(add-to-list 'load-path "~/.emacs.d/hatena-mode/")
+(add-to-list 'load-path "~/.emacs.d/emacs-nav/")
+(add-to-list 'load-path "~/.emacs.d/sdic")
+(add-to-list 'load-path "/usr/local/scala/misc/scala-tool-support/emacs")
 ;; Startup message を非表示
 (setq inhibit-startup-message t)
 ;; 終了時にオートセーブファイルを消す
@@ -49,7 +58,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; howm
-(setq load-path (cons (expand-file-name "~/.emacs.d/howm") load-path))
 (require 'howm)
 (global-set-key "\C-c,," 'howm-menu)
 (global-set-key "\C-c,a" 'howm-list-all)
@@ -292,23 +300,19 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; for rails
 ;;;; Rinari
-(add-to-list 'load-path "~/.emacs.d/rinari")
 (require 'rinari)
 ;;;; rhtml-mode
-(add-to-list 'load-path "~/.emacs.d/rhtml-mode")
 (require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook
           (lambda () (rinari-launch)))
 (add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
 ;;;; yasnippet
-(setq load-path (cons (expand-file-name "~/.emacs.d/yasnippet-0.5.7") load-path))
 (require 'yasnippet)
 (yas/initialize)
 (yas/load-directory "~/.emacs.d/yasnippets-rails/rails-snippets/")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; for tex
-(setq load-path (cons (expand-file-name "~/.emacs.d/yatex/") load-path))
 (setq auto-mode-alist
       (cons (cons "\\.tex$" 'yatex-mode) auto-mode-alist))
 (autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
@@ -431,13 +435,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; emacs-nav
-(add-to-list 'load-path "~/.emacs.d/emacs-nav/")
 (require 'nav)
 (setq nav-width 12)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; sdic-mode 用の設定
-(add-to-list 'load-path "~/.emacs.d/sdic")
 (require 'sdic)
 (autoload 'sdic-describe-word "sdic" "英単語の意味を調べる" t nil)
 (global-set-key "\C-cw" 'sdic-describe-word)
@@ -505,14 +507,12 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; hatena-mode
-(setq load-path (cons (expand-file-name "~/.emacs.d/hatena-mode") load-path))
 (load "hatena-mode")
 (setq hatena-usrid "conceal-rs")
 (setq hatena-plugin-directory "~/.emacs.d/hatena-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; scala
-(add-to-list 'load-path "/usr/local/scala/misc/scala-tool-support/emacs")
 (require 'scala-mode-auto)
 (setq scala-interpreter "/usr/local/bin/scala")
 
