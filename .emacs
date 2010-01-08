@@ -12,12 +12,13 @@
 (add-to-list 'load-path "~/.emacs.d/auto-install/")
 (add-to-list 'load-path "~/.emacs.d/howm/")
 (add-to-list 'load-path "~/.emacs.d/yasnippet-0.5.7/")
-(add-to-list 'load-path "~/.emacs.d/rinari")
-(add-to-list 'load-path "~/.emacs.d/rhtml-mode")
+(add-to-list 'load-path "~/.emacs.d/rinari/")
+(add-to-list 'load-path "~/.emacs.d/rhtml-mode/")
 (add-to-list 'load-path "~/.emacs.d/yatex/")
 (add-to-list 'load-path "~/.emacs.d/hatena-mode/")
 (add-to-list 'load-path "~/.emacs.d/emacs-nav/")
-(add-to-list 'load-path "~/.emacs.d/sdic")
+(add-to-list 'load-path "~/.emacs.d/sdic/")
+(add-to-list 'load-path "~/.emacs.d/auto-complete/")
 (add-to-list 'load-path "/usr/local/scala/misc/scala-tool-support/emacs")
 ;; Startup message を非表示
 (setq inhibit-startup-message t)
@@ -253,11 +254,11 @@
 ;; for rabbit-mode
 (autoload 'rabbit-mode "rabbit-mode" "major mode for Rabbit" t)
 (add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))
-;; for auto-complete
-(require 'auto-complete-ruby)
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
+;; ;; for auto-complete
+;; (require 'auto-complete-ruby)
+;; (add-hook 'ruby-mode-hook
+;;           (lambda ()
+;;             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
 ;; るりま
 (require 'anything-rurima)
 (setq anything-rurima-index-file "~/Dropbox/rurima/rubydoc/rurima.e")
@@ -429,9 +430,9 @@
 ;; descbinds-anything
 (require 'descbinds-anything)
 (descbinds-anything-install)
-;; ac-complete.el
-(require 'ac-anything)
-(define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-anything)
+;; ;; ac-complete.el
+;; (require 'ac-anything)
+;; (define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-anything)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; emacs-nav
@@ -524,6 +525,23 @@
 (autoload 'hiki-edit "hiki-mode" nil t)
 (autoload 'hiki-edit-url "hiki-mode" nil t)
 (autoload 'hiki-index "hiki-mode" nil t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; auto-complete
+(require 'auto-complete)
+(require 'auto-complete-config)
+;; for global
+(global-auto-complete-mode t)
+(define-key ac-completing-map (kbd "M-n") 'ac-next)
+(define-key ac-completing-map (kbd "M-p") 'ac-previous)
+(setq ac-dwim t)
+;; sources
+(setq-default ac-sources '(ac-source-filename ac-source-words-in-same-mode-buffers))
+(add-hook 'emacs-lisp-mode-hool (lambda () (add-to-list 'ac-sources 'ac-source-symbold t)))
+;; automatic completion
+(setq ac-auto-start 3)
+(ac-set-trigger-key "TAB")
+(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
