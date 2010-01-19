@@ -46,6 +46,11 @@
 (setq truncate-partial-width-windows t)
 ;; Ctrl+h -> backspace
 (global-set-key "\C-h" 'backward-delete-char)
+;; assign null-function for beep
+(setq ring-bell-function 'ignore)
+;; chmod +x if file begins with "#!"
+(add-hook 'after-save-hook
+          'executable-make-buffer-file-executable-if-script-p)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; install-elips
@@ -539,7 +544,7 @@
 (setq-default ac-sources '(ac-source-filename ac-source-words-in-same-mode-buffers))
 (add-hook 'emacs-lisp-mode-hool (lambda () (add-to-list 'ac-sources 'ac-source-symbold t)))
 ;; automatic completion
-(setq ac-auto-start 3)
+(setq ac-auto-start 5)
 (ac-set-trigger-key "TAB")
 (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 
