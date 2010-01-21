@@ -483,23 +483,23 @@
         [unspecified "black" "#ff5555" "#55ff55" "#ffff55" "#5555ff"
          "#ff55ff" "#55ffff" "white"]))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; org-mode + remember-mode
-(require 'org-install)
-(setq org-startup-truncated nil)
-(setq org-return-follows-link t)
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
-(org-remember-insinuate)
-(setq org-directory "~/memo/")
-(setq org-default-notes-file (concat org-directory "agenda.org"))
-(setq org-remember-templates
-      '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
-        ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
-        ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
-        ))
-(setq org-display-custom-times t)
-(setq org-time-stamp-custom-formats (quote ("<%Y年%m月%d日(%a)>" . "<%Y年%m月%d日(%a)%H時%M分>")))
-(define-key global-map "\C-cr" 'org-remember)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;; org-mode + remember-mode
+;; (require 'org-install)
+;; (setq org-startup-truncated nil)
+;; (setq org-return-follows-link t)
+;; (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+;; (org-remember-insinuate)
+;; (setq org-directory "~/memo/")
+;; (setq org-default-notes-file (concat org-directory "agenda.org"))
+;; (setq org-remember-templates
+;;       '(("Todo" ?t "** TODO %?\n   %i\n   %a\n   %t" nil "Inbox")
+;;         ("Bug" ?b "** TODO %?   :bug:\n   %i\n   %a\n   %t" nil "Inbox")
+;;         ("Idea" ?i "** %?\n   %i\n   %a\n   %t" nil "New Ideas")
+;;         ))
+;; (setq org-display-custom-times t)
+;; (setq org-time-stamp-custom-formats (quote ("<%Y年%m月%d日(%a)>" . "<%Y年%m月%d日(%a)%H時%M分>")))
+;; (define-key global-map "\C-cr" 'org-remember)
 
 ;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; smalltalk

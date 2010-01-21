@@ -2,7 +2,31 @@
 ;;; .emacs-ns.el
 ;;Color
 (set-frame-parameter nil 'alpha 85)
-(setq initial-frame-alist '((width . 200)(height . 120)(top . 0)(left . 45)))
+(if (= emacs-major-version 23)
+  (setq initial-frame-alist '((width . 200)(height . 120)(top . 0)(left . (45)))))
+(when (= emacs-major-version 22)
+  (add-hook 'window-setup-hook
+            (lambda ()
+              (set-frame-parameter nil 'fullscreen 'fullboth)))
+  (defun mac-toggle-max-window ()
+    (interactive)
+    (if (frame-parameter nil 'fullscreen)
+        (set-frame-parameter nil 'fullscreen nil)
+        (set-frame-parameter nil 'fullscreen 'fullboth)))
+  (custom-set-variables
+    '(display-time-mode t)
+    '(tool-bar-mode nil)
+    '(transitent-mark-mode t))
+  (require 'linum)
+  (global-linum-mode)
+  (setq linum-format "%05d")
+  (require 'carbon-font)
+  (fixed-width-set-fontset "hiramaru" 12)
+  (setq mac-command-modifier 'alt)
+  (setq mac-control-modifier 'control)
+  (setq mac-option-modifier 'meta)
+  )
+
 ;; hide menu
 (display-time-mode t)
 (tool-bar-mode nil)
@@ -54,7 +78,7 @@
   "*Face used by hl-line.")
 (setq hl-line-face 'hlline-face)
 ;;(setq hl-line-face 'underline)
-(global-hl-line-mode)
+;; (global-hl-line-mode)
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -111,13 +135,14 @@
 (require 'emoji)
 
 (tool-bar-mode nil)
-(global-linum-mode)
+;;(global-linum-mode)
 
-(define-key global-map [165] nil)
-(define-key global-map [67109029] nil)
-(define-key global-map [134217893] nil)
-(define-key global-map [201326757] nil)
-(define-key function-key-map [165] [?\\])
-(define-key function-key-map [67109029] [?\C-\\])
-(define-key function-key-map [134217893] [?\M-\\])
-(define-key function-key-map [201326757] [?\C-\M-\\])
+(when (= emacs-major-version 23)
+  (define-key global-map [165] nil)
+  (define-key global-map [67109029] nil)
+  (define-key global-map [134217893] nil)
+  (define-key global-map [201326757] nil)
+  (define-key function-key-map [165] [?\\])
+  (define-key function-key-map [67109029] [?\C-\\])
+  (define-key function-key-map [134217893] [?\M-\\])
+  (define-key function-key-map [201326757] [?\C-\M-\\]))
