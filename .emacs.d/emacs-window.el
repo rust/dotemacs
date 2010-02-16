@@ -1,4 +1,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;; git.el
+;; (load "/usr/share/doc/git-core/contrib/emacs/git.el" t)
+;; (load "/usr/share/doc/git-core/contrib/emacs/git-blame.el" t)
+;; (load "/usr/share/doc/git-core/contrib/emacs/vc-git.el" t)
+;; (add-to-list 'vc-handled-backends 'GIT)
+;; magit.el
+(add-to-list 'load-path "~/.emacs.d/magit/")
+(require 'magit)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; .emacs
 (tool-bar-mode nil)
 
@@ -105,7 +115,12 @@
 ;; '(iiimcf-UI-preedit-warning-face ((t (:foreground "DarkSlateGray1" :background "black"))))
  '(isearch ((((class color) (min-colors 88) (background dark)) (:background "palevioletred2" :foreground "gray29"))))
  '(howm-reminder-today-face ((t (:foreground "orange" :background "black"))))
- '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "paleturquoise4" :foreground "black")))))
+ '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "paleturquoise4" :foreground "black"))))
+ '(egg-header ((t (:weight bold :height 1.1))))
+ '(egg-text-4 ((t (:inherit egg-text-base :height 1.4))))
+ '(egg-text-base ((((class color) (background dark)) (:inherit fixed :foreground "SteelBlue"))))
+ '(egg-text-help ((t (:inherit egg-text-base :height 0.9)))))
+
 
 ;; ;; Wanderlust
 ;; (require 'mime-setup)
