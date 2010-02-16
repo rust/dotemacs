@@ -1,5 +1,18 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; .emacs-ns.el
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; git.el
+;; (load "/usr/share/doc/git-core/contrib/emacs/git.el" t)
+;; (load "/usr/share/doc/git-core/contrib/emacs/git-blame.el" t)
+;; (load "/usr/share/doc/git-core/contrib/emacs/vc-git.el" t)
+;; (add-to-list 'vc-handled-backends 'GIT)
+;; egg.el
+(add-to-list 'load-path "~/.emacs.d/egg/")
+(require 'egg)
+(autoload 'git-blame-mode "git-blame" "Minor mode for incremental blame for Git." t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Color
 (set-frame-parameter nil 'alpha 85)
 (if (= emacs-major-version 23)
@@ -100,7 +113,11 @@
  '(font-lock-variable-name-face ((t (:foreground "yellow" :weight bold))))
  '(isearch ((((class color) (min-colors 88) (background dark)) (:background "palevioletred2" :foreground "gray29"))))
  '(howm-reminder-today-face ((t (:foreground "orange" :background "black"))))
- '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "paleturquoise4" :foreground "black")))))
+ '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "paleturquoise4" :foreground "black"))))
+ '(egg-header ((t (:weight bold :height 1.1))))
+ '(egg-text-4 ((t (:inherit egg-text-base :height 1.4))))
+ '(egg-text-base ((((class color) (background dark)) (:inherit fixed :foreground "SteelBlue"))))
+ '(egg-text-help ((t (:inherit egg-text-base :height 0.9)))))
 
 ;; ;; Wanderlust
 ;; (require 'mime-setup)

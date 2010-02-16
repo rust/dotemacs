@@ -16,3 +16,12 @@
 [submodule ".emacs.d/emoji"]
 	path = .emacs.d/emoji
 	url = git://github.com/imakado/emoji.git
+[submodule ".emacs.d/egg"]
+	path = .emacs.d/egg
+	url = git://github.com/bogolisk/egg.git
+[submodule ".emacs.d/git-emacs"]
+	path = .emacs.d/git-emacs
+	url = git://github.com/tsgates/git-emacs.git
+[submodule ".emacs.d/magit"]
+	path = .emacs.d/magit
+	url = git://gitorious.org/magit/mainline.git
