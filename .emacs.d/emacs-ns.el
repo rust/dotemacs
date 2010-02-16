@@ -22,9 +22,10 @@
   (setq linum-format "%05d")
   (require 'carbon-font)
   (fixed-width-set-fontset "hiramaru" 12)
-  (setq mac-command-modifier 'alt)
+  (setq mac-command-modifier 'meta)
   (setq mac-control-modifier 'control)
   (setq mac-option-modifier 'meta)
+  (server-start)
   )
 
 ;; hide menu
@@ -55,7 +56,10 @@
           (".*courier-bold-.*-mac-roman" . 1.0)
           (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
           (".*monaco-bold-.*-mac-roman" . 0.9)
-          ("-cdac$" . 1.3))))
+          ("-cdac$" . 1.3)))
+  (add-hook 'window-setup-hook
+            (lambda ()
+              (ns-toggle-fullscreen))))
 
 (require 'color-theme)
 ;; (load "my-color-theme-window")
