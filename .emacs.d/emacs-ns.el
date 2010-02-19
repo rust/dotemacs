@@ -2,15 +2,11 @@
 ;;; .emacs-ns.el
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; git.el
-;; (load "/usr/share/doc/git-core/contrib/emacs/git.el" t)
-;; (load "/usr/share/doc/git-core/contrib/emacs/git-blame.el" t)
-;; (load "/usr/share/doc/git-core/contrib/emacs/vc-git.el" t)
-;; (add-to-list 'vc-handled-backends 'GIT)
-;; egg.el
-(add-to-list 'load-path "~/.emacs.d/egg/")
-(require 'egg)
-(autoload 'git-blame-mode "git-blame" "Minor mode for incremental blame for Git." t)
+;; magit.el
+(add-to-list 'load-path "~/.emacs.d/magit/")
+(require 'magit)
+ ;; for emacs-22
+(defalias 'start-file-process 'start-process)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Color
