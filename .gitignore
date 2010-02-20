@@ -1,3 +1,4 @@
 .emacs.d/anything-c-adaptive-history
 tmp
 *.elc
+/.emacs.d/session.*
