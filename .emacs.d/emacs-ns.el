@@ -8,9 +8,11 @@
 ;; (load "/usr/share/doc/git-core/contrib/emacs/vc-git.el" t)
 ;; (add-to-list 'vc-handled-backends 'GIT)
 ;; egg.el
-(add-to-list 'load-path "~/.emacs.d/egg/")
-(require 'egg)
-(autoload 'git-blame-mode "git-blame" "Minor mode for incremental blame for Git." t)
+;; (add-to-list 'load-path "~/.emacs.d/egg/")
+;; (require 'egg)
+;; (autoload 'git-blame-mode "git-blame" "Minor mode for incremental blame for Git." t)
+(add-to-list 'load-path "~/.emacs.d/magit/")
+(require 'magit)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Color
