@@ -5,6 +5,7 @@
 ;; magit.el
 (add-to-list 'load-path "~/.emacs.d/magit/")
 (require 'magit)
+(require 'git-blame)
  ;; for emacs-22
 (defalias 'start-file-process 'start-process)
 
