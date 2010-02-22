@@ -20,6 +20,7 @@
 (add-to-list 'load-path "~/.emacs.d/sdic/")
 (add-to-list 'load-path "~/.emacs.d/auto-complete/")
 (add-to-list 'load-path "/usr/local/scala/misc/scala-tool-support/emacs")
+(add-to-list 'load-path "~/.emacs.d/undo-tree/")
 ;; Startup message を非表示
 (setq inhibit-startup-message t)
 ;; 終了時にオートセーブファイルを消す
@@ -573,6 +574,11 @@
     (message tdd-bgcolor-mode-name)
     (set-face-foreground 'mode-line (cadr pair))
     (set-face-background 'mode-line (caddr pair))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; undo-tree.el
+(require 'undo-tree)
+(global-undo-tree-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
