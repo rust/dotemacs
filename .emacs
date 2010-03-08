@@ -19,7 +19,7 @@
 (add-to-list 'load-path "~/.emacs.d/emacs-nav/")
 (add-to-list 'load-path "~/.emacs.d/sdic/")
 (add-to-list 'load-path "~/.emacs.d/auto-complete/")
-(add-to-list 'load-path "/usr/local/scala/misc/scala-tool-support/emacs")
+(add-to-list 'load-path "~/.emacs.d/scala-mode/")
 ;; Startup message を非表示
 (setq inhibit-startup-message t)
 ;; 終了時にオートセーブファイルを消す
@@ -454,6 +454,7 @@
 (shell-pop-set-internal-mode "ansi-term")
 (cond
  ((eq window-system 'ns) (shell-pop-set-internal-mode-shell "/opt/local/bin/zsh"))
+ ((eq window-system 'mac) (shell-pop-set-internal-mode-shell "/opt/local/bin/zsh"))
  ((eq window-system 'x) (shell-pop-set-internal-mode-shell "/usr/bin/zsh")))
 (shell-pop-set-window-height 20)
 (defvar ansi-term-after-hook nil)
@@ -515,8 +516,13 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; scala
+(add-hook 'scala-mode-hook
+          '(lambda ()
+             (yas/minor-mode-on)))
+(setq yas/scala "~/.emacs.d/scala-mode/contrib/yasnippet/snippets")
+(yas/load-directory yas/scala)
 (require 'scala-mode-auto)
-(setq scala-interpreter "/usr/local/bin/scala")
+(setq scala-interpreter "/opt/local/bin/scala")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; hiki-mode
