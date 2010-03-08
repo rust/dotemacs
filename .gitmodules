@@ -25,3 +25,6 @@
 [submodule ".emacs.d/magit"]
 	path = .emacs.d/magit
 	url = git://gitorious.org/magit/mainline.git
+[submodule ".emacs.d/undo-tree"]
+	path = .emacs.d/undo-tree
+	url = http://www.dr-qubit.org/git/undo-tree.git
