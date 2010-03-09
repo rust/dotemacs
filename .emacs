@@ -519,13 +519,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; scala
-(add-hook 'scala-mode-hook
-          '(lambda ()
-             (yas/minor-mode-on)))
-(setq yas/scala "~/.emacs.d/scala-mode/contrib/yasnippet/snippets")
-(yas/load-directory yas/scala)
 (require 'scala-mode-auto)
-(setq scala-interpreter "/opt/local/bin/scala")
+(cond
+ ((eq window-system 'ns) (setq scala-interpreter "/opt/local/bin/scala"))
+ ((eq window-system 'mac) (setq scala-interpreter "/opt/local/bin/scala"))
+ ((eq window-system 'x) (setq scala-interpreter "/usr/local/scala/bin/scala")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; hiki-mode
