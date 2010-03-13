@@ -1,3 +1,4 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; .emacs
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -52,7 +53,8 @@
 ;; chmod +x if file begins with "#!"
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
-
+;; auto-revert-mode
+(setq global-auto-revert-mode t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; install-elips
 (require 'install-elisp)
