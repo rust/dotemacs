@@ -1,10 +1,10 @@
 ;;; popup.el --- Visual popup interface
 
-;; Copyright (C) 2009  Tomohiro Matsuyama
+;; Copyright (C) 2009, 2010  Tomohiro Matsuyama
 
 ;; Author: Tomohiro Matsuyama <m2ym.pub@gmail.com>
 ;; Keywords: lisp
-;; Version: 0.2a
+;; Version: 0.3
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -32,6 +32,10 @@
 
 ;; Utilities
 
+(defvar popup-use-optimized-column-computation t
+  "Use optimized column computation routine.
+If there is a problem, please set it to nil.")
+
 ;; Borrowed from anything.el
 (defmacro popup-aif (test-form then-form &rest else-forms)
   "Anaphoric if. Temporary variable `it' is the result of test-form."
@@ -51,16 +55,21 @@ This is faster than prin1-to-string in many cases."
 
 (defun popup-substring-by-width (string width)
   "Return cons of substring and remaining string by `WIDTH'."
-  (loop with w = 0
+  ;; Expand tabs with 4 spaces
+  (setq string (replace-regexp-in-string "\t" "    " string))
+  (loop with len = (length string)
+        with w = 0
         for l from 0
         for c in (append string nil)
         while (<= (incf w (char-width c)) width)
         finally return
-        (if (< l (length string))
+        (if (< l len)
             (cons (substring string 0 l) (substring string l))
           (list string))))
 
 (defun popup-fill-string (string &optional width max-width)
+  (if (eq width 0)
+      (error "Can't fill string with 0 width"))
   (let (lines)
     (setq lines (split-string string "\n"))
     (unless width
@@ -90,12 +99,31 @@ This is faster than prin1-to-string in many cases."
   
 (defun popup-preferred-width (list)
   "Return preferred width of popup to show `LIST' beautifully."
-  (loop for item in list
+  (loop with tab-width = 4
+        for item in list
         maximize (string-width (popup-x-to-string item)) into width
         finally return (* (ceiling (/ (or width 0) 10.0)) 10)))
 
+;; truncated-partial-width-window-p is not defined in Emacs 22
+(defun ac-truncated-partial-width-window-p (&optional window)
+  (unless window
+    (setq window (selected-window)))
+  (unless (window-full-width-p window)
+    (let ((t-p-w-w (buffer-local-value 'truncate-partial-width-windows
+				       (window-buffer window))))
+      (if (integerp t-p-w-w)
+	  (< (window-width window) t-p-w-w)
+	t-p-w-w))))
+
 (defun popup-current-physical-column ()
-  (car (posn-col-row (posn-at-point))))
+  (or (when (and popup-use-optimized-column-computation
+                 (eq (window-hscroll) 0))
+        (let ((current-column (current-column)))
+          (if (or (ac-truncated-partial-width-window-p)
+                  truncate-lines
+                  (< current-column (window-width)))
+              current-column)))
+      (car (posn-col-row (posn-at-point)))))
 
 (defun popup-last-line-of-buffer-p ()
   (save-excursion (end-of-line) (/= (forward-line) 0)))
@@ -147,7 +175,8 @@ This is faster than prin1-to-string in many cases."
   parent depth
   face selection-face
   margin-left margin-right margin-left-cancel scroll-bar symbol
-  cursor offset scroll-top list)
+  cursor offset scroll-top current-height list newlines
+  pattern original-list)
 
 (defun popup-item-propertize (item &rest properties)
   (apply 'propertize
@@ -163,6 +192,8 @@ This is faster than prin1-to-string in many cases."
 (defun* popup-make-item (name
                          &key
                          value
+                         popup-face
+                         selection-face
                          sublist
                          document
                          symbol)
@@ -170,17 +201,26 @@ This is faster than prin1-to-string in many cases."
 See also `popup-item-propertize'."
   (popup-item-propertize name
                          'value value
+                         'popup-face popup-face
+                         'selection-face selection-face
                          'document document
                          'symbol symbol
                          'sublist sublist))
 
 (defsubst popup-item-value (item)               (popup-item-property item 'value))
 (defsubst popup-item-value-or-self (item)       (or (popup-item-value item) item))
+(defsubst popup-item-popup-face (item)          (popup-item-property item 'popup-face))
+(defsubst popup-item-selection-face (item)      (popup-item-property item 'selection-face))
 (defsubst popup-item-document (item)            (popup-item-property item 'document))
 (defsubst popup-item-symbol (item)              (popup-item-property item 'symbol))
 (defsubst popup-item-sublist (item)             (popup-item-property item 'sublist))
 
 (defun popup-set-list (popup list)
+  (popup-set-filtered-list popup list)
+  (setf (popup-pattern popup) nil)
+  (setf (popup-original-list popup) list))
+  
+(defun popup-set-filtered-list (popup list)
   (setf (popup-list popup) list
         (popup-offset popup) (if (> (popup-direction popup) 0)
                                  0
@@ -203,23 +243,39 @@ See also `popup-item-propertize'."
     (overlay-put overlay 'display nil)
     (overlay-put overlay 'after-string nil)))
 
+(defun popup-line-hidden-p (popup line)
+  (let ((overlay (popup-line-overlay popup line)))
+    (and (eq (overlay-get overlay 'display) nil)
+         (eq (overlay-get overlay 'after-string) nil))))
+
 (defun popup-set-line-item (popup line item face margin-left margin-right scroll-bar-char symbol)
   (let* ((overlay (popup-line-overlay popup line))
-         (content (propertize (concat margin-left
-                                      (popup-create-line-string popup item)
-                                      symbol
-                                      margin-right)
-                              'face face)))
-    (overlay-put overlay 'real-item item)
+         (content (concat margin-left
+                          (popup-create-line-string popup item)
+                          symbol
+                          margin-right))
+         (start 0)
+         (prefix (overlay-get overlay 'prefix))
+         (postfix (overlay-get overlay 'postfix))
+         end)
+    ;; Overlap face properties
+    (if (get-text-property start 'face content)
+        (setq start (next-single-property-change start 'face content)))
+    (while (and start (setq end (next-single-property-change start 'face content)))
+      (put-text-property start end 'face face content)
+      (setq start (next-single-property-change end 'face content)))
+    (if start
+        (put-text-property start (length content) 'face face content))
     (unless (overlay-get overlay 'dangle)
-      (overlay-put overlay 'display (substring content 0 1))
-      (setq content (concat (substring content 1))))
+      (overlay-put overlay 'display (concat prefix (substring content 0 1)))
+      (setq prefix nil
+            content (concat (substring content 1))))
     (overlay-put overlay
                  'after-string
-                 (concat (overlay-get overlay 'prefix)
+                 (concat prefix
                          content
                          scroll-bar-char
-                         (overlay-get overlay 'postfix)))))
+                         postfix))))
 
 (defun popup-create-line-string (popup item)
   (let* ((string (car (popup-substring-by-width (popup-x-to-string item)
@@ -291,11 +347,12 @@ See also `popup-item-propertize'."
                            -1
                          1)))
            (depth (if parent (1+ (popup-depth parent)) 0))
+           (newlines (max 0 (+ (- height (count-lines point (point-max))) (if around 1 0))))
            current-column)
-      ;; TODO no need to insert newlines
-      (popup-save-buffer-state
-        (goto-char (point-max))
-        (insert (make-string height ?\n)))
+      (when (> newlines 0)
+        (popup-save-buffer-state
+          (goto-char (point-max))
+          (insert (make-string newlines ?\n))))
       
       (if overflow
           (if foldable
@@ -306,13 +363,15 @@ See also `popup-item-propertize'."
               ;; Cut out overflow
               (let ((d (1+ (- popup-width (- window-width column)))))
                 (decf popup-width d)
-                (decf width d))))
-        (when (and (null parent)
-                   (< (decf column margin-left) 0))
+                (decf width d)))
+            (decf column margin-left))
+        (decf column margin-left))
+      (when (and (null parent)
+                 (< column 0))
           ;; Cancel margin left
-          (setq column 0)
-          (decf popup-width margin-left)
-          (setq margin-left-cancel t)))
+        (setq column 0)
+        (decf popup-width margin-left)
+        (setq margin-left-cancel t))
       
       (dotimes (i height)
         (let (overlay begin w (dangle t) (prefix "") (postfix ""))
@@ -334,7 +393,7 @@ See also `popup-item-propertize'."
                                            0)
                                          (- column current-column))
                                       ? )))
-          
+
           (setq begin (point))
           (setq w (+ popup-width (length prefix)))
           (while (and (not (eolp)) (> w 0))
@@ -374,7 +433,9 @@ See also `popup-item-propertize'."
                             :symbol symbol
                             :cursor 0
                             :scroll-top 0
+                            :current-height 0
                             :list nil
+                            :newlines newlines
                             :overlays overlays)))
         (push it popup-instances)
         it))))
@@ -385,11 +446,13 @@ See also `popup-item-propertize'."
     (mapc 'delete-overlay (popup-overlays popup))
     (setf (popup-overlays popup) nil)
     (setq popup-instances (delq popup popup-instances))
-    (popup-save-buffer-state
-      (goto-char (point-max))
-      (dotimes (i (popup-height popup))
-        (if (= (char-before) ?\n)
-            (delete-char -1)))))
+    (let ((newlines (popup-newlines popup)))
+      (when (> newlines 0)
+        (popup-save-buffer-state
+          (goto-char (point-max))
+          (dotimes (i newlines)
+            (if (= (char-before) ?\n)
+                (delete-char -1)))))))
   nil)
 
 (defun popup-draw (popup)
@@ -399,8 +462,8 @@ See also `popup-item-propertize'."
         with selection-face = (popup-selection-face popup)
         with list = (popup-list popup)
         with length = (length list)
-        with thum-size = (max (/ (* height height) length) 1)
-        with page-size = (/ (+ 0.0 length) height)
+        with thum-size = (max (/ (* height height) (max length 1)) 1)
+        with page-size = (/ (+ 0.0 (max length 1)) height)
         with scroll-bar = (popup-scroll-bar popup)
         with margin-left = (make-string (if (popup-margin-left-cancel popup) 0 (popup-margin-left popup)) ? )
         with margin-right = (make-string (popup-margin-right popup) ? )
@@ -414,8 +477,8 @@ See also `popup-item-propertize'."
         for item in (nthcdr scroll-top list)
         for page-index = (* thum-size (/ o thum-size))
         for face = (if (= i cursor)
-                       (or (popup-item-property item 'selection-face) selection-face)
-                     (or (popup-item-property item 'popup-face) popup-face))
+                       (or (popup-item-selection-face item) selection-face)
+                     (or (popup-item-popup-face item) popup-face))
         for empty-char = (propertize " " 'face face)
         for scroll-bar-char = (if scroll-bar
                                   (cond
@@ -437,6 +500,9 @@ See also `popup-item-propertize'."
         (popup-set-line-item popup o item face margin-left margin-right scroll-bar-char sym)
         
         finally
+        ;; Remember current height
+        (setf (popup-current-height popup) (- o offset))
+
         ;; Hide remaining lines
         (let ((scroll-bar-char (if scroll-bar (propertize " " 'face popup-face) ""))
               (symbol (if symbol " " "")))
@@ -459,6 +525,20 @@ See also `popup-item-propertize'."
 (defun popup-hide (popup)
   (dotimes (i (popup-height popup))
     (popup-hide-line popup i)))
+
+(defun popup-hidden-p (popup)
+  (let ((hidden t))
+    (dotimes (i (popup-height popup))
+      (unless (popup-line-hidden-p popup i)
+        (setq hidden nil)))
+    hidden))
+
+(defun popup-select (popup i)
+  (setq i (+ i (popup-offset popup)))
+  (when (and (<= 0 i) (< i (popup-height popup)))
+    (setf (popup-cursor popup) i)
+    (popup-draw popup)
+    t))
 
 (defun popup-next (popup)
   (let ((height (popup-height popup))
@@ -510,6 +590,102 @@ See also `popup-item-propertize'."
 
 
 
+;; Popup isearch
+
+(defface popup-isearch-match
+  '((t (:background "sky blue")))
+  "Popup isearch match face."
+  :group 'popup)
+
+(defvar popup-isearch-cursor-color "blue")
+
+(defvar popup-isearch-keymap
+  (let ((map (make-sparse-keymap)))
+    ;(define-key map "\r"        'popup-isearch-done)
+    (define-key map (kbd "ESC") 'popup-isearch-cancel)
+    (define-key map "\C-h"      'popup-isearch-delete)
+    (define-key map (kbd "DEL") 'popup-isearch-delete)
+    map))
+
+(defsubst popup-isearch-char-p (char)
+  (and (integerp char)
+       (<= 32 char)
+       (<= char 126)))
+
+(defun popup-isearch-filter-list (pattern list)
+  (loop with regexp = (regexp-quote pattern)
+        for item in list
+        do
+        (unless (stringp item)
+          (setq item (popup-item-propertize (popup-x-to-string item)
+                                            'value item)))
+        if (string-match regexp item)
+        collect (let ((beg (match-beginning 0))
+                      (end (match-end 0)))
+                  (alter-text-property 0 (length item) 'face
+                                       (lambda (prop)
+                                         (unless (eq prop 'popup-isearch-match)
+                                           prop))
+                                       item)
+                  (put-text-property beg end
+                                     'face 'popup-isearch-match
+                                     item)
+                  item)))
+
+(defun popup-isearch-read-event (popup pattern)
+  (clear-this-command-keys)
+  (let (prompt)
+    (setq prompt
+          (format "Pattern: %s" (if (= (length (popup-list popup)) 0)
+                                    (propertize pattern 'face 'isearch-fail)
+                                  pattern)))
+    (read-event prompt pattern)))
+
+(defun popup-isearch-update (popup pattern &optional callback)
+  (setf (popup-cursor popup) 0
+        (popup-scroll-top popup) 0
+        (popup-pattern popup) pattern)
+  (let ((list (popup-isearch-filter-list pattern (popup-original-list popup))))
+    (popup-set-filtered-list popup list)
+    (if callback
+        (funcall callback list)))
+  (popup-draw popup))
+
+(defun* popup-isearch (popup
+                       &key
+                       (cursor-color popup-isearch-cursor-color)
+                       (keymap popup-isearch-keymap)
+                       callback)
+  (let ((list (popup-original-list popup))
+        (pattern (or (popup-pattern popup) ""))
+        (old-cursor-color (frame-parameter (selected-frame) 'cursor-color))
+        prompt event binding done)
+    (unwind-protect
+        (unless (block nil
+                  (if cursor-color
+                      (set-cursor-color cursor-color))
+                  (while (setq event (popup-isearch-read-event popup pattern))
+                    (setq binding (popup-lookup-key-by-event (lambda (key) (lookup-key keymap key)) event))
+                    (cond
+                     ((popup-isearch-char-p event)
+                      (setq pattern (concat pattern (char-to-string event))))
+                     ((eq binding 'popup-isearch-done)
+                      (return t))
+                     ((eq binding 'popup-isearch-cancel)
+                      (return nil))
+                     ((eq binding 'popup-isearch-delete)
+                      (if (> (length pattern) 0)
+                          (setq pattern (substring pattern 0 (1- (length pattern))))))
+                     (t
+                      (push event unread-command-events)
+                      (return t)))
+                    (popup-isearch-update popup pattern callback)))
+          (popup-isearch-update popup "" callback))
+      (if old-cursor-color
+          (set-cursor-color old-cursor-color)))))
+
+
+
 ;; Popup tip
 
 (defface popup-tip-face
@@ -556,16 +732,15 @@ See also `popup-item-propertize'."
                           :face 'popup-tip-face
                           :parent parent
                           :parent-offset parent-offset))
-  
-
-  (when (and (not (eq width (popup-width tip))) ; truncated
-             (not truncate))
-    ;; Refill once again to lines be fitted to popup width
-    (setq width (popup-width tip))
-    (setq lines (cdr (popup-fill-string string width width))))
 
   (unwind-protect
-      (progn
+      (when (> (popup-width tip) 0)                   ; not to be corrupted
+        (when (and (not (eq width (popup-width tip))) ; truncated
+                   (not truncate))
+          ;; Refill once again to lines be fitted to popup width
+          (setq width (popup-width tip))
+          (setq lines (cdr (popup-fill-string string width width))))
+
         (popup-set-list tip lines)
         (popup-draw tip)
         (if nowait
@@ -590,21 +765,57 @@ See also `popup-item-propertize'."
   "Face for popup menu selection."
   :group 'popup)
 
-(defun popup-menu-show-help (menu &optional item &rest args)
+(defun popup-menu-document (menu &optional item)
   (or item (setq item (popup-selected-item menu)))
-  (let ((height (or (plist-get args :height) (popup-height menu)))
-        (doc (popup-item-document item)))
+  (let ((doc (popup-item-document item)))
     (if (functionp doc)
-        (setq doc (funcall doc item)))
+        (setq doc (funcall doc (popup-item-value-or-self item))))
+    doc))
+
+(defun popup-menu-show-help (menu &optional item)
+  (let ((doc (popup-menu-document menu item)) event)
+    (when doc
+      (save-window-excursion
+        (with-current-buffer (get-buffer-create " *Popup Help*")
+          (erase-buffer)
+          (insert doc)
+          (goto-char (point-min))
+          (display-buffer (current-buffer)))
+        (block nil
+          (while (setq event (progn (clear-this-command-keys) (read-event)))
+            (case (key-binding (vector event))
+              ('scroll-other-window
+               (scroll-other-window))
+              ('scroll-other-window-down
+               (scroll-other-window-down nil))
+              (t
+               (push event unread-command-events)
+               (return)))))))))
+
+(defun popup-menu-show-quick-help (menu &optional item &rest args)
+  (or item (setq item (popup-selected-item menu)))
+  (let* ((point (plist-get args :point))
+         (height (or (plist-get args :height) (popup-height menu)))
+         (min-height (min height (popup-current-height menu)))
+         (around nil)
+         (parent-offset (popup-offset menu))
+         (doc (popup-menu-document menu item)))
     (when (stringp doc)
-      (apply 'popup-tip
-             doc
-             :height height
-             :min-height (min height (length (popup-list menu)))
-             :around nil
-             :parent menu
-             :parent-offset 0
-             args))))
+      (if (popup-hidden-p menu)
+          (setq around t
+                menu nil
+                parent-offset nil)
+        (setq point nil))
+      (let ((popup-use-optimized-column-computation nil)) ; To avoid wrong positioning
+        (apply 'popup-tip
+               doc
+               :point point
+               :height height
+               :min-height min-height
+               :around around
+               :parent menu
+               :parent-offset parent-offset
+               args)))))
 
 (defun popup-menu-fallback (event default))
 
@@ -613,12 +824,12 @@ See also `popup-item-propertize'."
     (while (popup-live-p menu)
       (setq event (progn (clear-this-command-keys) (read-event prompt nil help-delay)))
       (if (null event)
-          (popup-menu-show-help menu)
+          (popup-menu-show-quick-help menu)
         (setq binding (popup-lookup-key-by-event (lambda (key) (lookup-key keymap key)) event))
         (cond
          ((eq binding 'popup-close)
           (if (popup-parent menu)
-              (return nil)))
+              (return)))
          ((memq binding '(popup-select popup-open))
           (let* ((item (popup-selected-item menu))
                  (sublist (popup-item-sublist item)))
@@ -636,29 +847,34 @@ See also `popup-item-propertize'."
           (popup-next menu))
          ((eq binding 'popup-previous)
           (popup-previous menu))
+         ((eq binding 'popup-help)
+          (popup-menu-show-help menu))
+         ((eq binding 'popup-isearch)
+          (popup-isearch menu))
          (binding
           (call-interactively binding))
          (t
           (funcall fallback event (popup-lookup-key-by-event (lambda (key) (key-binding key)) event))))))))
 
-(defun* popup-menu (list
-                    &key
-                    point
-                    (around t)
-                    (width (popup-preferred-width list))
-                    (height 15)
-                    margin
-                    margin-left
-                    margin-right
-                    scroll-bar
-                    symbol
-                    parent
-                    parent-offset
-                    (keymap popup-menu-keymap)
-                    (fallback 'popup-menu-fallback)
-                    help-delay
-                    prompt
-                    &aux menu event)
+;; popup-menu is used by mouse.el unfairly...
+(defun* popup-menu* (list
+                     &key
+                     point
+                     (around t)
+                     (width (popup-preferred-width list))
+                     (height 15)
+                     margin
+                     margin-left
+                     margin-right
+                     scroll-bar
+                     symbol
+                     parent
+                     parent-offset
+                     (keymap popup-menu-keymap)
+                     (fallback 'popup-menu-fallback)
+                     help-delay
+                     prompt
+                     &aux menu event)
   (and (eq margin t) (setq margin 1))
   (or margin-left (setq margin-left margin))
   (or margin-right (setq margin-right margin))
@@ -672,7 +888,7 @@ See also `popup-item-propertize'."
                            :face 'popup-menu-face
                            :selection-face 'popup-menu-selection-face
                            :margin-left margin-left
-                           :margin-right margin-right
+                           :margin-right margin-right 
                            :scroll-bar scroll-bar
                            :symbol symbol
                            :parent parent))
@@ -686,7 +902,7 @@ See also `popup-item-propertize'."
 (defun popup-cascade-menu (list &rest args)
   "Same to `popup-menu', but an element of `LIST' can be
 list of submenu."
-  (apply 'popup-menu
+  (apply 'popup-menu*
          (mapcar (lambda (item)
                    (if (consp item)
                        (popup-make-item (car item)
@@ -699,7 +915,6 @@ list of submenu."
 
 (defvar popup-menu-keymap
   (let ((map (make-sparse-keymap)))
-    ;; Dummy bind
     (define-key map "\r"        'popup-select)
     (define-key map "\C-f"      'popup-open)
     (define-key map [right]     'popup-open)
@@ -710,6 +925,11 @@ list of submenu."
     (define-key map [down]      'popup-next)
     (define-key map "\C-p"      'popup-previous)
     (define-key map [up]        'popup-previous)
+
+    (define-key map [f1]        'popup-help)
+    (define-key map (kbd "\C-?") 'popup-help)
+
+    (define-key map "\C-s"      'popup-isearch)
     map))
 
 (provide 'popup)

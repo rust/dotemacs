@@ -260,11 +260,6 @@
 ;; for rabbit-mode
 (autoload 'rabbit-mode "rabbit-mode" "major mode for Rabbit" t)
 (add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))
-;; ;; for auto-complete
-;; (require 'auto-complete-ruby)
-;; (add-hook 'ruby-mode-hook
-;;           (lambda ()
-;;             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
 ;; るりま
 (require 'anything-rurima)
 (setq anything-rurima-index-file "~/Dropbox/rurima/rubydoc/rurima.e")
@@ -537,7 +532,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; auto-complete
 (require 'auto-complete)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
 (require 'auto-complete-config)
+(ac-config-default)
 ;; for global
 (global-auto-complete-mode t)
 (define-key ac-completing-map (kbd "M-n") 'ac-next)
