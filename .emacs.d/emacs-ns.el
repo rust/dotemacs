@@ -2,6 +2,10 @@
 ;;; .emacs-ns.el
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; graphviz-mode.el
+(load "~/.emacs.d/graphviz-mode.el")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; magit.el
 (add-to-list 'load-path "~/.emacs.d/magit/")
 (require 'magit)
