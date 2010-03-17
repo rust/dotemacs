@@ -2,18 +2,6 @@
 ;;; .emacs-ns.el
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; graphviz-mode.el
-(load "~/.emacs.d/graphviz-mode.el")
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; magit.el
-(add-to-list 'load-path "~/.emacs.d/magit/")
-(require 'magit)
-(require 'git-blame)
- ;; for emacs-22
-(defalias 'start-file-process 'start-process)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Color
 (set-frame-parameter nil 'alpha 85)
 (if (= emacs-major-version 23)

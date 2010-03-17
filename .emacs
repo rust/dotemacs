@@ -586,6 +586,19 @@
 ;; (global-undo-tree-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; graphviz-mode.el
+(load "~/.emacs.d/graphviz-mode.el")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; magit.el
+(add-to-list 'load-path "~/.emacs.d/magit/")
+(require 'magit)
+(require 'git-blame)
+ ;; for emacs-22
+(if (= emacs-major-version 22)
+    (defalias 'start-file-process 'start-process))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; window or no-window
 (cond
