@@ -532,6 +532,8 @@
 (autoload 'hiki-index "hiki-mode" nil t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; pop-tip.el
+(require 'pos-tip)
 ;; auto-complete
 (require 'auto-complete)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
@@ -549,6 +551,7 @@
 (setq ac-auto-start 5)
 (ac-set-trigger-key "TAB")
 (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+(setq ac-quick-help-prefer-x t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; TDD mode-line
