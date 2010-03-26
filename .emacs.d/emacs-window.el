@@ -1,14 +1,4 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; git.el
-;; (load "/usr/share/doc/git-core/contrib/emacs/git.el" t)
-;; (load "/usr/share/doc/git-core/contrib/emacs/git-blame.el" t)
-;; (load "/usr/share/doc/git-core/contrib/emacs/vc-git.el" t)
-;; (add-to-list 'vc-handled-backends 'GIT)
-;; magit.el
-(add-to-list 'load-path "~/.emacs.d/magit/")
-(require 'magit)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; .emacs
 (tool-bar-mode nil)
 
