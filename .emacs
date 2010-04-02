@@ -263,11 +263,6 @@
 ;; for rabbit-mode
 (autoload 'rabbit-mode "rabbit-mode" "major mode for Rabbit" t)
 (add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))
-;; ;; for auto-complete
-;; (require 'auto-complete-ruby)
-;; (add-hook 'ruby-mode-hook
-;;           (lambda ()
-;;             (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))))
 ;; るりま
 (require 'anything-rurima)
 (setq anything-rurima-index-file "~/Dropbox/rurima/rubydoc/rurima.e")
@@ -538,9 +533,13 @@
 (autoload 'hiki-index "hiki-mode" nil t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; pop-tip.el
+(require 'pos-tip)
 ;; auto-complete
 (require 'auto-complete)
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
 (require 'auto-complete-config)
+(ac-config-default)
 ;; for global
 (global-auto-complete-mode t)
 (define-key ac-completing-map (kbd "M-n") 'ac-next)
@@ -553,6 +552,20 @@
 (setq ac-auto-start 5)
 (ac-set-trigger-key "TAB")
 (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+(setq ac-quick-help-prefer-x t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; RSense
+(setq rsense-home "/opt/rsense/")
+(add-to-list 'load-path (concat rsense-home "/etc"))
+(require 'rsense)
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (local-set-key (kbd "C-c .") 'ac-complete-rsense)))
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (add-to-list 'ac-sources 'ac-source-rsense-method)
+            (add-to-list 'ac-sources 'ac-source-rsense-constant)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; TDD mode-line
@@ -588,6 +601,19 @@
 ;; ;; undo-tree.el
 ;; (require 'undo-tree)
 ;; (global-undo-tree-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; graphviz-mode.el
+(load "~/.emacs.d/graphviz-mode.el")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; magit.el
+(add-to-list 'load-path "~/.emacs.d/magit/")
+(require 'magit)
+(require 'git-blame)
+ ;; for emacs-22
+(if (= emacs-major-version 22)
+    (defalias 'start-file-process 'start-process))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
