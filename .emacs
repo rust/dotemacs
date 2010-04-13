@@ -22,6 +22,7 @@
 (add-to-list 'load-path "~/.emacs.d/auto-complete/")
 (add-to-list 'load-path "~/.emacs.d/scala-mode/")
 (add-to-list 'load-path "~/.emacs.d/undo-tree/")
+(add-to-list 'load-path "~/.emacs.d/cc-mode/")
 ;; Startup message を非表示
 (setq inhibit-startup-message t)
 ;; 終了時にオートセーブファイルを消す
@@ -614,6 +615,14 @@
  ;; for emacs-22
 (if (= emacs-major-version 22)
     (defalias 'start-file-process 'start-process))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; D Proguraming Language
+(autoload 'd-mode "d-mode" "Major mode for editing D code." t)
+(add-to-list 'auto-mode-alist '("\\.d[i]?\\'" . d-mode))
+(add-hook 'd-mode-hook
+          '(lambda()
+             '(c-toggle-auto-state)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
