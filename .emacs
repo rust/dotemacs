@@ -627,9 +627,12 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; WordPress mode
-(load-file "weblogger.el")
+(load-file "~/.emacs.d/wp-emacs/weblogger.el")
 (global-set-key "\C-cbs" 'weblogger-start-entry)
 (load "~/.wordpress.el")
+(add-hook 'weblogger-entry-mode-hook
+          '(lambda()
+             (setq auto-fill-mode f)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
