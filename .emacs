@@ -23,6 +23,7 @@
 (add-to-list 'load-path "~/.emacs.d/scala-mode/")
 (add-to-list 'load-path "~/.emacs.d/undo-tree/")
 (add-to-list 'load-path "~/.emacs.d/cc-mode/")
+(add-to-list 'load-path "~/.emacs.d/wp-emacs/")
 ;; Startup message を非表示
 (setq inhibit-startup-message t)
 ;; 終了時にオートセーブファイルを消す
@@ -625,6 +626,12 @@
              '(c-toggle-auto-state)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; WordPress mode
+(load-file "weblogger.el")
+(global-set-key "\C-cbs" 'weblogger-start-entry)
+(load "~/.wordpress.el")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; window or no-window
 (cond
@@ -638,10 +645,4 @@
   (load "emacs-ns"))
  ((null window-system)
   (load "emacs-nw")))
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(show-paren-mode t))
+

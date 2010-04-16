@@ -3,3 +3,4 @@ tmp
 *.elc
 /.emacs.d/session.*
 /.emacs.d/ac-comphist.dat
+.emacs.d/tramp
