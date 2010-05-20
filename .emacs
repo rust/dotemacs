@@ -4,6 +4,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; default settings
 (put 'upcase-region 'disabled nil) ;; 大文字変換を無効化
+(set-language-environment 'Japanese)
+(prefer-coding-system 'utf-8)
+
 ;; load-path
 (add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/ruby/")
@@ -218,10 +221,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 行末の空白を自動削除
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-;; タブを空白に自動変換
-(defun untabify-before-save ()
-  (untabify 1 (point-max)))
-(add-hook 'before-save-hook 'untabify-before-save)
+;; no tabs by default. modes that really need tabs should enable
+;; indent-tabs-mode explicitly. makefile-mode already does that, for
+;; example.
+(setq-default indent-tabs-mode nil)
+;; if indent-tabs-mode is off, untabify before saving
+(add-hook 'write-file-hooks
+          (lambda () (if (not indent-tabs-mode)
+                         (untabify (point-min) (point-max)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Interactively Do Things

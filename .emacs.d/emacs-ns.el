@@ -4,8 +4,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Color
 (set-frame-parameter nil 'alpha 85)
-(if (= emacs-major-version 23)
-  (setq initial-frame-alist '((width . 200)(height . 120)(top . 0)(left . (45)))))
+;; (if (= emacs-major-version 23)
+;;   (setq initial-frame-alist '((width . 200)(height . 120)(top . 0)(left . (45)))))
 (when (= emacs-major-version 22)
   (add-hook 'window-setup-hook
             (lambda ()
@@ -38,30 +38,20 @@
 ;; frame title
 (setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
 
-;; font
-(setq my-font "-apple-M+2VM+IPAG_circle-medium-normal-normal-*-13-*-*-*-m-0-iso10646-1")
-(setq fixed-width-use-QuickDraw-for-ascii t)
-(setq mac-allow-anti-aliasing t)
-(if (= emacs-major-version 22)
-    (require 'carbon-font))
+;; フォントサイズ
+(when (= emacs-major-version 22)
+  (setq fixed-width-use-QuickDraw-for-ascii t)
+  (setq mac-allow-anti-aliasing t)
+  (require 'carbon-font))
 (when (= emacs-major-version 23)
-  (set-default-font my-font)
-  (add-to-list 'default-frame-alist `(font . ,my-font))
-  (set-fontset-font
-   (frame-parameter nil 'font)
-   'japanese-jisx0208
-   '("M+2VM+IPAG circle" . "iso10646-1"))
-  (setq face-font-rescale-alist
-        '(("^-apple-M+2VM+IPAG_circle.*" . 1.2)
-          (".*osaka-bold.*" . 1.2)
-          (".*osaka-medium.*" . 1.2)
-          (".*courier-bold-.*-mac-roman" . 1.0)
-          (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
-          (".*monaco-bold-.*-mac-roman" . 0.9)
-          ("-cdac$" . 1.3)))
-  (add-hook 'window-setup-hook
-            (lambda ()
-              (ns-toggle-fullscreen))))
+  (create-fontset-from-ascii-font "M+2VM+IPAG circle-14:weight=normal:slant=normal" nil "menlokakugo")
+  (set-fontset-font "fontset-menlokakugo"
+                    'unicode
+                    (font-spec :family "Hiragino Kaku Gothic ProN" :size 14)
+                    nil
+                    'append)
+  (add-to-list 'default-frame-alist '(font . "fontset-menlokakugo")))
+;; (load "~/.emacs.d/init_color.el")
 
 (require 'color-theme)
 ;; (load "my-color-theme-window")
@@ -145,7 +135,6 @@
 (require 'emoji)
 
 (tool-bar-mode nil)
-;;(global-linum-mode)
 
 (when (= emacs-major-version 23)
   (define-key global-map [165] nil)
