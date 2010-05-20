@@ -27,6 +27,7 @@
 (add-to-list 'load-path "~/.emacs.d/undo-tree/")
 (add-to-list 'load-path "~/.emacs.d/cc-mode/")
 (add-to-list 'load-path "~/.emacs.d/wp-emacs/")
+(add-to-list 'load-path "~/.emacs.d/session/lisp/")
 ;; Startup message を非表示
 (setq inhibit-startup-message t)
 ;; 終了時にオートセーブファイルを消す

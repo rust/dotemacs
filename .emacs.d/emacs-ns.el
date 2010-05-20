@@ -51,7 +51,6 @@
                     nil
                     'append)
   (add-to-list 'default-frame-alist '(font . "fontset-menlokakugo")))
-;; (load "~/.emacs.d/init_color.el")
 
 (require 'color-theme)
 ;; (load "my-color-theme-window")
