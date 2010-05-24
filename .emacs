@@ -1,104 +1,3 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; .emacs
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; default settings
-(put 'upcase-region 'disabled nil) ;; 大文字変換を無効化
-(set-language-environment 'Japanese)
-(prefer-coding-system 'utf-8)
-
-;; load-path
-(add-to-list 'load-path "~/.emacs.d/")
-(add-to-list 'load-path "~/.emacs.d/ruby/")
-(add-to-list 'load-path "~/.emacs.d/haskell-mode/")
-(add-to-list 'load-path "~/.emacs.d/remember/")
-(add-to-list 'load-path "~/.emacs.d/org-mode/")
-(add-to-list 'load-path "~/.emacs.d/auto-install/")
-(add-to-list 'load-path "~/.emacs.d/howm/")
-(add-to-list 'load-path "~/.emacs.d/yasnippet/")
-(add-to-list 'load-path "~/.emacs.d/rinari/")
-(add-to-list 'load-path "~/.emacs.d/rhtml-mode/")
-(add-to-list 'load-path "~/.emacs.d/yatex/")
-(add-to-list 'load-path "~/.emacs.d/hatena-mode/")
-(add-to-list 'load-path "~/.emacs.d/emacs-nav/")
-(add-to-list 'load-path "~/.emacs.d/sdic/")
-(add-to-list 'load-path "~/.emacs.d/auto-complete/")
-(add-to-list 'load-path "~/.emacs.d/scala-mode/")
-(add-to-list 'load-path "~/.emacs.d/undo-tree/")
-(add-to-list 'load-path "~/.emacs.d/cc-mode/")
-(add-to-list 'load-path "~/.emacs.d/wp-emacs/")
-(add-to-list 'load-path "~/.emacs.d/session/lisp/")
-;; Startup message を非表示
-(setq inhibit-startup-message t)
-;; 終了時にオートセーブファイルを消す
-(setq delete-auto-save-files t)
-;; フレームフォーマット
-(setq frame-title-format (concat  "%b - emacs@" (system-name)))
-;; default to unified diffs
-(setq diff-switches "-u")
-;;
-(temp-buffer-resize-mode 1)
-(line-number-mode t)
-(column-number-mode t)
-;;
-(show-paren-mode t) ; 対応する括弧を光らせる。
-(transient-mark-mode t) ; 選択部分のハイライト
-;; TAB を 2文字分に
-(setq-default tab-width 2)
-(setq tab-width 2)
-(setq-default c-basic-offset 2)
-;; \t を使わない
-(setq-default indent-tabs-mode nil)
-;; truncate lines
-(setq truncate-lines t)
-(setq truncate-partial-width-windows t)
-;; Ctrl+h -> backspace
-(global-set-key "\C-h" 'backward-delete-char)
-;; assign null-function for beep
-(setq ring-bell-function 'ignore)
-;; chmod +x if file begins with "#!"
-(add-hook 'after-save-hook
-          'executable-make-buffer-file-executable-if-script-p)
-;; auto-revert-mode
-(setq global-auto-revert-mode t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; install-elips
-(require 'install-elisp)
-(setq install-elisp-repository-directory "~/.emacs.d/")
-;; auto-install
-(require 'auto-install)
-(setq auto-install-directory "~/.emacs.d/auto-install/")
-;; (auto-install-update-emacswiki-package-name t)
-(auto-install-compatibility-setup)             ; 互換性確保
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; howm
-(require 'howm)
-(global-set-key "\C-c,," 'howm-menu)
-(global-set-key "\C-c,a" 'howm-list-all)
-(global-set-key "\C-c,c" 'howm-create)
-(setq howm-directory "~/howm")          ;; memoの場所
-(setq howm-view-summary-persistent nil) ;; ファイルを開く際に一覧を消す
-(setq howm-list-recent-title t)         ;; 最近のメモ時にタイトル表示
-(setq howm-list-all-title t)            ;; 一覧時にタイトル表示
-(setq howm-menu-expiry-hours 2)         ;; ２時間キャッシュ
-;;(add-hook 'howm-mode-on-hook 'auto-fill-mode)
-(setq howm-view-summary-persistent nil)
-;;
-(setq howm-menu-schedule-days-before 10) ;; 10日前から
-(setq howm-menu-schedule-days 3)         ;; 3日後まで
-;;
-(setq howm-refresh-after-save nil)
-(setq howm-menu-refresh-after-save nil)
-(setq howm-menu-recent-num 10)
-(setq howm-menu-todo-num 10)
-(setq howm-view-keep-one-window t)
-(setq howm-list-normalizer 'howm-view-sort-by-reverse-date)
-;; (setq howm-normalizer 'howm-view-sort-by-reverse-date)
-(setq howm-list-prefer-word nil)
-(add-to-list 'auto-mode-alist '("\\.howm$" . howm-mode))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Makefile
 (add-to-list 'auto-mode-alist '("\\.make$" . makefile-gmake-mode))
@@ -125,55 +24,6 @@
 (define-key global-map
   "\C-cs" 'scheme-other-window)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; タブ, 全角スペース、改行直前の半角スペースを表示する
-(when (require 'jaspace nil t)
-  (when (boundp 'jaspace-modes)
-    (setq jaspace-modes (append jaspace-modes
-                                (list 'php-mode
-                                      'yaml-mode
-                                      'javascript-mode
-                                      'ruby-mode
-                                      'text-mode
-                                      'fundamental-mode
-                                      'js2-mode))))
-  (when (boundp 'jaspace-alternate-jaspace-string)
-    (setq jaspace-alternate-jaspace-string "□"))
-  (when (boundp 'jaspace-highlight-tabs)
-    (setq jaspace-highlight-tabs ?^))
-  (add-hook 'jaspace-mode-off-hook
-            (lambda()
-              (when (boundp 'show-trailing-whitespace)
-                (setq show-trailing-whitespace nil))))
-  (add-hook 'jaspace-mode-hook
-            (lambda()
-              (progn
-                (when (boundp 'show-trailing-whitespace)
-                  (setq show-trailing-whitespace t))
-                (face-spec-set 'jaspace-highlight-jaspace-face
-                               '((((class color) (background light))
-                                  (:foreground "blue"))
-                                 (t (:foreground "green"))))
-                (face-spec-set 'jaspace-highlight-tab-face
-                               '((((class color) (background light))
-                                  (:foreground "red"
-                                               :strike-through nil
-                                               :underline t))
-                                 (t (:foreground "purple"
-                                                 :strike-through nil
-                                                 :underline t))))
-                (face-spec-set 'trailing-whitespace
-                               '((((class color) (background light))
-                                  (:foreground "red"
-                                               :strike-through nil
-                                               :underline t))
-                                 (t (:foreground "purple"
-                                                 :strike-through nil
-                                                 :underline t))))))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ミニバッファ履歴リストの最大長：tなら無限
-(setq history-length t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; session.el
@@ -196,8 +46,6 @@
 (setq cssm-indent-function #'cssm-c-style-indenter)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; reverse other-window
-(global-set-key "\C-xp" (lambda () (interactive) (other-window -1)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Outputz
@@ -220,16 +68,6 @@
              ))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; 行末の空白を自動削除
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-;; no tabs by default. modes that really need tabs should enable
-;; indent-tabs-mode explicitly. makefile-mode already does that, for
-;; example.
-(setq-default indent-tabs-mode nil)
-;; if indent-tabs-mode is off, untabify before saving
-(add-hook 'write-file-hooks
-          (lambda () (if (not indent-tabs-mode)
-                         (untabify (point-min) (point-max)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Interactively Do Things
@@ -237,45 +75,6 @@
 (ido-mode t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ruby
-(require 'ruby-mode)
-(require 'inf-ruby)
-(add-hook 'ruby-mode-hook 'inf-ruby-keys)
-;; auto-mode by ruby
-(add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.cgi$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
-;; indent
-(setq ruby-deep-indent-paren-style nil)
-(require 'ruby-electric)
-(add-hook 'ruby-mode-hook (lambda()(ruby-electric-mode 1)))
-(setq ruby-electric-expand-delimiters-list '( ?\{))
-;; fastri
-(setq ri-ruby-script "/usr/local/bin/ri-emacs")
-(load "ri-ruby")
-;; rcodetools
-(require 'rcodetools)
-(setq rct-find-tag-if-available nil)
-(defun make-ruby-scratch-buffer ()
-  (with-current-buffer (get-buffer-create "*ruby scratch*")
-    (ruby-mode)
-    (current-buffer)))
-(defun ruby-scratch ()
-  (interactive)
-  (pop-to-buffer (make-ruby-scratch-buffer)))
-(defun ruby-mode-hook-rcodetools ()
-  (define-key ruby-mode-map "\M-\C-i" 'rct-complete-symbol)
-  (define-key ruby-mode-map "\C-c\C-t" 'ruby-toggle-buffer)
-  (define-key ruby-mode-map "\C-c\C-d" 'xmp)
-  (define-key ruby-mode-map "\C-c\C-f" 'rct-ri))
-(add-hook 'ruby-mode-hook 'ruby-mode-hook-rcodetools)
-;; for rabbit-mode
-(autoload 'rabbit-mode "rabbit-mode" "major mode for Rabbit" t)
-(add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))
-;; るりま
-(require 'anything-rurima)
-(setq anything-rurima-index-file "~/Dropbox/rurima/rubydoc/rurima.e")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; yaml-mode の設定
@@ -313,18 +112,10 @@
                (modes  . '(ruby-mode))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; for rails
-;;;; Rinari
-(require 'rinari)
-;;;; rhtml-mode
-(require 'rhtml-mode)
-(add-hook 'rhtml-mode-hook
-          (lambda () (rinari-launch)))
-(add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
 ;;;; yasnippet
 (require 'yasnippet)
 (yas/initialize)
-(yas/load-directory "~/.emacs.d/yasnippet/snippets/")
+(yas/load-directory "~/.emacs.d/elisp/yasnippet/snippets/")
 ;;(require 'dropdown-list)
 ;;(setq yas/prompt-functions '(yas/dropdown-prompt))
 
@@ -434,30 +225,19 @@
 (add-hook 'haskell-mode-hook 'imenu-add-menubar-index)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; anything
-(require 'anything)
-(require 'anything-config)
-(require 'anything-match-plugin)
-(global-set-key (kbd "C-x b") 'anything)
-;; descbinds-anything
-(require 'descbinds-anything)
-(descbinds-anything-install)
-;; ;; ac-complete.el
-;; (require 'ac-anything)
-;; (define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-anything)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; emacs-nav
 (require 'nav)
 (setq nav-width 12)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; sdic-mode 用の設定
-(require 'sdic)
-(autoload 'sdic-describe-word "sdic" "英単語の意味を調べる" t nil)
-(global-set-key "\C-cw" 'sdic-describe-word)
-(autoload 'sdic-describe-word-at-point "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
-(global-set-key "\C-cW" 'sdic-describe-word-at-point)
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;;; sdic-mode 用の設定
+;; (require 'sdic)
+;; (autoload 'sdic-describe-word "sdic" "英単語の意味を調べる" t nil)
+;; (global-set-key "\C-cw" 'sdic-describe-word)
+;; (autoload 'sdic-describe-word-at-point "sdic" "カーソルの位置の英単語の意味を調べる" t nil)
+;; (global-set-key "\C-cW" 'sdic-describe-word-at-point)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; shell-pop
@@ -519,11 +299,11 @@
 (require 'smalltalk-mode)
 (require 'gst-mode)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; hatena-mode
-(load "hatena-mode")
-(setq hatena-usrid "conceal-rs")
-(setq hatena-plugin-directory "~/.emacs.d/hatena-mode")
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;; hatena-mode
+;; (load "hatena-mode")
+;; (setq hatena-usrid "conceal-rs")
+;; (setq hatena-plugin-directory "~/.emacs.d/elisp/hatena-mode")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; scala
@@ -547,7 +327,7 @@
 (require 'pos-tip)
 ;; auto-complete
 (require 'auto-complete)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/elisp/dict")
 (require 'auto-complete-config)
 (ac-config-default)
 ;; for global
@@ -614,11 +394,11 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; graphviz-mode.el
-(load "~/.emacs.d/graphviz-mode.el")
+(load "~/.emacs.d/elisp/graphviz-mode.el")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; magit.el
-(add-to-list 'load-path "~/.emacs.d/magit/")
+(add-to-list 'load-path "~/.emacs.d/elisp/magit/")
 (require 'magit)
 (require 'git-blame)
  ;; for emacs-22
@@ -635,25 +415,25 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; WordPress mode
-(load-file "~/.emacs.d/wp-emacs/weblogger.el")
+(load-file "~/.emacs.d/elisp/wp-emacs/weblogger.el")
 (global-set-key "\C-cbs" 'weblogger-start-entry)
 (load "~/.wordpress.el")
 (add-hook 'weblogger-entry-mode-hook
           '(lambda()
              (setq auto-fill-mode f)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; window or no-window
-(cond
- ((eq window-system 'x)
-  (setq default-frame-alist
-        (append (list '(foreground-color . "black"))))
-  (load "emacs-window"))
- ((eq window-system 'ns)
-  (load "emacs-ns"))
- ((eq window-system 'mac)
-  (load "emacs-ns"))
- ((null window-system)
-  (load "emacs-nw")))
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ;; window or no-window
+;; (cond
+;;  ((eq window-system 'x)
+;;   (setq default-frame-alist
+;;         (append (list '(foreground-color . "black"))))
+;;   (load "~/.emacs.d/emacs-window"))
+;;  ((eq window-system 'ns)
+;;   (load "~/.emacs.d/emacs-ns"))
+;;  ((eq window-system 'mac)
+;;   (load "~/.emacs.d/emacs-ns"))
+;;  ((null window-system)
+;;   (load "~/.emacs.d/emacs-nw")))
 

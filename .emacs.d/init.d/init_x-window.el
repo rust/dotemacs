@@ -1,5 +1,14 @@
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; .emacs
+;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
+
+;; init_x-window.el
+
+;; Copyright (C) 2010 Shin-ichiro OGAWA
+;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(setq default-frame-alist
+      (append (list '(foreground-color . "black"))))
+
 (tool-bar-mode nil)
 
 (when (= emacs-major-version 23)
@@ -162,3 +171,7 @@
   (interactive)
   (shell-command "wmctrl -r :ACTIVE: -btoggle,fullscreen"))
 (global-set-key [f11] 'switch-full-screen)
+
+
+(provide 'init_x-window)
+;; init_x-window.el ends here

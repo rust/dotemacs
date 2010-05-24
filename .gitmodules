@@ -1,33 +1,27 @@
-[submodule ".emacs.d/emacs-rails"]
-	path = .emacs.d/emacs-rails
-	url = git@github.com:rust/emacs-rails.git
-[submodule ".emacs.d/rinari"]
-	path = .emacs.d/rinari
-	url = git://github.com/eschulte/rinari.git
-[submodule ".emacs.d/rhtml-mode"]
-	path = .emacs.d/rhtml-mode
-	url = git://github.com/eschulte/rhtml.git
-[submodule ".emacs.d/yasnippets-rails"]
-	path = .emacs.d/yasnippets-rails
-	url = git://github.com/eschulte/yasnippets-rails.git
-[submodule ".emacs.d/org-mode"]
-	path = .emacs.d/org-mode
-	url = git://repo.or.cz/org-mode.git
-[submodule ".emacs.d/emoji"]
-	path = .emacs.d/emoji
-	url = git://github.com/imakado/emoji.git
-[submodule ".emacs.d/egg"]
-	path = .emacs.d/egg
-	url = git://github.com/bogolisk/egg.git
-[submodule ".emacs.d/git-emacs"]
-	path = .emacs.d/git-emacs
-	url = git://github.com/tsgates/git-emacs.git
-[submodule ".emacs.d/magit"]
-	path = .emacs.d/magit
-	url = git://gitorious.org/magit/mainline.git
-[submodule ".emacs.d/undo-tree"]
-	path = .emacs.d/undo-tree
-	url = http://www.dr-qubit.org/git/undo-tree.git
-[submodule ".emacs.d/auto-complete"]
-	path = .emacs.d/auto-complete
-	url = http://cx4a.org/repo/auto-complete.git
+[submodule ".emacs.d/elisp/rinari"]
+  path = .emacs.d/elisp/rinari
+  url = git://github.com/eschulte/rinari.git
+[submodule ".emacs.d/elisp/rhtml-mode"]
+  path = .emacs.d/elisp/rhtml-mode
+  url = git://github.com/eschulte/rhtml.git
+[submodule ".emacs.d/elisp/yasnippets-rails"]
+  path = .emacs.d/elisp/yasnippets-rails
+  url = git://github.com/eschulte/yasnippets-rails.git
+[submodule ".emacs.d/elisp/emoji"]
+  path = .emacs.d/elisp/emoji
+  url = git://github.com/imakado/emoji.git
+[submodule ".emacs.d/elisp/egg"]
+  path = .emacs.d/elisp/egg
+  url = git://github.com/bogolisk/egg.git
+[submodule ".emacs.d/elisp/git-emacs"]
+  path = .emacs.d/elisp/git-emacs
+  url = git://github.com/tsgates/git-emacs.git
+[submodule ".emacs.d/elisp/magit"]
+  path = .emacs.d/elisp/magit
+  url = git://gitorious.org/magit/mainline.git
+[submodule ".emacs.d/elisp/undo-tree"]
+  path = .emacs.d/elisp/undo-tree
+  url = http://www.dr-qubit.org/git/undo-tree.git
+[submodule ".emacs.d/elisp/auto-complete"]
+  path = .emacs.d/elisp/auto-complete
+  url = http://cx4a.org/repo/auto-complete.git
