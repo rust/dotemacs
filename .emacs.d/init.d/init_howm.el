@@ -31,3 +31,6 @@
 ;; (setq howm-normalizer 'howm-view-sort-by-reverse-date)
 (setq howm-list-prefer-word nil)
 (add-to-list 'auto-mode-alist '("\\.howm$" . howm-mode))
+
+(provide 'init_howm)
+;; init_howm.el ends here

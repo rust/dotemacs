@@ -12,8 +12,12 @@
 (require 'init_auto-install)
 ;; ruby-mode
 (require 'init_ruby)
+;; ruby-mode
+(require 'init_rails)
 ;; anything.el
 (require 'init_anything)
+;;  howm
+(require 'init_howm)
 
 
 
