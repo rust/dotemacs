@@ -48,10 +48,12 @@
   (setq mac-allow-anti-aliasing t)
   (require 'carbon-font))
 (when (= emacs-major-version 23)
-  (create-fontset-from-ascii-font "M+2VM+IPAG circle-14:weight=normal:slant=normal" nil "menlokakugo")
+  ;; (create-fontset-from-ascii-font "M+2VM+IPAG circle-14:weight=normal:slant=normal" nil "menlokakugo")
+  (create-fontset-from-ascii-font "Monaco-12:weight=normal:slant=normal" nil "menlokakugo")
   (set-fontset-font "fontset-menlokakugo"
                     'unicode
-                    (font-spec :family "Hiragino Kaku Gothic ProN" :size 14)
+                    ;; (font-spec :family "Hiragino Kaku Gothic ProN" :size 12)
+                    (font-spec :family "M+2VM+IPAG circle" :size 14)
                     nil
                     'append)
   (add-to-list 'default-frame-alist '(font . "fontset-menlokakugo")))
