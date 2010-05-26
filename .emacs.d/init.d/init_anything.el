@@ -7,10 +7,14 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; anything
-(require 'anything)
+;; (require 'anything)
 (require 'anything-config)
 (require 'anything-match-plugin)
-(global-set-key (kbd "C-x b") 'anything)
+;; (define-key global-map "\C-xb" 'anything)
+;; (global-set-key (kbd "C-x b") 'anything)
+(print "hoge")
+(global-set-key "\C-xb" 'anything)
+
 ;; descbinds-anything
 (require 'descbinds-anything)
 (descbinds-anything-install)

@@ -108,17 +108,18 @@
  '(font-lock-keyword-face ((t (:foreground "#00ffff" :weight extra-bold))))
  '(font-lock-type-face ((t (:foreground "green" :weight extra-bold))))
  '(font-lock-variable-name-face ((t (:foreground "yellow" :weight bold))))
+ '(erb-comment-delim-face ((t (:inherit erb-delim-face :foreground "red" :weight bold))))
+ '(erb-comment-face ((t (:inherit erb-face :foreground "red" :weight bold))))
+ '(erb-delim-face ((t (:background "#383838"))))
+ '(erb-face ((t (:background "#383838"))))
+ '(erb-out-delim-face ((t (:inherit erb-delim-face :foreground "pink4" :weight bold))))
 ;; '(iiimcf-UI-preedit-highlight-face ((t (:foreground "DarkSlateGray1" :background "black"))))
  '(iiimcf-UI-preedit-reverse-face ((t (:foreground "DarkSlateGray1" :background "black"))))
 ;; '(iiimcf-UI-preedit-underline-face ((t (:foreground "DarkSlateGray1" :background "black"))))
 ;; '(iiimcf-UI-preedit-warning-face ((t (:foreground "DarkSlateGray1" :background "black"))))
  '(isearch ((((class color) (min-colors 88) (background dark)) (:background "palevioletred2" :foreground "gray29"))))
  '(howm-reminder-today-face ((t (:foreground "orange" :background "black"))))
- '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "paleturquoise4" :foreground "black"))))
- '(egg-header ((t (:weight bold :height 1.1))))
- '(egg-text-4 ((t (:inherit egg-text-base :height 1.4))))
- '(egg-text-base ((((class color) (background dark)) (:inherit fixed :foreground "SteelBlue"))))
- '(egg-text-help ((t (:inherit egg-text-base :height 0.9)))))
+ '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "paleturquoise4" :foreground "black")))))
 
 
 ;; ;; Wanderlust

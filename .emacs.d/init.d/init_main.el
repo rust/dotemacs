@@ -10,19 +10,23 @@
 (require 'init_setting)
 ;; install-elisp & auto-install
 (require 'init_auto-install)
+
+;; 旧設定
+(load "~/_emacs")
+
 ;; ruby-mode
 (require 'init_ruby)
 ;; ruby-mode
 (require 'init_rails)
+;; howm
+(require 'init_howm)
+;; session.el
+(require 'init_session)
+;; outputz.el
+(require 'init_outputz)
+
 ;; anything.el
 (require 'init_anything)
-;;  howm
-(require 'init_howm)
-
-
-
-;; 旧設定
-(load "~/_emacs")
 
 (provide 'init_main)
 ;; init_mail.el ends here
