@@ -35,7 +35,7 @@
 (require 'init_main)
 ;; 環境依存設定ファイル
 (cond
- (mac-p (require 'init_mac))
+ ((or ns-p mac-p) (require 'init_mac))
  (linux-p (require 'init_linux)))
 
 ;; 終了時バイトコンパイル
