@@ -28,5 +28,8 @@
 ;; anything.el
 (require 'init_anything)
 
+;; elscreen
+(require 'init_elscreen)
+
 (provide 'init_main)
 ;; init_mail.el ends here

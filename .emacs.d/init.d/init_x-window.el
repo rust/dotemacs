@@ -136,15 +136,6 @@
 ;; favicon cache
 (setq w3m-favicon-cache-expire-wait nil)
 
-;; elscreen
-(add-to-list 'load-path "~/.emacs.d/elscreen")
-(require 'elscreen)
-(require 'elscreen-gf)
-(require 'elscreen-howm)
-(require 'elscreen-w3m)
-(global-set-key (kbd "C-z SPC") 'elscreen-next)
-(global-set-key (kbd "C-z DEL") 'elscreen-previous)
-
 ;; window
 (windmove-default-keybindings)
 (setq windmove-wrap-around t)
