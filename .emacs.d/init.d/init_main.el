@@ -30,6 +30,8 @@
 
 ;; python-mode
 (require 'init_python)
+;; elscreen
+(require 'init_elscreen)
 
 (provide 'init_main)
 ;; init_mail.el ends here

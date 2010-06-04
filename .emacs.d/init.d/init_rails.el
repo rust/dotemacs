@@ -14,6 +14,7 @@
 (add-hook 'rhtml-mode-hook
           (lambda () (rinari-launch)))
 (add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
+(add-to-list 'auto-mode-alist '("\\.erb$" . rhtml-mode))
 
 (provide 'init_rails)
 ;; init_rails.el ends here

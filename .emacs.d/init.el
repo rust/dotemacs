@@ -43,19 +43,9 @@
           (lambda ()
             (if (file-newer-than-file-p (concat user-emacs-directory "init.el") (concat user-emacs-directory "init.elc"))
                 (byte-compile-file (concat user-emacs-directory "init.el")))
-            (byte-recompile-directory (concat user-emacs-directory "local-lisp") 0)
-            (byte-recompile-directory (concat user-emacs-directory "private") 0)
-            (byte-recompile-directory (concat user-emacs-directory "site-start.d") 0)
+            (byte-recompile-directory (concat user-emacs-directory "init.d") 0)
+            (byte-recompile-directory (concat user-emacs-directory "elisp") 0)
             ))
-
-;; 起動時間計測 目標は常に 3000ms 圏内(dump-emacs すれば可能だがしてない)
-(when emacs23-p
-  (defun message-startup-time ()
-    (message "Emacs loaded in %dms"
-             (/ (- (+ (third after-init-time) (* 1000000 (second after-init-time)))
-                   (+ (third before-init-time) (* 1000000 (second before-init-time))))
-                1000)))
-  (add-hook 'after-init-hook 'message-startup-time))
 
 (provide 'init)
 ;; init.el ends here
