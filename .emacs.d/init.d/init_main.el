@@ -28,5 +28,8 @@
 ;; anything.el
 (require 'init_anything)
 
+;; python-mode
+(require 'init_python)
+
 (provide 'init_main)
 ;; init_mail.el ends here
