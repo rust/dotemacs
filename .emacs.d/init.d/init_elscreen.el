@@ -11,10 +11,10 @@
 (require 'elscreen-gf)
 (require 'elscreen-howm)
 (require 'elscreen-w3m)
-;; coexist for screen
-(elscreen-set-prefix-key "\C-c\C-t")
-(global-set-key (kbd "C-c C-t SPC") 'elscreen-next)
-(global-set-key (kbd "C-c C-t DEL") 'elscreen-previous)
+;; prefix-setting
+(elscreen-set-prefix-key "\C-z")
+(global-set-key (kbd "C-z SPC") 'elscreen-next)
+(global-set-key (kbd "C-z DEL") 'elscreen-previous)
 ;; compatibility for MacOS X
 (global-set-key "\M-t" 'elscreen-create)
 (global-set-key "\M-T" 'elscreen-clone)
