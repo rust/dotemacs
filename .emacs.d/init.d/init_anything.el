@@ -12,7 +12,6 @@
 (require 'anything-match-plugin)
 ;; (define-key global-map "\C-xb" 'anything)
 ;; (global-set-key (kbd "C-x b") 'anything)
-(print "hoge")
 (global-set-key "\C-xb" 'anything)
 
 ;; descbinds-anything
