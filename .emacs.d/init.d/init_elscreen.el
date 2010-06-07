@@ -7,16 +7,15 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; elscreen
-;; elscreen
 (require 'elscreen)
 (require 'elscreen-gf)
 (require 'elscreen-howm)
 (require 'elscreen-w3m)
-;; (setq elscreen-prefix-key "\C-z")
-;; (global-set-key (kbd "C-z SPC") 'elscreen-next)
-;; (global-set-key (kbd "C-:") 'elscreen-next)
-;; (global-set-key (kbd "C-z DEL") 'elscreen-previous)
-;; (global-set-key (kbd "C-;") 'elscreen-previous)
+;; coexist for screen
+(elscreen-set-prefix-key "\C-c\C-z")
+(global-set-key (kbd "C-c C-z SPC") 'elscreen-next)
+(global-set-key (kbd "C-c C-z DEL") 'elscreen-previous)
+;; compatibility for MacOS X
 (global-set-key "\M-t" 'elscreen-create)
 (global-set-key "\M-T" 'elscreen-clone)
 (global-set-key "\M-}" 'elscreen-next)
