@@ -11,6 +11,5 @@
  (x-window-p (require 'init_x-window))
  (no-x-p (require 'init_no-x-window)))
 
-
 (provide 'init_linux)
 ;; init_linux.el ends here
