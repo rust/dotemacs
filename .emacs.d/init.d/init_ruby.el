@@ -17,7 +17,6 @@
 (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
 ;; indent
 (setq ruby-deep-indent-paren-style nil)
-(setq ruby-deep-indent-paren-style '((?\( t)))
 (require 'ruby-electric)
 (add-hook 'ruby-mode-hook (lambda()(ruby-electric-mode 1)))
 (setq ruby-electric-expand-delimiters-list '( ?\{))
