@@ -18,12 +18,13 @@
 (require 'init_ruby)
 ;; ruby-mode
 (require 'init_rails)
-;; howm
-(require 'init_howm)
 ;; session.el
 (require 'init_session)
 ;; outputz.el
 (require 'init_outputz)
+
+;; gauche.el
+(require 'init_gauche)
 
 ;; anything.el
 (require 'init_anything)
@@ -32,6 +33,8 @@
 (require 'init_python)
 ;; elscreen
 (require 'init_elscreen)
+;; howm
+(require 'init_howm)
 
 (provide 'init_main)
 ;; init_mail.el ends here
