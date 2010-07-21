@@ -18,6 +18,9 @@
 (require 'init_ruby)
 ;; ruby-mode
 (require 'init_rails)
+;; haml-mode/sass-mode
+(require 'init_haml)
+
 ;; howm
 (require 'init_howm)
 ;; session.el
