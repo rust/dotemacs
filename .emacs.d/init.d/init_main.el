@@ -16,7 +16,7 @@
 
 ;; ruby-mode
 (require 'init_ruby)
-;; ruby-mode
+;; rails-mode
 (require 'init_rails)
 ;; haml-mode/sass-mode
 (require 'init_haml)
@@ -28,6 +28,9 @@
 ;; outputz.el
 (require 'init_outputz)
 
+;; gauche.el
+(require 'init_gauche)
+
 ;; anything.el
 (require 'init_anything)
 
@@ -35,6 +38,8 @@
 (require 'init_python)
 ;; elscreen
 (require 'init_elscreen)
+;; howm
+(require 'init_howm)
 
 (provide 'init_main)
 ;; init_mail.el ends here
