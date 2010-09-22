@@ -367,6 +367,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; magit.el
 (add-to-list 'load-path "~/.emacs.d/elisp/magit/")
+(add-to-list 'exec-path "/opt/local/bin")
 (require 'magit)
 (require 'git-blame)
  ;; for emacs-22
