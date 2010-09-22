@@ -23,6 +23,18 @@
                     'japanese-jisx0208
                     (cons fontname "unicode-bmp")))
 
+;; (when (= emacs-major-version 23)
+;;   (setq fontname (cond
+;;                   ((string-match "rust-worker" system-name)
+;;                    "M+2VM+IPAG circle-8")
+;;                   ((string-match "precision" system-name)
+;;                    "Inconsolata-11")))
+;;   (add-to-list 'default-frame-alist (cons 'font fontname))
+;;   (set-default-font fontname)
+;;   (set-fontset-font (frame-parameter nil 'font)
+;;                     'japanese-jisx0208
+;;                     '("Takaoゴシック" . "unicode-bmp")))
+
 (require 'color-theme)
 ;; (load "my-color-theme-window")
 ;; (my-color-theme-window)

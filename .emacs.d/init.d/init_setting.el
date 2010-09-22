@@ -106,5 +106,9 @@
           (lambda () (if (not indent-tabs-mode)
                          (untabify (point-min) (point-max)))))
 
+;; wdired
+(require 'wdired)
+(define-key dired-mode-map "r" 'wdired-change-to-dired-mode)
+
 (provide 'init_setting)
 ;; init_setting.el ends here
