@@ -143,11 +143,17 @@
 (setq default-input-method "japanese-skk")
 ;; 送り仮名が厳密に正しい候補を優先して表示
 (setq skk-henkan-strict-okuri-precedence t)
-;;漢字登録時、送り仮名が厳密に正しいかをチェック
+;; 漢字登録時、送り仮名が厳密に正しいかをチェック
 (setq skk-check-okurigana-on-touroku t)
 ;; AquaSKK
 (setq skk-server-host "localhost")
 (setq skk-server-portnum 1178)
+;; Key setting
+(global-set-key "\C-x\C-j" 'skk-mode)
+(global-set-key "\C-xj" 'skk-auto-fill-mode)
+(global-set-key "\C-xt" 'skk-tutorial)
+;; preloading SKK
+(setq skk-preload t)
 
 (when (= emacs-major-version 23)
   (define-key global-map [165] nil)
