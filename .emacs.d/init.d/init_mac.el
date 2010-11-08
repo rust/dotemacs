@@ -131,6 +131,30 @@
 
 (tool-bar-mode nil)
 
+;; SKK
+(let ((default-directory (expand-file-name "~/local/emacs/elisp")))
+ (add-to-list 'load-path default-directory)
+ (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
+     (normal-top-level-add-subdirs-to-load-path)))
+(require 'skk-autoloads)
+;; C-j の機能を別のキーに割り当て
+(global-set-key (kbd "C-m") 'newline-and-indent)
+;; C-\ でも SKK に切り替えられるように設定
+(setq default-input-method "japanese-skk")
+;; 送り仮名が厳密に正しい候補を優先して表示
+(setq skk-henkan-strict-okuri-precedence t)
+;; 漢字登録時、送り仮名が厳密に正しいかをチェック
+(setq skk-check-okurigana-on-touroku t)
+;; AquaSKK
+(setq skk-server-host "localhost")
+(setq skk-server-portnum 1178)
+;; Key setting
+(global-set-key "\C-x\C-j" 'skk-mode)
+(global-set-key "\C-xj" 'skk-auto-fill-mode)
+(global-set-key "\C-xt" 'skk-tutorial)
+;; preloading SKK
+(setq skk-preload t)
+
 (when (= emacs-major-version 23)
   (define-key global-map [165] nil)
   (define-key global-map [67109029] nil)
