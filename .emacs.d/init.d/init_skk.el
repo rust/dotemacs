@@ -7,6 +7,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SKK
+(add-to-list 'load-path (expand-file-name "~/local/emacs/elisp"))
 (require 'skk-autoloads)
 (setq skk-preload t)
 
@@ -16,7 +17,7 @@
 (setq default-input-method "japanese-skk")
 ;; 送り仮名が厳密に正しい候補を優先して表示
 (setq skk-henkan-strict-okuri-precedence t)
-;;漢字登録時、送り仮名が厳密に正しいかをチェック
+;; 漢字登録時、送り仮名が厳密に正しいかをチェック
 (setq skk-check-okurigana-on-touroku t)
 
 (setq skk-server-host "localhost")
@@ -25,6 +26,14 @@
 ;; i-search
 (add-hook 'isearch-mode-hook 'skk-isearch-mode-setup)
 (add-hook 'isearch-mode-end-hook 'skk-isearch-mode-cleanup)
+
+;; Key setting
+(global-set-key "\C-x\C-j" 'skk-mode)
+(global-set-key "\C-xj" 'skk-auto-fill-mode)
+(global-set-key "\C-xt" 'skk-tutorial)
+
+;; for mac
+(setq mac-pass-control-to-system nil)
 
 ;; for .skk
 
