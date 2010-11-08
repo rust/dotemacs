@@ -154,6 +154,7 @@
 (global-set-key "\C-xt" 'skk-tutorial)
 ;; preloading SKK
 (setq skk-preload t)
+(setq mac-pass-control-to-system nil)
 
 (when (= emacs-major-version 23)
   (define-key global-map [165] nil)
