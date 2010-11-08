@@ -41,5 +41,8 @@
 ;; howm
 (require 'init_howm)
 
+;; ddskk
+(require 'init_skk)
+
 (provide 'init_main)
 ;; init_mail.el ends here

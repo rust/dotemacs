@@ -63,45 +63,6 @@
 ;;(setq hl-line-face 'underline)
 (global-hl-line-mode)
 
-;; iiimcf
-(setq load-path (cons (expand-file-name "~/.emacs.d/iiimcf/") load-path))
-(setq iiimcf-server-control-hostlist (list (concat "/tmp/.iiim-" (user-login-name) "/:0.0")))
-(when (and (= 0 (shell-command
-                 (concat
-                  "netstat --unix -l | grep -q " (car iiimcf-server-control-hostlist))))
-           (require 'iiimcf-sc nil t))
-  (setq iiimcf-server-control-default-language "ja")
-  (setq iiimcf-server-control-default-input-method "atokx3")
-  (setq default-input-method 'iiim-server-control)
-  (setq iiimcf-UI-input-method-title-format "<ATOK:%s>")
-  (progn
-    ;;; キーバインドの追加
-    ;; from http://okutomi-lab.ctrl.titech.ac.jp/~tkanda/atok_x3_install.htm
-    ;; http://genmei.itline.jp/~svx/diary/?date=20071220
-    ;; C-k/C-l        文節区切り収縮/伸張   (F2/F3)
-    ;; C-g            変換キャンセル
-    ;; C-b/C-f        文節前移動/文節後移動 (F4/F5)
-    ;; C-u            ひらがな変換
-    ;; C-i            カタカナ変換
-    ;; C-o            半角変換
-    ;; C-p            全角無変換
-    (setq iiimcf-keycode-spec-alist
-          (append
-           '((11 113 65535) ; C-k
-             (12 114 65535) ; C-l
-             (7   27 65535) ; C-g
-             (2   37 65535) ; C-b
-             (15  39 65535) ; C-f
-             (21 117 65535) ; C-u
-             (9  118 65535) ; C-i
-             (15 119 65535) ; C-o
-             (16 120 65535) ; C-p
-             )
-           iiimcf-keycode-spec-alist))))
-;; key-bind
-(global-set-key [henkan] 'toggle-input-method)
-;; (global-set-key "\C-o" 'toggle-input-method)
-
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -175,7 +136,6 @@
   (interactive)
   (shell-command "wmctrl -r :ACTIVE: -btoggle,fullscreen"))
 (global-set-key [f11] 'switch-full-screen)
-
 
 (provide 'init_x-window)
 ;; init_x-window.el ends here
