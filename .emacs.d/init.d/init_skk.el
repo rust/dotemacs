@@ -40,6 +40,16 @@
 ;; 対応する閉括弧を自動的に挿入する
 (setq skk-auto-insert-paren t)
 
+;; 文章系のバッファを開いた時には自動的に英数モード(「SKK」モード)に入る
+(let ((function #'(lambda ()
+                    (require 'skk)
+                    (skk-latin-mode-on))))
+  (dolist (hook '(find-file-hooks
+                  ;; ...
+                  mail-setup-hook
+                  message-setup-hook))
+    (add-hook hook function)))
+
 ;;;; かなモードの入力で (モード変更を行なわずに) 長音(ー)を
 ;;;; ASCII 数字の直後では `-' に、全角数字の直後では `－' にしたい。
 ;;(setq skk-rom-kana-rule-list
