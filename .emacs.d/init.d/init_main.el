@@ -33,6 +33,7 @@
 
 ;; anything.el
 (require 'init_anything)
+(require 'init_split_root)
 
 ;; python-mode
 (require 'init_python)
