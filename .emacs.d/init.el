@@ -31,6 +31,27 @@
 (defvar x-window-p (and (eq window-system 'x) linux-p))
 (defvar no-x-p (and (not (eq window-system 'x)) linux-p))
 
+;; PATHの設定 from http://sakito.jp/emacs/emacsshell.html#path
+;; より下に記述した物が PATH の先頭に追加されます
+(dolist (dir (list
+              "/sbin"
+              "/usr/sbin"
+              "/bin"
+              "/usr/bin"
+              "/opt/local/bin"
+              "/sw/bin"
+              "/usr/local/bin"
+              (expand-file-name "~/.rvm/gems/ruby-1.9.2-p0/bin")
+              (expand-file-name "~/.rvm/gems/ruby-1.9.2-p0@global/bin")
+              (expand-file-name "~/.rvm/rubies/ruby-1.9.2-p0/bin")
+              (expand-file-name "~/bin")
+              (expand-file-name "~/.emacs.d/bin")
+              ))
+ ;; PATH と exec-path に同じ物を追加します
+ (when (and (file-exists-p dir) (not (member dir exec-path)))
+   (setenv "PATH" (concat dir ":" (getenv "PATH")))
+   (setq exec-path (append (list dir) exec-path))))
+
 ;; 共通設定ファイル
 (require 'init_main)
 ;; 環境依存設定ファイル

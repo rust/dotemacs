@@ -45,5 +45,8 @@
 ;; ddskk
 (require 'init_skk)
 
+;; evernote
+(require 'init_evernote)
+
 (provide 'init_main)
 ;; init_mail.el ends here
