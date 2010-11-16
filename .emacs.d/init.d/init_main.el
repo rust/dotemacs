@@ -48,5 +48,8 @@
 ;; evernote
 (require 'init_evernote)
 
+;; multi-term
+(require 'init_multi-term)
+
 (provide 'init_main)
 ;; init_mail.el ends here
