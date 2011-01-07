@@ -7,7 +7,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; SKK
-(add-to-list 'load-path (expand-file-name "~/local/emacs/elisp"))
+(add-to-list 'load-path "~/local/emacs/elisp/skk")
 (require 'skk-autoloads)
 (setq skk-preload t)
 
