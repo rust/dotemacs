@@ -9,5 +9,11 @@
 ;; review
 (require 'review-mode)
 
+(add-to-list 'auto-mode-alist '("\\.re$" . review-mode))
+(add-hook 'review-mode-hook
+          '(lambda()
+             (setq comment-start "#@#")
+             (setq mode-name "著者")))
+
 (provide 'init_review)
 ;; init_review.el ends here

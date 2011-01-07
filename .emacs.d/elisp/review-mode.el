@@ -38,7 +38,7 @@
     )
   "編集モードface")
 
-(defvar review-name-list 
+(defvar review-name-list
   '(("編集者" . "編集注")
     ("翻訳者" . "翻訳注")
     ("監訳" . "監注")
@@ -90,9 +90,9 @@
   (let ()
 
     (setq major-mode 'review-mode
-	  mode-name review-mode-name
-	  )
-    
+    mode-name review-mode-name
+    )
+
     (auto-fill-mode 0)
     (if review-use-skk-mode (skk-mode))
 
@@ -100,28 +100,28 @@
     (require 'font-lock)
 
     (defcustom review-font-lock-keywords
-	`(("◆→[^◆]*←◆" . review-mode-comment-face)
-	  ("^#@.*" . review-mode-comment-face)
-	  ("^=.*" . review-mode-title-face)
-	  ("@<tt>{.*?}" . review-mode-underline-face)
-	  ("@<ttbold>{.*?}" . review-mode-underlinebold-face)
-	  ("@<b>{.*?}" . review-mode-bold-face)
-	  ("@<kw>{.*?}" . review-mode-bold-face)
-	  ("@<i>{.*?}" . review-mode-italic-face)
-	  ("@<tti>{.*?}" . review-mode-italic-face)
-	  ("@<sup>{.*?}" . review-mode-italic-face)
-	  ("@<sub>{.*?}" . review-mode-italic-face)
-	  ("@<idx>{.*?}" . review-mode-nothide-face)
-	  ("@<hidx>{.*?}" . review-mode-hide-face)
-	  ("@<balloon>{.*?}" . review-mode-ballon-face)
-	  ("^//.*{" . review-mode-hide-face)
-	  ("^//.*]" . review-mode-hide-face)
-	  ("^//}" . review-mode-hide-face)
-	  ("<\<>" . review-mode-bracket-face)
-	  )
-	"編集モードのface"
-	:group 'review-mode
-	:type 'list)
+  `(("◆→[^◆]*←◆" . review-mode-comment-face)
+    ("^#@.*" . review-mode-comment-face)
+    ("^=.*" . review-mode-title-face)
+    ("@<tt>{.*?}" . review-mode-underline-face)
+    ("@<ttbold>{.*?}" . review-mode-underlinebold-face)
+    ("@<b>{.*?}" . review-mode-bold-face)
+    ("@<kw>{.*?}" . review-mode-bold-face)
+    ("@<i>{.*?}" . review-mode-italic-face)
+    ("@<tti>{.*?}" . review-mode-italic-face)
+    ("@<sup>{.*?}" . review-mode-italic-face)
+    ("@<sub>{.*?}" . review-mode-italic-face)
+    ("@<idx>{.*?}" . review-mode-nothide-face)
+    ("@<hidx>{.*?}" . review-mode-hide-face)
+    ("@<balloon>{.*?}" . review-mode-ballon-face)
+    ("^//.*{" . review-mode-hide-face)
+    ("^//.*]" . review-mode-hide-face)
+    ("^//}" . review-mode-hide-face)
+    ("<\<>" . review-mode-bracket-face)
+    )
+  "編集モードのface"
+  :group 'review-mode
+  :type 'list)
 
     (defface review-mode-comment-face
       '((t (:foreground "Red")))
@@ -226,6 +226,12 @@
     (define-key review-mode-map "\C-c\C-y" 'review-index-change)
 
     (use-local-map review-mode-map)
+
+    ;; コメント
+    (setq comment-start "#@#")
+
+    ;; インデント
+    (setq indent-line-function 'review-mode-indent-line)
 
     (run-hooks 'review-mode-hook)
     )
@@ -399,9 +405,9 @@
       (setq _element (car (car _list)))
       (setq sum ( + sum 1))
       (if _message
-	(setq _message (format "%s%d.%s " _message sum _element))
-	(setq _message (format "%d.%s " sum _element))
-	)
+  (setq _message (format "%s%d.%s " _message sum _element))
+  (setq _message (format "%d.%s " sum _element))
+  )
       (setq _list (cdr _list))
       )
     (message (concat "編集モード: " _message ":"))
@@ -436,9 +442,9 @@
       (setq _element (car _list))
       (setq sum ( + sum 1))
       (if _message
-	(setq _message (format "%s%d.%s " _message sum _element))
-	(setq _message (format "%d.%s " sum _element))
-	)
+  (setq _message (format "%s%d.%s " _message sum _element))
+  (setq _message (format "%d.%s " sum _element))
+  )
       (setq _list (cdr _list))
       )
     (message (concat "DTP担当: " _message ":"))
@@ -476,13 +482,13 @@
   "選択領域を索引として()とスペースを取る"
   (interactive "r")
   (let (_review-index-buffer)
-    
+
     (save-restriction
       (narrow-to-region start end)
       (setq _review-index-buffer (buffer-substring-no-properties start end))
       (goto-char (point-min))
       (while (re-search-forward "\(\\|\)\\| " nil t)
-	(replace-match "" nil nil))
+  (replace-match "" nil nil))
       (goto-char (point-max))
       (insert "@" _review-index-buffer)
       )
@@ -502,3 +508,6 @@
     )
   )
 )
+
+(defun review-mode-indent-line ()
+  ())
