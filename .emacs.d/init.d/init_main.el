@@ -33,6 +33,7 @@
 
 ;; anything.el
 (require 'init_anything)
+(require 'init_split_root)
 
 ;; python-mode
 (require 'init_python)
@@ -43,6 +44,15 @@
 
 ;; ReVIEW
 (require 'init_review)
+
+;; ddskk
+(require 'init_skk)
+
+;; evernote
+(require 'init_evernote)
+
+;; multi-term
+(require 'init_multi-term)
 
 (provide 'init_main)
 ;; init_mail.el ends here
