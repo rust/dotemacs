@@ -41,5 +41,8 @@
 ;; howm
 (require 'init_howm)
 
+;; ReVIEW
+(require 'init_review)
+
 (provide 'init_main)
 ;; init_mail.el ends here
