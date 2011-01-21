@@ -20,6 +20,8 @@
 (require 'init_rails)
 ;; haml-mode/sass-mode
 (require 'init_haml)
+;; yaml-mode
+(require 'init_yaml)
 
 ;; howm
 (require 'init_howm)
