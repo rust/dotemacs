@@ -35,7 +35,7 @@
 
 ;; anything.el
 (require 'init_anything)
-(require 'init_split_root)
+(require 'init_popwin)
 
 ;; python-mode
 (require 'init_python)
