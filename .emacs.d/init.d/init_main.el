@@ -45,8 +45,8 @@
 ;; ReVIEW
 (require 'init_review)
 
-;; ddskk
-(require 'init_skk)
+;; mozc
+(require 'init_mozc)
 
 ;; evernote
 (require 'init_evernote)
