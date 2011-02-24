@@ -54,6 +54,7 @@
 
 ;; 共通設定ファイル
 (require 'init_main)
+
 ;; 環境依存設定ファイル
 (cond
  ((or ns-p mac-p) (require 'init_mac))
