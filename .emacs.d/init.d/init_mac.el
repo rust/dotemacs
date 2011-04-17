@@ -141,5 +141,8 @@
   (define-key function-key-map [134217893] [?\M-\\])
   (define-key function-key-map [201326757] [?\C-\M-\\]))
 
+;; disable scroll-bar
+(set-scroll-bar-mode nil)
+
 (provide 'init_mac)
 ;; init_mac.el ends here

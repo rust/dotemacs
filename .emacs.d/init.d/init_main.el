@@ -47,8 +47,8 @@
 ;; ReVIEW
 (require 'init_review)
 
-;; ddskk
-(require 'init_skk)
+;; ;; ddskk
+;; (require 'init_skk)
 
 ;; evernote
 (require 'init_evernote)
