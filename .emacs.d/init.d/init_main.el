@@ -47,8 +47,9 @@
 ;; ReVIEW
 (require 'init_review)
 
-;; ;; ddskk
-;; (require 'init_skk)
+;; mozc
+(when x-window-p
+  (require 'init_mozc))
 
 ;; evernote
 (require 'init_evernote)
