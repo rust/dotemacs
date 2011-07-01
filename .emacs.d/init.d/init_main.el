@@ -48,7 +48,8 @@
 (require 'init_review)
 
 ;; mozc
-(require 'init_mozc)
+(when x-window-p
+  (require 'init_mozc))
 
 ;; evernote
 (require 'init_evernote)

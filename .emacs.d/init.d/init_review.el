@@ -13,7 +13,9 @@
 (add-hook 'review-mode-hook
           '(lambda()
              (setq comment-start "#@#")
-             (setq mode-name "著者")))
+             (setq mode-name "著者")
+             (setq tab-width 8)
+             (setq indent-tabs-mode t)))
 
 (provide 'init_review)
 ;; init_review.el ends here
