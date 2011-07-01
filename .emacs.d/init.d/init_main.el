@@ -27,8 +27,8 @@
 (require 'init_howm)
 ;; session.el
 (require 'init_session)
-;; outputz.el
-(require 'init_outputz)
+;;;; outputz.el
+;;(require 'init_outputz)
 
 ;; gauche.el
 (require 'init_gauche)
