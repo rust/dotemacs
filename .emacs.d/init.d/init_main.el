@@ -57,5 +57,8 @@
 ;; multi-term
 (require 'init_multi-term)
 
+;; markdown
+(require 'init_markdown)
+
 (provide 'init_main)
 ;; init_mail.el ends here
