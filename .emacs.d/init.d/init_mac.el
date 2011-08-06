@@ -7,7 +7,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Color
-(set-frame-parameter nil 'alpha 85)
+(set-frame-parameter nil 'alpha 95)
 ;; (if (= emacs-major-version 23)
 ;;   (setq initial-frame-alist '((width . 200)(height . 120)(top . 0)(left . (45)))))
 (when (= emacs-major-version 22)
@@ -47,16 +47,41 @@
   (setq fixed-width-use-QuickDraw-for-ascii t)
   (setq mac-allow-anti-aliasing t)
   (require 'carbon-font))
-(when (= emacs-major-version 23)
-  ;; (create-fontset-from-ascii-font "M+2VM+IPAG circle-14:weight=normal:slant=normal" nil "menlokakugo")
-  (create-fontset-from-ascii-font "Monaco-12:weight=normal:slant=normal" nil "menlokakugo")
-  (set-fontset-font "fontset-menlokakugo"
-                    'unicode
-                    ;; (font-spec :family "Hiragino Kaku Gothic ProN" :size 12)
-                    (font-spec :family "M+2VM+IPAG circle" :size 14)
-                    nil
-                    'append)
-  (add-to-list 'default-frame-alist '(font . "fontset-menlokakugo")))
+(when (>= emacs-major-version 23)
+ (set-face-attribute 'default nil
+                     :family "monaco"
+                     :height 120)
+ (set-fontset-font
+  (frame-parameter nil 'font)
+  'japanese-jisx0208
+  '("Hiragino Maru Gothic Pro" . "iso10646-1"))
+ (set-fontset-font
+  (frame-parameter nil 'font)
+  'japanese-jisx0212
+  '("Hiragino Maru Gothic Pro" . "iso10646-1"))
+ (set-fontset-font
+  (frame-parameter nil 'font)
+  'mule-unicode-0100-24ff
+  '("monaco" . "iso10646-1"))
+ (setq face-font-rescale-alist
+      '(("^-apple-hiragino.*" . 1.2)
+        (".*osaka-bold.*" . 1.2)
+        (".*osaka-medium.*" . 1.2)
+        (".*courier-bold-.*-mac-roman" . 1.0)
+        (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
+        (".*monaco-bold-.*-mac-roman" . 0.9)
+        ("-cdac$" . 1.3))))
+
+;; (when (= emacs-major-version 23)
+;;   ;; (create-fontset-from-ascii-font "M+2VM+IPAG circle-14:weight=normal:slant=normal" nil "menlokakugo")
+;;   (create-fontset-from-ascii-font "Monaco-12:weight=normal:slant=normal" nil "menlokakugo")
+;;   (set-fontset-font "fontset-menlokakugo"
+;;                     'unicode
+;;                     ;; (font-spec :family "Hiragino Kaku Gothic ProN" :size 12)
+;;                     (font-spec :family "M+2VM+IPAG circle" :size 14)
+;;                     nil
+;;                     'append)
+;;   (add-to-list 'default-frame-alist '(font . "fontset-menlokakugo")))
 
 (require 'color-theme)
 ;; (load "my-color-theme-window")
