@@ -18,7 +18,7 @@
   url = git://github.com/tsgates/git-emacs.git
 [submodule ".emacs.d/elisp/magit"]
   path = .emacs.d/elisp/magit
-  url = git://gitorious.org/magit/mainline.git
+  url = git://github.com/magit/magit.git
 [submodule ".emacs.d/elisp/undo-tree"]
   path = .emacs.d/elisp/undo-tree
   url = http://www.dr-qubit.org/git/undo-tree.git
