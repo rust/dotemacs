@@ -169,5 +169,8 @@
 ;; disable scroll-bar
 (set-scroll-bar-mode nil)
 
+;; rdefs
+(setq ar:command '/home/ogawa/.rvm/gems/ruby-1.9.2-p290/bin/rdefs')
+
 (provide 'init_mac)
 ;; init_mac.el ends here

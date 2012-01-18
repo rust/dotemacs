@@ -47,5 +47,10 @@
 (require 'anything-rurima)
 (setq anything-rurima-index-file "~/Dropbox/rurima/rubydoc/rurima.e")
 
+;; rdefs
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (define-key ruby-mode-map (kbd "C-@") 'anything-rdefs)))
+
 (provide 'init_ruby)
 ;; init_ruby.el ends here

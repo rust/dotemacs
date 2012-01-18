@@ -21,5 +21,8 @@
 ;; (require 'ac-anything)
 ;; (define-key ac-complete-mode-map (kbd "C-:") 'ac-complete-with-anything)
 
+;; rdefs
+(require 'anything-rdefs)
+
 (provide 'init_anything)
 ;; init_anything.el ends here
