@@ -25,3 +25,12 @@
 [submodule ".emacs.d/elisp/auto-complete"]
   path = .emacs.d/elisp/auto-complete
   url = http://cx4a.org/repo/auto-complete.git
+[submodule ".emacs.d/elisp/cofee-mode"]
+	path = .emacs.d/elisp/cofee-mode
+	url = https://github.com/defunkt/coffee-mode.git
+[submodule ".emacs.d/elisp/coffee-mode"]
+	path = .emacs.d/elisp/coffee-mode
+	url = https://github.com/defunkt/coffee-mode.git
+[submodule ".emacs.d/elisp/scss-mode"]
+	path = .emacs.d/elisp/scss-mode
+	url = https://github.com/antonj/scss-mode.git
