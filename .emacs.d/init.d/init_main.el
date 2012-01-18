@@ -20,6 +20,8 @@
 (require 'init_rails)
 ;; haml-mode/sass-mode
 (require 'init_haml)
+;; coffee-mode
+(require 'init_coffee_script)
 ;; yaml-mode
 (require 'init_yaml)
 

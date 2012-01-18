@@ -9,9 +9,12 @@
 ;; haml
 (require 'haml-mode)
 (require 'sass-mode)
+(require 'scss-mode)
 
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
+(add-to-list 'auto-mode-alist '("\\.scss$" . scss-mode))
+(setq scss-compile-at-save nil)
 
 (provide 'init_haml)
 ;; init_haml.el ends here
