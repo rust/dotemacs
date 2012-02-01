@@ -34,3 +34,6 @@
 [submodule ".emacs.d/elisp/scss-mode"]
 	path = .emacs.d/elisp/scss-mode
 	url = https://github.com/antonj/scss-mode.git
+[submodule ".emacs.d/elisp/js2-mode"]
+	path = .emacs.d/elisp/js2-mode
+	url = git://github.com/mooz/js2-mode.git
