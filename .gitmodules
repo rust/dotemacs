@@ -37,3 +37,6 @@
 [submodule ".emacs.d/elisp/js2-mode"]
 	path = .emacs.d/elisp/js2-mode
 	url = git://github.com/mooz/js2-mode.git
+[submodule ".emacs.d/elisp/popup"]
+	path = .emacs.d/elisp/popup
+	url = git://github.com/m2ym/popup-el.git
