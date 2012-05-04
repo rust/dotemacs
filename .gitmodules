@@ -19,9 +19,6 @@
 [submodule ".emacs.d/elisp/magit"]
   path = .emacs.d/elisp/magit
   url = git://github.com/magit/magit.git
-[submodule ".emacs.d/elisp/undo-tree"]
-  path = .emacs.d/elisp/undo-tree
-  url = http://www.dr-qubit.org/git/undo-tree.git
 [submodule ".emacs.d/elisp/auto-complete"]
   path = .emacs.d/elisp/auto-complete
   url = http://cx4a.org/repo/auto-complete.git
