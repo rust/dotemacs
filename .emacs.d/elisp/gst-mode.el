@@ -32,7 +32,7 @@
 
 (defvar *gst-process* nil
   "Holds the GNU Smalltalk process")
-(defvar gst-program-name "/opt/local/bin/gst -V"
+(defvar gst-program-name "/usr/local/bin/gst -V"
   "GNU Smalltalk command to run.  Do not use the -a, -f or -- options.")
 
 (defvar smalltalk-command-string nil

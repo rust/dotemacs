@@ -1054,4 +1054,4 @@ Whitespace is defined as spaces, tabs, and comments."
 (push '("\\.st\\'" . smalltalk-mode) auto-mode-alist)
 
 (provide 'smalltalk-mode)
-(autoload 'gst "/opt/local/share/emacs/site-lisp/gst-mode.elc" "" t)
+(autoload 'gst "/usr/local/share/emacs/site-lisp/gst-mode.elc" "" t)
