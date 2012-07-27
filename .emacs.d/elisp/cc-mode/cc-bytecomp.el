@@ -1,7 +1,7 @@
 ;;; cc-bytecomp.el --- compile time setup for proper compilation
 
-;; Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006 Free Software
-;; Foundation, Inc.
+;; Copyright (C) 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
+;;   2008, 2009, 2010, 2011, 2012  Free Software Foundation, Inc.
 
 ;; Author:     Martin Stjernholm
 ;; Maintainer: bug-cc-mode@gnu.org
@@ -13,7 +13,7 @@
 
 ;; GNU Emacs is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; GNU Emacs is distributed in the hope that it will be useful,
@@ -22,9 +22,8 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;; Boston, MA 02110-1301, USA.
+;; along with this program; see the file COPYING.  If not, see
+;; <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -81,6 +80,15 @@
 (defvar cc-bytecomp-original-functions nil)
 (defvar cc-bytecomp-original-properties nil)
 (defvar cc-bytecomp-loaded-files nil)
+(defvar cc-bytecomp-push-vars nil
+  "A stack ((VAR GLOBAL-VAL SETQD-VAL) ...)")
+
+(setq cc-bytecomp-unbound-variables nil)
+(setq cc-bytecomp-original-functions nil)
+(setq cc-bytecomp-original-properties nil)
+(setq cc-bytecomp-loaded-files nil)
+(setq cc-bytecomp-push-vars nil)
+
 (defvar cc-bytecomp-environment-set nil)
 
 (defmacro cc-bytecomp-debug-msg (&rest args)
@@ -133,6 +141,15 @@ perhaps a `cc-bytecomp-restore-environment' is forgotten somewhere"))
 	    (cc-bytecomp-debug-msg
 	     "cc-bytecomp-setup-environment: Bound property %s for %s to %s"
 	     prop sym tempdef))
+	  (setq p (cdr p)))
+	(setq p (reverse cc-bytecomp-push-vars))
+	(while p
+	  (let ((var (caar p))
+		(setqd-val (cadr (cdar p))))
+	    (set var setqd-val)
+	    (cc-bytecomp-debug-msg
+	     "cc-bytecomp-setup-environment: Set variable %s to %s"
+	     var setqd-val))
 	  (setq p (cdr p)))
 	(setq cc-bytecomp-environment-set t)
 	(cc-bytecomp-debug-msg
@@ -198,6 +215,18 @@ perhaps a `cc-bytecomp-restore-environment' is forgotten somewhere"))
 	      (cc-bytecomp-debug-msg
 	       "cc-bytecomp-restore-environment: Not restoring property %s for %s"
 	       prop sym)))
+	  (setq p (cdr p)))
+	(setq p cc-bytecomp-push-vars)
+	(while p
+	  (let ((var (caar p))
+		(global-val (cadr (car p)))
+		)
+	    (if (eq global-val 'cc-bytecomp-unbound)
+		(makunbound var)
+	      (set var global-val))
+	    (cc-bytecomp-debug-msg
+	     "cc-bytecomp-restore-environment: Restored variable %s to %s"
+	     var global-val))
 	  (setq p (cdr p)))
 	(setq cc-bytecomp-environment-set nil)
 	(cc-bytecomp-debug-msg
@@ -383,6 +412,26 @@ the file.  Don't use outside `eval-when-compile'."
       "cc-bytecomp-put: Bound property %s for %s to %s"
       ,propname ,symbol ,value)))
 
+(defmacro cc-bytecomp-push (symbol value)
+  "Set SYMBOL to VALUE during compilation (and evaluation) of the file.
+Don't use within `eval-when-compile'."
+  `(eval-when-compile
+     (cc-bytecomp-debug-msg
+      "cc-bytecomp-push: symbol is %s, value is %s"
+      ',symbol ,value)
+     (setq cc-bytecomp-set-vars
+	   (cons (list ',symbol
+		       (if (boundp ',symbol)
+			   ,symbol
+			 'cc-bytecomp-unbound)
+		       ,value)
+		 cc-bytecomp-push-vars))
+     (cc-bytecomp-debug-msg
+      "cc-bytecomp-push: set %s to %s" ',symbol ,value)
+     (set ',symbol ,value)
+     (cc-bytecomp-debug-msg
+      "cc-bytecomp-push: cc-bytecomp-push-vars is %s" cc-bytecomp-push-vars)))
+
 (defmacro cc-bytecomp-obsolete-var (symbol)
   "Suppress warnings that the given symbol is an obsolete variable.
 Don't use within `eval-when-compile'."
@@ -395,20 +444,25 @@ Don't use within `eval-when-compile'."
 
 (defun cc-bytecomp-ignore-obsolete (form)
   ;; Wraps a call to `byte-compile-obsolete' that suppresses the warning.
-  (let ((byte-compile-warnings
-	 (delq 'obsolete (append byte-compile-warnings nil))))
-    (byte-compile-obsolete form)))
+  (let ((byte-compile-warnings byte-compile-warnings))
+    (if (fboundp 'byte-compile-disable-warning) ; Emacs 23+
+	(byte-compile-disable-warning 'obsolete)
+      (delq 'obsolete (append byte-compile-warnings nil)))
+    (if (fboundp 'byte-compile-obsolete) ; purely to suppress a warnin.
+	(byte-compile-obsolete form))))
 
 (defmacro cc-bytecomp-obsolete-fun (symbol)
   "Suppress warnings that the given symbol is an obsolete function.
 Don't use within `eval-when-compile'."
   `(eval-when-compile
-     (if (eq (get ',symbol 'byte-compile) 'byte-compile-obsolete)
-	 (cc-bytecomp-put ',symbol 'byte-compile
-			  'cc-bytecomp-ignore-obsolete)
-       ;; This avoids a superfluous compiler warning
-       ;; about calling `get' for effect.
-       t)))
+     ,(if (fboundp 'byte-compile-obsolete)
+	  `(if (eq (get ',symbol 'byte-compile) 'byte-compile-obsolete)
+	       (cc-bytecomp-put ',symbol 'byte-compile
+				'cc-bytecomp-ignore-obsolete)
+	     ;; This avoids a superfluous compiler warning
+	     ;; about calling `get' for effect.
+	     t)
+	`(cc-bytecomp-push byte-compile-not-obsolete-funcs '(,symbol)))))
 
 (defmacro cc-bytecomp-boundp (symbol)
   "Return non-nil if the given symbol is bound as a variable outside

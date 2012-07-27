@@ -1,7 +1,7 @@
 ;;; cc-lobotomy.el --- excise portions of cc-mode's brain... for speed
 
-;; Copyright (C) 1985,1987,1992-2003, 2005, 2006 Free Software Foundation,
-;; Inc.
+;; Copyright (C) 1985,1987,1992-2003, 2005, 2006, 2007, 2008, 2009,
+;;   2010, 2011, 2012  Free Software Foundation, Inc.
 
 ;; Author:     1995 Barry A. Warsaw
 ;; Maintainer: Unmaintained
@@ -13,18 +13,17 @@
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2 of the License, or
+;; the Free Software Foundation; either version 3 of the License, or
 ;; (at your option) any later version.
 
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;; Boston, MA 02110-1301, USA.
+;; along with this program; see the file COPYING.  If not, see
+;; <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 ;;
@@ -33,10 +32,10 @@
 ;; language definitions, a trade-off is often required between
 ;; accuracy of construct recognition and speed. I believe it is always
 ;; best to be correct, and that the mode is currently fast enough for
-;; most normal usage.  Others disagree.  I have no intention of
+;; most normal usage.  Others disagree.	 I have no intention of
 ;; including these hacks in the main distribution.  When cc-mode
 ;; version 5 comes out, it will include a rewritten indentation engine
-;; so that performance will be greatly improved automatically.  This
+;; so that performance will be greatly improved automatically.	This
 ;; was not included in this release of version 4 so that Emacs 18
 ;; could still be supported.  Note that this implies that cc-mode
 ;; version 5 will *not* work on Emacs 18!
@@ -49,7 +48,7 @@
 ;; This will redefine certain cc-mode functions and affect all cc-mode
 ;; buffers globally.
 ;;
-;; This file is completely unsupported!  Although it has been patched
+;; This file is completely unsupported!	 Although it has been patched
 ;; superficially to keep pace with the rest of CC Mode, it hasn't been
 ;; tested for a long time.
 
@@ -74,21 +73,21 @@ incurs a penalty in correct identification of certain code constructs.
 Possible values to put on this list:
 
   'literal -- `c-in-literal' is lobotomized.  This will significantly
-              speed up parsing over large lists of cpp macros, as seen
+	      speed up parsing over large lists of cpp macros, as seen
 	      for instance in header files.  The penalty is that you
 	      cannot put the `#' character as the first non-whitespace
 	      character on a line inside other multi-line literals
 	      (i.e. comments or strings)
 
   'class   -- `c-narrow-out-enclosing-class' and `c-search-uplist for
-              classkey' are lobotomized.  This speeds up some
+	      classkey' are lobotomized.  This speeds up some
 	      indenting inside and around class and struct
 	      definitions.  The penalty is that elements inside of
 	      classes and structs may not indent correctly.
 
   'lists   -- `c-inside-bracelist-p' is lobotomized.  This speeds up
-              indenting inside and around brace lists (e.g. aggregate
-	      initializers, enum lists, etc.).  The penalty is that
+	      indenting inside and around brace lists (e.g. aggregate
+	      initializers, enum lists, etc.).	The penalty is that
 	      elements inside these lists may not indent correctly.")
 
 (defun cc-lobotomize ()
@@ -153,7 +152,7 @@ Possible values to put on this list:
   (insert
    "\nYou are using cc-lobotomy.el.  You realize that by doing\n"
    "so you have already made the decision to trade off accuracy\n"
-   "for speed?  Don't set your hopes too high that your problem\n"
+   "for speed?	Don't set your hopes too high that your problem\n"
    "will be fixed.\n\n"))
 
 

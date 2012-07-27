@@ -1,7 +1,7 @@
 ;;; cc-fix.el --- compatibility library for old (X)Emacs versions
 
-;; Copyright (C) 1985,1987,1992-2003, 2004, 2005, 2006 Free Software
-;; Foundation, Inc.
+;; Copyright (C) 1985,1987,1992-2003, 2004, 2005, 2006, 2007, 2008,
+;; 2009, 2010, 2011, 2012  Free Software Foundation, Inc.
 
 ;; Authors:    2003- Alan Mackenzie
 ;;             1998- Martin Stjernholm
@@ -15,7 +15,7 @@
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2 of the License, or
+;; the Free Software Foundation; either version 3 of the License, or
 ;; (at your option) any later version.
 
 ;; This program is distributed in the hope that it will be useful,
@@ -24,9 +24,8 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;; Boston, MA 02110-1301, USA.
+;; along with this program; see the file COPYING.  If not, see
+;; <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -129,14 +128,27 @@ in REGEXP."
        "Compile KEYWORDS (a list) and return the list of compiled keywords.
 Each keyword has the form (MATCHER HIGHLIGHT ...).  See `font-lock-keywords'."
        (if (eq (car-safe keywords) t)
-           keywords
-         (cons t (mapcar 'font-lock-compile-keyword keywords))))
+	   keywords
+	 (cons t (mapcar 'font-lock-compile-keyword keywords))))
      (defadvice font-lock-fontify-keywords-region (before c-compile-font-lock-keywords
-                                                          activate preactivate)
+							  activate preactivate)
        (unless (eq (car-safe font-lock-keywords) t)
-         (setq font-lock-keywords
-               (font-lock-compile-keywords font-lock-keywords))))
+	 (setq font-lock-keywords
+	       (font-lock-compile-keywords font-lock-keywords))))
      ))
+
+;; XEmacs 21.4 doesn't have `delete-dups'.
+(if (not (fboundp 'delete-dups))
+    (defun delete-dups (list)
+      "Destructively remove `equal' duplicates from LIST.
+Store the result in LIST and return it.  LIST must be a proper list.
+Of several `equal' occurrences of an element in LIST, the first
+one is kept."
+      (let ((tail list))
+	(while tail
+	  (setcdr tail (delete (car tail) (cdr tail)))
+	  (setq tail (cdr tail))))
+      list))
 
 
 (cc-provide 'cc-fix)

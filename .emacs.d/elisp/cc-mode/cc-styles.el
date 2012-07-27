@@ -1,12 +1,14 @@
 ;;; cc-styles.el --- support for styles in CC Mode
 
-;; Copyright (C) 1985,1987,1992-2003, 2004, 2005, 2006 Free Software
-;; Foundation, Inc.
+;; Copyright (C) 1985, 1987, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+;;   1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
+;;   2010, 2011, 2012   Free Software Foundation, Inc.
 
-;; Authors:    1998- Martin Stjernholm
-;;             1992-1999 Barry A. Warsaw
-;;             1987 Dave Detlefs and Stewart Clamen
-;;             1985 Richard M. Stallman
+;; Authors:    2004- Alan Mackenzie
+;;	       1998- Martin Stjernholm
+;;	       1992-1999 Barry A. Warsaw
+;;	       1987 Dave Detlefs and Stewart Clamen
+;;	       1985 Richard M. Stallman
 ;; Maintainer: bug-cc-mode@gnu.org
 ;; Created:    22-Apr-1997 (split from cc-mode.el)
 ;; Version:    See cc-mode.el
@@ -16,18 +18,17 @@
 
 ;; GNU Emacs is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; GNU Emacs is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;; Boston, MA 02110-1301, USA.
+;; along with this program; see the file COPYING.  If not, see
+;; <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -50,13 +51,16 @@
 ;; Silence the compiler.
 (cc-bytecomp-defvar adaptive-fill-first-line-regexp) ; Emacs
 (cc-bytecomp-obsolete-fun make-local-hook) ; Marked obsolete in Emacs 21.1.
+					   ; Allegedly still required by
+					   ; XEmacs 21.4.n (2011-08).
 
 
 (defvar c-style-alist
   '(("gnu"
      (c-basic-offset . 2)
      (c-comment-only-line-offset . (0 . 0))
-     (c-hanging-braces-alist     . ((substatement-open before after)))
+     (c-hanging-braces-alist	 . ((substatement-open before after)
+				    (arglist-cont-nonempty)))
      (c-offsets-alist . ((statement-block-intro . +)
 			 (knr-argdecl-intro . 5)
 			 (substatement-open . +)
@@ -67,7 +71,10 @@
 			 (arglist-intro . c-lineup-arglist-intro-after-paren)
 			 (arglist-close . c-lineup-arglist)
 			 (inline-open . 0)
-			 (brace-list-open . +)))
+			 (brace-list-open . +)
+			 (topmost-intro-cont
+			  . (first c-lineup-topmost-intro-cont
+				   c-lineup-gnu-DEFUN-intro-cont))))
      (c-special-indent-hook . c-gnu-impose-minimum)
      (c-block-comment-prefix . ""))
 
@@ -158,29 +165,30 @@
     ("ellemtel"
      (c-basic-offset . 3)
      (c-comment-only-line-offset . 0)
-     (c-hanging-braces-alist     . ((substatement-open before after)))
-     (c-offsets-alist . ((topmost-intro        . 0)
-			 (substatement         . +)
+     (c-hanging-braces-alist	 . ((substatement-open before after)
+				    (arglist-cont-nonempty)))
+     (c-offsets-alist . ((topmost-intro	       . 0)
+			 (substatement	       . +)
 			 (substatement-open    . 0)
-                         (case-label           . +)
-                         (access-label         . -)
-                         (inclass              . ++)
-			 (inline-open          . 0))))
-
+			 (case-label	       . +)
+			 (access-label	       . -)
+			 (inclass	       . +)
+			 (inline-open	       . 0))))
     ("linux"
      (c-basic-offset  . 8)
      (c-comment-only-line-offset . 0)
      (c-hanging-braces-alist . ((brace-list-open)
 				(brace-entry-open)
 				(substatement-open after)
-				(block-close . c-snug-do-while)))
+				(block-close . c-snug-do-while)
+				(arglist-cont-nonempty)))
      (c-cleanup-list . (brace-else-brace))
      (c-offsets-alist . ((statement-block-intro . +)
-			 (knr-argdecl-intro     . 0)
-			 (substatement-open     . 0)
-			 (substatement-label    . 0)
-			 (label                 . 0)
-			 (statement-cont        . +))))
+			 (knr-argdecl-intro	. 0)
+			 (substatement-open	. 0)
+			 (substatement-label	. 0)
+			 (label			. 0)
+			 (statement-cont	. +))))
 
     ("python"
      (indent-tabs-mode . t)
@@ -195,7 +203,8 @@
 				(brace-list-close)
 				(brace-entry-open)
 				(substatement-open after)
-				(block-close . c-snug-do-while)))
+				(block-close . c-snug-do-while)
+				(arglist-cont-nonempty)))
      (c-block-comment-prefix . ""))
 
     ("java"
@@ -203,18 +212,18 @@
      (c-comment-only-line-offset . (0 . 0))
      ;; the following preserves Javadoc starter lines
      (c-offsets-alist . ((inline-open . 0)
-			 (topmost-intro-cont    . +)
+			 (topmost-intro-cont	. +)
 			 (statement-block-intro . +)
- 			 (knr-argdecl-intro     . 5)
-			 (substatement-open     . +)
-			 (substatement-label    . +)
- 			 (label                 . +)
- 			 (statement-case-open   . +)
- 			 (statement-cont        . +)
- 			 (arglist-intro  . c-lineup-arglist-intro-after-paren)
- 			 (arglist-close  . c-lineup-arglist)
- 			 (access-label   . 0)
-			 (inher-cont     . c-lineup-java-inher)
+			 (knr-argdecl-intro	. 5)
+			 (substatement-open	. +)
+			 (substatement-label	. +)
+			 (label			. +)
+			 (statement-case-open	. +)
+			 (statement-cont	. +)
+			 (arglist-intro	 . c-lineup-arglist-intro-after-paren)
+			 (arglist-close	 . c-lineup-arglist)
+			 (access-label	 . 0)
+			 (inher-cont	 . c-lineup-java-inher)
 			 (func-decl-cont . c-lineup-java-throws))))
 
     ;; awk style exists primarily for auto-newline settings.  Otherwise it's
@@ -225,7 +234,8 @@
      (c-hanging-braces-alist . ((defun-open after)
 				(defun-close . c-snug-1line-defun-close)
 				(substatement-open after)
-				(block-close . c-snug-do-while)))
+				(block-close . c-snug-do-while)
+				(arglist-cont-nonempty)))
      (c-hanging-semi&comma-criteria . nil)
      (c-cleanup-list . nil)		; You might want one-liner-defun here.
      (c-offsets-alist . ((statement-block-intro . +)
@@ -264,7 +274,7 @@ element of the list is added with `add-hook'.
 Do not change this variable directly.  Use the function `c-add-style'
 to add new styles or modify existing styles (it is not a good idea to
 modify existing styles -- you should create a new style that inherits
-the existing style.")
+the existing style).")
 
 
 ;; Functions that manipulate styles
@@ -346,7 +356,7 @@ might get set too.
 
 If DONT-OVERRIDE is neither nil nor t, style variables whose default values
 have been set (more precisely, whose default values are not the symbol
-`set-from-style') will not be changed.  This avoids overriding global settings
+`set-from-style') will not be changed.	This avoids overriding global settings
 done in ~/.emacs.  It is useful to call c-set-style from a mode hook in this
 way.
 
@@ -376,11 +386,11 @@ a null operation."
       ;; fallback entry.
       (setq c-special-indent-hook
 	    (default-value 'c-special-indent-hook)))
-    (mapcar (lambda (elem)
-	      (c-set-style-1 elem dont-override))
-	    ;; Need to go through the variables backwards when we
-	    ;; don't override any settings.
-	    (if (eq dont-override t) (nreverse vars) vars)))
+    (mapc (lambda (elem)
+	    (c-set-style-1 elem dont-override))
+	  ;; Need to go through the variables backwards when we
+	  ;; don't override any settings.
+	  (if (eq dont-override t) (nreverse vars) vars)))
   (setq c-indentation-style stylename)
   (c-keep-region-active))
 
@@ -398,13 +408,13 @@ STYLE using `c-set-style' if the optional SET-P flag is non-nil."
   (interactive
    (let ((stylename (completing-read "Style to add: " c-style-alist
 				     nil nil nil 'c-set-style-history))
-         (descr (eval-minibuffer "Style description: ")))
+	 (descr (eval-minibuffer "Style description: ")))
      (list stylename descr
 	   (y-or-n-p "Set the style too? "))))
   (setq style (downcase style))
   (let ((s (assoc style c-style-alist)))
     (if s
-        (setcdr s (copy-alist description)) ; replace
+	(setcdr s (copy-alist description)) ; replace
       (setq c-style-alist (cons (cons style description) c-style-alist))))
   (and set-p (c-set-style style)))
 
@@ -413,7 +423,7 @@ STYLE using `c-set-style' if the optional SET-P flag is non-nil."
 
 (defun c-read-offset (langelem)
   ;; read new offset value for LANGELEM from minibuffer. return a
-  ;; legal value only
+  ;; valid value only
   (let* ((oldoff  (cdr-safe (or (assq langelem c-offsets-alist)
 				(assq langelem (get 'c-offsets-alist
 						    'c-stylevar-fallback)))))
@@ -503,14 +513,21 @@ variables."
 			  (assoc 'other c-comment-prefix-regexp)))
 	  c-comment-prefix-regexp))
 
-  (let ((comment-line-prefix
-	 (concat "[ \t]*\\(" c-current-comment-prefix "\\)[ \t]*")))
+  (let* ((empty-is-prefix (string-match c-current-comment-prefix ""))
+	 (nonws-comment-line-prefix
+	  (concat "\\(" c-current-comment-prefix "\\)[ \t]*"))
+	 (comment-line-prefix (concat "[ \t]*" nonws-comment-line-prefix))
+	 (blank-or-comment-line-prefix
+	  (concat "[ \t]*"
+		  (if empty-is-prefix "" "\\(")
+		  nonws-comment-line-prefix
+		  (if empty-is-prefix "" "\\)?"))))
 
-    (setq paragraph-start (concat comment-line-prefix
+    (setq paragraph-start (concat blank-or-comment-line-prefix
 				  c-paragraph-start
 				  "\\|"
 				  page-delimiter)
-	  paragraph-separate (concat comment-line-prefix
+	  paragraph-separate (concat blank-or-comment-line-prefix
 				     c-paragraph-separate
 				     "\\|"
 				     page-delimiter)
@@ -545,7 +562,7 @@ variables."
 	"[ \t\f]*\\\\?$")
   (setq c-sentence-end-with-esc-eol
 	(concat "\\(\\(" (c-default-value-sentence-end) "\\)"
-		;; N.B.:  "$" would be illegal when not enclosed like "\\($\\)".
+		;; N.B.:  "$" would be invalid when not enclosed like "\\($\\)".
 		"\\|" "[.?!][]\"')}]* ?\\\\\\($\\)[ \t\n]*"
 		"\\)")))
 
@@ -566,7 +583,7 @@ CC Mode by making sure the proper entries are present on
   ;; only.
 
   ;; The default configuration already handles C++ comments, but we
-  ;; need to add handling of C block comments.  A new filladapt token
+  ;; need to add handling of C block comments.	A new filladapt token
   ;; `c-comment' is added for that.
   (let (p)
     (setq p filladapt-token-table)
@@ -631,13 +648,23 @@ any reason to call this function directly."
 		'make-variable-buffer-local))
 	(varsyms (cons 'c-indentation-style (copy-alist c-style-variables))))
     (delq 'c-special-indent-hook varsyms)
-    (mapcar func varsyms)
+    (mapc func varsyms)
     ;; Hooks must be handled specially
     (if this-buf-only-p
-	(make-local-hook 'c-special-indent-hook)
+	(or (memq 'add-hook-local c-emacs-features)
+	   (make-local-hook 'c-special-indent-hook))
       (make-variable-buffer-local 'c-special-indent-hook)
       (setq c-style-variables-are-local-p t))
     ))
+
+(defun cc-choose-style-for-mode (mode default-style)
+  "Return suitable style for MODE from DEFAULT-STYLE.
+DEFAULT-STYLE has the same format as `c-default-style'."
+  (if (stringp default-style)
+      default-style
+    (or (cdr (assq mode default-style))
+	(cdr (assq 'other default-style))
+	"gnu")))
 
 
 

@@ -1,12 +1,13 @@
 ;;; cc-subword.el --- Handling capitalized subwords in a nomenclature
 
-;; Copyright (C) 2004, 2005, 2006 Free Software Foundation, Inc.
+;; Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+;; Free Software Foundation, Inc.
 
 ;; Author: Masatake YAMATO
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; This program is distributed in the hope that it will be useful,
@@ -15,9 +16,8 @@
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;; Boston, MA 02110-1301, USA.
+;; along with this program; see the file COPYING.  If not, see
+;; <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -91,8 +91,8 @@
 ;; Don't complain about the `define-minor-mode' form if it isn't defined.
 (cc-bytecomp-defvar c-subword-mode)
 
-;;; Autoload directives must be on the top level, so we construct an
-;;; autoload form instead.
+;; Autoload directives must be on the top level, so we construct an
+;; autoload form instead.
 ;;;###autoload (autoload 'c-subword-mode "cc-subword" "Mode enabling subword movement and editing keys." t)
 
 (if (not (fboundp 'define-minor-mode))
@@ -231,38 +231,52 @@ Optional argument ARG is the same as for `transpose-words'."
   (interactive "*p")
   (transpose-subr 'c-forward-subword arg))
 
-(defun c-capitalize-subword (arg)
-  "Do the same as `capitalize-word' but on subwords.
-See the command `c-subword-mode' for a description of subwords.
-Optional argument ARG is the same as for `capitalize-word'."
-  (interactive "p")
-  (let ((count (abs arg))
-	(direction (if (< 0 arg) 1 -1)))
-    (dotimes (i count)
-      (when (re-search-forward 
-	     (concat "[" c-alpha "]")
-	     nil t)
-	(goto-char (match-beginning 0)))
-      (let* ((p (point))
-	     (pp (1+ p))
-	     (np (c-forward-subword direction)))
-	(upcase-region p pp)
-	(downcase-region pp np)
-	(goto-char np)))))
+
 
 (defun c-downcase-subword (arg)
   "Do the same as `downcase-word' but on subwords.
 See the command `c-subword-mode' for a description of subwords.
 Optional argument ARG is the same as for `downcase-word'."
   (interactive "p")
-  (downcase-region (point) (c-forward-subword arg)))
+  (let ((start (point)))
+    (downcase-region (point) (c-forward-subword arg))
+    (when (< arg 0) 
+      (goto-char start))))
 
 (defun c-upcase-subword (arg)
   "Do the same as `upcase-word' but on subwords.
 See the command `c-subword-mode' for a description of subwords.
 Optional argument ARG is the same as for `upcase-word'."
   (interactive "p")
-  (upcase-region (point) (c-forward-subword arg)))
+  (let ((start (point)))
+    (upcase-region (point) (c-forward-subword arg))
+    (when (< arg 0) 
+      (goto-char start))))
+
+(defun c-capitalize-subword (arg)
+  "Do the same as `capitalize-word' but on subwords.
+See the command `c-subword-mode' for a description of subwords.
+Optional argument ARG is the same as for `capitalize-word'."
+  (interactive "p")
+  (let ((count (abs arg))
+	(start (point))
+	(advance (if (< arg 0) nil t)))
+    (dotimes (i count)
+      (if advance
+	  (progn (re-search-forward
+		  (concat "[" c-alpha "]")
+		  nil t)
+		 (goto-char (match-beginning 0)))
+	(c-backward-subword))
+      (let* ((p (point))
+	     (pp (1+ p))
+	     (np (c-forward-subword)))
+	(upcase-region p pp)
+	(downcase-region pp np)
+	(goto-char (if advance np p))))
+    (unless advance
+      (goto-char start))))
+
 
 
 ;;
@@ -270,15 +284,15 @@ Optional argument ARG is the same as for `upcase-word'."
 ;;
 (defun c-forward-subword-internal ()
   (if (and
-       (save-excursion 
+       (save-excursion
 	 (let ((case-fold-search nil))
-	   (re-search-forward 
+	   (re-search-forward
 	    (concat "\\W*\\(\\([" c-upper "]*\\W?\\)[" c-lower c-digit "]*\\)")
 	    nil t)))
        (> (match-end 0) (point))) ; So we don't get stuck at a
 				  ; "word-constituent" which isn't c-upper,
 				  ; c-lower or c-digit
-      (goto-char 
+      (goto-char
        (cond
 	((< 1 (- (match-end 2) (match-beginning 2)))
 	 (1- (match-end 2)))
@@ -288,15 +302,15 @@ Optional argument ARG is the same as for `upcase-word'."
 
 
 (defun c-backward-subword-internal ()
-  (if (save-excursion 
-	(let ((case-fold-search nil)) 
+  (if (save-excursion
+	(let ((case-fold-search nil))
 	  (re-search-backward
 	   (concat
 	    "\\(\\(\\W\\|[" c-lower c-digit "]\\)\\([" c-upper "]+\\W*\\)"
-	    "\\|\\W\\w+\\)") 
+	    "\\|\\W\\w+\\)")
 	   nil t)))
-      (goto-char 
-       (cond 
+      (goto-char
+       (cond
 	((and (match-end 3)
 	      (< 1 (- (match-end 3) (match-beginning 3)))
 	      (not (eq (point) (match-end 3))))
@@ -308,5 +322,5 @@ Optional argument ARG is the same as for `upcase-word'."
 
 (cc-provide 'cc-subword)
 
-;;; arch-tag: 2be9d294-7f30-4626-95e6-9964bb93c7a3
+;; arch-tag: 2be9d294-7f30-4626-95e6-9964bb93c7a3
 ;;; cc-subword.el ends here

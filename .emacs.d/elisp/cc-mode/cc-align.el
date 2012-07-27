@@ -1,12 +1,14 @@
 ;;; cc-align.el --- custom indentation functions for CC Mode
 
-;; Copyright (C) 1985,1987,1992-2003, 2004, 2005, 2006 Free Software
-;; Foundation, Inc.
+;; Copyright (C) 1985, 1987, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+;;   1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
+;;   2010, 2011, 2012   Free Software Foundation, Inc.
 
-;; Authors:    1998- Martin Stjernholm
-;;             1992-1999 Barry A. Warsaw
-;;             1987 Dave Detlefs and Stewart Clamen
-;;             1985 Richard M. Stallman
+;; Authors:    2004- Alan Mackenzie
+;;	       1998- Martin Stjernholm
+;;	       1992-1999 Barry A. Warsaw
+;;	       1987 Dave Detlefs and Stewart Clamen
+;;	       1985 Richard M. Stallman
 ;; Maintainer: bug-cc-mode@gnu.org
 ;; Created:    22-Apr-1997 (split from cc-mode.el)
 ;; Version:    See cc-mode.el
@@ -16,18 +18,17 @@
 
 ;; GNU Emacs is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; GNU Emacs is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;; Boston, MA 02110-1301, USA.
+;; along with this program; see the file COPYING.  If not, see
+;; <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -57,22 +58,22 @@ For lines in the \"header\" of a definition, zero is used.  For other
 lines, `c-basic-offset' is added to the indentation.  E.g:
 
 int
-neg (int i)           <- c-lineup-topmost-intro-cont
+neg (int i)	      <- c-lineup-topmost-intro-cont
 {
     return -i;
 }
 
 struct
-larch                 <- c-lineup-topmost-intro-cont
+larch		      <- c-lineup-topmost-intro-cont
 {
     double height;
 }
-    the_larch,        <- c-lineup-topmost-intro-cont
+    the_larch,	      <- c-lineup-topmost-intro-cont
     another_larch;    <- c-lineup-topmost-intro-cont
 <--> c-basic-offset
 
 struct larch
-the_larch,            <- c-lineup-topmost-intro-cont
+the_larch,	      <- c-lineup-topmost-intro-cont
     another_larch;    <- c-lineup-topmost-intro-cont
 
 \(This function is mainly provided to mimic the behavior of CC Mode
@@ -89,6 +90,29 @@ Works with: topmost-intro-cont."
 		       (c-after-special-operator-id))))
 	c-basic-offset)))
 
+(defun c-lineup-gnu-DEFUN-intro-cont (langelem)
+  "Line up the continuation lines of a DEFUN macro in the Emacs C source.
+These lines are indented as though they were `knr-argdecl-intro' lines.
+Return nil when we're not in such a construct.
+
+This function is for historical compatibility with how previous CC Modes (5.28
+and earlier) indented such lines.
+
+Here is an example:
+
+DEFUN (\"forward-char\", Fforward_char, Sforward_char, 0, 1, \"p\",
+       doc: /* Move point right N characters (left if N is negative).
+On reaching end of buffer, stop and signal error.  */)
+     (n)		      <- c-lineup-gnu-DEFUN-into-cont
+     Lisp_Object n;	      <- c-lineup-gnu-DEFUN-into-cont
+
+Works with: topmost-intro-cont."
+  (save-excursion
+    (let (case-fold-search)
+      (goto-char (c-langelem-pos langelem))
+      (if (looking-at "\\<DEFUN\\>")
+	  (c-calc-offset '(knr-argdecl-intro))))))
+
 (defun c-block-in-arglist-dwim (arglist-start)
   ;; This function implements the DWIM to avoid far indentation of
   ;; brace block constructs in arguments in `c-lineup-arglist' etc.
@@ -97,7 +121,7 @@ Works with: topmost-intro-cont."
 
   (or
    ;; Check if the syntactic context contains any of the symbols for
-   ;; in-expression constructs.  This can both save the work that we
+   ;; in-expression constructs.	 This can both save the work that we
    ;; have to do below, and it also detect the brace list constructs
    ;; that `c-looking-at-inexpr-block' currently misses (they are
    ;; recognized by `c-inside-bracelist-p' instead).
@@ -146,7 +170,7 @@ as a \"DWIM\" measure in cases like macros that contains statement
 blocks, e.g:
 
 A_VERY_LONG_MACRO_NAME ({
-        some (code, with + long, lines * in[it]);
+	some (code, with + long, lines * in[it]);
     });
 <--> c-basic-offset
 
@@ -162,7 +186,7 @@ Works with: arglist-cont-nonempty, arglist-close."
       (if (c-block-in-arglist-dwim (c-langelem-2nd-pos c-syntactic-element))
 	  c-basic-offset		; DWIM case.
 
-	;; Normal case.  Indent to the token after the arglist open paren.
+	;; Normal case.	 Indent to the token after the arglist open paren.
 	(goto-char (c-langelem-2nd-pos c-syntactic-element))
 	(if (and c-special-brace-lists
 		 (c-looking-at-special-brace-list))
@@ -182,7 +206,7 @@ Works with: arglist-cont-nonempty, arglist-close."
   "Line up a continued argument.
 
 foo (xyz, aaa + bbb + ccc
-          + ddd + eee + fff);    <- c-lineup-argcont
+	  + ddd + eee + fff);	 <- c-lineup-argcont
 
 Only continuation lines like this are touched, nil is returned on lines
 which are the start of an argument.
@@ -264,7 +288,7 @@ the open paren.
 
 As a special case, if a brace block construct starts at the same line
 as the open parenthesis of the argument list, the indentation is
-`c-basic-offset' only.  See `c-lineup-arglist' for further discussion
+`c-basic-offset' only.	See `c-lineup-arglist' for further discussion
 of this \"DWIM\" measure.
 
 Works with: Almost all symbols, but are typically most useful on
@@ -294,8 +318,8 @@ Return nil on lines that don't start with an operator, to leave those
 cases to other line-up functions.  Example:
 
 if (  x < 10
-   || at_limit (x,       <- c-lineup-arglist-operators
-                list)    <- c-lineup-arglist-operators returns nil
+   || at_limit (x,	 <- c-lineup-arglist-operators
+		list)	 <- c-lineup-arglist-operators returns nil
    )
 
 Since this function doesn't do anything for lines without an infix
@@ -305,7 +329,7 @@ suggestion to get a consistent style):
 
 \(c-set-offset 'arglist-cont '(c-lineup-arglist-operators 0))
 \(c-set-offset 'arglist-cont-nonempty '(c-lineup-arglist-operators
-                                        c-lineup-arglist))
+					c-lineup-arglist))
 \(c-set-offset 'arglist-close '(c-lineup-arglist-close-under-paren))
 
 Works with: arglist-cont, arglist-cont-nonempty."
@@ -317,12 +341,12 @@ Works with: arglist-cont, arglist-cont-nonempty."
 
 (defun c-lineup-close-paren (langelem)
   "Line up the closing paren under its corresponding open paren if the
-open paren is followed by code.  If the open paren ends its line, no
+open paren is followed by code.	 If the open paren ends its line, no
 indentation is added.  E.g:
 
-main (int,              main (
-      char **               int, char **
-     )           <->    )                 <- c-lineup-close-paren
+main (int,		main (
+      char **		    int, char **
+     )		 <->	)		  <- c-lineup-close-paren
 
 As a special case, if a brace block construct starts at the same line
 as the open parenthesis of the argument list, the indentation is
@@ -372,19 +396,19 @@ Works with: stream-op."
 
 (defun c-lineup-multi-inher (langelem)
   "Line up the classes in C++ multiple inheritance clauses and member
-initializers under each other.  E.g:
+initializers under each other.	E.g:
 
-class Foo:                Foo::Foo (int a, int b):
-    public Cyphr,             Cyphr (a),
-    public Bar       <->      Bar (b)               <- c-lineup-multi-inher
+class Foo:		  Foo::Foo (int a, int b):
+    public Cyphr,	      Cyphr (a),
+    public Bar	     <->      Bar (b)		    <- c-lineup-multi-inher
 
-class Foo                 Foo::Foo (int a, int b)
-    : public Cyphr,           : Cyphr (a),
-      public Bar     <->        Bar (b)             <- c-lineup-multi-inher
+class Foo		  Foo::Foo (int a, int b)
+    : public Cyphr,	      : Cyphr (a),
+      public Bar     <->	Bar (b)		    <- c-lineup-multi-inher
 
-class Foo                 Foo::Foo (int a, int b)
-    : public Cyphr            : Cyphr (a)
-    , public Bar     <->      , Bar (b)             <- c-lineup-multi-inher
+class Foo		  Foo::Foo (int a, int b)
+    : public Cyphr	      : Cyphr (a)
+    , public Bar     <->      , Bar (b)		    <- c-lineup-multi-inher
 
 Works with: inher-cont, member-init-cont."
   (save-excursion
@@ -419,9 +443,9 @@ keyword, they are lined up under each other.  Otherwise, they are
 indented by adding `c-basic-offset' to the column of the keyword.
 E.g:
 
-class Foo             class Foo
-    extends               extends Cyphr,
-        Bar    <->                Bar     <- c-lineup-java-inher
+class Foo	      class Foo
+    extends		  extends Cyphr,
+	Bar    <->		  Bar	  <- c-lineup-java-inher
     <--> c-basic-offset
 
 Works with: inher-cont."
@@ -439,11 +463,11 @@ If exception names follow on the same line as the throws keyword,
 they are lined up under each other.  Otherwise, they are indented by
 adding `c-basic-offset' to the column of the throws keyword.  The
 throws keyword itself is also indented by `c-basic-offset' from the
-function declaration start if it doesn't hang.  E.g:
+function declaration start if it doesn't hang.	E.g:
 
-int foo()           int foo() throws Cyphr,
-    throws     <->                   Bar,    <- c-lineup-java-throws
-        Bar    <->                   Vlod    <- c-lineup-java-throws
+int foo()	    int foo() throws Cyphr,
+    throws     <->		     Bar,    <- c-lineup-java-throws
+	Bar    <->		     Vlod    <- c-lineup-java-throws
 <--><--> c-basic-offset
 
 Works with: func-decl-cont."
@@ -465,10 +489,10 @@ Works with: func-decl-cont."
   "Indent a one line block `c-basic-offset' extra.
 E.g:
 
-if (n > 0)                 if (n > 0)
-    {m+=n; n=0;}    <->    {               <- c-indent-one-line-block
-<--> c-basic-offset            m+=n; n=0;
-                           }
+if (n > 0)		   if (n > 0)
+    {m+=n; n=0;}    <->	   {		   <- c-indent-one-line-block
+<--> c-basic-offset	       m+=n; n=0;
+			   }
 
 The block may use any kind of parenthesis character.  nil is returned
 if the line doesn't start with a one line block, which makes the
@@ -488,12 +512,12 @@ Work with: Almost all syntactic symbols, but most useful on *-open."
   "Indent a multi line block `c-basic-offset' extra.
 E.g:
 
-int *foo[] = {           int *foo[] = {
-    NULL,                    NULL,
-    {17},         <->            {       <- c-indent-multi-line-block
-                                 17
-                                 }
-                             <--> c-basic-offset
+int *foo[] = {		 int *foo[] = {
+    NULL,		     NULL,
+    {17},	  <->		 {	 <- c-indent-multi-line-block
+				 17
+				 }
+			     <--> c-basic-offset
 
 The block may use any kind of parenthesis character.  nil is returned
 if the line doesn't start with a multi line block, which makes the
@@ -512,11 +536,11 @@ Work with: Almost all syntactic symbols, but most useful on *-open."
 (defun c-lineup-C-comments (langelem)
   "Line up C block comment continuation lines.
 Various heuristics are used to handle many of the common comment
-styles.  Some examples:
+styles.	 Some examples:
 
-/*          /**         /*         /* text      /*          /**
- * text      * text       text        text      ** text      ** text
- */          */         */         */           */           */
+/*	    /**		/*	   /* text	/*	    /**
+ * text	     * text	  text	      text	** text	     ** text
+ */	     */		*/	   */		*/	     */
 
 /*********************************************************************
  * text
@@ -565,7 +589,7 @@ Works with: The `c' syntactic symbol."
 		      1)))))
       (if (and (> starterlen 10) (zerop prefixlen))
 	  ;; The comment has a long starter and the line doesn't have
-	  ;; a nonempty comment prefix.  Treat it as free form text
+	  ;; a nonempty comment prefix.	 Treat it as free form text
 	  ;; and don't change the indentation.
 	  (vector (current-column))
 	;; Go back to the previous non-blank line, if any.
@@ -587,9 +611,9 @@ Works with: The `c' syntactic symbol."
 		  ;; comment-start-skip should match everything (i.e.
 		  ;; typically whitespace) that leads up to the text.
 		  ;;(if (looking-at "\\([ \t]+\\).+$")
-		  ;;    ;; Align with the text that hangs after the
-		  ;;    ;; comment starter.
-		  ;;    (goto-char (match-end 1)))
+		  ;;	;; Align with the text that hangs after the
+		  ;;	;; comment starter.
+		  ;;	(goto-char (match-end 1)))
 		  (vector (current-column)))
 	      ;; How long is the comment starter?  if greater than the
 	      ;; length of the comment prefix, align left.  if less
@@ -601,7 +625,7 @@ Works with: The `c' syntactic symbol."
 		    (vector (1+ (current-column))))
 		(goto-char (+ (c-langelem-pos langelem) starterlen 1))
 		(vector (- (current-column) prefixlen))))
-	  ;; We didn't start on the first non-blank continuation line.  If the
+	  ;; We didn't start on the first non-blank continuation line.	If the
 	  ;; previous line has a nonempty comment prefix, align with it.
 	  ;; Otherwise, align with the previous nonempty line, but align the
 	  ;; comment ender with the starter.
@@ -648,7 +672,7 @@ Works with: comment-intro."
 (defun c-lineup-knr-region-comment (langelem)
   "Line up a comment in the \"K&R region\" with the declaration.
 That is the region between the function or class header and the
-beginning of the block.  E.g:
+beginning of the block.	 E.g:
 
 int main()
 /* This is the main function. */  <- c-lineup-knr-region-comment
@@ -675,7 +699,7 @@ the block opening brace.  E.g:
 
 int main()
 { puts (\"Hello world!\");
-  return 0;                 <- c-lineup-runin-statements
+  return 0;		    <- c-lineup-runin-statements
 }
 
 If there is no statement after the opening brace to align with, nil is
@@ -693,8 +717,8 @@ Works with: The `statement' syntactic symbol."
 
 (defun c-lineup-assignments (langelem)
   "Line up the current line after the assignment operator on the first
-line in the statement.  If there isn't any, return nil to allow
-stacking with other line-up functions.  If the current line contains
+line in the statement.	If there isn't any, return nil to allow
+stacking with other line-up functions.	If the current line contains
 an assignment operator too, try to align it with the first one.
 
 Works with: topmost-intro-cont, statement-cont, arglist-cont,
@@ -718,7 +742,7 @@ arglist-cont-nonempty."
 	    endpos (point))
 
       ;; Find a syntactically relevant and unnested "=" token on the
-      ;; current line.  equalp is in that case set to the number of
+      ;; current line.	equalp is in that case set to the number of
       ;; columns to left shift the current line to align it with the
       ;; goal column.
       (save-excursion
@@ -775,8 +799,8 @@ with one or more function calls preceded by the same token, then the
 arrow is lined up with the first of those tokens.  E.g:
 
 result = proc->add(17)->add(18)
-             ->add(19) +           <- c-lineup-cascaded-calls
-  offset;                          <- c-lineup-cascaded-calls (inactive)
+	     ->add(19) +	   <- c-lineup-cascaded-calls
+  offset;			   <- c-lineup-cascaded-calls (inactive)
 
 In any other situation nil is returned to allow use in list
 expressions.
@@ -820,9 +844,9 @@ A continued string in this sense is where a string literal follows
 directly after another one.  E.g:
 
 result = prefix + \"A message \"
-                  \"string.\";      <- c-lineup-string-cont
+		  \"string.\";	    <- c-lineup-string-cont
 
-Nil is returned in other situations, to allow stacking with other
+In other situations, returns nil, to allow stacking with other
 line-up functions.
 
 Works with: topmost-intro-cont, statement-cont, arglist-cont,
@@ -870,10 +894,10 @@ Works with: objc-method-call-cont."
 			(- c-basic-offset)
 		      0)))
 	   (open-bracket-pos (c-langelem-pos langelem))
-           (open-bracket-col (progn
+	   (open-bracket-col (progn
 			       (goto-char open-bracket-pos)
 			       (current-column)))
-           (target-col (progn
+	   (target-col (progn
 			 (forward-char)
 			 (c-forward-sexp)
 			 (skip-chars-forward " \t")
@@ -883,8 +907,48 @@ Works with: objc-method-call-cont."
 	   )
       (- target-col open-bracket-col extra))))
 
+(defun c-lineup-ObjC-method-call-colons (langelem)
+  "Line up selector args as Project Builder / XCode: colons of first
+   selector portions on successive lines are aligned.  If no decision can
+   be made return NIL, so that other lineup methods can be tried.  This is
+   typically chained with `c-lineup-ObjC-method-call'.
+
+Works with: objc-method-call-cont."
+  (save-excursion
+    (catch 'no-idea
+      (let* ((method-arg-len (progn
+			       (back-to-indentation)
+			       (if (search-forward ":" (c-point 'eol) 'move)
+				   (- (point) (c-point 'boi))
+				 ; no complete argument to indent yet
+				 (throw 'no-idea nil))))
+
+	     (extra (save-excursion 
+		      ; indent parameter to argument if needed
+		      (back-to-indentation)
+		      (c-backward-syntactic-ws (c-langelem-pos langelem))
+		      (if (eq ?: (char-before))
+			  c-objc-method-parameter-offset 0)))
+
+	     (open-bracket-col (c-langelem-col langelem))
+
+	     (arg-ralign-colon-ofs (progn
+			(forward-char) ; skip over '['
+			; skip over object/class name
+			; and first argument
+			(c-forward-sexp 2)
+			(if (search-forward ":" (c-point 'eol) 'move)
+			    (- (current-column) open-bracket-col
+			       method-arg-len extra)
+			  ; previous arg has no param
+			  c-objc-method-arg-unfinished-offset))))
+
+	(if (>= arg-ralign-colon-ofs c-objc-method-arg-min-delta-to-bracket)
+	    (+ arg-ralign-colon-ofs extra)
+	  (throw 'no-idea nil))))))
+
 (defun c-lineup-ObjC-method-args (langelem)
-  "Line up the colons that separate args.
+  "Line up the colons that separate args in a method declaration.
 The colon on the current line is aligned with the one on the first
 line.
 
@@ -908,7 +972,7 @@ Works with: objc-method-args-cont."
 	  c-basic-offset)))))
 
 (defun c-lineup-ObjC-method-args-2 (langelem)
-  "Line up the colons that separate args.
+  "Line up the colons that separate args in a method declaration.
 The colon on the current line is aligned with the one on the previous
 line.
 
@@ -964,10 +1028,10 @@ It's done in a way that works both when the opening brace hangs and
 when it doesn't.  E.g:
 
 something
-    {                something {
-    foo;     <->         foo;     <- c-lineup-whitesmith-in-block
-    }                    }
-                     <--> c-basic-offset
+    {		     something {
+    foo;     <->	 foo;	  <- c-lineup-whitesmith-in-block
+    }			 }
+		     <--> c-basic-offset
 
 In the first case the indentation is kept unchanged, in the
 second `c-basic-offset' is added.
@@ -989,12 +1053,12 @@ inside blocks, this function is necessary for those lines to get
 correct Whitesmith style indentation.  Consider the following
 examples:
 
-                    int foo()
-                        {
-int foo()                   {
-    {                       a;
-    a;                      }
-    x;       <->        x;        <- c-lineup-after-whitesmith-blocks
+		    int foo()
+			{
+int foo()		    {
+    {			    a;
+    a;			    }
+    x;	     <->	x;	  <- c-lineup-after-whitesmith-blocks
 
 The fact that the line with \"x\" is preceded by a Whitesmith style
 indented block in one case and not the other should not affect its
@@ -1004,7 +1068,7 @@ would in the rightmost case be indented too much if the offset for
 `statement' was set simply to zero.
 
 This lineup function corrects for this situation by detecting if the
-anchor position is at an open paren character.  In that case, it
+anchor position is at an open paren character.	In that case, it
 instead indents relative to the surrounding block just like
 `c-lineup-whitesmith-in-block'.
 
@@ -1026,14 +1090,14 @@ arglist-cont."
 the construct preceding the macro.  E.g:
 
 v beg of preceding constr      v beg of preceding constr
-                             int dribble() {
-const char msg[] =             if (!running)
-  \"Some text.\";	         error(\"Not running!\");
+			     int dribble() {
+const char msg[] =	       if (!running)
+  \"Some text.\";		 error(\"Not running!\");
 
-#define X(A, B)  \           #define X(A, B)    \
-do {             \    <->      do {             \    <- c-lineup-cpp-define
-  printf (A, B); \               printf (A, B); \
-} while (0)                    } while (0)
+#define X(A, B)	 \	     #define X(A, B)	\
+do {		 \    <->      do {		\    <- c-lineup-cpp-define
+  printf (A, B); \		 printf (A, B); \
+} while (0)		       } while (0)
 
 If `c-syntactic-indentation-in-macros' is non-nil, the function
 returns the relative indentation to the macro start line to allow
@@ -1041,14 +1105,14 @@ accumulation with other offsets.  E.g. in the following cases,
 cpp-define-intro is combined with the statement-block-intro that comes
 from the \"do {\" that hangs on the \"#define\" line:
 
-                             int dribble() {
-const char msg[] =             if (!running)
-  \"Some text.\";	         error(\"Not running!\");
+			     int dribble() {
+const char msg[] =	       if (!running)
+  \"Some text.\";		 error(\"Not running!\");
 
-#define X(A, B) do { \       #define X(A, B) do { \
-  printf (A, B);     \  <->      printf (A, B);   \  <- c-lineup-cpp-define
-  this->refs++;      \           this->refs++;    \
-} while (0)             <->    } while (0)           <- c-lineup-cpp-define
+#define X(A, B) do { \	     #define X(A, B) do { \
+  printf (A, B);     \	<->	 printf (A, B);	  \  <- c-lineup-cpp-define
+  this->refs++;	     \		 this->refs++;	  \
+} while (0)		<->    } while (0)	     <- c-lineup-cpp-define
 
 The relative indentation returned by `c-lineup-cpp-define' is zero and
 two, respectively, in these two examples.  They are then added to the
@@ -1108,17 +1172,17 @@ Works with: cpp-define-intro."
   "Line up a gcc asm register under one on a previous line.
 
     asm (\"foo %1, %0\\n\"
-         \"bar %0, %1\"
-         : \"=r\" (w),
-           \"=r\" (x)
-         :  \"0\" (y),
-            \"1\" (z));
+	 \"bar %0, %1\"
+	 : \"=r\" (w),
+	   \"=r\" (x)
+	 :  \"0\" (y),
+	    \"1\" (z));
 
 The \"x\" line is aligned to the text after the \":\" on the \"w\" line, and
 similarly \"z\" under \"y\".
 
 This is done only in an \"asm\" or \"__asm__\" block, and only to
-those lines mentioned.  Anywhere else nil is returned.  The usual
+those lines mentioned.	Anywhere else nil is returned.	The usual
 arrangement is to have this routine as an extra feature at the start
 of arglist line-ups, e.g.
 
@@ -1165,6 +1229,18 @@ Works with: Any syntactic symbol."
     (back-to-indentation)
     (vector (current-column))))
 
+(defun c-lineup-respect-col-0 (langelem)
+  "If the current line starts at column 0, return [0].	Otherwise return nil.
+
+This can be used for comments (in conjunction with, say,
+`c-lineup-comment'), to keep comments already at column 0
+anchored there, but reindent other comments."
+  (save-excursion
+    (back-to-indentation)
+    (if (eq (current-column) 0)
+	[0]
+      nil)))
+
 
 (defun c-snug-do-while (syntax pos)
   "Dynamically calculate brace hanginess for do-while statements.
@@ -1186,7 +1262,7 @@ ACTION associated with `block-close' syntax."
 
 (defun c-snug-1line-defun-close (syntax pos)
   "Determine the brace hanginess for an AWK defun-close.
-If the action/function being closed is a one-liner, keep it so.  Otherwise put
+If the action/function being closed is a one-liner, keep it so.	 Otherwise put
 the closing brace on its own line."
   (save-excursion
     (goto-char pos)
@@ -1218,11 +1294,11 @@ indentation amount."
   "Controls newline insertion after semicolons in parenthesis lists.
 If a comma was inserted, no determination is made.  If a semicolon was
 inserted inside a parenthesis list, no newline is added otherwise a
-newline is added.  In either case, checking is stopped.  This supports
+newline is added.  In either case, checking is stopped.	 This supports
 exactly the old newline insertion behavior."
   ;; newline only after semicolon, but only if that semicolon is not
   ;; inside a parenthesis list (e.g. a for loop statement)
-  (if (not (eq last-command-char ?\;))
+  (if (not (eq last-command-event ?\;))
       nil				; continue checking
     (if (condition-case nil
 	    (save-excursion
@@ -1239,9 +1315,9 @@ If a comma was inserted, no determination is made.  If a semicolon was
 inserted, and the following line is not blank, no newline is inserted.
 Otherwise, no determination is made."
   (save-excursion
-    (if (and (= last-command-char ?\;)
+    (if (and (= last-command-event ?\;)
 	     ;;(/= (point-max)
-	     ;;    (save-excursion (skip-syntax-forward " ") (point))
+	     ;;	   (save-excursion (skip-syntax-forward " ") (point))
 	     (zerop (forward-line 1))
 	     (bolp)			; forward-line has funny behavior at eob.
 	     (not (looking-at "^[ \t]*$")))
@@ -1255,15 +1331,15 @@ If a comma was inserted, no determination is made.  Newlines are
 suppressed in one-liners, if the line is an in-class inline function.
 For other semicolon contexts, no determination is made."
   (let ((syntax (c-guess-basic-syntax))
-        (bol (save-excursion
-               (if (c-safe (up-list -1) t)
-                   (c-point 'bol)
-                 -1))))
-    (if (and (eq last-command-char ?\;)
-             (eq (car (car syntax)) 'inclass)
-             (eq (car (car (cdr syntax))) 'topmost-intro)
-             (= (c-point 'bol) bol))
-        'stop
+	(bol (save-excursion
+	       (if (c-safe (up-list -1) t)
+		   (c-point 'bol)
+		 -1))))
+    (if (and (eq last-command-event ?\;)
+	     (eq (car (car syntax)) 'inclass)
+	     (eq (car (car (cdr syntax))) 'topmost-intro)
+	     (= (c-point 'bol) bol))
+	'stop
       nil)))
 
 

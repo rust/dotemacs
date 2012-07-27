@@ -1,12 +1,14 @@
 ;;; cc-vars.el --- user customization variables for CC Mode
 
-;; Copyright (C) 1985,1987,1992-2003, 2004, 2005, 2006 Free Software
-;; Foundation, Inc.
+;; Copyright (C) 1985, 1987, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+;;   1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
+;;   2010, 2011, 2012   Free Software Foundation, Inc.
 
-;; Authors:    1998- Martin Stjernholm
-;;             1992-1999 Barry A. Warsaw
-;;             1987 Dave Detlefs and Stewart Clamen
-;;             1985 Richard M. Stallman
+;; Authors:    2002- Alan Mackenzie
+;;	       1998- Martin Stjernholm
+;;	       1992-1999 Barry A. Warsaw
+;;	       1987 Dave Detlefs and Stewart Clamen
+;;	       1985 Richard M. Stallman
 ;; Maintainer: bug-cc-mode@gnu.org
 ;; Created:    22-Apr-1997 (split from cc-mode.el)
 ;; Version:    See cc-mode.el
@@ -16,18 +18,17 @@
 
 ;; GNU Emacs is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; GNU Emacs is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;; Boston, MA 02110-1301, USA.
+;; along with this program; see the file COPYING.  If not, see
+;; <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -71,8 +72,28 @@ Useful as last item in a `choice' widget."
       :format "%t%n"
       :value 'other))
 
+;; The next defun will supersede c-const-symbol.
+(eval-and-compile
+  (defun c-constant-symbol (sym len)
+    "Create an uneditable symbol for customization buffers.
+SYM is the name of the symbol, LEN the length of the field (in
+characters) the symbol will be displayed in.  LEN must be big
+enough.
+
+This returns a (const ....) structure, suitable for embedding
+within a customization type."
+    (or (symbolp sym) (error "c-constant-symbol: %s is not a symbol" sym))
+    (let* ((name (symbol-name sym))
+	   (l (length name))
+	   (disp (concat name ":" (make-string (- len l 1) ?\ ))))
+      `(const
+	:size ,len
+	:format ,disp
+	:value ,sym))))
+
 (define-widget 'c-const-symbol 'item
-  "An uneditable lisp symbol."
+  "An uneditable lisp symbol.  This is obsolete -
+use c-constant-symbol instead."
   :value nil
   :tag "Symbol"
   :format "%t: %v\n%d"
@@ -154,37 +175,47 @@ Useful as last item in a `choice' widget."
   (setq c-fallback-style (cons (cons name val) c-fallback-style)))
 
 (defmacro defcustom-c-stylevar (name val doc &rest args)
-  "Defines a style variable."
-  `(let ((-value- ,val))
-     (c-set-stylevar-fallback ',name -value-)
-     (custom-declare-variable
-      ',name ''set-from-style
-      ,(concat doc "
+  "Define a style variable NAME with VAL and DOC.
+More precisely, convert the given `:type FOO', mined out of ARGS,
+to an aggregate `:type (radio STYLE (PREAMBLE FOO))', append some
+some boilerplate documentation to DOC, arrange for the fallback
+value of NAME to be VAL, and call `custom-declare-variable' to
+do the rest of the work.
+
+STYLE stands for the choice where the value is taken from some
+style setting.	PREAMBLE is optionally prepended to FOO; that is,
+if FOO contains :tag or :value, the respective two-element list
+component is ignored."
+  (declare (debug (symbolp form stringp &rest)))
+  (let* ((expanded-doc (concat doc "
 
 This is a style variable.  Apart from the valid values described
-above, it can be set to the symbol `set-from-style'.  In that case, it
-takes its value from the style system (see `c-default-style' and
-`c-style-alist') when a CC Mode buffer is initialized.  Otherwise,
+above, it can be set to the symbol `set-from-style'.  In that case,
+it takes its value from the style system (see `c-default-style' and
+`c-style-alist') when a CC Mode buffer is initialized.	Otherwise,
 the value set here overrides the style system (there is a variable
-`c-old-style-variable-behavior' that changes this, though).")
-      ,@(plist-put
-	 args ':type
-	 `(` (radio
-	      (const :tag "Use style settings"
-		     set-from-style)
-	      ,(, (let ((type (eval (plist-get args ':type))))
-		    (unless (consp type)
-		      (setq type (list type)))
-		    (unless (c-safe (plist-get (cdr type) ':value))
-		      (setcdr type (append '(:value (, -value-))
-					   (cdr type))))
-		    (unless (c-safe (plist-get (cdr type) ':tag))
-		      (setcdr type (append '(:tag "Override style settings")
-					   (cdr type))))
-		    (bq-process type)))))))))
+`c-old-style-variable-behavior' that changes this, though)."))
+	 (typ (eval (c-safe (plist-get args :type))))
+	 (type (if (consp typ) typ (list typ)))
+	 (head (car type))
+	 (tail (cdr type))
+	 (newt (append (unless (c-safe (plist-get tail :tag))
+			 '(:tag "Override style settings"))
+		       (unless (c-safe (plist-get tail :value))
+			 `(:value ,val))
+		       tail))
+	 (aggregate `'(radio
+		       (const :tag "Use style settings" set-from-style)
+		       ,(cons head newt))))
+    `(progn
+       (c-set-stylevar-fallback ',name ,val)
+       (custom-declare-variable
+	',name ''set-from-style
+	,expanded-doc
+	,@(plist-put args :type aggregate)))))
 
 (defun c-valid-offset (offset)
-  "Return non-nil iff OFFSET is a valid offset for a syntactic symbol.
+  "Return non-nil if OFFSET is a valid offset for a syntactic symbol.
 See `c-offsets-alist'."
   (or (eq offset '+)
       (eq offset '-)
@@ -221,7 +252,7 @@ and the syntactic symbol is ignored.
 
 This variable is considered obsolete; it doesn't work well with lineup
 functions that return nil to support the feature of using lists on
-syntactic symbols in `c-offsets-alist'.  Please keep it set to nil."
+syntactic symbols in `c-offsets-alist'.	 Please keep it set to nil."
   :type 'boolean
   :group 'c)
 
@@ -251,10 +282,10 @@ nil."
 
 (defcustom c-tab-always-indent t
   "*Controls the operation of the TAB key.
-If t, hitting TAB always just indents the current line.  If nil, hitting
+If t, hitting TAB always just indents the current line.	 If nil, hitting
 TAB indents the current line if point is at the left margin or in the
 line's indentation, otherwise it inserts a `real' tab character \(see
-note\).  If some other value (not nil or t), then tab is inserted only
+note\).	 If some other value (not nil or t), then tab is inserted only
 within literals \(comments and strings), but the line is always
 reindented.
 
@@ -311,6 +342,20 @@ better with the \"do { ... } while \(0)\" trick)."
   :type 'boolean
   :group 'c)
 
+(defcustom c-defun-tactic 'go-outward
+  "*Whether functions are recognized inside, e.g., a class.
+This is used by `c-beginning-of-defun' and like functions.
+
+Its value is one of:
+ t           -- Functions are recognized only at the top level.
+ go-outward  -- Nested functions are also recognized.  Should a function
+                command hit the beginning/end of a nested scope, it will
+                carry on at the less nested level."
+  :type '(radio
+	  (const :tag "Functions are at the top-level" t)
+	  (const :tag "Functions are also recognized inside declaration scopes" go-outward))
+  :group 'c)
+
 (defcustom-c-stylevar c-comment-only-line-offset 0
   "*Extra offset for line which contains only the start of a comment.
 Can contain an integer or a cons cell of the form:
@@ -346,13 +391,13 @@ says what \\[indent-for-comment] should do when used on that type of line.
 
 The recognized values for LINE-TYPE are:
 
- empty-line        -- The line is empty.
+ empty-line	   -- The line is empty.
  anchored-comment  -- The line contains a comment that starts in column 0.
- end-block         -- The line contains a solitary block closing brace.
- cpp-end-block     -- The line contains a preprocessor directive that
-                      closes a block, i.e. either \"#endif\" or \"#else\".
- other             -- The line does not match any other entry
-                      currently on the list.
+ end-block	   -- The line contains a solitary block closing brace.
+ cpp-end-block	   -- The line contains a preprocessor directive that
+		      closes a block, i.e. either \"#endif\" or \"#else\".
+ other		   -- The line does not match any other entry
+		      currently on the list.
 
 An INDENT-SPEC is a cons cell of the form:
 
@@ -362,16 +407,16 @@ ACTION says how \\[indent-for-comment] should align the comment, and
 VALUE is interpreted depending on ACTION.  ACTION can be any of the
 following:
 
- space   -- Put VALUE spaces between the end of the line and the start
-            of the comment.
- column  -- Start the comment at the column VALUE.  If the line is
-            longer than that, the comment is preceded by a single
-            space.  If VALUE is nil, `comment-column' is used.
- align   -- Align the comment with one on the previous line, if there
-            is any.  If the line is too long, the comment is preceded
-            by a single space.  If there isn't a comment start on the
-            previous line, the behavior is specified by VALUE, which
-            in turn is interpreted as an INDENT-SPEC.
+ space	 -- Put VALUE spaces between the end of the line and the start
+	    of the comment.
+ column	 -- Start the comment at the column VALUE.  If the line is
+	    longer than that, the comment is preceded by a single
+	    space.  If VALUE is nil, `comment-column' is used.
+ align	 -- Align the comment with one on the previous line, if there
+	    is any.  If the line is too long, the comment is preceded
+	    by a single space.	If there isn't a comment start on the
+	    previous line, the behavior is specified by VALUE, which
+	    in turn is interpreted as an INDENT-SPEC.
 
 If a LINE-TYPE is missing, then \\[indent-for-comment] indents the comment
 according to `comment-column'.
@@ -392,9 +437,7 @@ in that case, i.e. as if \\[c-indent-command] was used instead."
     `(set ,@(mapcar
 	     (lambda (elt)
 	       `(cons :format "%v"
-		      (c-const-symbol :format "%v: "
-				      :size 20
-				      :value ,elt)
+		      ,(c-constant-symbol elt 20)
 		      (choice
 		       :format "%[Choice%] %v"
 		       :value (column . nil)
@@ -414,7 +457,7 @@ in that case, i.e. as if \\[c-indent-command] was used instead."
 (defcustom-c-stylevar c-indent-comments-syntactically-p nil
   "*Specifies how \\[indent-for-comment] should handle comment-only lines.
 When this variable is non-nil, comment-only lines are indented
-according to syntactic analysis via `c-offsets-alist'.  Otherwise, the
+according to syntactic analysis via `c-offsets-alist'.	Otherwise, the
 comment is indented as if it was preceded by code.  Note that this
 variable does not affect how the normal line indentation treats
 comment-only lines."
@@ -422,7 +465,8 @@ comment-only lines."
   :group 'c)
 
 (make-obsolete-variable 'c-comment-continuation-stars
-			'c-block-comment-prefix)
+			'c-block-comment-prefix
+			nil)
 
 ;; Although c-comment-continuation-stars is obsolete, we look at it in
 ;; some places in CC Mode anyway, so make the compiler ignore it
@@ -438,7 +482,7 @@ comment-only lines."
 You should set this variable to the literal string that gets inserted
 at the front of continued block style comment lines.  This should
 either be the empty string, or some characters without preceding
-spaces.  To adjust the alignment under the comment starter, put an
+spaces.	 To adjust the alignment under the comment starter, put an
 appropriate value on the `c' syntactic symbol (see the
 `c-offsets-alist' variable).
 
@@ -458,15 +502,15 @@ This regexp is used to recognize the fill prefix inside comments for
 correct paragraph filling and other things.
 
 If this variable is a string, it will be used in all CC Mode major
-modes.  It can also be an association list, to associate specific
+modes.	It can also be an association list, to associate specific
 regexps to specific major modes.  The symbol for the major mode is
 looked up in the association list, and its value is used as the line
-prefix regexp.  If it's not found, then the symbol `other' is looked
+prefix regexp.	If it's not found, then the symbol `other' is looked
 up and its value is used instead.
 
 The regexp should match the prefix used in both C++ style line
 comments and C style block comments, but it does not need to match a
-block comment starter.  In other words, it should at least match
+block comment starter.	In other words, it should at least match
 \"//\" for line comments and the string in `c-block-comment-prefix',
 which is sometimes inserted by CC Mode inside block comments.  It
 should not match any surrounding whitespace.
@@ -479,7 +523,7 @@ you will need to do \\[c-setup-paragraph-variables] afterwards so that
 the other variables are updated with the new value.
 
 Note also that when CC Mode starts up, all variables are initialized
-before the mode hooks are run.  It's therefore necessary to make a
+before the mode hooks are run.	It's therefore necessary to make a
 call to `c-setup-paragraph-variables' explicitly if you change this
 variable in a mode hook."
   :type '(radio
@@ -489,19 +533,19 @@ variable in a mode hook."
 	   (set
 	    :inline t :format "%v"
 	    (cons :format "%v"
-		  (const :format "C     " c-mode) (regexp :format "%v"))
+		  (const :format "C	" c-mode) (regexp :format "%v"))
 	    (cons :format "%v"
-		  (const :format "C++   " c++-mode) (regexp :format "%v"))
+		  (const :format "C++	" c++-mode) (regexp :format "%v"))
 	    (cons :format "%v"
-		  (const :format "ObjC  " objc-mode) (regexp :format "%v"))
+		  (const :format "ObjC	" objc-mode) (regexp :format "%v"))
 	    (cons :format "%v"
-		  (const :format "Java  " java-mode) (regexp :format "%v"))
+		  (const :format "Java	" java-mode) (regexp :format "%v"))
 	    (cons :format "%v"
-		  (const :format "IDL   " idl-mode) (regexp :format "%v"))
+		  (const :format "IDL	" idl-mode) (regexp :format "%v"))
 	    (cons :format "%v"
-		  (const :format "Pike  " pike-mode) (regexp :format "%v"))
-            (cons :format "%v"
-		  (const :format "AWK   " awk-mode) (regexp :format "%v")))
+		  (const :format "Pike	" pike-mode) (regexp :format "%v"))
+	    (cons :format "%v"
+		  (const :format "AWK	" awk-mode) (regexp :format "%v")))
 	   (cons :format "    %v"
 		 (const :format "Other " other) (regexp :format "%v"))))
   :group 'c)
@@ -519,31 +563,31 @@ comment styles:
 
  javadoc -- Javadoc style for \"/** ... */\" comments (default in Java mode).
  autodoc -- Pike autodoc style for \"//! ...\" comments (default in Pike mode).
- gtkdoc  -- GtkDoc style for \"/** ... **/\" comments (default in C mode).
+ gtkdoc	 -- GtkDoc style for \"/** ... **/\" comments (default in C mode).
 
 The value may also be a list of doc comment styles, in which case all
 of them are recognized simultaneously (presumably with markup cues
 that don't conflict).
 
 The value may also be an association list to specify different doc
-comment styles for different languages.  The symbol for the major mode
+comment styles for different languages.	 The symbol for the major mode
 is then looked up in the alist, and the value of that element is
-interpreted as above if found.  If it isn't found then the symbol
+interpreted as above if found.	If it isn't found then the symbol
 `other' is looked up and its value is used instead.
 
 Note that CC Mode uses this variable to set other variables that
 handle fontification etc.  That's done at mode initialization or when
-you switch to a style which sets this variable.  Thus, if you change
+you switch to a style which sets this variable.	 Thus, if you change
 it in some other way, e.g. interactively in a CC Mode buffer, you will
 need to do \\[java-mode] (or whatever mode you're currently using) to
 reinitialize.
 
 Note also that when CC Mode starts up, the other variables are
-modified before the mode hooks are run.  If you change this variable
+modified before the mode hooks are run.	 If you change this variable
 in a mode hook, you have to call `c-setup-doc-comment-style'
 afterwards to redo that work."
   ;; Symbols other than those documented above may be used on this
-  ;; variable.  If a variable exists that has that name with
+  ;; variable.	If a variable exists that has that name with
   ;; "-font-lock-keywords" appended, it's value is prepended to the
   ;; font lock keywords list.  If it's a function then it's called and
   ;; the result is prepended.
@@ -554,25 +598,25 @@ afterwards to redo that work."
 	   (set
 	    :inline t :format "%v"
 	    (cons :format "%v"
-		  (const :format "C     " c-mode)
+		  (const :format "C	" c-mode)
 		  (c-symbol-list :format "%v"))
 	    (cons :format "%v"
-		  (const :format "C++   " c++-mode)
+		  (const :format "C++	" c++-mode)
 		  (c-symbol-list :format "%v"))
 	    (cons :format "%v"
-		  (const :format "ObjC  " objc-mode)
+		  (const :format "ObjC	" objc-mode)
 		  (c-symbol-list :format "%v"))
 	    (cons :format "%v"
-		  (const :format "Java  " java-mode)
+		  (const :format "Java	" java-mode)
 		  (c-symbol-list :format "%v"))
 	    (cons :format "%v"
-		  (const :format "IDL   " idl-mode)
+		  (const :format "IDL	" idl-mode)
 		  (c-symbol-list :format "%v"))
 	    (cons :format "%v"
-		  (const :format "Pike  " pike-mode)
+		  (const :format "Pike	" pike-mode)
 		  (c-symbol-list :format "%v"))
 	    (cons :format "%v"
-		  (const :format "AWK   " awk-mode)
+		  (const :format "AWK	" awk-mode)
 		  (c-symbol-list :format "%v"))
 	    (cons :format "%v"
 		  (const :format "Other " other)
@@ -582,15 +626,15 @@ afterwards to redo that work."
 (defcustom c-ignore-auto-fill '(string cpp code)
   "*List of contexts in which automatic filling never occurs.
 If Auto Fill mode is active, it will be temporarily disabled if point
-is in any context on this list.  It's e.g. useful to enable Auto Fill
+is in any context on this list.	 It's e.g. useful to enable Auto Fill
 in comments only, but not in strings or normal code.  The valid
 contexts are:
 
- string  -- inside a string or character literal
- c       -- inside a C style block comment
- c++     -- inside a C++ style line comment
- cpp     -- inside a preprocessor directive
- code    -- anywhere else, i.e. in normal code"
+ string	 -- inside a string or character literal
+ c	 -- inside a C style block comment
+ c++	 -- inside a C++ style line comment
+ cpp	 -- inside a preprocessor directive
+ code	 -- anywhere else, i.e. in normal code"
   :type '(set
 	  (const :tag "String literals" string)
 	  (const :tag "C style block comments" c)
@@ -606,60 +650,60 @@ is turned on, as evidenced by the `/la' appearing next to the mode
 name:
 
  brace-else-brace    -- Clean up \"} else {\" constructs by placing
-                        entire construct on a single line.  This clean
-                        up only takes place when there is nothing but
-                        white space between the braces and the `else'.
-                        Clean up occurs when the open brace after the
-                        `else' is typed.
+			entire construct on a single line.  This clean
+			up only takes place when there is nothing but
+			white space between the braces and the `else'.
+			Clean up occurs when the open brace after the
+			`else' is typed.
  brace-elseif-brace  -- Similar to brace-else-brace, but clean up
-                        \"} else if (...) {\" constructs.  Clean up
-                        occurs after the open parenthesis and the open
-                        brace.
+			\"} else if (...) {\" constructs.  Clean up
+			occurs after the open parenthesis and the open
+			brace.
  brace-catch-brace   -- Similar to brace-elseif-brace, but clean up
-                        \"} catch (...) {\" constructs.
+			\"} catch (...) {\" constructs.
  empty-defun-braces  -- Clean up empty defun braces by placing the
-                        braces on the same line.  Clean up occurs when
-                        the defun closing brace is typed.
- one-liner-defun     -- If the code inside a function body is a single
-                        line then remove any newlines between that
-                        line and the defun braces so that the whole
-                        body becomes a single line.
-                        `c-max-one-liner-length' gives the maximum
-                        length allowed for the resulting line.  Clean
-                        up occurs when the closing brace is typed.
+			braces on the same line.  Clean up occurs when
+			the defun closing brace is typed.
+ one-liner-defun     -- If the code inside a function body can fit in
+			a single line, then remove any newlines
+			between that line and the defun braces so that
+			the whole body becomes a single line.
+			`c-max-one-liner-length' gives the maximum
+			length allowed for the resulting line.	Clean
+			up occurs when the closing brace is typed.
  defun-close-semi    -- Clean up the terminating semi-colon on defuns
-                        by placing the semi-colon on the same line as
-                        the closing brace.  Clean up occurs when the
-                        semi-colon is typed.
+			by placing the semi-colon on the same line as
+			the closing brace.  Clean up occurs when the
+			semi-colon is typed.
  list-close-comma    -- Clean up commas following braces in array
-                        and aggregate initializers.  Clean up occurs
-                        when the comma is typed.
- scope-operator      -- Clean up double colons which may designate
-                        a C++ scope operator split across multiple
-                        lines.  Note that certain C++ constructs can
-                        generate ambiguous situations.  This clean up
-                        only takes place when there is nothing but
-                        whitespace between colons.  Clean up occurs
-                        when the second colon is typed.
+			and aggregate initializers.  Clean up occurs
+			when the comma is typed.
+ scope-operator	     -- Clean up double colons which may designate
+			a C++ scope operator split across multiple
+			lines.	Note that certain C++ constructs can
+			generate ambiguous situations.	This clean up
+			only takes place when there is nothing but
+			whitespace between colons.  Clean up occurs
+			when the second colon is typed.
 
 The following clean ups always take place when they are on this list,
 regardless of the auto-newline feature, since they typically don't
 involve auto-newline inserted newlines:
 
  space-before-funcall -- Insert exactly one space before the opening
-                        parenthesis of a function call.  Clean up
-                        occurs when the opening parenthesis is typed.
+			parenthesis of a function call.	 Clean up
+			occurs when the opening parenthesis is typed.
  compact-empty-funcall -- Clean up any space before the function call
-                        opening parenthesis if and only if the
-                        argument list is empty.  This is typically
-                        useful together with `space-before-funcall' to
-                        get the style \"foo (bar)\" and \"foo()\".
-                        Clean up occurs when the closing parenthesis
-                        is typed.
+			opening parenthesis if and only if the
+			argument list is empty.	 This is typically
+			useful together with `space-before-funcall' to
+			get the style \"foo (bar)\" and \"foo()\".
+			Clean up occurs when the closing parenthesis
+			is typed.
  comment-close-slash -- When a slash is typed after the comment prefix
-                        on a bare line in a c-style comment, the comment
-                        is closed by cleaning up preceding space and
-                        inserting a star if needed."
+			on a bare line in a c-style comment, the comment
+			is closed by cleaning up preceding space and
+			inserting a star if needed."
   :type '(set
 	  (const :tag "Put \"} else {\" on one line (brace-else-brace)"
 		 brace-else-brace)
@@ -695,7 +739,8 @@ involve auto-newline inserted newlines:
 					       (module-open after)
 					       (composition-open after)
 					       (inexpr-class-open after)
-					       (inexpr-class-close before))
+					       (inexpr-class-close before)
+					       (arglist-cont-nonempty))
   "*Controls the insertion of newlines before and after braces
 when the auto-newline feature is active.  This variable contains an
 association list with elements of the following form:
@@ -716,7 +761,7 @@ opening and closing braces, respectively, of anonymous inner classes
 in Java.
 
 ACTION can be either a function symbol or a list containing any
-combination of the symbols `before' or `after'.  If the list is empty,
+combination of the symbols `before' or `after'.	 If the list is empty,
 no newlines are inserted either before or after the brace.
 
 When ACTION is a function symbol, the function is called with a two
@@ -729,18 +774,15 @@ syntactic context for the brace line."
   `(set ,@(mapcar
 	   (lambda (elt)
 	     `(cons :format "%v"
-		    (c-const-symbol :format "%v: "
-				    :size 20
-				    :value ,elt)
+		    ,(c-constant-symbol elt 24)
 		    (choice :format "%[Choice%] %v"
 			    :value (before after)
 			    (set :menu-tag "Before/after"
-				 :format "Newline %v brace\n"
-				 (const :format "%v, " before)
-				 (const :format "%v" after))
+				 :format "Newline  %v brace\n"
+				 (const :format "%v,  " before)
+				 (const :format "%v " after))
 			    (function :menu-tag "Function"
-				      :format "Run function: %v"
-				      :value c-))))
+				      :format "Run function: %v"))))
 	   '(defun-open defun-close
 	      class-open class-close
 	      inline-open inline-close
@@ -752,7 +794,8 @@ syntactic context for the brace line."
 	      namespace-open namespace-close
 	      module-open module-close
 	      composition-open composition-close
-	      inexpr-class-open inexpr-class-close)))
+	      inexpr-class-open inexpr-class-close
+	      arglist-cont-nonempty)))
     :group 'c)
 
 (defcustom c-max-one-liner-length 80
@@ -776,11 +819,9 @@ currently not supported for this variable."
   `(set ,@(mapcar
 	   (lambda (elt)
 	     `(cons :format "%v"
-		    (c-const-symbol :format "%v: "
-				    :size 20
-				    :value ,elt)
-		    (set :format "Newline %v brace\n"
-			 (const :format "%v, " before)
+		    ,(c-constant-symbol elt 20)
+		    (set :format "Newline  %v  colon\n"
+			 (const :format "%v,  " before)
 			 (const :format "%v" after))))
 	   '(case-label label access-label member-init-intro inher-intro)))
   :group 'c)
@@ -794,8 +835,8 @@ string in the mode line), and a semicolon or comma is typed (see
 `c-electric-semi&comma').  Each function in this list is called with
 no arguments, and should return one of the following values:
 
-  nil             -- no determination made, continue checking
-  'stop           -- do not insert a newline, and stop checking
+  nil		  -- no determination made, continue checking
+  'stop		  -- do not insert a newline, and stop checking
   (anything else) -- insert a newline, and stop checking
 
 If every function in the list is called with no determination made,
@@ -808,7 +849,7 @@ then no newline is inserted."
 This is used by the functions that automatically insert or align the
 line continuation backslashes in multiline macros.  If any line in the
 macro exceeds this column then the next tab stop from that line is
-used as alignment column instead."
+used as alignment column instead.  See also `c-backslash-max-column'."
   :type 'integer
   :group 'c)
 
@@ -844,7 +885,7 @@ space."
 (defcustom c-require-final-newline
   ;; C and C++ mandate that all nonempty files should end with a
   ;; newline.  Objective-C refers to C for all things it doesn't
-  ;; specify, so the same holds there.  The other languages do not
+  ;; specify, so the same holds there.	The other languages do not
   ;; require it (at least not explicitly in a normative text).
   '((c-mode    . t)
     (c++-mode  . t)
@@ -852,14 +893,14 @@ space."
   "*Controls whether a final newline is ensured when the file is saved.
 The value is an association list that for each language mode specifies
 the value to give to `require-final-newline' at mode initialization;
-see that variable for details about the value.  If a language isn't
+see that variable for details about the value.	If a language isn't
 present on the association list, CC Mode won't touch
 `require-final-newline' in buffers for that language."
   :type `(set (cons :format "%v"
-		    (const :format "C     " c-mode)
+		    (const :format "C	  " c-mode)
 		    (symbol :format "%v" :value ,require-final-newline))
 	      (cons :format "%v"
-		    (const :format "C++   " c++-mode)
+		    (const :format "C++	  " c++-mode)
 		    (symbol :format "%v" :value ,require-final-newline))
 	      (cons :format "%v"
 		    (const :format "ObjC  " objc-mode)
@@ -868,13 +909,13 @@ present on the association list, CC Mode won't touch
 		    (const :format "Java  " java-mode)
 		    (symbol :format "%v" :value ,require-final-newline))
 	      (cons :format "%v"
-		    (const :format "IDL   " idl-mode)
+		    (const :format "IDL	  " idl-mode)
 		    (symbol :format "%v" :value ,require-final-newline))
 	      (cons :format "%v"
 		    (const :format "Pike  " pike-mode)
 		    (symbol :format "%v" :value ,require-final-newline))
 	      (cons :format "%v"
-		    (const :format "AWK   " awk-mode)
+		    (const :format "AWK	  " awk-mode)
 		    (symbol :format "%v" :value ,require-final-newline)))
   :group 'c)
 
@@ -886,7 +927,8 @@ Only currently supported behavior is `alignleft'."
 
 (defcustom c-special-indent-hook nil
   "*Hook for user defined special indentation adjustments.
-This hook gets called after a line is indented by the mode."
+This hook gets called after each line is indented by the mode.	It is only
+called when `c-syntactic-indentation' is non-nil."
   :type 'hook
   :group 'c)
 
@@ -894,7 +936,7 @@ This hook gets called after a line is indented by the mode."
   "*Minimum indentation for lines inside code blocks.
 This variable typically only affects code using the `gnu' style, which
 mandates a minimum of one space in front of every line inside code
-blocks.  Specifically, the function `c-gnu-impose-minimum' on your
+blocks.	 Specifically, the function `c-gnu-impose-minimum' on your
 `c-special-indent-hook' is what enforces this."
   :type 'integer
   :group 'c)
@@ -904,6 +946,45 @@ blocks.  Specifically, the function `c-gnu-impose-minimum' on your
 If a number, percentage complete gets updated after each interval of
 that many seconds.  To inhibit all messages during indentation, set
 this variable to nil."
+  :type 'integer
+  :group 'c)
+
+(defcustom c-objc-method-arg-min-delta-to-bracket 2
+  "*Minimum number of chars to the opening bracket.
+
+Consider this ObjC snippet:
+
+	[foo blahBlah: fred
+	|<-x->|barBaz: barney
+
+If `x' is less than this number then `c-lineup-ObjC-method-call-colons'
+will defer the indentation decision to the next function.  By default
+this is `c-lineup-ObjC-method-call', which would align it like:
+
+	[foo blahBlahBlah: fred
+	     thisIsTooDamnLong: barney
+
+This behaviour can be overridden by customizing the indentation of
+`objc-method-call-cont' in the \"objc\" style."
+  :type 'integer
+  :group 'c)
+
+(defcustom c-objc-method-arg-unfinished-offset 4
+  "*Offset relative to bracket if first selector is on a new line.
+
+    [aaaaaaaaa
+    |<-x->|bbbbbbb:  cccccc
+	     ddddd: eeee];"
+  :type 'integer
+  :group 'c)
+
+(defcustom c-objc-method-parameter-offset 4
+  "*Offset for selector parameter on a new line (relative to first selector.
+
+    [aaaaaaa bbbbbbbbbb:
+	     |<-x->|cccccccc
+		    ddd: eeee
+		   ffff: ggg];"
   :type 'integer
   :group 'c)
 
@@ -919,7 +1000,7 @@ When the value is a string, all CC Mode major modes will install this
 style by default.
 
 When the value is an alist, the major mode symbol is looked up in it
-and the associated style is installed.  If the major mode is not
+and the associated style is installed.	If the major mode is not
 listed in the alist, then the symbol `other' is looked up in it, and
 if found, the style in that entry is used.  If `other' is not found in
 the alist, then \"gnu\" style is used.
@@ -931,19 +1012,19 @@ can always override the use of `c-default-style' by making calls to
 	  (string :tag "Style in all modes")
 	  (set :tag "Mode-specific styles"
 	    (cons :format "%v"
-		  (const :format "C     " c-mode) (string :format "%v"))
+		  (const :format "C	" c-mode) (string :format "%v"))
 	    (cons :format "%v"
-		  (const :format "C++   " c++-mode) (string :format "%v"))
+		  (const :format "C++	" c++-mode) (string :format "%v"))
 	    (cons :format "%v"
-		  (const :format "ObjC  " objc-mode) (string :format "%v"))
+		  (const :format "ObjC	" objc-mode) (string :format "%v"))
 	    (cons :format "%v"
-		  (const :format "Java  " java-mode) (string :format "%v"))
+		  (const :format "Java	" java-mode) (string :format "%v"))
 	    (cons :format "%v"
-		  (const :format "IDL   " idl-mode) (string :format "%v"))
+		  (const :format "IDL	" idl-mode) (string :format "%v"))
 	    (cons :format "%v"
-		  (const :format "Pike  " pike-mode) (string :format "%v"))
+		  (const :format "Pike	" pike-mode) (string :format "%v"))
 	    (cons :format "%v"
-		  (const :format "AWK   " awk-mode) (string :format "%v"))
+		  (const :format "AWK	" awk-mode) (string :format "%v"))
 	    (cons :format "%v"
 		  (const :format "Other " other) (string :format "%v"))))
   :group 'c)
@@ -956,63 +1037,67 @@ can always override the use of `c-default-style' by making calls to
 ;; statement-block-intro, defun-block-intro or substatement syntax
 ;; symbol and continue searching.
 (c-set-stylevar-fallback 'c-offsets-alist
-     '((string                . c-lineup-dont-change)
+     '((string		      . c-lineup-dont-change)
        ;; Anchor pos: Beg of previous line.
-       (c                     . c-lineup-C-comments)
+       (c		      . c-lineup-C-comments)
        ;; Anchor pos: Beg of the comment.
-       (defun-open            . 0)
+       (defun-open	      . 0)
        ;; Anchor pos: When inside a class: Boi at the func decl start.
        ;; When at top level: Bol at the func decl start.  When inside
        ;; a code block (only possible in Pike): At the func decl
        ;; start(*).
-       (defun-close           . 0)
+       (defun-close	      . 0)
        ;; Anchor pos: At the defun block open if it's at boi,
        ;; otherwise boi at the func decl start.
        (defun-block-intro     . +)
        ;; Anchor pos: At the block open(*).
-       (class-open            . 0)
+       (class-open	      . 0)
        ;; Anchor pos: Boi at the class decl start.
-       (class-close           . 0)
+       (class-close	      . 0)
        ;; Anchor pos: Boi at the class decl start.
-       (inline-open           . +)
+       (inline-open	      . +)
        ;; Anchor pos: None for functions (inclass got the relpos
        ;; then), boi at the lambda start for lambdas.
-       (inline-close          . 0)
+       (inline-close	      . 0)
        ;; Anchor pos: Inexpr functions: At the lambda block open if
        ;; it's at boi, else at the statement(*) at boi of the start of
-       ;; the lambda construct.  Otherwise: At the inline block open
+       ;; the lambda construct.	 Otherwise: At the inline block open
        ;; if it's at boi, otherwise boi at the func decl start.
-       (func-decl-cont        . +)
+       (func-decl-cont	      . +)
        ;; Anchor pos: Boi at the func decl start.
        (knr-argdecl-intro     . +)
        ;; Anchor pos: Boi at the topmost intro line.
-       (knr-argdecl           . 0)
+       (knr-argdecl	      . 0)
        ;; Anchor pos: At the beginning of the first K&R argdecl.
-       (topmost-intro         . 0)
+       (topmost-intro	      . 0)
        ;; Anchor pos: Bol at the last line of previous construct.
        (topmost-intro-cont    . c-lineup-topmost-intro-cont)
+       ;;Anchor pos: Bol at the topmost annotation line
+       (annotation-top-cont   .   0)
+       ;;Anchor pos: Bol at the topmost annotation line
+       (annotation-var-cont   .   +)
        ;; Anchor pos: Boi at the topmost intro line.
        (member-init-intro     . +)
        ;; Anchor pos: Boi at the func decl arglist open.
        (member-init-cont      . c-lineup-multi-inher)
        ;; Anchor pos: Beg of the first member init.
-       (inher-intro           . +)
+       (inher-intro	      . +)
        ;; Anchor pos: Boi at the class decl start.
-       (inher-cont            . c-lineup-multi-inher)
+       (inher-cont	      . c-lineup-multi-inher)
        ;; Anchor pos: Java: At the implements/extends keyword start.
        ;; Otherwise: At the inher start colon, or boi at the class
        ;; decl start if the first inherit clause hangs and it's not a
        ;; func-local inherit clause (when does that occur?).
-       (block-open            . 0)
+       (block-open	      . 0)
        ;; Anchor pos: Inexpr statement: At the statement(*) at boi of
        ;; the start of the inexpr construct.  Otherwise: None.
-       (block-close           . 0)
+       (block-close	      . 0)
        ;; Anchor pos: Inexpr statement: At the inexpr block open if
        ;; it's at boi, else at the statement(*) at boi of the start of
-       ;; the inexpr construct.  Block hanging on a case/default
+       ;; the inexpr construct.	 Block hanging on a case/default
        ;; label: At the closest preceding label that starts at boi.
        ;; Otherwise: At the block open(*).
-       (brace-list-open       . 0)
+       (brace-list-open	      . 0)
        ;; Anchor pos: Boi at the brace list decl start, but a starting
        ;; "typedef" token is ignored.
        (brace-list-close      . 0)
@@ -1025,11 +1110,11 @@ can always override the use of `c-default-style' by making calls to
        ;; token.
        (brace-entry-open      . 0)
        ;; Anchor pos: Same as brace-list-entry.
-       (statement             . 0)
+       (statement	      . 0)
        ;; Anchor pos: After a `;' in the condition clause of a for
        ;; statement: At the first token after the starting paren.
        ;; Otherwise: At the preceding statement(*).
-       (statement-cont        . +)
+       (statement-cont	      . +)
        ;; Anchor pos: After the first token in the condition clause of
        ;; a for statement: At the first token after the starting
        ;; paren.  Otherwise: At the containing statement(*).
@@ -1044,82 +1129,83 @@ can always override the use of `c-default-style' by making calls to
        ;; Anchor pos: At the case/default label(*).
        (statement-case-open   . 0)
        ;; Anchor pos: At the case/default label(*).
-       (substatement          . +)
+       (substatement	      . +)
        ;; Anchor pos: At the containing statement(*).
        (substatement-open     . +)
        ;; Anchor pos: At the containing statement(*).
        (substatement-label    . 2)
        ;; Anchor pos: At the containing statement(*).
-       (case-label            . 0)
+       (case-label	      . 0)
        ;; Anchor pos: At the start of the switch block(*).
-       (access-label          . -)
+       (access-label	      . -)
        ;; Anchor pos: Same as inclass.
-       (label                 . 2)
+       (label		      . 2)
        ;; Anchor pos: At the start of the containing block(*).
        (do-while-closure      . 0)
        ;; Anchor pos: At the corresponding while statement(*).
-       (else-clause           . 0)
+       (else-clause	      . 0)
        ;; Anchor pos: At the corresponding if statement(*).
-       (catch-clause          . 0)
+       (catch-clause	      . 0)
        ;; Anchor pos: At the previous try or catch statement clause(*).
-       (comment-intro         . (c-lineup-knr-region-comment c-lineup-comment))
+       (comment-intro	      . (c-lineup-knr-region-comment c-lineup-comment))
        ;; Anchor pos: None.
-       (arglist-intro         . +)
+       (arglist-intro	      . +)
        ;; Anchor pos: At the containing statement(*).
        ;; 2nd pos: At the open paren.
-       (arglist-cont          . (c-lineup-gcc-asm-reg 0))
+       (arglist-cont	      . (c-lineup-gcc-asm-reg 0))
        ;; Anchor pos: At the first token after the open paren.
        (arglist-cont-nonempty . (c-lineup-gcc-asm-reg c-lineup-arglist))
        ;; Anchor pos: At the containing statement(*).
        ;; 2nd pos: At the open paren.
-       (arglist-close         . +)
+       (arglist-close	      . +)
        ;; Anchor pos: At the containing statement(*).
        ;; 2nd pos: At the open paren.
-       (stream-op             . c-lineup-streamop)
+       (stream-op	      . c-lineup-streamop)
        ;; Anchor pos: Boi at the first stream op in the statement.
-       (inclass               . +)
+       (inclass		      . +)
        ;; Anchor pos: At the class open brace if it's at boi,
        ;; otherwise boi at the class decl start.
-       (cpp-macro             . [0])
+       (cpp-macro	      . [0])
        ;; Anchor pos: None.
-       (cpp-macro-cont        . +)
+       (cpp-macro-cont	      . +)
        ;; Anchor pos: At the macro start (always at boi).
        (cpp-define-intro      . (c-lineup-cpp-define +))
        ;; Anchor pos: None.
-       (friend                . 0)
+       (friend		      . 0)
        ;; Anchor pos: None.
        (objc-method-intro     . [0])
        ;; Anchor pos: Boi.
        (objc-method-args-cont . c-lineup-ObjC-method-args)
        ;; Anchor pos: At the method start (always at boi).
-       (objc-method-call-cont . c-lineup-ObjC-method-call)
+       (objc-method-call-cont . (c-lineup-ObjC-method-call-colons
+				c-lineup-ObjC-method-call +))
        ;; Anchor pos: At the open bracket.
        (extern-lang-open      . 0)
-       (namespace-open        . 0)
-       (module-open           . 0)
+       (namespace-open	      . 0)
+       (module-open	      . 0)
        (composition-open      . 0)
        ;; Anchor pos: Boi at the extern/namespace/etc keyword.
        (extern-lang-close     . 0)
-       (namespace-close       . 0)
-       (module-close          . 0)
+       (namespace-close	      . 0)
+       (module-close	      . 0)
        (composition-close     . 0)
        ;; Anchor pos: Boi at the corresponding extern/namespace/etc keyword.
-       (inextern-lang         . +)
-       (innamespace           . +)
-       (inmodule              . +)
-       (incomposition         . +)
+       (inextern-lang	      . +)
+       (innamespace	      . +)
+       (inmodule	      . +)
+       (incomposition	      . +)
        ;; Anchor pos: At the extern/namespace/etc block open brace if
        ;; it's at boi, otherwise boi at the keyword.
        (template-args-cont    . (c-lineup-template-args +))
        ;; Anchor pos: Boi at the decl start.  This might be changed;
        ;; the logical position is clearly the opening '<'.
-       (inlambda              . c-lineup-inexpr-block)
+       (inlambda	      . c-lineup-inexpr-block)
        ;; Anchor pos: None.
        (lambda-intro-cont     . +)
        ;; Anchor pos: Boi at the lambda start.
        (inexpr-statement      . +)
        ;; Anchor pos: None.
-       (inexpr-class          . +)
+       (inexpr-class	      . +)
        ;; Anchor pos: None.
        ))
 (defcustom c-offsets-alist nil
@@ -1164,7 +1250,7 @@ OFFSET can specify an offset in several different ways:
   If OFFSET is a symbol with a value binding then that value, which
   must be an integer, is used as relative offset.
 
-  If OFFSET is a vector then it's first element, which must be an
+  If OFFSET is a vector then its first element, which must be an
   integer, is used as an absolute indentation column.  This overrides
   the previous base indentation and the relative offsets applied to
   it, and it becomes the new base indentation.
@@ -1178,20 +1264,20 @@ OFFSET can specify an offset in several different ways:
   offset specifications.  If the first element is any of the symbols
   below then it isn't evaluated but instead specifies how the
   remaining offsets in the list should be combined.  If it's something
-  else then the list is combined according the method `first'.  The
+  else then the list is combined according the method `first'.	The
   valid combination methods are:
 
   `first' -- Use the first offset (that doesn't evaluate to nil).
-  `min'   -- Use the minimum of all the offsets.  All must be either
-             relative or absolute - they can't be mixed.
-  `max'   -- Use the maximum of all the offsets.  All must be either
-             relative or absolute - they can't be mixed.
-  `add'   -- Add all the evaluated offsets together.  Exactly one of
-             them may be absolute, in which case the result is
-             absolute.  Any relative offsets that preceded the
-             absolute one in the list will be ignored in that case.
+  `min'	  -- Use the minimum of all the offsets.  All must be either
+	     relative or absolute - they can't be mixed.
+  `max'	  -- Use the maximum of all the offsets.  All must be either
+	     relative or absolute - they can't be mixed.
+  `add'	  -- Add all the evaluated offsets together.  Exactly one of
+	     them may be absolute, in which case the result is
+	     absolute.	Any relative offsets that preceded the
+	     absolute one in the list will be ignored in that case.
 
-`c-offsets-alist' is a style variable.  This means that the offsets on
+`c-offsets-alist' is a style variable.	This means that the offsets on
 this variable are normally taken from the style system in CC Mode
 \(see `c-default-style' and `c-style-alist').  However, any offsets
 put explicitly on this list will override the style system when a CC
@@ -1200,99 +1286,102 @@ Mode buffer is initialized \(there is a variable
 
 Here is the current list of valid syntactic element symbols:
 
- string                 -- Inside multi-line string.
- c                      -- Inside a multi-line C style block comment.
- defun-open             -- Brace that opens a function definition.
- defun-close            -- Brace that closes a function definition.
- defun-block-intro      -- The first line in a top-level defun.
- class-open             -- Brace that opens a class definition.
- class-close            -- Brace that closes a class definition.
- inline-open            -- Brace that opens an in-class inline method.
- inline-close           -- Brace that closes an in-class inline method.
- func-decl-cont         -- The region between a function definition's
-                           argument list and the function opening brace
-                           (excluding K&R argument declarations).  In C, you
-                           cannot put anything but whitespace and comments
-                           between them; in C++ and Java, throws declarations
-                           and other things can appear in this context.
- knr-argdecl-intro      -- First line of a K&R C argument declaration.
- knr-argdecl            -- Subsequent lines in a K&R C argument declaration.
- topmost-intro          -- The first line in a topmost construct definition.
- topmost-intro-cont     -- Topmost definition continuation lines.
- member-init-intro      -- First line in a member initialization list.
- member-init-cont       -- Subsequent member initialization list lines.
- inher-intro            -- First line of a multiple inheritance list.
- inher-cont             -- Subsequent multiple inheritance lines.
- block-open             -- Statement block open brace.
- block-close            -- Statement block close brace.
- brace-list-open        -- Open brace of an enum or static array list.
- brace-list-close       -- Close brace of an enum or static array list.
- brace-list-intro       -- First line in an enum or static array list.
- brace-list-entry       -- Subsequent lines in an enum or static array list.
- brace-entry-open       -- Subsequent lines in an enum or static array
-                           list that start with an open brace.
- statement              -- A C (or like) statement.
- statement-cont         -- A continuation of a C (or like) statement.
- statement-block-intro  -- The first line in a new statement block.
- statement-case-intro   -- The first line in a case \"block\".
- statement-case-open    -- The first line in a case block starting with brace.
- substatement           -- The first line after an if/while/for/do/else.
- substatement-open      -- The brace that opens a substatement block.
- substatement-label     -- Labelled line after an if/while/for/do/else.
- case-label             -- A \"case\" or \"default\" label.
- access-label           -- C++ private/protected/public access label.
- label                  -- Any ordinary label.
- do-while-closure       -- The \"while\" that ends a do/while construct.
- else-clause            -- The \"else\" of an if/else construct.
- catch-clause           -- The \"catch\" or \"finally\" of a try/catch construct.
- comment-intro          -- A line containing only a comment introduction.
- arglist-intro          -- The first line in an argument list.
- arglist-cont           -- Subsequent argument list lines when no
-                           arguments follow on the same line as the
-                           arglist opening paren.
- arglist-cont-nonempty  -- Subsequent argument list lines when at
-                           least one argument follows on the same
-                           line as the arglist opening paren.
- arglist-close          -- The solo close paren of an argument list.
- stream-op              -- Lines continuing a stream operator construct.
- inclass                -- The construct is nested inside a class definition.
-                           Used together with e.g. `topmost-intro'.
- cpp-macro              -- The start of a C preprocessor macro definition.
- cpp-macro-cont         -- Inside a multi-line C preprocessor macro definition.
- friend                 -- A C++ friend declaration.
- objc-method-intro      -- The first line of an Objective-C method definition.
- objc-method-args-cont  -- Lines continuing an Objective-C method definition.
- objc-method-call-cont  -- Lines continuing an Objective-C method call.
- extern-lang-open       -- Brace that opens an \"extern\" block.
- extern-lang-close      -- Brace that closes an \"extern\" block.
- inextern-lang          -- Analogous to the `inclass' syntactic symbol,
-                           but used inside \"extern\" blocks.
+ string			-- Inside multi-line string.
+ c			-- Inside a multi-line C style block comment.
+ defun-open		-- Brace that opens a function definition.
+ defun-close		-- Brace that closes a function definition.
+ defun-block-intro	-- The first line in a top-level defun.
+ class-open		-- Brace that opens a class definition.
+ class-close		-- Brace that closes a class definition.
+ inline-open		-- Brace that opens an in-class inline method.
+ inline-close		-- Brace that closes an in-class inline method.
+ func-decl-cont		-- The region between a function definition's
+			   argument list and the function opening brace
+			   (excluding K&R argument declarations).  In C, you
+			   cannot put anything but whitespace and comments
+			   between them; in C++ and Java, throws declarations
+			   and other things can appear in this context.
+ knr-argdecl-intro	-- First line of a K&R C argument declaration.
+ knr-argdecl		-- Subsequent lines in a K&R C argument declaration.
+ topmost-intro		-- The first line in a topmost construct definition.
+ topmost-intro-cont	-- Topmost definition continuation lines.
+ annotation-top-cont    -- Topmost definition continuation line where only
+ 			   annotations are on previous lines.
+ annotation-var-cont    -- A continuation of a C (or like) statement where
+ 			   only annotations are on previous lines.
+ member-init-intro	-- First line in a member initialization list.
+ member-init-cont	-- Subsequent member initialization list lines.
+ inher-intro		-- First line of a multiple inheritance list.
+ inher-cont		-- Subsequent multiple inheritance lines.
+ block-open		-- Statement block open brace.
+ block-close		-- Statement block close brace.
+ brace-list-open	-- Open brace of an enum or static array list.
+ brace-list-close	-- Close brace of an enum or static array list.
+ brace-list-intro	-- First line in an enum or static array list.
+ brace-list-entry	-- Subsequent lines in an enum or static array list.
+ brace-entry-open	-- Subsequent lines in an enum or static array
+			   list that start with an open brace.
+ statement		-- A C (or like) statement.
+ statement-cont		-- A continuation of a C (or like) statement.
+ statement-block-intro	-- The first line in a new statement block.
+ statement-case-intro	-- The first line in a case \"block\".
+ statement-case-open	-- The first line in a case block starting with brace.
+ substatement		-- The first line after an if/while/for/do/else.
+ substatement-open	-- The brace that opens a substatement block.
+ substatement-label	-- Labelled line after an if/while/for/do/else.
+ case-label		-- A \"case\" or \"default\" label.
+ access-label		-- C++ private/protected/public access label.
+ label			-- Any ordinary label.
+ do-while-closure	-- The \"while\" that ends a do/while construct.
+ else-clause		-- The \"else\" of an if/else construct.
+ catch-clause		-- The \"catch\" or \"finally\" of a try/catch construct.
+ comment-intro		-- A line containing only a comment introduction.
+ arglist-intro		-- The first line in an argument list.
+ arglist-cont		-- Subsequent argument list lines when no
+			   arguments follow on the same line as the
+			   arglist opening paren.
+ arglist-cont-nonempty	-- Subsequent argument list lines when at
+			   least one argument follows on the same
+			   line as the arglist opening paren.
+ arglist-close		-- The solo close paren of an argument list.
+ stream-op		-- Lines continuing a stream operator construct.
+ inclass		-- The construct is nested inside a class definition.
+			   Used together with e.g. `topmost-intro'.
+ cpp-macro		-- The start of a C preprocessor macro definition.
+ cpp-macro-cont		-- Inside a multi-line C preprocessor macro definition.
+ friend			-- A C++ friend declaration.
+ objc-method-intro	-- The first line of an Objective-C method definition.
+ objc-method-args-cont	-- Lines continuing an Objective-C method definition.
+ objc-method-call-cont	-- Lines continuing an Objective-C method call.
+ extern-lang-open	-- Brace that opens an \"extern\" block.
+ extern-lang-close	-- Brace that closes an \"extern\" block.
+ inextern-lang		-- Analogous to the `inclass' syntactic symbol,
+			   but used inside \"extern\" blocks.
  namespace-open, namespace-close, innamespace
-                        -- Similar to the three `extern-lang' symbols, but for
-                           C++ \"namespace\" blocks.
+			-- Similar to the three `extern-lang' symbols, but for
+			   C++ \"namespace\" blocks.
  module-open, module-close, inmodule
-                        -- Similar to the three `extern-lang' symbols, but for
-                           CORBA IDL \"module\" blocks.
+			-- Similar to the three `extern-lang' symbols, but for
+			   CORBA IDL \"module\" blocks.
  composition-open, composition-close, incomposition
-                        -- Similar to the three `extern-lang' symbols, but for
-                           CORBA CIDL \"composition\" blocks.
- template-args-cont     -- C++ template argument list continuations.
- inlambda               -- In the header or body of a lambda function.
- lambda-intro-cont      -- Continuation of the header of a lambda function.
- inexpr-statement       -- The statement is inside an expression.
- inexpr-class           -- The class is inside an expression.  Used e.g. for
-                           Java anonymous classes."
+			-- Similar to the three `extern-lang' symbols, but for
+			   CORBA CIDL \"composition\" blocks.
+ template-args-cont	-- C++ template argument list continuations.
+ inlambda		-- In the header or body of a lambda function.
+ lambda-intro-cont	-- Continuation of the header of a lambda function.
+ inexpr-statement	-- The statement is inside an expression.
+ inexpr-class		-- The class is inside an expression.  Used e.g. for
+			   Java anonymous classes."
   :type
   `(set :format "%{%t%}:
  Override style setting
- |  Syntax                     Offset
+ |  Syntax		       Offset
 %v"
 	,@(mapcar
 	   (lambda (elt)
 	     `(cons :format "%v"
 		    :value ,elt
-		    (c-const-symbol :format "%v: "
-				    :size 25)
+		    ,(c-constant-symbol (car elt) 25)
 		    (sexp :format "%v"
 			  :validate
 			  (lambda (widget)
@@ -1308,7 +1397,7 @@ Here is the current list of valid syntactic element symbols:
   '(defun-block-intro block-open block-close statement statement-cont
     statement-block-intro statement-case-intro statement-case-open
     substatement substatement-open substatement-label case-label label
-    do-while-closure else-clause catch-clause inlambda))
+    do-while-closure else-clause catch-clause inlambda annotation-var-cont))
 
 (defcustom c-style-variables-are-local-p t
   "*Whether style variables should be buffer local by default.
@@ -1411,7 +1500,7 @@ were taken.  That was confusing, especially for novice users.
 It's believed that despite this change, the new behavior will still
 produce the same results for most old CC Mode configurations, since
 all style variables are per default set in a special non-override
-state.  Set this variable only if your configuration has stopped
+state.	Set this variable only if your configuration has stopped
 working due to this change.")
 
 (define-widget 'c-extra-types-widget 'radio
@@ -1431,9 +1520,9 @@ characters are automatically optimized using `regexp-opt', so you
 should not use `regexp-opt' explicitly to build regexps here.
 
 On decoration level 3 (and higher, where applicable), a method is used
-that finds most types and declarations by syntax alone.  This variable
+that finds most types and declarations by syntax alone.	 This variable
 is still used as a first step, but other types are recognized
-correctly anyway in most cases.  Therefore this variable should be
+correctly anyway in most cases.	 Therefore this variable should be
 fairly restrictive and not contain patterns that are uncertain.
 
 Note that this variable is only consulted when the major mode is
@@ -1508,7 +1597,7 @@ names)."))
   :group 'c)
 
 (defcustom java-font-lock-extra-types
-  (list (concat "[" c-upper "]\\sw*[" c-lower "]\\sw*"))
+  (list (concat "[" c-upper "]\\sw*[" c-lower "]\\sw"))
   (c-make-font-lock-extra-types-blurb "Java" "java-mode" (concat
 "For example, a value of (\"[" c-upper "]\\\\sw*[" c-lower "]\\\\sw*\") means
 capitalized words are treated as type names (the requirement for a
@@ -1533,6 +1622,54 @@ names)."))
 
 
 ;; Non-customizable variables, still part of the interface to CC Mode
+(defvar c-macro-with-semi-re nil
+  ;; Regular expression which matches a (#define'd) symbol whose expansion
+  ;; ends with a semicolon.
+  ;; 
+  ;; This variable should be set by `c-make-macros-with-semi-re' rather than
+  ;; directly.
+)
+(make-variable-buffer-local 'c-macro-with-semi-re)
+
+(defun c-make-macro-with-semi-re ()
+  ;; Convert `c-macro-names-with-semicolon' into the regexp
+  ;; `c-macro-with-semi-re' (or just copy it if it's already a re).
+  (setq c-macro-with-semi-re
+	(and
+	 c-opt-cpp-macro-define
+	 (cond
+	  ((stringp c-macro-names-with-semicolon)
+	   (copy-sequence c-macro-names-with-semicolon))
+	  ((consp c-macro-names-with-semicolon)
+	   (concat
+	    "\\<"
+	    (regexp-opt c-macro-names-with-semicolon)
+	    "\\>"))   ; N.B. the PAREN param of regexp-opt isn't supported by
+		      ; all XEmacsen.
+	  ((null c-macro-names-with-semicolon)
+	   nil)
+	  (t (error "c-make-macro-with-semi-re: invalid \
+c-macro-names-with-semicolon: %s"
+		    c-macro-names-with-semicolon))))))
+    
+(defvar c-macro-names-with-semicolon
+  '("Q_OBJECT" "Q_PROPERTY" "Q_DECLARE" "Q_ENUMS")
+  "List of #defined symbols whose expansion ends with a semicolon.
+Alternatively it can be a string, a regular expression which
+matches all such symbols.
+
+The \"symbols\" must be syntactically valid identifiers in the
+target language \(C, C++, Objective C), or \(as the case may be)
+the regular expression must match only valid identifiers.
+
+If you change this variable's value, call the function
+`c-make-macros-with-semi-re' to set the necessary internal
+variables.
+
+Note that currently \(2008-11-04) this variable is a prototype,
+and is likely to disappear or change its form soon.")
+(make-variable-buffer-local 'c-macro-names-with-semicolon)
+
 (defvar c-file-style nil
   "Variable interface for setting style via File Local Variables.
 In a file's Local Variable section, you can set this variable to a
@@ -1600,7 +1737,8 @@ statically (e.g. with `setq').")
 
 (defvar c-indentation-style nil
   "Name of the currently installed style.
-Don't change this directly; call `c-set-style' instead.")
+Don't change this directly; call `c-set-style' instead, or set the variable
+`c-file-style' in the file's Local Variable list.")
 
 (defvar c-current-comment-prefix nil
   "The current comment prefix regexp.
@@ -1608,7 +1746,7 @@ Set from `c-comment-prefix-regexp' at mode initialization.")
 (make-variable-buffer-local 'c-current-comment-prefix)
 
 ;; N.B. The next three variables are initialized in
-;; c-setup-paragraph-variables.  Their initializations here are "just in
+;; c-setup-paragraph-variables.	 Their initializations here are "just in
 ;; case".  ACM, 2004/2/15.  They are NOT buffer local (yet?).
 (defvar c-string-par-start
 ;;   (concat "\\(" (default-value 'paragraph-start) "\\)\\|[ \t]*\\\\$")

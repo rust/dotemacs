@@ -1,12 +1,14 @@
 ;;; cc-defs.el --- compile time definitions for CC Mode
 
-;; Copyright (C) 1985,1987,1992-2003, 2004, 2005, 2006 Free Software
-;; Foundation, Inc.
+;; Copyright (C) 1985, 1987, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
+;;   1999, 2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
+;;   2010, 2011, 2012   Free Software Foundation, Inc.
 
-;; Authors:    1998- Martin Stjernholm
-;;             1992-1999 Barry A. Warsaw
-;;             1987 Dave Detlefs and Stewart Clamen
-;;             1985 Richard M. Stallman
+;; Authors:    2003- Alan Mackenzie
+;;	       1998- Martin Stjernholm
+;;	       1992-1999 Barry A. Warsaw
+;;	       1987 Dave Detlefs and Stewart Clamen
+;;	       1985 Richard M. Stallman
 ;; Maintainer: bug-cc-mode@gnu.org
 ;; Created:    22-Apr-1997 (split from cc-mode.el)
 ;; Version:    See cc-mode.el
@@ -16,18 +18,17 @@
 
 ;; GNU Emacs is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
+;; the Free Software Foundation; either version 3, or (at your option)
 ;; any later version.
 
 ;; GNU Emacs is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
-;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
 ;; GNU General Public License for more details.
 
 ;; You should have received a copy of the GNU General Public License
-;; along with this program; see the file COPYING.  If not, write to
-;; the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
-;; Boston, MA 02110-1301, USA.
+;; along with this program; see the file COPYING.  If not, see
+;; <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
 
@@ -73,16 +74,16 @@
   '(if (and (not (featurep 'cc-fix)) ; only load the file once.
 	    (featurep 'xemacs) ; There is now (2005/12) code in GNU Emacs CVS
 			       ; to make the call to f-l-c-k throw an error.
-            (let (font-lock-keywords)
-              (font-lock-compile-keywords '("\\<\\>"))
+	    (let (font-lock-keywords)
+	      (font-lock-compile-keywords '("\\<\\>"))
 	      font-lock-keywords))     ; did the previous call foul this up?
        (load "cc-fix")))
 
 ;; The above takes care of the delayed loading, but this is necessary
 ;; to ensure correct byte compilation.
 (eval-when-compile
-  (if (and (not (featurep 'cc-fix))
-	   (featurep 'xemacs)
+  (if (and (featurep 'xemacs)
+	   (not (featurep 'cc-fix))
 	   (progn
 	     (require 'font-lock)
 	     (let (font-lock-keywords)
@@ -90,10 +91,15 @@
 	       font-lock-keywords)))
       (cc-load "cc-fix")))
 
+;; XEmacs 21.4 doesn't have `delete-dups'.
+(eval-and-compile
+  (if (and (not (fboundp 'delete-dups))
+	   (not (featurep 'cc-fix)))
+      (cc-load "cc-fix")))
 
 ;;; Variables also used at compile time.
 
-(defconst c-version "5.31.3"
+(defconst c-version "5.32.3"
   "CC Mode version number.")
 
 (defconst c-version-sym (intern c-version))
@@ -104,7 +110,7 @@
 Otherwise, this variable is nil.  I.e. this variable is non-nil for
 `c-mode', `c++-mode', `objc-mode', `java-mode', `idl-mode',
 `pike-mode', `awk-mode', and any other non-CC Mode mode that calls
-`c-initialize-cc-mode'.  The value is the mode symbol itself
+`c-initialize-cc-mode'.	 The value is the mode symbol itself
 \(i.e. `c-mode' etc) of the original CC Mode mode, or just t if it's
 not known.")
 (make-variable-buffer-local 'c-buffer-is-cc-mode)
@@ -128,13 +134,13 @@ This variant works around bugs in `eval-when-compile' in various
     (if c-inside-eval-when-compile
 	;; XEmacs 21.4.6 has a bug in `eval-when-compile' in that it
 	;; evaluates its body at macro expansion time if it's nested
-	;; inside another `eval-when-compile'.  So we use a dynamically
+	;; inside another `eval-when-compile'.	So we use a dynamically
 	;; bound variable to avoid nesting them.
 	`(progn ,@body)
 
       `(eval-when-compile
 	 ;; In all (X)Emacsen so far, `eval-when-compile' byte compiles
-	 ;; its contents before evaluating it.  That can cause forms to
+	 ;; its contents before evaluating it.	That can cause forms to
 	 ;; be compiled in situations they aren't intended to be
 	 ;; compiled.
 	 ;;
@@ -143,19 +149,19 @@ This variant works around bugs in `eval-when-compile' in various
 	 ;; `nthcdr' is a primitive function that's handled specially by
 	 ;; the byte compiler and thus can't be redefined:
 	 ;;
-	 ;;     (defsubst nthcdr (val) val)
+	 ;;	(defsubst nthcdr (val) val)
 	 ;;
 	 ;; `defsubst', like `defmacro', needs to be evaluated at
 	 ;; compile time, so this will produce an error during byte
 	 ;; compilation.
 	 ;;
 	 ;; CC Mode occasionally needs to do things like this for
-	 ;; cross-emacs compatibility.  It therefore uses the following
+	 ;; cross-emacs compatibility.	It therefore uses the following
 	 ;; to conditionally do a `defsubst':
 	 ;;
-	 ;;     (eval-when-compile
-	 ;;       (if (not (fboundp 'foo))
-	 ;;           (defsubst foo ...)))
+	 ;;	(eval-when-compile
+	 ;;	  (if (not (fboundp 'foo))
+	 ;;	      (defsubst foo ...)))
 	 ;;
 	 ;; But `eval-when-compile' byte compiles its contents and
 	 ;; _then_ evaluates it (in all current emacs versions, up to
@@ -181,17 +187,17 @@ This variant works around bugs in `eval-when-compile' in various
 The current point is used if POINT isn't specified.  POSITION can be
 one of the following symbols:
 
-`bol'   -- beginning of line
-`eol'   -- end of line
-`bod'   -- beginning of defun
-`eod'   -- end of defun
-`boi'   -- beginning of indentation
-`ionl'  -- indentation of next line
-`iopl'  -- indentation of previous line
-`bonl'  -- beginning of next line
-`eonl'  -- end of next line
-`bopl'  -- beginning of previous line
-`eopl'  -- end of previous line
+`bol'	-- beginning of line
+`eol'	-- end of line
+`bod'	-- beginning of defun
+`eod'	-- end of defun
+`boi'	-- beginning of indentation
+`ionl'	-- indentation of next line
+`iopl'	-- indentation of previous line
+`bonl'	-- beginning of next line
+`eonl'	-- end of next line
+`bopl'	-- beginning of previous line
+`eopl'	-- end of previous line
 `bosws' -- beginning of syntactic whitespace
 `eosws' -- end of syntactic whitespace
 
@@ -331,6 +337,15 @@ to it is returned.  This function does not modify the point or the mark."
 	  (t (error "Unknown buffer position requested: %s" position))))
        (point))))
 
+(defmacro c-next-single-property-change (position prop &optional object limit)
+  ;; See the doc string for either of the defuns expanded to.
+  (if (and c-use-extents
+	   (fboundp 'next-single-char-property-change))
+      ;; XEmacs >= 2005-01-25
+      `(next-single-char-property-change ,position ,prop ,object ,limit)
+    ;; Emacs and earlier XEmacs
+    `(next-single-property-change ,position ,prop ,object ,limit)))
+
 (defmacro c-region-is-active-p ()
   ;; Return t when the region is active.  The determination of region
   ;; activeness is different in both Emacs and XEmacs.
@@ -342,7 +357,7 @@ to it is returned.  This function does not modify the point or the mark."
 
 (defmacro c-set-region-active (activate)
   ;; Activate the region if ACTIVE is non-nil, deactivate it
-  ;; otherwise.  Covers the differences between Emacs and XEmacs.
+  ;; otherwise.	 Covers the differences between Emacs and XEmacs.
   (if (cc-bytecomp-fboundp 'zmacs-activate-region)
       ;; XEmacs.
       `(if ,activate
@@ -405,7 +420,7 @@ properties to be changed, even in a read-only buffer.
 
 This macro should be placed around all calculations which set
 \"insignificant\" text properties in a buffer, even when the buffer is
-known to be writeable.  That way, these text properties remain set
+known to be writeable.	That way, these text properties remain set
 even if the user undoes the command which set them.
 
 This macro should ALWAYS be placed around \"temporary\" internal buffer
@@ -422,6 +437,8 @@ The return value is the value of the last form in BODY."
 	  (inhibit-read-only t) (inhibit-point-motion-hooks t)
 	  before-change-functions after-change-functions
 	  deactivate-mark
+	  buffer-file-name buffer-file-truename ; Prevent primitives checking
+						; for file modification
 	  ,@varlist)
      (unwind-protect
 	 (progn ,@body)
@@ -508,7 +525,7 @@ LIMIT sets an upper limit of the forward movement, if specified.  If
 LIMIT or the end of the buffer is reached inside a comment or
 preprocessor directive, the point will be left there.
 
-Note that this function might do hidden buffer changes.  See the
+Note that this function might do hidden buffer changes.	 See the
 comment at the start of cc-engine.el for more info."
   (if limit
       `(save-restriction
@@ -527,7 +544,7 @@ LIMIT sets a lower limit of the backward movement, if specified.  If
 LIMIT is reached inside a line comment or preprocessor directive then
 the point is moved into it past the whitespace at the end.
 
-Note that this function might do hidden buffer changes.  See the
+Note that this function might do hidden buffer changes.	 See the
 comment at the start of cc-engine.el for more info."
   (if limit
       `(save-restriction
@@ -576,6 +593,24 @@ right side of it."
 
 ;; Wrappers for common scan-lists cases, mainly because it's almost
 ;; impossible to get a feel for how that function works.
+
+(defmacro c-go-list-forward ()
+  "Move backward across one balanced group of parentheses.
+
+Return POINT when we succeed, NIL when we fail.	 In the latter case, leave
+point unmoved."
+  `(c-safe (let ((endpos (scan-lists (point) 1 0)))
+	     (goto-char endpos)
+	     endpos)))
+
+(defmacro c-go-list-backward ()
+  "Move backward across one balanced group of parentheses.
+
+Return POINT when we succeed, NIL when we fail.	 In the latter case, leave
+point unmoved."
+  `(c-safe (let ((endpos (scan-lists (point) -1 0)))
+	     (goto-char endpos)
+	     endpos)))
 
 (defmacro c-up-list-forward (&optional pos limit)
   "Return the first position after the list sexp containing POS,
@@ -639,7 +674,7 @@ be after it."
 
 (defmacro c-go-down-list-forward (&optional pos limit)
   "Move the point to the first position inside the first list sexp after POS,
-or before the point if POS is left out.  Return t if such a position
+or before the point if POS is left out.	 Return t if such a position
 exists, otherwise nil is returned and the point isn't moved.
 
 A limit for the search may be given.  The start position is assumed to
@@ -653,7 +688,7 @@ be before it."
 
 (defmacro c-go-down-list-backward (&optional pos limit)
   "Move the point to the last position inside the last list sexp before POS,
-or before the point if POS is left out.  Return t if such a position
+or before the point if POS is left out.	 Return t if such a position
 exists, otherwise nil is returned and the point isn't moved.
 
 A limit for the search may be given.  The start position is assumed to
@@ -685,9 +720,10 @@ be after it."
 	 ,(when (cc-bytecomp-fboundp 'buffer-syntactic-context-depth)
 	    ;; XEmacs only.  This can improve the performance of
 	    ;; c-parse-state to between 3 and 60 times faster when
-	    ;; braces are hung.  It can also degrade performance by
+	    ;; braces are hung.	 It can also degrade performance by
 	    ;; about as much when braces are not hung.
-	    '(let (pos)
+	    '(let (beginning-of-defun-function end-of-defun-function
+					       pos)
 	       (while (not pos)
 		 (save-restriction
 		   (widen)
@@ -697,7 +733,7 @@ be after it."
 		  ((bobp) (setq pos (point-min)))
 		  ((not pos)
 		   (let ((distance (skip-chars-backward "^{")))
-		     ;; unbalanced parenthesis, while illegal C code,
+		     ;; unbalanced parenthesis, while invalid C code,
 		     ;; shouldn't cause an infloop!  See unbal.c
 		     (when (zerop distance)
 		       ;; Punt!
@@ -710,7 +746,8 @@ be after it."
 		  ))
 	       (goto-char pos)))
        ;; Emacs, which doesn't have buffer-syntactic-context-depth
-       (beginning-of-defun))
+       (let (beginning-of-defun-function end-of-defun-function)
+	 (beginning-of-defun)))
      ;; if defun-prompt-regexp is non-nil, b-o-d won't leave us at the
      ;; open brace.
      (and defun-prompt-regexp
@@ -719,34 +756,35 @@ be after it."
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; V i r t u a l   S e m i c o l o n s 
+;; V i r t u a l   S e m i c o l o n s
 ;;
 ;; In most CC Mode languages, statements are terminated explicitly by
-;; semicolons or closing braces.  In some of the CC modes (currently only AWK
-;; Mode (April 2004)), statements are (or can be) terminated by EOLs.  Such a
-;; statement is said to be terminated by a "virtual semicolon" (VS).  A
-;; statement terminated by an actual semicolon or brace is never considered to
-;; have a VS.
+;; semicolons or closing braces.  In some of the CC modes (currently AWK Mode
+;; and certain user-specified #define macros in C, C++, etc. (November 2008)),
+;; statements are (or can be) terminated by EOLs.  Such a statement is said to
+;; be terminated by a "virtual semicolon" (VS).  A statement terminated by an
+;; actual semicolon or brace is never considered to have a VS.
 ;;
 ;; The indentation engine (or whatever) tests for a VS at a specific position
 ;; by invoking the macro `c-at-vsemi-p', which in its turn calls the mode
 ;; specific function (if any) which is the value of the language variable
-;; `c-at-vsemi-p-fn'.  The actual details of what constitutes a VS in a
-;; language are thus encapsulated in code specific to that language
-;; (e.g. cc-awk.el).  `c-at-vsemi-p' returns non-nil if point (or the optional
-;; parameter POS) is at a VS, nil otherwise.
+;; `c-at-vsemi-p-fn'.  This function should only use "low-level" features of
+;; CC Mode, i.e. features which won't trigger infinite recursion.  ;-) The
+;; actual details of what constitutes a VS in a language are thus encapsulated
+;; in code specific to that language (e.g. cc-awk.el).  `c-at-vsemi-p' returns
+;; non-nil if point (or the optional parameter POS) is at a VS, nil otherwise.
 ;;
 ;; The language specific function might well do extensive analysis of the
 ;; source text, and may use a cacheing scheme to speed up repeated calls.
 ;;
 ;; The "virtual semicolon" lies just after the last non-ws token on the line.
-;; Like POINT, it is considered to lie between two characters.  For example,
+;; Like POINT, it is considered to lie between two characters.	For example,
 ;; at the place shown in the following AWK source line:
 ;;
-;;          kbyte = 1024             # 1000 if you're not picky
-;;                      ^
-;;                      |
-;;              Virtual Semicolon
+;;	    kbyte = 1024	     # 1000 if you're not picky
+;;			^
+;;			|
+;;		Virtual Semicolon
 ;;
 ;; In addition to `c-at-vsemi-p-fn', a mode may need to supply a function for
 ;; `c-vsemi-status-unknown-p-fn'.  The macro `c-vsemi-status-unknown-p' is a
@@ -762,8 +800,8 @@ be after it."
 ;; call `c-beginning-of-statement-1'.
 ;;
 ;; The macro `c-vsemi-status-unknown-p' will typically check the cacheing
-;; scheme used by the `c-at-vsemp-p-fn', hence the name - the status is
-;; "unknown" if there is no cache entry current for the line. 
+;; scheme used by the `c-at-vsemi-p-fn', hence the name - the status is
+;; "unknown" if there is no cache entry current for the line.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defmacro c-at-vsemi-p (&optional pos)
@@ -883,36 +921,44 @@ MODE is either a mode symbol or a list of mode symbols."
 			       (cc-bytecomp-fboundp 'delete-extent)
 			       (cc-bytecomp-fboundp 'map-extents))))
 
+(defconst c-<-as-paren-syntax '(4 . ?>))
+(put 'c-<-as-paren-syntax 'syntax-table c-<-as-paren-syntax)
+
+(defconst c->-as-paren-syntax '(5 . ?<))
+(put 'c->-as-paren-syntax 'syntax-table c->-as-paren-syntax)
+
 ;; `c-put-char-property' is complex enough in XEmacs and Emacs < 21 to
 ;; make it a function.
-(defalias 'c-put-char-property-fun
-  (cc-eval-when-compile
-    (cond (c-use-extents
-	   ;; XEmacs.
-	   (byte-compile
-	    (lambda (pos property value)
-	      (let ((ext (extent-at pos nil property)))
-		(if ext
-		    (set-extent-property ext property value)
-		  (set-extent-properties (make-extent pos (1+ pos))
-					 (cons property
-					       (cons value
-						     '(start-open t
-						       end-open t)))))))))
+(eval-and-compile
+  (defalias 'c-put-char-property-fun
+    (cc-eval-when-compile
+      (cond (c-use-extents
+	     ;; XEmacs.
+	     (byte-compile
+	      (lambda (pos property value)
+		(let ((ext (extent-at pos nil property)))
+		  (if ext
+		      (set-extent-property ext property value)
+		    (set-extent-properties (make-extent pos (1+ pos))
+					   (cons property
+						 (cons value
+						       '(start-open t
+								    end-open t)))))))))
 
-	  ((not (cc-bytecomp-boundp 'text-property-default-nonsticky))
-	   ;; In Emacs < 21 we have to mess with the `rear-nonsticky' property.
-	   (byte-compile
-	    (lambda (pos property value)
-	      (put-text-property pos (1+ pos) property value)
-	      (let ((prop (get-text-property pos 'rear-nonsticky)))
-		(or (memq property prop)
-		    (put-text-property pos (1+ pos)
-				       'rear-nonsticky
-				       (cons property prop))))))))))
+	    ((not (cc-bytecomp-boundp 'text-property-default-nonsticky))
+	     ;; In Emacs < 21 we have to mess with the `rear-nonsticky' property.
+	     (byte-compile
+	      (lambda (pos property value)
+		(put-text-property pos (1+ pos) property value)
+		(let ((prop (get-text-property pos 'rear-nonsticky)))
+		  (or (memq property prop)
+		      (put-text-property pos (1+ pos)
+					 'rear-nonsticky
+					 (cons property prop)))))))))))
 (cc-bytecomp-defun c-put-char-property-fun) ; Make it known below.
 
-(defmacro c-put-char-property (pos property value)
+(eval-and-compile
+  (defmacro c-put-char-property (pos property value)
   ;; Put the given property with the given value on the character at
   ;; POS and make it front and rear nonsticky, or start and end open
   ;; in XEmacs vocabulary.  If the character already has the given
@@ -932,7 +978,27 @@ MODE is either a mode symbol or a list of mode symbols."
     ;; In Emacs 21 we got the `rear-nonsticky' property covered
     ;; by `text-property-default-nonsticky'.
     `(let ((-pos- ,pos))
-       (put-text-property -pos- (1+ -pos-) ',property ,value))))
+       (put-text-property -pos- (1+ -pos-) ',property ,value)))))
+
+(eval-and-compile
+  ;; Constant to decide at compilation time whether to use category
+  ;; properties.  Currently (2010-03) they're available only on GNU Emacs.
+  (defconst c-use-category
+    (let ((buf (generate-new-buffer " test"))
+	  parse-sexp-lookup-properties lookup-syntax-properties)
+      (prog1
+	  (save-excursion
+	    (set-buffer buf)
+	    (setq parse-sexp-lookup-properties t)
+	    (setq lookup-syntax-properties t)
+	    (set-syntax-table (make-syntax-table))
+	    (insert "<()>")
+	    (c-put-char-property (point-min) 'category 'c-<-as-paren-syntax)
+	    (c-put-char-property (+ 3 (point-min)) 'category 'c->-as-paren-syntax)
+	    (goto-char (point-min))
+	    (forward-sexp)
+	    (= (point) (+ 4 (point-min))))
+	(kill-buffer buf)))))
 
 (defmacro c-get-char-property (pos property)
   ;; Get the value of the given property on the character at POS if
@@ -990,7 +1056,7 @@ MODE is either a mode symbol or a list of mode symbols."
   ;;
   ;; Note that this function does not clean up the property from the
   ;; lists of the `rear-nonsticky' properties in the region, if such
-  ;; are used.  Thus it should not be used for common properties like
+  ;; are used.	Thus it should not be used for common properties like
   ;; `syntax-table'.
   ;;
   ;; This macro does hidden buffer changes.
@@ -1003,6 +1069,82 @@ MODE is either a mode symbol or a list of mode symbols."
     ;; Emacs.
     `(remove-text-properties ,from ,to '(,property nil))))
 
+(defmacro c-search-forward-char-property (property value &optional limit)
+  "Search forward for a text-property PROPERTY having value VALUE.
+LIMIT bounds the search.  The comparison is done with `equal'.
+
+Leave point just after the character, and set the match data on
+this character, and return point.  If VALUE isn't found, Return
+nil; point is then left undefined."
+  `(let ((place (point)))
+     (while
+	 (and
+	  (< place ,(or limit '(point-max)))
+	  (not (equal (c-get-char-property place ,property) ,value)))
+       (setq place (c-next-single-property-change
+		    place ,property nil ,(or limit '(point-max)))))
+     (when (< place ,(or limit '(point-max)))
+       (goto-char place)
+       (search-forward-regexp ".")	; to set the match-data.
+       (point))))
+
+(defmacro c-search-backward-char-property (property value &optional limit)
+  "Search backward for a text-property PROPERTY having value VALUE.
+LIMIT bounds the search.  The comparison is done with `equal'.
+
+Leave point just before the character, set the match data on this
+character, and return point.  If VALUE isn't found, Return nil;
+point is then left undefined."
+  `(let ((place (point)))
+     (while
+	 (and
+	  (> place ,(or limit '(point-min)))
+	  (not (equal (c-get-char-property (1- place) ,property) ,value)))
+       (setq place (,(if (and c-use-extents
+			      (fboundp 'previous-single-char-property-change))
+			 ;; XEmacs > 2005-01-25.
+			 'previous-single-char-property-change
+		       ;; Emacs and earlier XEmacs.
+		       'previous-single-property-change)
+		    place ,property nil ,(or limit '(point-min)))))
+     (when (> place ,(or limit '(point-min)))
+       (goto-char place)
+       (search-backward-regexp ".")	; to set the match-data.
+       (point))))
+
+(defun c-clear-char-property-with-value-function (from to property value)
+  "Remove all text-properties PROPERTY from the region (FROM, TO)
+which have the value VALUE, as tested by `equal'.  These
+properties are assumed to be over individual characters, having
+been put there by c-put-char-property.	POINT remains unchanged."
+  (let ((place from) end-place)
+    (while			  ; loop round occurrances of (PROPERTY VALUE)
+	(progn
+	  (while	   ; loop round changes in PROPERTY till we find VALUE
+	      (and
+	       (< place to)
+	       (not (equal (get-text-property place property) value)))
+	    (setq place (c-next-single-property-change place property nil to)))
+	  (< place to))
+      (setq end-place (c-next-single-property-change place property nil to))
+      (remove-text-properties place end-place (cons property nil))
+      ;; Do we have to do anything with stickiness here?
+      (setq place end-place))))
+
+(defmacro c-clear-char-property-with-value (from to property value)
+  "Remove all text-properties PROPERTY from the region [FROM, TO)
+which have the value VALUE, as tested by `equal'.  These
+properties are assumed to be over individual characters, having
+been put there by c-put-char-property.	POINT remains unchanged."
+  (if c-use-extents
+    ;; XEmacs
+      `(let ((-property- ,property))
+	 (map-extents (lambda (ext val)
+			(if (equal (extent-property ext -property-) val)
+			    (delete-extent ext)))
+		      nil ,from ,to ,value nil -property-))
+  ;; Gnu Emacs
+    `(c-clear-char-property-with-value-function ,from ,to ,property ,value)))
 
 ;; Macros to put overlays (Emacs) or extents (XEmacs) on buffer text.
 ;; For our purposes, these are characterized by being possible to
@@ -1085,24 +1227,235 @@ MODE is either a mode symbol or a list of mode symbols."
     (if (< (point) start)
 	(goto-char (point-max)))))
 
-(defconst c-<-as-paren-syntax '(4 . ?>))
-
-(defsubst c-mark-<-as-paren (pos)
-  ;; Mark the "<" character at POS as an sexp list opener using the
-  ;; syntax-table property.
+(defmacro c-mark-<-as-paren (pos)
+  ;; Mark the "<" character at POS as a template opener using the
+  ;; `syntax-table' property either directly (XEmacs) or via a `category'
+  ;; property (GNU Emacs).
   ;;
-  ;; This function does a hidden buffer change.
-  (c-put-char-property pos 'syntax-table c-<-as-paren-syntax))
+  ;; This function does a hidden buffer change.	 Note that we use
+  ;; indirection through the `category' text property.	This allows us to
+  ;; toggle the property in all template brackets simultaneously and
+  ;; cheaply.  We use this, for instance, in `c-parse-state'.
+  (if c-use-category
+      `(c-put-char-property ,pos 'category 'c-<-as-paren-syntax)
+    `(c-put-char-property ,pos 'syntax-table c-<-as-paren-syntax)))
+  
 
-(defconst c->-as-paren-syntax '(5 . ?<))
-
-(defsubst c-mark->-as-paren (pos)
+(defmacro c-mark->-as-paren (pos)
   ;; Mark the ">" character at POS as an sexp list closer using the
-  ;; syntax-table property.
+  ;; `syntax-table' property either directly (XEmacs) or via a `category'
+  ;; property (GNU Emacs).
   ;;
-  ;; This function does a hidden buffer change.
-  (c-put-char-property pos 'syntax-table c->-as-paren-syntax))
+  ;; This function does a hidden buffer change.	 Note that we use
+  ;; indirection through the `category' text property.	This allows us to
+  ;; toggle the property in all template brackets simultaneously and
+  ;; cheaply.  We use this, for instance, in `c-parse-state'.
+  (if c-use-category
+      `(c-put-char-property ,pos 'category 'c->-as-paren-syntax)
+    `(c-put-char-property ,pos 'syntax-table c->-as-paren-syntax)))
 
+(defmacro c-unmark-<->-as-paren (pos)
+  ;; Unmark the "<" or "<" character at POS as an sexp list opener using the
+  ;; `syntax-table' property either directly or indirectly through a
+  ;; `category' text property.
+  ;;
+  ;; This function does a hidden buffer change.  Note that we try to use
+  ;; indirection through the `category' text property.  This allows us to
+  ;; toggle the property in all template brackets simultaneously and
+  ;; cheaply.  We use this, for instance, in `c-parse-state'.
+  `(c-clear-char-property ,pos ,(if c-use-category ''category ''syntax-table)))
+
+(defsubst c-suppress-<->-as-parens ()
+  ;; Suppress the syntactic effect of all marked < and > as parens.  Note
+  ;; that this effect is NOT buffer local.  You should probably not use
+  ;; this directly, but only through the macro
+  ;; `c-with-<->-as-parens-suppressed'
+  (put 'c-<-as-paren-syntax 'syntax-table nil)
+  (put 'c->-as-paren-syntax 'syntax-table nil))
+
+(defsubst c-restore-<->-as-parens ()
+  ;; Restore the syntactic effect of all marked <s and >s as parens.  This
+  ;; has no effect on unmarked <s and >s
+  (put 'c-<-as-paren-syntax 'syntax-table c-<-as-paren-syntax)
+  (put 'c->-as-paren-syntax 'syntax-table c->-as-paren-syntax))
+
+(defmacro c-with-<->-as-parens-suppressed (&rest forms)
+  ;; Like progn, except that the paren property is suppressed on all
+  ;; template brackets whilst they are running.	 This macro does a hidden
+  ;; buffer change.
+  `(unwind-protect
+       (progn
+	 (c-suppress-<->-as-parens)
+	 ,@forms)
+     (c-restore-<->-as-parens)))
+
+;;;;;;;;;;;;;;;
+
+(defconst c-cpp-delimiter '(14)) ; generic comment syntax
+;; This is the value of the `category' text property placed on every #
+;; which introduces a CPP construct and every EOL (or EOB, or character
+;; preceding //, etc.) which terminates it.  We can instantly "comment
+;; out" all CPP constructs by giving `c-cpp-delimiter' a syntax-table
+;; propery '(14) (generic comment delimiter).
+(defmacro c-set-cpp-delimiters (beg end)
+  ;; This macro does a hidden buffer change.
+  `(progn
+     (c-put-char-property ,beg 'category 'c-cpp-delimiter)
+     (if (< ,end (point-max))
+	 (c-put-char-property ,end 'category 'c-cpp-delimiter))))
+(defmacro c-clear-cpp-delimiters (beg end)
+  ;; This macro does a hidden buffer change.
+  `(progn
+     (c-clear-char-property ,beg 'category)
+     (if (< ,end (point-max))
+	 (c-clear-char-property ,end 'category))))
+
+(defsubst c-comment-out-cpps ()
+  ;; Render all preprocessor constructs syntactically commented out.
+  (put 'c-cpp-delimiter 'syntax-table c-cpp-delimiter))
+(defsubst c-uncomment-out-cpps ()
+  ;; Restore the syntactic visibility of preprocessor constructs.
+  (put 'c-cpp-delimiter 'syntax-table nil))
+
+(defmacro c-with-cpps-commented-out (&rest forms)
+  ;; Execute FORMS... whilst the syntactic effect of all characters in
+  ;; all CPP regions is suppressed.  In particular, this is to suppress
+  ;; the syntactic significance of parens/braces/brackets to functions
+  ;; such as `scan-lists' and `parse-partial-sexp'.
+  `(unwind-protect
+       (c-save-buffer-state ()
+	   (c-comment-out-cpps)
+	   ,@forms)
+     (c-save-buffer-state ()
+       (c-uncomment-out-cpps))))
+
+(defmacro c-with-all-but-one-cpps-commented-out (beg end &rest forms)
+  ;; Execute FORMS... whilst the syntactic effect of all characters in
+  ;; every CPP region APART FROM THE ONE BETWEEN BEG and END is
+  ;; suppressed.
+  `(unwind-protect
+       (c-save-buffer-state ()
+	 (c-clear-cpp-delimiters ,beg ,end)
+	 ,`(c-with-cpps-commented-out ,@forms))
+     (c-save-buffer-state ()
+       (c-set-cpp-delimiters ,beg ,end))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; The following macros are to be used only in `c-parse-state' and its
+;; subroutines.  Their main purpose is to simplify the handling of C++/Java
+;; template delimiters and CPP macros.  In GNU Emacs, this is done slickly by
+;; the judicious use of 'category properties.  These don't exist in XEmacs.
+;; 
+;; Note: in the following macros, there is no special handling for parentheses
+;; inside CPP constructs.  That is because CPPs are always syntactically
+;; balanced, thanks to `c-neutralize-CPP-line' in cc-mode.el.
+(defmacro c-sc-scan-lists-no-category+1+1 (from)
+  ;; Do a (scan-lists FROM 1 1).  Any finishing position which either (i) is
+  ;; determined by and angle bracket; or (ii) is inside a macro whose start
+  ;; isn't POINT-MACRO-START doesn't count as a finishing position.
+  `(let ((here (point))
+	 (pos (scan-lists ,from 1 1)))
+     (while (eq (char-before pos) ?>)
+       (setq pos (scan-lists pos 1 1)))
+     pos))
+
+(defmacro c-sc-scan-lists-no-category+1-1 (from) 
+  ;; Do a (scan-lists FROM 1 -1).  Any finishing position which either (i) is
+  ;; determined by and angle bracket; or (ii) is inside a macro whose start
+  ;; isn't POINT-MACRO-START doesn't count as a finishing position.
+  `(let ((here (point))
+	 (pos (scan-lists ,from 1 -1)))
+     (while (eq (char-before pos) ?<)
+       (setq pos (scan-lists pos 1 1))
+       (setq pos (scan-lists pos 1 -1)))
+     pos))
+
+(defmacro c-sc-scan-lists-no-category-1+1 (from)
+  ;; Do a (scan-lists FROM -1 1).  Any finishing position which either (i) is
+  ;; determined by and angle bracket; or (ii) is inside a macro whose start
+  ;; isn't POINT-MACRO-START doesn't count as a finishing position.
+  `(let ((here (point))
+	 (pos (scan-lists ,from -1 1)))
+     (while (eq (char-after pos) ?<)
+       (setq pos (scan-lists pos -1 1)))
+     pos))
+
+(defmacro c-sc-scan-lists-no-category-1-1 (from)
+  ;; Do a (scan-lists FROM -1 -1).  Any finishing position which either (i) is
+  ;; determined by and angle bracket; or (ii) is inside a macro whose start
+  ;; isn't POINT-MACRO-START doesn't count as a finishing position.
+  `(let ((here (point))
+	 (pos (scan-lists ,from -1 -1)))
+     (while (eq (char-after pos) ?>)
+       (setq pos (scan-lists pos -1 1))
+       (setq pos (scan-lists pos -1 -1)))
+     pos))
+
+(defmacro c-sc-scan-lists (from count depth)
+  (if c-use-category
+      `(scan-lists ,from ,count ,depth)
+    (cond
+     ((and (eq count 1) (eq depth 1))
+      `(c-sc-scan-lists-no-category+1+1 ,from))
+     ((and (eq count 1) (eq depth -1))
+      `(c-sc-scan-lists-no-category+1-1 ,from))
+     ((and (eq count -1) (eq depth 1))
+      `(c-sc-scan-lists-no-category-1+1 ,from))
+     ((and (eq count -1) (eq depth -1))
+      `(c-sc-scan-lists-no-category-1-1 ,from))
+     (t (error "Invalid parameter(s) to c-sc-scan-lists")))))
+	      
+
+(defun c-sc-parse-partial-sexp-no-category (from to targetdepth stopbefore
+						 oldstate)
+  ;; Do a parse-partial-sexp using the supplied arguments, disregarding
+  ;; template/generic delimiters < > and disregarding macros other than the
+  ;; one at POINT-MACRO-START.
+  ;;
+  ;; NOTE that STOPBEFORE must be nil.  TARGETDEPTH should be one less than
+  ;; the depth in OLDSTATE.  This function is thus a SPECIAL PURPOSE variation
+  ;; on parse-partial-sexp, designed for calling from
+  ;; `c-remove-stale-state-cache'.
+  ;;
+  ;; Any finishing position which is determined by an angle bracket delimiter
+  ;; doesn't count as a finishing position.
+  ;;
+  ;; Note there is no special handling of CPP constructs here, since these are
+  ;; always syntactically balanced (thanks to `c-neutralize-CPP-line').
+  (let ((state
+	 (parse-partial-sexp from to targetdepth stopbefore oldstate)))
+    (while
+	(and (< (point) to)
+	     ;; We must have hit targetdepth.
+	     (or (eq (char-before) ?<)
+		 (eq (char-before) ?>)))
+      (setcar state
+	      (if (memq (char-before) '(?> ?\) ?\} ?\]))
+		  (1+ (car state))
+		(1- (car state))))
+      (setq state
+	    (parse-partial-sexp (point) to targetdepth stopbefore oldstate)))
+    state))
+
+(defmacro c-sc-parse-partial-sexp (from to &optional targetdepth stopbefore
+					oldstate)
+  (if c-use-category
+      `(parse-partial-sexp ,from ,to ,targetdepth ,stopbefore ,oldstate)
+    `(c-sc-parse-partial-sexp-no-category ,from ,to ,targetdepth ,stopbefore
+					  ,oldstate)))
+
+
+(defmacro c-looking-at-non-alphnumspace ()
+  "Are we looking at a character which isn't alphanumeric or space?"
+  (if (memq 'gen-comment-delim c-emacs-features)
+      `(looking-at
+"\\([;#]\\|\\'\\|\\s(\\|\\s)\\|\\s\"\\|\\s\\\\|\\s$\\|\\s<\\|\\s>\\|\\s!\\)")
+    `(or (looking-at
+"\\([;#]\\|\\'\\|\\s(\\|\\s)\\|\\s\"\\|\\s\\\\|\\s$\\|\\s<\\|\\s>\\)"
+         (let ((prop (c-get-char-property (point) 'syntax-table)))
+	   (eq prop '(14)))))))		; '(14) is generic comment delimiter.
+
+
 (defsubst c-intersect-lists (list alist)
   ;; return the element of ALIST that matches the first element found
   ;; in LIST.  Uses assq.
@@ -1167,13 +1520,13 @@ will be nil."
   (and (boundp 'zmacs-region-stays)
        (setq zmacs-region-stays t)))
 
-(put 'c-mode    'c-mode-prefix "c-")
-(put 'c++-mode  'c-mode-prefix "c++-")
+(put 'c-mode	'c-mode-prefix "c-")
+(put 'c++-mode	'c-mode-prefix "c++-")
 (put 'objc-mode 'c-mode-prefix "objc-")
 (put 'java-mode 'c-mode-prefix "java-")
-(put 'idl-mode  'c-mode-prefix "idl-")
+(put 'idl-mode	'c-mode-prefix "idl-")
 (put 'pike-mode 'c-mode-prefix "pike-")
-(put 'awk-mode  'c-mode-prefix "awk-")
+(put 'awk-mode	'c-mode-prefix "awk-")
 
 (defsubst c-mode-symbol (suffix)
   "Prefix the current mode prefix (e.g. \"c-\") to SUFFIX and return
@@ -1218,8 +1571,8 @@ Notably, null elements in LIST are ignored."
 
 (defun c-make-keywords-re (adorn list &optional mode)
   "Make a regexp that matches all the strings the list.
-Duplicates and nil elements in the list are removed.  The resulting
-regexp may contain zero or more submatch expressions.
+Duplicates and nil elements in the list are removed.  The
+resulting regexp may contain zero or more submatch expressions.
 
 If ADORN is t there will be at least one submatch and the first
 surrounds the matched alternative, and the regexp will also not match
@@ -1228,7 +1581,7 @@ language variable `c-nonsymbol-key' is used to make the adornment.
 
 A value 'appendable for ADORN is like above, but all alternatives in
 the list that end with a word constituent char will have \\> appended
-instead, so that the regexp remains appendable.  Note that this
+instead, so that the regexp remains appendable.	 Note that this
 variant doesn't always guarantee that an identifier prefix isn't
 matched since the symbol constituent '_' is normally considered a
 nonword token by \\>.
@@ -1320,7 +1673,7 @@ when it's needed.  The default is the current language taken from
 (defun c-make-bare-char-alt (chars &optional inverted)
   "Make a character alternative string from the list of characters CHARS.
 The returned string is of the type that can be used with
-`skip-chars-forward' and `skip-chars-backward'.  If INVERTED is
+`skip-chars-forward' and `skip-chars-backward'.	 If INVERTED is
 non-nil, a caret is prepended to invert the set."
   ;; This function ought to be in the elisp core somewhere.
   (let ((str (if inverted "^" "")) char char2)
@@ -1359,7 +1712,7 @@ non-nil, a caret is prepended to invert the set."
 	(setq list (cons 'infodock list)))
 
     ;; XEmacs uses 8-bit modify-syntax-entry flags.
-    ;; Emacs uses a 1-bit flag.  We will have to set up our
+    ;; Emacs uses a 1-bit flag.	 We will have to set up our
     ;; syntax tables differently to handle this.
     (let ((table (copy-syntax-table))
 	  entry)
@@ -1379,6 +1732,31 @@ non-nil, a caret is prepended to invert the set."
 			   '8-bit
 			 '1-bit)
 		       list)))
+
+    ;; Check whether beginning/end-of-defun call
+    ;; beginning/end-of-defun-function nicely, passing through the
+    ;; argument and respecting the return code.
+    (let* (mark-ring
+	   (bod-param 'foo) (eod-param 'foo)
+	   (beginning-of-defun-function
+	    (lambda (&optional arg)
+	      (or (eq bod-param 'foo) (setq bod-param 'bar))
+	      (and (eq bod-param 'foo)
+		   (setq bod-param arg)
+		   (eq arg 3))))
+	   (end-of-defun-function
+	    (lambda (&optional arg)
+	      (and (eq eod-param 'foo)
+		   (setq eod-param arg)
+		   (eq arg 3)))))
+      (if (save-excursion (and (beginning-of-defun 3) (eq bod-param 3)
+			       (not (beginning-of-defun))
+			       (end-of-defun 3) (eq eod-param 3)
+			       (not (end-of-defun))))
+	  (setq list (cons 'argumentative-bod-function list))))
+
+    ;; Record whether the `category' text property works.
+    (if c-use-category (setq list (cons 'category-properties list)))
 
     (let ((buf (generate-new-buffer " test"))
 	  parse-sexp-lookup-properties
@@ -1410,13 +1788,13 @@ non-nil, a caret is prepended to invert the set."
 		  "support for the `syntax-table' text property "
 		  "is required.")))
 
-	;; Find out if generic comment delimiters work.
+	;; Find out if "\\s!" (generic comment delimiters) work.
 	(c-safe
 	  (modify-syntax-entry ?x "!")
 	  (if (string-match "\\s!" "x")
 	      (setq list (cons 'gen-comment-delim list))))
 
-	;; Find out if generic string delimiters work.
+	;; Find out if "\\s|" (generic string delimiters) work.
 	(c-safe
 	  (modify-syntax-entry ?x "|")
 	  (if (string-match "\\s|" "x")
@@ -1444,7 +1822,7 @@ non-nil, a caret is prepended to invert the set."
 	    (set-syntax-table (make-syntax-table))
 	    (modify-syntax-entry ?\' "\"")
 	    (cond
-	     ;; XEmacs.  Afaik this is currently an Emacs-only
+	     ;; XEmacs.	 Afaik this is currently an Emacs-only
 	     ;; feature, but it's good to be prepared.
 	     ((memq '8-bit list)
 	      (modify-syntax-entry ?/ ". 1456")
@@ -1462,6 +1840,30 @@ non-nil, a caret is prepended to invert the set."
 	(set-buffer-modified-p nil))
       (kill-buffer buf))
 
+    ;; Will the "LOCAL" parameter of `add-hook' work without the hook first
+    ;; being made local by `make-local-hook'?
+    (if (let ((buf1 (generate-new-buffer " test1"))
+	      (buf2 (generate-new-buffer " test2"))
+	      changed)
+	  
+	  (save-excursion		; Needed for XEmacs's byte compiler
+	    (set-buffer buf1)
+	    (add-hook 'after-change-functions
+		      (lambda (beg end old-len) (setq changed t))
+		      nil
+		      t)
+	    (set-buffer buf2)
+	    (insert ?c)
+	    (set-buffer buf1)
+	    (remove-hook 'after-change-functions
+			 (lambda (beg end old-len) (setq changed t))
+			 t)
+	    (kill-buffer buf1)
+	    (kill-buffer buf2)
+	    (not changed)))
+	(setq list (cons 'add-hook-local list)))
+
+
     ;; See if `parse-partial-sexp' returns the eighth element.
     (if (c-safe (>= (length (save-excursion
 			      (parse-partial-sexp (point) (point))))
@@ -1478,24 +1880,28 @@ There are many flavors of Emacs out there, each with different
 features supporting those needed by CC Mode.  The following values
 might be present:
 
-'8-bit              8 bit syntax entry flags (XEmacs style).
-'1-bit              1 bit syntax entry flags (Emacs style).
+'8-bit		    8 bit syntax entry flags (XEmacs style).
+'1-bit		    1 bit syntax entry flags (Emacs style).
+'argumentative-bod-function	    beginning-of-defun and end-of-defun pass
+		    ARG through to beginning/end-of-defun-function.
 'syntax-properties  It works to override the syntax for specific characters
 		    in the buffer with the 'syntax-table property.  It's
 		    always set - CC Mode no longer works in emacsen without
 		    this feature.
+'category-properties Syntax routines can add a level of indirection to text
+		    properties using the 'category property.
 'gen-comment-delim  Generic comment delimiters work
 		    (i.e. the syntax class `!').
 'gen-string-delim   Generic string delimiters work
 		    (i.e. the syntax class `|').
 'pps-extended-state `parse-partial-sexp' returns a list with at least 10
 		    elements, i.e. it contains the position of the start of
-		    the last comment or string. It's always set - CC Mode no
-		    longer works in emacsen without this feature.
+		    the last comment or string.	 It's always set - CC Mode
+		    no longer works in emacsen without this feature.
 'posix-char-classes The regexp engine understands POSIX character classes.
-'col-0-paren        It's possible to turn off the ad-hoc rule that a paren
+'col-0-paren	    It's possible to turn off the ad-hoc rule that a paren
 		    in column zero is the start of a defun.
-'infodock           This is Infodock (based on XEmacs).
+'infodock	    This is Infodock (based on XEmacs).
 
 '8-bit and '1-bit are mutually exclusive.")
 
@@ -1522,7 +1928,7 @@ might be present:
 
 ;; This is used to set various language dependent data in a flexible
 ;; way: Language constants can be built from the values of other
-;; language constants, also those for other languages.  They can also
+;; language constants, also those for other languages.	They can also
 ;; process the values of other language constants uniformly across all
 ;; the languages.  E.g. one language constant can list all the type
 ;; keywords in each language, and another can build a regexp for each
@@ -1579,10 +1985,10 @@ system."
 ;; `c-lang-const'.  It's mostly used at compile time but it's not
 ;; stored in compiled files.
 ;;
-;; The obarray contains all the language constants as symbols.  The
+;; The obarray contains all the language constants as symbols.	The
 ;; value cells hold the evaluated values as alists where each car is
 ;; the mode name symbol and the corresponding cdr is the evaluated
-;; value in that mode.  The property lists hold the source definitions
+;; value in that mode.	The property lists hold the source definitions
 ;; and other miscellaneous data.  The obarray might also contain
 ;; various other symbols, but those don't have any variable bindings.
 
@@ -1615,7 +2021,7 @@ itself is evaluated."
 
 (defmacro c-lang-defconst (name &rest args)
   "Set the language specific values of the language constant NAME.
-The second argument can be an optional docstring.  The rest of the
+The second argument can optionally be a docstring.  The rest of the
 arguments are one or more repetitions of LANG VAL where LANG specifies
 the language(s) that VAL applies to.  LANG is the name of the
 language, i.e. the mode name without the \"-mode\" suffix, or a list
@@ -1626,13 +2032,13 @@ If LANG isn't `t' or one of the core languages in CC Mode, it must
 have been declared with `c-add-language'.
 
 Neither NAME, LANG nor VAL are evaluated directly - they should not be
-quoted.  `c-lang-defconst-eval-immediately' can however be used inside
+quoted.	 `c-lang-defconst-eval-immediately' can however be used inside
 VAL to evaluate parts of it directly.
 
 When VAL is evaluated for some language, that language is temporarily
 made current so that `c-lang-const' without an explicit language can
 be used inside VAL to refer to the value of a language constant in the
-same language.  That is particularly useful if LANG is `t'.
+same language.	That is particularly useful if LANG is `t'.
 
 VAL is not evaluated right away but rather when the value is requested
 with `c-lang-const'.  Thus it's possible to use `c-lang-const' inside
@@ -1712,7 +2118,7 @@ constant.  A file is identified by its base name."
 	;; Emacs has a weird bug where it seems to fail to read
 	;; backquote lists from byte compiled files correctly (,@
 	;; forms, to be specific), so make sure the bindings in the
-	;; expansion below doesn't contain any backquote stuff.
+	;; expansion below don't contain any backquote stuff.
 	;; (XEmacs handles it correctly and doesn't need this for that
 	;; reason, but we also use this expansion handle
 	;; `c-lang-defconst-eval-immediately' and to register
@@ -1750,7 +2156,7 @@ constant.  A file is identified by its base name."
 	 (elem (assq file source)))
 
     ;;(when (cdr-safe elem)
-    ;;  (message "Language constant %s redefined in %S" name file))
+    ;;	(message "Language constant %s redefined in %S" name file))
 
     ;; Note that the order in the source alist is relevant.  Like how
     ;; `c-lang-defconst' reverses the bindings, this reverses the
@@ -1903,7 +2309,7 @@ quoted."
 	      (or (assq sym c-lang-constants-under-evaluation)
 		  (cons sym (vector source nil))))
 	     ;; Append `c-lang-constants-under-evaluation' even if an
-	     ;; earlier entry is found.  It's only necessary to get
+	     ;; earlier entry is found.	 It's only necessary to get
 	     ;; the recording of dependencies above correct.
 	     (c-lang-constants-under-evaluation
 	      (cons source-pos c-lang-constants-under-evaluation))
@@ -1977,7 +2383,7 @@ quoted."
       (while (if assignment-entry
 		 t
 	       ;; Handled the last assignment from one file, begin on the
-	       ;; next.  Due to the check in `c-lang-defconst', we know
+	       ;; next.	 Due to the check in `c-lang-defconst', we know
 	       ;; there's at least one.
 	       (when file-entry
 
@@ -2019,7 +2425,7 @@ quoted."
 
 (defun c-lang-major-mode-is (mode)
   ;; `c-major-mode-is' expands to a call to this function inside
-  ;; `c-lang-defconst'.  Here we also match the mode(s) against any
+  ;; `c-lang-defconst'.	 Here we also match the mode(s) against any
   ;; fallback modes for the one in `c-buffer-is-cc-mode', so that
   ;; e.g. (c-major-mode-is 'c++-mode) is true in a derived language
   ;; that has c++-mode as base mode.
