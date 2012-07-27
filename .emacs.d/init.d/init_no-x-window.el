@@ -9,7 +9,7 @@
 ;; initialization of non X
 
 ;; メニューバーを消す
-(menu-bar-mode nil)
+(menu-bar-mode -1)
 
 ;; 256 colors
 (load "emacs21-256color-hack.el")

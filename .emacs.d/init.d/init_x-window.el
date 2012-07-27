@@ -11,7 +11,7 @@
 
 (tool-bar-mode nil)
 
-(when (= emacs-major-version 23)
+(when (>= emacs-major-version 23)
   (setq fontname (cond
                   ((string-match "rust-worker" system-name)
                    "M+2VM+IPAG circle-8")

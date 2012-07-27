@@ -24,8 +24,9 @@
 ;; 環境判別
 (defvar emacs22-p (equal emacs-major-version 22))
 (defvar emacs23-p (equal emacs-major-version 23))
-(defvar mac-p (and (eq window-system 'mac) emacs23-p))
-(defvar ns-p (and (eq window-system 'ns) emacs23-p))
+(defvar emacs-p (>= emacs-major-version 23))
+(defvar mac-p (and (eq window-system 'mac) emacs-p))
+(defvar ns-p (and (eq window-system 'ns) emacs-p))
 (defvar carbon-p (and (eq window-system 'mac) emacs22-p))
 (defvar linux-p (eq system-type 'gnu/linux))
 (defvar x-window-p (and (eq window-system 'x) linux-p))
@@ -52,6 +53,10 @@
    (setenv "PATH" (concat dir ":" (getenv "PATH")))
    (setq exec-path (append (list dir) exec-path))))
 
+;; 23と24.1の互換性維持のため
+(when (not (boundp 'inhibit-first-line-modes-regexps))
+  (defvaralias 'inhibit-first-line-modes-regexps 'inhibit-local-variables-regexps))
+
 ;; 共通設定ファイル
 (require 'init_main)
 
@@ -60,14 +65,14 @@
  ((or ns-p mac-p) (require 'init_mac))
  (linux-p (require 'init_linux)))
 
-;; 終了時バイトコンパイル
-(add-hook 'kill-emacs-query-functions
-          (lambda ()
-            (if (file-newer-than-file-p (concat user-emacs-directory "init.el") (concat user-emacs-directory "init.elc"))
-                (byte-compile-file (concat user-emacs-directory "init.el")))
-            (byte-recompile-directory (concat user-emacs-directory "init.d") 0)
-            (byte-recompile-directory (concat user-emacs-directory "elisp") 0)
-            ))
+;; ;; 終了時バイトコンパイル
+;; (add-hook 'kill-emacs-query-functions
+;;          (lambda ()
+;;            (if (file-newer-than-file-p (concat user-emacs-directory "init.el") (concat user-emacs-directory "init.elc"))
+;;                (byte-compile-file (concat user-emacs-directory "init.el")))
+;;            (byte-recompile-directory (concat user-emacs-directory "init.d") 0)
+;;            (byte-recompile-directory (concat user-emacs-directory "elisp") 0)
+;;            ))
 
 (provide 'init)
 ;; init.el ends here

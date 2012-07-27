@@ -103,10 +103,12 @@
 ;; example.
 (setq-default indent-tabs-mode nil)
 ;; if indent-tabs-mode is off, untabify before saving
-(add-hook 'write-file-hooks
-          (lambda () (if (not indent-tabs-mode)
-                         (untabify (point-min) (point-max)))))
-
+(defun text-change-tabs-to-spaces-before-save ()
+  (if (not indent-tabs-mode)
+      (untabify (point-min) (point-max))))
+(add-hook 'before-save-hook
+          'text-change-tabs-to-spaces-before-save)
+(text-change-tabs-to-spaces-before-save)
 ;; wdired
 (require 'wdired)
 (define-key dired-mode-map "r" 'wdired-change-to-dired-mode)

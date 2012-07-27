@@ -12,7 +12,7 @@
  (no-x-p (require 'init_no-x-window)))
 
 ;; rdefs
-(setq ar:command "/home/ogawa/.rvm/gems/ruby-1.9.2-p290/bin/rdefs")
+(setq ar:command "~/bin/rdefs")
 
 (provide 'init_linux)
 ;; init_linux.el ends here
