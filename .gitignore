@@ -4,3 +4,4 @@ tmp
 .emacs.d/session.*
 .emacs.d/ac-comphist.dat
 .emacs.d/tramp
+auto-save-list
