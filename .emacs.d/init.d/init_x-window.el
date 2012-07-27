@@ -15,6 +15,8 @@
   (setq fontname (cond
                   ((string-match "rust-worker" system-name)
                    "M+2VM+IPAG circle-8")
+                  ((string-match "netbook" system-name)
+                   "M+2VM+IPAG circle-6")
                   ((string-match "precision" system-name)
                    "M+2VM+IPAG circle-9")))
   (add-to-list 'default-frame-alist (cons 'font fontname))
@@ -136,6 +138,26 @@
   (interactive)
   (shell-command "wmctrl -r :ACTIVE: -btoggle,fullscreen"))
 (global-set-key [f11] 'switch-full-screen)
+
+;; disabling mouse
+(global-unset-key [mouse-1])
+(global-unset-key [down-mouse-1])
+(global-unset-key [drag-mouse-1])
+(global-unset-key [double-mouse-1])
+(global-unset-key [double-drag-Mouse-1])
+(global-unset-key [triple-mouse-1])
+(global-unset-key [triple-drag-mouse-1])
+(global-unset-key [\S-down-mouse-1])
+(global-unset-key [\C-down-mouse-1])
+(global-unset-key [\M-mouse-1])
+(global-unset-key [\M-down-mouse-1])
+(global-unset-key [\M-drag-mouse-1])
+(global-unset-key [mouse-2])
+(global-unset-key [mouse-3])
+(global-unset-key [\S-mouse-3])
+(global-unset-key [\S-down-mouse-3])
+(global-unset-key [\C-down-mouse-3])
+(global-unset-key [\M-mouse-3])
 
 (provide 'init_x-window)
 ;; init_x-window.el ends here
