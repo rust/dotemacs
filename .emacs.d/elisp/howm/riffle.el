@@ -1,7 +1,7 @@
 ;;; riffle.el --- template of list browser with immediate preview
-;;; Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009
-;;;   by HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: riffle.el,v 1.35 2009-05-30 13:54:03 hira Exp $
+;;; Copyright (C) 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
+;;; $Id: riffle.el,v 1.41 2011-12-31 15:07:29 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -188,7 +188,7 @@ This function returns effective value of ITEM-LIST."
 (riffle-define-derived-mode riffle-summary-mode riffle-mode "RiffleS"
   "not yet"
   ;; make-local-hook is obsolete for emacs >= 21.1.
-  (make-local-hook 'post-command-hook)
+  (howm-funcall-if-defined (make-local-hook 'post-command-hook))
   (add-hook 'post-command-hook 'riffle-post-command t t)
   )
 
@@ -458,7 +458,10 @@ snap://Info-mode/emacs#File Variables
         (split-window nil size howm-view-split-horizontally))
       (let ((even-window-heights (if size
                                      nil
-                                   even-window-heights)))
+                                   even-window-heights))
+            ;; Don't split windows further even when
+            ;; riffle-pop-to-buffer is called twice.
+            (pop-up-windows nil))
         (pop-to-buffer buf)))))
 
 ;; 'Place' is line number at now

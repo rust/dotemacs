@@ -1,7 +1,7 @@
 ;;; howm-menu.el --- Wiki-like note-taking tool
-;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
-;;;   by HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-menu.el,v 1.99 2009-02-05 15:00:55 hira Exp $
+;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
+;;; $Id: howm-menu.el,v 1.105 2011-12-31 15:07:29 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -332,13 +332,15 @@ When this is nil, delete-region is used instead, and bug appears.")
 
 (defun howm-menu-invoke (arg)
   (interactive "P")
-  (if (save-excursion
-        (beginning-of-line)
-        (looking-at howm-menu-list-regexp))
-      (progn
-        (beginning-of-line)
-        (action-lock-invoke arg))
-    (error "Not on spell string.")))
+  (cond ((save-excursion
+           (beginning-of-line)
+           (looking-at howm-menu-list-regexp))
+         (beginning-of-line)
+         (action-lock-invoke arg))
+        ((howm-menu-list-get-item)
+         (howm-view-open-item (howm-menu-list-get-item)))
+        (t
+         (error "Not on spell string."))))
 
 (defun howm-menu-action-lock-rules ()
   (let* ((d action-lock-default-rules)
@@ -654,12 +656,12 @@ When this is nil, delete-region is used instead, and bug appears.")
                                          howm-menu-todo-priority
                                          howm-menu-reminder-separators)))
 
-(defun howm-menu-recent (&optional random)
-  (howm-menu-general (if random "random" "recent")
+(defun howm-menu-recent (&optional evaluator label)
+  (howm-menu-general (or label "recent")
                      nil
-                     (howm-recent-menu howm-menu-recent-num random)))
+                     (howm-recent-menu howm-menu-recent-num evaluator)))
 
-(defun howm-menu-random () (howm-menu-recent t))
+(defun howm-menu-random () (howm-menu-recent t "random"))
 
 (defun howm-menu-general (label formatter item-list)
   "Generate output string for items in howm menu.
@@ -667,11 +669,12 @@ LABEL is only used for message.
 FORMATTER is a function which receives an item and returns an output string
  (without newline).
 FORMATTER can be nil for standard style, 'todo for todo style,
-or 'schedule for schedule style.
+'schedule for schedule style, or 'full for full note.
 ITEM-LIST is list of items which should be shown."
   (let ((f (cond ((null formatter) #'howm-menu-format-item)
                  ((eq 'todo formatter) #'howm-menu-format-todo)
                  ((eq 'schedule formatter) #'howm-menu-format-reminder)
+                 ((eq 'full formatter) #'howm-menu-format-full)
                  (t formatter))))
     (let* ((msg "scanning %s...")
            (msg-done (concat msg "done")))
@@ -714,23 +717,36 @@ ITEM-LIST is list of items which should be shown."
           ((listp names) (nth dow names))
           (t "  "))))
 
+(defun howm-menu-format-full (item)
+  (let ((text (format "%s %s\n%s"
+                      howm-ref-header
+                      (howm-item-name item)
+                      (with-temp-buffer
+                        (howm-page-insert (howm-item-page item))
+                        (howm-view-set-place (howm-view-item-place item))
+                        (apply 'buffer-substring-no-properties
+                               (howm-view-paragraph-region))))))
+    (howm-menu-list-put-item text item)
+    text))
+
 ;;; recent/random
 
-(defun howm-recent-menu (num &optional random)
+(defun howm-recent-menu (num &optional evaluator)
   ;; Bug: (length howm-recent-menu) can be smaller than NUM
   ;; when empty files exist.
-  (let* ((summarizer #'(lambda (file line content) content))
+  (let* ((randomp (eq evaluator t))
+         (summarizer #'(lambda (file line content) content))
          ;; Unique name is needed for dynamic binding. Sigh...
-         (h-r-m-evaluator (if random
+         (h-r-m-evaluator (if randomp
                               (lambda (f) (number-to-string (random)))
-                            #'howm-view-mtime))
+                            (or evaluator #'howm-view-mtime)))
          (sorted (howm-sort (lambda (f) (funcall h-r-m-evaluator f))
                             #'howm-view-string>
                             (mapcar #'howm-item-name
                                     (howm-folder-items howm-directory t))))
          (files (howm-first-n sorted num)))
     (let ((r (howm-menu-recent-regexp)))
-      (if random
+      (if randomp
           (howm-cl-mapcan (lambda (f)
                             (let ((is (howm-view-search-items r (list f)
                                                               summarizer)))
@@ -778,11 +794,20 @@ ITEM-LIST is list of items which should be shown."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; embed search result
 
-(defun howm-menu-search (key)
-  (howm-menu-general "menu-search"
-                     nil
-                     (howm-view-search-folder-items key (howm-folder)
-                                                    nil 'fixed)))
+(defun howm-menu-search (key &optional formatter regexp-p)
+  "Embed search result of KEY into menu.
+See `howm-menu-general' for FORMATTER.
+KEY is a regular expression if REGEXP-P is not nil.
+
+Bugs: If you write %here%(howm-menu-search \"foo\" full) in your menu,
+- menu file itself is also searched.
+Write %here%(howm-menu-search \"[f]oo\" full t) insteadly.
+- same note is shown twice if \"foo\" is hit twice in it."
+  (let ((fixed-p (not regexp-p)))
+    (howm-menu-general "menu-search"
+                       formatter
+                       (howm-view-search-folder-items key (howm-folder)
+                                                      nil fixed-p))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; categorized todo-list
@@ -867,7 +892,7 @@ If you don't like misc. category, try
 
 (defun howm-menu-copy-skel (contents)
   (let ((menu-file (or howm-menu-file
-                       (expand-file-name "0000-00-00-000000.howm"
+                       (expand-file-name "0000-00-00-000000.txt"
                                          howm-directory)))
         (r "^="))
     (if (file-exists-p menu-file)

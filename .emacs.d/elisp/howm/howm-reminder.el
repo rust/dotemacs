@@ -1,7 +1,7 @@
 ;;; howm-reminder.el --- Wiki-like note-taking tool
-;;; Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
-;;;   by HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-reminder.el,v 1.75 2009-06-08 14:13:13 hira Exp $
+;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
+;;; $Id: howm-reminder.el,v 1.82 2011-12-31 15:07:29 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -248,7 +248,8 @@ schedules outside the range in %reminder in the menu.")
       (let ((items (need (howm-list-reminder-internal howm-schedule-types))))
         (howm-list-reminder-final-setup howm-list-schedule-name
                                         (howm-schedule-sort-items items)))
-      (howm-reminder-goto-today))))
+      (howm-reminder-goto-today)
+      (howm-view-summary-check))))
 
 (defun howm-list-reminder-internal (types)
   (let* ((r (howm-reminder-regexp types))
@@ -265,15 +266,14 @@ schedules outside the range in %reminder in the menu.")
          (howm-action-lock-reminder-forward-rules t)))
     (action-lock-mode t)))
 
-(defcustom howm-highlight-date-regexp-format
-  (regexp-quote howm-date-format)
-  "Time format for highlight of today and tommorow.
+(let ((rs (mapcar #'regexp-quote
+                  (list howm-date-format howm-reminder-today-format))))
+  (defcustom howm-highlight-date-regexp-format (car rs)
+    "Time format for highlight of today and tommorow.
 This value is passed to `format-time-string', and the result must be a regexp."
-  :type (let ((cs (mapcar (lambda (f) `(const ,(regexp-quote f)))
-                          (list howm-reminder-today-format howm-date-format))))
-          `(radio ,@cs
-                  string))
-  :group 'howm-experimental)
+    :type `(radio ,@(mapcar (lambda (r) `(const ,r)) rs)
+                    string)
+    :group 'howm-faces))
 
 (defun howm-reminder-today-font-lock-keywords ()
   (let ((today    (howm-reminder-today 0 howm-highlight-date-regexp-format))
@@ -615,8 +615,6 @@ When D is t, the beginning of today is encoded."
          (daysec (* 60 60 24.0)))
     (+ (* hi (/ 65536 daysec)) (/ low daysec))))
 
-(howm-defvar-risky howm-congrats-command nil)
-;; (setq howm-congrats-command '("play" "~/sound/level.wav"))
 (defun howm-congrats ()
   (setq howm-congrats-count (1+ howm-congrats-count))
   (let* ((n (length howm-congrats-format))
@@ -652,7 +650,7 @@ When D is t, the beginning of today is encoded."
 ;;; direct manipulation of items from todo list
 
 ;; I'm sorry for dirty procedure here.
-;; If we use naive howm-date-regexp, it matches to file name "2004-05-11.howm"
+;; If we use naive howm-date-regexp, it matches to file name "2004-05-11.txt"
 ;; in summary mode.
 (defun howm-action-lock-reminder-forward-rules (&optional summary-mode-p)
   (let* ((action-maker (lambda (pos)
@@ -870,12 +868,14 @@ or TODO is t."
          (reminder-menu (or schedule-menu todo-menu)))
     ;; Don't modify howm-reminder-marks.
     ;; Otherwise, defcustom will be confused for howm-reminder-menu-types, etc.
-    (mapcar* (lambda (var flag) (howm-modify-reminder-types var letter flag))
-             '(howm-reminder-types
-               howm-schedule-types howm-todo-types
-               howm-schedule-menu-types howm-todo-menu-types
-               howm-reminder-menu-types)
-             (list t schedule todo schedule-menu todo-menu reminder-menu))))
+    (howm-cl-mapcar* (lambda (var flag)
+                       (howm-modify-reminder-types var letter flag))
+                     '(howm-reminder-types
+                       howm-schedule-types howm-todo-types
+                       howm-schedule-menu-types howm-todo-menu-types
+                       howm-reminder-menu-types)
+                     (list t schedule todo
+                           schedule-menu todo-menu reminder-menu))))
 
 (defun howm-modify-reminder-types (var letter flag)
   "Modify variable VAR whose value is \"[...]\".
