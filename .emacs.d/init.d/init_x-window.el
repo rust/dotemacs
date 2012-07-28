@@ -94,7 +94,11 @@
 ;; '(iiimcf-UI-preedit-warning-face ((t (:foreground "DarkSlateGray1" :background "black"))))
  '(isearch ((((class color) (min-colors 88) (background dark)) (:background "palevioletred2" :foreground "gray29"))))
  '(howm-reminder-today-face ((t (:foreground "orange" :background "black"))))
- '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "paleturquoise4" :foreground "black")))))
+ '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "paleturquoise4" :foreground "black"))))
+ '(review-mode-bold-face ((t (:foreground "green1" :weight bold))))
+ '(review-mode-bracket-face ((t (:foreground "purple1" :weight bold))))
+ '(review-mode-underline-face ((t (:foreground "SkyBlue1" :underline t))))
+ '(review-mode-underlinebold-face ((t (:foreground "DeepSkyBlue1" :underline t :weight bold)))))
 
 
 ;; ;; Wanderlust

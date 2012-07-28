@@ -130,7 +130,11 @@
  '(egg-header ((t (:weight bold :height 1.1))))
  '(egg-text-4 ((t (:inherit egg-text-base :height 1.4))))
  '(egg-text-base ((((class color) (background dark)) (:inherit fixed :foreground "SteelBlue"))))
- '(egg-text-help ((t (:inherit egg-text-base :height 0.9)))))
+ '(egg-text-help ((t (:inherit egg-text-base :height 0.9))))
+ '(review-mode-bold-face ((t (:foreground "green1" :weight bold))))
+ '(review-mode-bracket-face ((t (:foreground "purple1" :weight bold))))
+ '(review-mode-underline-face ((t (:foreground "SkyBlue1" :underline t))))
+ '(review-mode-underlinebold-face ((t (:foreground "DeepSkyBlue1" :underline t :weight bold)))))
 
 ;; ;; Wanderlust
 ;; (require 'mime-setup)
