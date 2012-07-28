@@ -36,7 +36,7 @@
 
 ;; hide menu
 (display-time-mode t)
-(tool-bar-mode nil)
+(tool-bar-mode -1)
 (transient-mark-mode t)
 
 ;; frame title
@@ -154,8 +154,6 @@
 (add-to-list 'load-path "~/.emacs.d/emoji")
 (require 'emoji)
 
-(tool-bar-mode nil)
-
 (when (= emacs-major-version 23)
   (define-key global-map [165] nil)
   (define-key global-map [67109029] nil)
@@ -170,7 +168,7 @@
 (set-scroll-bar-mode nil)
 
 ;; rdefs
-(setq ar:command '/home/ogawa/.rvm/gems/ruby-1.9.2-p290/bin/rdefs')
+;; (setq ar:command '/home/ogawa/.rvm/gems/ruby-1.9.2-p290/bin/rdefs')
 
 (provide 'init_mac)
 ;; init_mac.el ends here
