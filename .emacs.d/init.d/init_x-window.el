@@ -9,7 +9,7 @@
 (setq default-frame-alist
       (append (list '(foreground-color . "black"))))
 
-(tool-bar-mode nil)
+(tool-bar-mode -1)
 
 (when (>= emacs-major-version 23)
   (setq fontname (cond
