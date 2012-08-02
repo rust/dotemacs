@@ -65,14 +65,14 @@
  ((or ns-p mac-p) (require 'init_mac))
  (linux-p (require 'init_linux)))
 
-;; ;; 終了時バイトコンパイル
-;; (add-hook 'kill-emacs-query-functions
-;;          (lambda ()
-;;            (if (file-newer-than-file-p (concat user-emacs-directory "init.el") (concat user-emacs-directory "init.elc"))
-;;                (byte-compile-file (concat user-emacs-directory "init.el")))
-;;            (byte-recompile-directory (concat user-emacs-directory "init.d") 0)
-;;            (byte-recompile-directory (concat user-emacs-directory "elisp") 0)
-;;            ))
+;; 終了時バイトコンパイル
+(add-hook 'kill-emacs-query-functions
+         (lambda ()
+           (if (file-newer-than-file-p (concat user-emacs-directory "init.el") (concat user-emacs-directory "init.elc"))
+               (byte-compile-file (concat user-emacs-directory "init.el")))
+           (byte-recompile-directory (concat user-emacs-directory "init.d") 0)
+           (byte-recompile-directory (concat user-emacs-directory "elisp") 0)
+           ))
 
 (provide 'init)
 ;; init.el ends here
