@@ -18,7 +18,9 @@
                   ((string-match "netbook" system-name)
                    "M+2VM+IPAG circle-6")
                   ((string-match "precision" system-name)
-                   "M+2VM+IPAG circle-9")))
+                   "M+2VM+IPAG circle-9")
+                  ((string-match "optiplex" system-name)
+                   "M+2VM+IPAG circle-10")))
   (add-to-list 'default-frame-alist (cons 'font fontname))
   (set-default-font fontname)
   (set-fontset-font "fontset-default"
