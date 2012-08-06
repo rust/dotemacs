@@ -1,9 +1,9 @@
 ;;; -*- Emacs-Lisp -*-
 ;;; YaTeX hierarchy browser.
 ;;; yatexhie.el
-;;; (c)1995 by HIROSE Yuuji [yuuji@yatex.org]
-;;; Last modified Fri Jun 27 12:09:49 2003 on firestorm
-;;; $Id: yatexhie.el,v 1.72 2003/12/25 04:10:54 yuuji Rel $
+;;; (c)1995-2012 by HIROSE Yuuji [yuuji@yatex.org]
+;;; Last modified Mon Jan  9 20:19:06 2012 on firestorm
+;;; $Id: yatexhie.el,v 1.76 2012/05/14 10:55:57 yuuji Rel $
 
 ;; ----- Customizable variables -----
 (defvar YaTeX-hierarchy-ignore-heading-regexp

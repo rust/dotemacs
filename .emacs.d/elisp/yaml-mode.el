@@ -258,22 +258,22 @@ artificially limitted to the value of
       (goto-char (point-at-bol))
       (while (and (looking-at yaml-blank-line-re) (not (bobp)))
         (forward-line -1))
-      (let ((nlines yaml-block-literal-search-lines) 
-            (min-level (current-indentation))) 
-      (forward-line -1) 
-      (while (and (/= nlines 0) 
-                  (/= min-level 0) 
-                  (not (looking-at yaml-block-literal-re)) 
-                  (not (bobp))) 
-        (set 'nlines (1- nlines)) 
-        (unless (looking-at yaml-blank-line-re) 
-          (set 'min-level (min min-level (current-indentation)))) 
-        (forward-line -1)) 
+      (let ((nlines yaml-block-literal-search-lines)
+            (min-level (current-indentation)))
+      (forward-line -1)
+      (while (and (/= nlines 0)
+                  (/= min-level 0)
+                  (not (looking-at yaml-block-literal-re))
+                  (not (bobp)))
+        (set 'nlines (1- nlines))
+        (unless (looking-at yaml-blank-line-re)
+          (set 'min-level (min min-level (current-indentation))))
+        (forward-line -1))
       (cond
        ((and (< (current-indentation) min-level)
              (looking-at yaml-block-literal-re))
           (goto-char end) (set-match-data (list begin end)) t)
-         ((progn 
+         ((progn
             (goto-char begin)
             (re-search-forward (concat yaml-block-literal-re
                                        " *\\(.*\\)\n")
@@ -349,7 +349,7 @@ immediately previous multiple of `yaml-indent-offset' spaces."
       (indent-to (* (/ (- ci (* arg yaml-indent-offset))
                        yaml-indent-offset)
                     yaml-indent-offset)))))
-  
+
 (defun yaml-electric-bar-and-angle (arg)
   "Insert the bound key and possibly begin a block literal.
 Inserts the bound key.  If inserting the bound key causes the current
@@ -359,7 +359,7 @@ and indents appropriately."
   (interactive "*P")
   (self-insert-command (prefix-numeric-value arg))
   (let ((extra-chars
-         (assoc last-command-char
+         (assoc last-command-event
                 yaml-block-literal-electric-alist)))
     (cond
      ((and extra-chars (not arg) (eolp)

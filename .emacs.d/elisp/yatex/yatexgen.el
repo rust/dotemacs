@@ -3,7 +3,7 @@
 ;;; yatexgen.el rev.5
 ;;; (c)1991-1995,1999,2000 by HIROSE Yuuji.[yuuji@yatex.org]
 ;;; Last modified Fri Jun 27 12:09:37 2003 on firestorm
-;;; $Id: yatexgen.el,v 1.72 2003/12/25 04:10:54 yuuji Rel $
+;;; $Id: yatexgen.el,v 1.76 2012/05/14 10:55:57 yuuji Rel $
 
 (require 'yatex)
 

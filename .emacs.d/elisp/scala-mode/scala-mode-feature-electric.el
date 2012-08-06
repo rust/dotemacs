@@ -10,29 +10,29 @@
 ;;; License
 
 ;; SCALA LICENSE
-;;  
+;;
 ;; Copyright (c) 2002-2010 EPFL, Lausanne, unless otherwise specified.
 ;; All rights reserved.
-;;  
+;;
 ;; This software was developed by the Programming Methods Laboratory of the
 ;; Swiss Federal Institute of Technology (EPFL), Lausanne, Switzerland.
-;;  
+;;
 ;; Permission to use, copy, modify, and distribute this software in source
 ;; or binary form for any purpose with or without fee is hereby granted,
 ;; provided that the following conditions are met:
-;;  
+;;
 ;;    1. Redistributions of source code must retain the above copyright
 ;;       notice, this list of conditions and the following disclaimer.
-;;  
+;;
 ;;    2. Redistributions in binary form must reproduce the above copyright
 ;;       notice, this list of conditions and the following disclaimer in the
 ;;       documentation and/or other materials provided with the distribution.
-;;  
+;;
 ;;    3. Neither the name of the EPFL nor the names of its contributors
 ;;       may be used to endorse or promote products derived from this
 ;;       software without specific prior written permission.
-;;  
-;;  
+;;
+;;
 ;; THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
 ;; ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 ;; IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -51,7 +51,7 @@
 (provide 'scala-mode-feature-electric)
 
 ;; Customization
- 
+
 (defgroup scala-mode-feature:electric nil
   "Minor mode providing electric editing commands for scala files"
   :group 'scala)
@@ -75,7 +75,7 @@ inserted. The word 'all' will do all insertions."
 (defcustom scala-mode-feature:electric-newline-before-closing-bracket nil
   "*Controls whether a newline should be inserted before the
 closing bracket or not."
-  :type 'boolean 
+  :type 'boolean
   :group 'scala-mode-feature:electric)
 
 
@@ -135,7 +135,7 @@ closing bracket or not."
 
 (defun scala-mode-feature-electric-is-last-command-char-expandable-punct-p()
   (or (memq 'all scala-mode-feature:electric-expand-delimiters-list)
-      (memq last-command-char scala-mode-feature:electric-expand-delimiters-list)))
+      (memq last-command-event scala-mode-feature:electric-expand-delimiters-list)))
 
 (defun scala-mode-feature-electric-curlies(arg)
   (interactive "P")
@@ -160,22 +160,22 @@ closing bracket or not."
   (and (scala-mode-feature-electric-is-last-command-char-expandable-punct-p)
        (scala-mode-feature-electric-code-at-point-p)
        (save-excursion
-         (insert (cdr (assoc last-command-char
+         (insert (cdr (assoc last-command-event
                              scala-mode-feature-electric-matching-delimeter-alist))))))
 
 (defun scala-mode-feature-electric-install ()
   (or (assoc 'scala-mode-feature-electric-mode minor-mode-alist)
       (setq minor-mode-alist
-	    (cons '(scala-mode-feature-electric-mode " electric") minor-mode-alist)))
-  
+      (cons '(scala-mode-feature-electric-mode " electric") minor-mode-alist)))
+
   (or (assoc 'scala-mode-feature-electric-mode minor-mode-map-alist)
       (setq minor-mode-map-alist
-	    (cons (cons 'scala-mode-feature-electric-mode scala-mode-feature-electric-mode-map)
-		  minor-mode-map-alist)))
+      (cons (cons 'scala-mode-feature-electric-mode scala-mode-feature-electric-mode-map)
+      minor-mode-map-alist)))
 
   (define-key scala-mode-feature-electric-mode-map "{"  'scala-mode-feature-electric-curlies)
-  (define-key scala-mode-feature-electric-mode-map "("	 'scala-mode-feature-electric-matching-char)
-  (define-key scala-mode-feature-electric-mode-map "["	 'scala-mode-feature-electric-matching-char)
+  (define-key scala-mode-feature-electric-mode-map "("   'scala-mode-feature-electric-matching-char)
+  (define-key scala-mode-feature-electric-mode-map "["   'scala-mode-feature-electric-matching-char)
   (define-key scala-mode-feature-electric-mode-map "\"" 'scala-mode-feature-electric-matching-char)
-  
+
   t)
