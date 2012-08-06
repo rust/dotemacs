@@ -21,7 +21,7 @@
 ;; (global-set-key "\C-\\" 'ibus-toggle)
 ;; ;; (ibus-define-common-key ?\C-\\ t)
 
-(when (and emacs23-p x-window-p)
+(when (and emacs-p x-window-p)
   (require 'mozc)
   (set-language-environment "Japanese")
   (setq default-input-method "japanese-mozc")
