@@ -29,7 +29,8 @@
   (set-default-coding-systems 'utf-8-unix)
   (set-terminal-coding-system 'utf-8-unix)
   (set-keyboard-coding-system 'utf-8-unix)
-  (set-buffer-file-coding-system 'utf-8-unix))
+  (set-buffer-file-coding-system 'utf-8-unix)
+  (setq mozc-candidate-style 'echo-area))
 
 (provide 'init_mozc)
 ;; init_mozc.el ends here
