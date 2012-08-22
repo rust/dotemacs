@@ -31,6 +31,7 @@
 (defvar linux-p (eq system-type 'gnu/linux))
 (defvar x-window-p (and (eq window-system 'x) linux-p))
 (defvar no-x-p (and (not (eq window-system 'x)) linux-p))
+(defvar lubuntu-p (string= system-name "netbook"))
 
 ;; PATHの設定 from http://sakito.jp/emacs/emacsshell.html#path
 ;; より下に記述した物が PATH の先頭に追加されます
