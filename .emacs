@@ -291,7 +291,7 @@
 (autoload 'hiki-index "hiki-mode" nil t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; pop-tip.el
+;; pos-tip.el
 (require 'pos-tip)
 ;; auto-complete
 (require 'auto-complete)
@@ -381,28 +381,3 @@
 (add-hook 'd-mode-hook
           '(lambda()
              '(c-toggle-auto-state)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; WordPress mode
-(load-file "~/.emacs.d/elisp/wp-emacs/weblogger.el")
-(global-set-key "\C-cbs" 'weblogger-start-entry)
-(load "~/.wordpress.el")
-(add-hook 'weblogger-entry-mode-hook
-          '(lambda()
-             (setq auto-fill-mode f)))
-
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; ;; window or no-window
-;; (cond
-;;  ((eq window-system 'x)
-;;   (setq default-frame-alist
-;;         (append (list '(foreground-color . "black"))))
-;;   (load "~/.emacs.d/emacs-window"))
-;;  ((eq window-system 'ns)
-;;   (load "~/.emacs.d/emacs-ns"))
-;;  ((eq window-system 'mac)
-;;   (load "~/.emacs.d/emacs-ns"))
-;;  ((null window-system)
-;;   (load "~/.emacs.d/emacs-nw")))
-
