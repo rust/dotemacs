@@ -21,7 +21,7 @@
   url = git://github.com/magit/magit.git
 [submodule ".emacs.d/elisp/auto-complete"]
   path = .emacs.d/elisp/auto-complete
-  url = http://cx4a.org/repo/auto-complete.git
+  url = git://github.com/auto-complete/auto-complete.git
 [submodule ".emacs.d/elisp/cofee-mode"]
 	path = .emacs.d/elisp/cofee-mode
 	url = https://github.com/defunkt/coffee-mode.git
@@ -36,4 +36,4 @@
 	url = git://github.com/mooz/js2-mode.git
 [submodule ".emacs.d/elisp/popup"]
 	path = .emacs.d/elisp/popup
-	url = git://github.com/m2ym/popup-el.git
+	url = git://github.com/auto-complete/popup-el.git
