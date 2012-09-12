@@ -52,7 +52,7 @@
 
 (defgroup ruby-electric nil
   "Minor mode providing electric editing commands for ruby files"
-  :group 'ruby) 
+  :group 'ruby)
 
 (defconst ruby-electric-expandable-do-re
   "do\\s-$")
@@ -173,8 +173,7 @@ strings. Note that you must have Font Lock enabled."
             ((ruby-electric-string-at-point-p)
              (if (eq last-command-event ?{)
                  (save-excursion
-                   (when (not (char-equal ?\# (preceding-char)))
-                       (delete-backward-char)
+                   (if (char-equal ?\# (preceding-char))
                        (insert "#"))))
              (save-excursion
                (backward-char 1)
