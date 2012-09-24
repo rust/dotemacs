@@ -68,50 +68,38 @@
 (global-hl-line-mode)
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(column-number-mode t)
+ '(safe-local-variable-values (quote ((encoding . utf-8) (ruby-compilation-executable . "ruby") (ruby-compilation-executable . "ruby1.8") (ruby-compilation-executable . "ruby1.9") (ruby-compilation-executable . "rbx") (ruby-compilation-executable . "jruby"))))
  '(show-paren-mode t))
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(dired-header ((t (:foreground "aquamarine"))))
- '(font-lock-constant-face ((t (:foreground "purple"))))
- '(font-lock-function-name-face ((t (:foreground "#4186be" :weight extra-bold))))
- '(font-lock-keyword-face ((t (:foreground "#00ffff" :weight extra-bold))))
- '(font-lock-type-face ((t (:foreground "green" :weight extra-bold))))
- '(font-lock-variable-name-face ((t (:foreground "yellow" :weight bold))))
  '(erb-comment-delim-face ((t (:inherit erb-delim-face :foreground "red" :weight bold))))
  '(erb-comment-face ((t (:inherit erb-face :foreground "red" :weight bold))))
  '(erb-delim-face ((t (:background "#383838"))))
  '(erb-face ((t (:background "#383838"))))
  '(erb-out-delim-face ((t (:inherit erb-delim-face :foreground "pink4" :weight bold))))
-;; '(iiimcf-UI-preedit-highlight-face ((t (:foreground "DarkSlateGray1" :background "black"))))
- '(iiimcf-UI-preedit-reverse-face ((t (:foreground "DarkSlateGray1" :background "black"))))
-;; '(iiimcf-UI-preedit-underline-face ((t (:foreground "DarkSlateGray1" :background "black"))))
-;; '(iiimcf-UI-preedit-warning-face ((t (:foreground "DarkSlateGray1" :background "black"))))
- '(isearch ((((class color) (min-colors 88) (background dark)) (:background "palevioletred2" :foreground "gray29"))))
+ '(font-lock-constant-face ((t (:foreground "purple"))))
+ '(font-lock-function-name-face ((t (:foreground "#4186be" :weight extra-bold))))
+ '(font-lock-keyword-face ((t (:foreground "#00ffff" :weight extra-bold))))
+ '(font-lock-type-face ((t (:foreground "green" :weight extra-bold))))
+ '(font-lock-variable-name-face ((t (:foreground "yellow" :weight bold))))
  '(howm-reminder-today-face ((t (:foreground "orange" :background "black"))))
+ '(iiimcf-UI-preedit-reverse-face ((t (:foreground "DarkSlateGray1" :background "black"))))
+ '(isearch ((((class color) (min-colors 88) (background dark)) (:background "palevioletred2" :foreground "gray29"))))
  '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "paleturquoise4" :foreground "black"))))
  '(review-mode-bold-face ((t (:foreground "green1" :weight bold))))
  '(review-mode-bracket-face ((t (:foreground "purple1" :weight bold))))
  '(review-mode-underline-face ((t (:foreground "SkyBlue1" :underline t))))
  '(review-mode-underlinebold-face ((t (:foreground "DeepSkyBlue1" :underline t :weight bold)))))
 
-
-;; ;; Wanderlust
-;; (require 'mime-setup)
-;; (require 'wl)
-;; (require 'wl-draft)
-;; (autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
-
-;; ;; w3m
-;; (require 'w3m)
-;; (require 'mime-w3m)
 ;; Cookie
 (setq w3m-use-cookies t)
 ;; favicon cache
