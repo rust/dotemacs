@@ -8,9 +8,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; elscreen
 (require 'elscreen)
-(require 'elscreen-gf)
-(require 'elscreen-howm)
-(require 'elscreen-w3m)
 ;; prefix-setting
 (elscreen-set-prefix-key "\C-z")
 (global-set-key (kbd "C-z SPC") 'elscreen-next)
