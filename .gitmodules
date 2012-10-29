@@ -37,3 +37,6 @@
 [submodule ".emacs.d/elisp/popup"]
 	path = .emacs.d/elisp/popup
 	url = git://github.com/auto-complete/popup-el.git
+[submodule ".emacs.d/elisp/emacs-minimap"]
+	path = .emacs.d/elisp/emacs-minimap
+	url = https://github.com/rust/emacs-minimap
