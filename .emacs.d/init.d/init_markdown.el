@@ -9,9 +9,9 @@
 ;; markdown
 
 (autoload 'markdown-mode "markdown-mode.el"
-   "Major mode for editing Markdown files" t)
-(setq auto-mode-alist
-   (cons '("\\.md" . markdown-mode) auto-mode-alist))
+  "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.md$"       . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown$" . markdown-mode))
 
 (provide 'init_markdown)
 ;; init_markdown.el ends here
