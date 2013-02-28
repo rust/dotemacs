@@ -62,5 +62,8 @@
 ;; markdown
 (require 'init_markdown)
 
+;; minimap
+(require 'init_minimap)
+
 (provide 'init_main)
 ;; init_mail.el ends here

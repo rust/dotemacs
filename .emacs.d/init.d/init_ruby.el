@@ -16,6 +16,7 @@
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.cgi$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rb\\.tmp" . ruby-mode))
 ;; indent
 (setq ruby-deep-indent-paren-style nil)
 (require 'ruby-electric)
