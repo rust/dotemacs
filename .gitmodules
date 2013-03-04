@@ -40,3 +40,6 @@
 [submodule ".emacs.d/elisp/emacs-minimap"]
 	path = .emacs.d/elisp/emacs-minimap
 	url = https://github.com/rust/emacs-minimap
+[submodule ".emacs.d/elisp/elscreen"]
+	path = .emacs.d/elisp/elscreen
+	url = git://github.com/shosti/elscreen.git
