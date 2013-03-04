@@ -7,7 +7,10 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Color
-(set-frame-parameter nil 'alpha 95)
+(set-frame-parameter (selected-frame) 'alpha '(90 75))
+;; metakey
+;; (setq ns-command-modifier (quote meta))
+;; (setq ns-alternate-modifier (quote super))
 ;; (if (= emacs-major-version 23)
 ;;   (setq initial-frame-alist '((width . 200)(height . 120)(top . 0)(left . (45)))))
 (when (= emacs-major-version 22)
