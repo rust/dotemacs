@@ -43,3 +43,6 @@
 [submodule ".emacs.d/elisp/elscreen"]
 	path = .emacs.d/elisp/elscreen
 	url = git://github.com/shosti/elscreen.git
+[submodule ".emacs.d/elisp/helm"]
+	path = .emacs.d/elisp/helm
+	url = git://github.com/emacs-helm/helm.git

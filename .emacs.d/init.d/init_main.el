@@ -29,15 +29,12 @@
 (require 'init_howm)
 ;; session.el
 (require 'init_session)
-;;;; outputz.el
-;;(require 'init_outputz)
 
 ;; gauche.el
 (require 'init_gauche)
 
-;; anything.el
-(require 'init_anything)
-(require 'init_popwin)
+;; helm
+(require 'init_helm)
 
 ;; python-mode
 (require 'init_python)
