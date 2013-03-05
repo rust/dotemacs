@@ -19,9 +19,9 @@
 (add-to-list 'auto-mode-alist '("\\.rb\\.tmp" . ruby-mode))
 ;; indent
 (setq ruby-deep-indent-paren-style nil)
-(require 'ruby-electric)
-(add-hook 'ruby-mode-hook (lambda()(ruby-electric-mode 1)))
-(setq ruby-electric-expand-delimiters-list '( ?\{))
+;; (require 'ruby-electric)
+;; (add-hook 'ruby-mode-hook (lambda()(ruby-electric-mode 1)))
+;; (setq ruby-electric-expand-delimiters-list '( ?\{))
 ;; (require 'ruby-end)
 ;; (add-hook 'ruby-mode-hook
 ;;   '(lambda ()
