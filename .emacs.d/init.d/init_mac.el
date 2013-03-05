@@ -11,31 +11,6 @@
 ;; metakey
 ;; (setq ns-command-modifier (quote meta))
 ;; (setq ns-alternate-modifier (quote super))
-;; (if (= emacs-major-version 23)
-;;   (setq initial-frame-alist '((width . 200)(height . 120)(top . 0)(left . (45)))))
-(when (= emacs-major-version 22)
-  (add-hook 'window-setup-hook
-            (lambda ()
-              (set-frame-parameter nil 'fullscreen 'fullboth)))
-  (defun mac-toggle-max-window ()
-    (interactive)
-    (if (frame-parameter nil 'fullscreen)
-        (set-frame-parameter nil 'fullscreen nil)
-        (set-frame-parameter nil 'fullscreen 'fullboth)))
-  (custom-set-variables
-    '(display-time-mode t)
-    '(tool-bar-mode nil)
-    '(transitent-mark-mode t))
-  (require 'linum)
-  (global-linum-mode)
-  (setq linum-format "%05d")
-  (require 'carbon-font)
-  (fixed-width-set-fontset "hiramaru" 12)
-  (setq mac-command-modifier 'meta)
-  (setq mac-control-modifier 'control)
-  (setq mac-option-modifier 'meta)
-  (server-start)
-  )
 
 ;; hide menu
 (display-time-mode t)
@@ -46,10 +21,6 @@
 (setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
 
 ;; フォントサイズ
-(when (= emacs-major-version 22)
-  (setq fixed-width-use-QuickDraw-for-ascii t)
-  (setq mac-allow-anti-aliasing t)
-  (require 'carbon-font))
 (when (>= emacs-major-version 23)
  (set-face-attribute 'default nil
                      :family "monaco"
@@ -74,17 +45,6 @@
         (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
         (".*monaco-bold-.*-mac-roman" . 0.9)
         ("-cdac$" . 1.3))))
-
-;; (when (= emacs-major-version 23)
-;;   ;; (create-fontset-from-ascii-font "M+2VM+IPAG circle-14:weight=normal:slant=normal" nil "menlokakugo")
-;;   (create-fontset-from-ascii-font "Monaco-12:weight=normal:slant=normal" nil "menlokakugo")
-;;   (set-fontset-font "fontset-menlokakugo"
-;;                     'unicode
-;;                     ;; (font-spec :family "Hiragino Kaku Gothic ProN" :size 12)
-;;                     (font-spec :family "M+2VM+IPAG circle" :size 14)
-;;                     nil
-;;                     'append)
-;;   (add-to-list 'default-frame-alist '(font . "fontset-menlokakugo")))
 
 (require 'color-theme)
 ;; (load "my-color-theme-window")
@@ -139,29 +99,11 @@
  '(review-mode-underline-face ((t (:foreground "SkyBlue1" :underline t))))
  '(review-mode-underlinebold-face ((t (:foreground "DeepSkyBlue1" :underline t :weight bold)))))
 
-;; ;; Wanderlust
-;; (require 'mime-setup)
-;; (require 'wl)
-;; (require 'wl-draft)
-;; (autoload 'wl-other-frame "wl" "Wanderlust on new frame." t)
-
-;; ;; w3m
-;; (require 'w3m)
-;; (require 'mime-w3m)
-;; Cookie
-(setq w3m-use-cookies t)
-;; favicon cache
-(setq w3m-favicon-cache-expire-wait nil)
-
 ;; window
 (windmove-default-keybindings)
 (setq windmove-wrap-around t)
 
-;; emoji
-(add-to-list 'load-path "~/.emacs.d/emoji")
-(require 'emoji)
-
-(when (= emacs-major-version 23)
+(when (>= emacs-major-version 23)
   (define-key global-map [165] nil)
   (define-key global-map [67109029] nil)
   (define-key global-map [134217893] nil)
@@ -173,9 +115,6 @@
 
 ;; disable scroll-bar
 (set-scroll-bar-mode nil)
-
-;; rdefs
-;; (setq ar:command '/home/ogawa/.rvm/gems/ruby-1.9.2-p290/bin/rdefs')
 
 (provide 'init_mac)
 ;; init_mac.el ends here
