@@ -27,6 +27,7 @@
 (global-set-key [(s {)] 'elscreen-previous)
 (global-set-key [(C-tab)] 'elscreen-next)
 (global-set-key [(C-S-iso-lefttab)] 'elscreen-previous)
+(global-set-key (kbd "C-z C-a") 'helm-elscreen)
 
 (provide 'init_elscreen)
 ;; init_elscreen.el ends here
