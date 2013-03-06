@@ -51,9 +51,9 @@
 ;; for rabbit-mode
 (autoload 'rabbit-mode "rabbit-mode" "major mode for Rabbit" t)
 (add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))
-;; るりま
-(require 'anything-rurima)
-(setq anything-rurima-index-file "~/Dropbox/rurima/rubydoc/rurima.e")
+;;;; るりま
+;;(require 'anything-rurima)
+;;(setq anything-rurima-index-file "~/Dropbox/rurima/rubydoc/rurima.e")
 
 ;; rdefs
 (add-hook 'ruby-mode-hook
