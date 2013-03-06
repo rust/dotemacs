@@ -16,5 +16,7 @@
 (add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
 (add-to-list 'auto-mode-alist '("\\.erb$" . rhtml-mode))
 
+(require 'rspec-mode)
+
 (provide 'init_rails)
 ;; init_rails.el ends here

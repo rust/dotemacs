@@ -76,5 +76,10 @@
       (indent-line-to indent)
       (when (> offset 0) (forward-char offset)))))
 
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil
+                                    '(("^[^\n]\\{128\\}\\(.*\\)$" 1 font-lock-warning-face t)))))
+
 (provide 'init_ruby)
 ;; init_ruby.el ends here

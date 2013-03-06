@@ -46,3 +46,6 @@
 [submodule ".emacs.d/elisp/helm"]
 	path = .emacs.d/elisp/helm
 	url = git://github.com/emacs-helm/helm.git
+[submodule ".emacs.d/elisp/rspec-mode"]
+	path = .emacs.d/elisp/rspec-mode
+	url = git://github.com/pezra/rspec-mode.git
