@@ -49,3 +49,6 @@
 [submodule ".emacs.d/elisp/rspec-mode"]
 	path = .emacs.d/elisp/rspec-mode
 	url = git://github.com/pezra/rspec-mode.git
+[submodule ".emacs.d/elisp/haml-mode"]
+	path = .emacs.d/elisp/haml-mode
+	url = git://github.com/nex3/haml-mode.git
