@@ -62,5 +62,8 @@
 ;; minimap
 (require 'init_minimap)
 
+;; diff-mode
+(require 'init_diff)
+
 (provide 'init_main)
 ;; init_mail.el ends here
