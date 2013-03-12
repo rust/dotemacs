@@ -7,7 +7,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Color
-(set-frame-parameter (selected-frame) 'alpha '(90 75))
+(set-frame-parameter (selected-frame) 'alpha '(97 75))
 ;; metakey
 ;; (setq ns-command-modifier (quote meta))
 ;; (setq ns-alternate-modifier (quote super))
@@ -47,10 +47,15 @@
         ("-cdac$" . 1.3))))
 
 (require 'color-theme)
-;; (load "my-color-theme-window")
-;; (my-color-theme-window)
 (color-theme-initialize)
-(color-theme-hober)
+(add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/emacs-color-theme-solarized")
+(setq solarized-termcolors 256)
+(setq solarized-degrade t)
+(setq solarized-contrast 'high)
+(setq solarized-visibility 'high)
+(setq solarized-broken-srgb t)
+(load-theme 'solarized-dark t)
+;; (load-theme 'solarized-light t)
 
 ;; high-light current line
 (defface hlline-face
@@ -76,28 +81,6 @@
   ;; If there is more than one, they won't work right.
  '(column-number-mode t)
  '(show-paren-mode t))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(dired-header ((t (:foreground "aquamarine"))))
- '(font-lock-constant-face ((t (:foreground "purple"))))
- '(font-lock-function-name-face ((t (:foreground "#4186be" :weight extra-bold))))
- '(font-lock-keyword-face ((t (:foreground "#00ffff" :weight extra-bold))))
- '(font-lock-type-face ((t (:foreground "green" :weight extra-bold))))
- '(font-lock-variable-name-face ((t (:foreground "yellow" :weight bold))))
- '(isearch ((((class color) (min-colors 88) (background dark)) (:background "palevioletred2" :foreground "gray29"))))
- '(howm-reminder-today-face ((t (:foreground "orange" :background "black"))))
- '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "paleturquoise4" :foreground "black"))))
- '(egg-header ((t (:weight bold :height 1.1))))
- '(egg-text-4 ((t (:inherit egg-text-base :height 1.4))))
- '(egg-text-base ((((class color) (background dark)) (:inherit fixed :foreground "SteelBlue"))))
- '(egg-text-help ((t (:inherit egg-text-base :height 0.9))))
- '(review-mode-bold-face ((t (:foreground "green1" :weight bold))))
- '(review-mode-bracket-face ((t (:foreground "purple1" :weight bold))))
- '(review-mode-underline-face ((t (:foreground "SkyBlue1" :underline t))))
- '(review-mode-underlinebold-face ((t (:foreground "DeepSkyBlue1" :underline t :weight bold)))))
 
 ;; window
 (windmove-default-keybindings)
