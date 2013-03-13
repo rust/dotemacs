@@ -24,6 +24,8 @@
 (require 'init_coffee_script)
 ;; yaml-mode
 (require 'init_yaml)
+;; web-mode
+(require 'init_web-mode)
 
 ;; howm
 (require 'init_howm)
