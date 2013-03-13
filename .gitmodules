@@ -55,3 +55,6 @@
 [submodule ".emacs.d/elisp/emacs-color-theme-solarized"]
 	path = .emacs.d/elisp/emacs-color-theme-solarized
 	url = git://github.com/sellout/emacs-color-theme-solarized.git
+[submodule ".emacs.d/elisp/yasnippet"]
+	path = .emacs.d/elisp/yasnippet
+	url = git://github.com/capitaomorte/yasnippet.git

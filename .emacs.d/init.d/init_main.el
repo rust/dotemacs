@@ -65,5 +65,8 @@
 ;; diff-mode
 (require 'init_diff)
 
+;; yasnippet
+(require 'init_yasnippet)
+
 (provide 'init_main)
 ;; init_mail.el ends here
