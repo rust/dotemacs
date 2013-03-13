@@ -58,3 +58,6 @@
 [submodule ".emacs.d/elisp/yasnippet"]
 	path = .emacs.d/elisp/yasnippet
 	url = git://github.com/capitaomorte/yasnippet.git
+[submodule ".emacs.d/elisp/web-mode"]
+	path = .emacs.d/elisp/web-mode
+	url = git://github.com/fxbois/web-mode.git
