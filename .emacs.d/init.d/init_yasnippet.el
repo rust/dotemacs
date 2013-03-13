@@ -19,11 +19,11 @@
 (custom-set-variables '(yas-trigger-key "TAB"))
 
 ;; 既存スニペットを挿入する
-(define-key yas-minor-mode-map (kbd "C-x i i") 'yas-insert-snippet)
+(define-key yas-minor-mode-map (kbd "C-x s i") 'yas-insert-snippet)
 ;; 新規スニペットを作成するバッファを用意する
-(define-key yas-minor-mode-map (kbd "C-x i n") 'yas-new-snippet)
+(define-key yas-minor-mode-map (kbd "C-x s n") 'yas-new-snippet)
 ;; 既存スニペットを閲覧・編集する
-(define-key yas-minor-mode-map (kbd "C-x i v") 'yas-visit-snippet-file)
+(define-key yas-minor-mode-map (kbd "C-x s v") 'yas-visit-snippet-file)
 
 (provide 'init_yasnippet)
 ;; init_yasnippet.el ends here
