@@ -32,6 +32,7 @@
 (defvar x-window-p (and (eq window-system 'x) linux-p))
 (defvar no-x-p (and (not (eq window-system 'x)) linux-p))
 (defvar lubuntu-p (string= system-name "netbook"))
+(defvar macbook-air-p (string-match "Macbook-Air" "Shin-ichiro-no-MacBook-Air.local"))
 
 ;; PATHの設定 from http://sakito.jp/emacs/emacsshell.html#path
 ;; より下に記述した物が PATH の先頭に追加されます

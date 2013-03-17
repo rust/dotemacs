@@ -54,8 +54,8 @@
 (setq solarized-contrast 'high)
 (setq solarized-visibility 'high)
 (setq solarized-broken-srgb t)
-(load-theme 'solarized-dark t)
-;; (load-theme 'solarized-light t)
+(if macbook-air-p (load-theme 'solarized-light t)
+  (load-theme 'solarized-dark t))
 
 ;; high-light current line
 (defface hlline-face
