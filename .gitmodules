@@ -61,3 +61,6 @@
 [submodule ".emacs.d/elisp/web-mode"]
 	path = .emacs.d/elisp/web-mode
 	url = git://github.com/fxbois/web-mode.git
+[submodule ".emacs.d/elisp/Highlight-Indentation-for-Emacs"]
+	path = .emacs.d/elisp/Highlight-Indentation-for-Emacs
+	url = git://github.com/antonj/Highlight-Indentation-for-Emacs.git

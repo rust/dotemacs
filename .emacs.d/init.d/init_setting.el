@@ -113,5 +113,8 @@
 (require 'wdired)
 (define-key dired-mode-map "r" 'wdired-change-to-dired-mode)
 
+;; Highlight indentation
+(require 'highlight-indentation)
+
 (provide 'init_setting)
 ;; init_setting.el ends here
