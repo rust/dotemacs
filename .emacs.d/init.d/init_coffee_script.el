@@ -21,5 +21,10 @@
 
 (add-hook 'coffee-mode-hook 'highlight-indentation-current-column-mode)
 
+(add-hook 'coffee-mode-hook
+          (lambda ()
+            (set (make-local-variable 'electric-indent-functions)
+                 (list (lambda (arg) 'no-indent)))))
+
 (provide 'init_coffee_script)
 ;; init_coffee_script.el ends here

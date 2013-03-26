@@ -33,5 +33,14 @@
 
 (add-hook 'haml-mode-hook 'highlight-indentation-current-column-mode)
 
+(add-hook 'haml-mode-hook
+          (lambda ()
+            (set (make-local-variable 'electric-indent-functions)
+                 (list (lambda (arg) 'no-indent)))))
+(add-hook 'sass-mode-hook
+          (lambda ()
+            (set (make-local-variable 'electric-indent-functions)
+                 (list (lambda (arg) 'no-indent)))))
+
 (provide 'init_haml)
 ;; init_haml.el ends here

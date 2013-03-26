@@ -17,11 +17,7 @@
 (add-to-list 'auto-mode-alist '("\\.cgi$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rb\\.tmp" . ruby-mode))
-;; indent
-(setq ruby-deep-indent-paren-style nil)
-;; (require 'ruby-electric)
-;; (add-hook 'ruby-mode-hook (lambda()(ruby-electric-mode 1)))
-;; (setq ruby-electric-expand-delimiters-list '( ?\{))
+;; ;; indent
 (require 'ruby-end)
 (add-hook 'ruby-mode-hook
   '(lambda ()
@@ -51,9 +47,6 @@
 ;; for rabbit-mode
 (autoload 'rabbit-mode "rabbit-mode" "major mode for Rabbit" t)
 (add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))
-;;;; るりま
-;;(require 'anything-rurima)
-;;(setq anything-rurima-index-file "~/Dropbox/rurima/rubydoc/rurima.e")
 
 ;; rdefs
 (add-hook 'ruby-mode-hook
