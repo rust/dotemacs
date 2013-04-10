@@ -61,3 +61,6 @@
 [submodule ".emacs.d/elisp/Highlight-Indentation-for-Emacs"]
 	path = .emacs.d/elisp/Highlight-Indentation-for-Emacs
 	url = git://github.com/antonj/Highlight-Indentation-for-Emacs.git
+[submodule ".emacs.d/elisp/elscreen"]
+	path = .emacs.d/elisp/elscreen
+	url = git://github.com/knu/elscreen.git
