@@ -19,13 +19,13 @@
 (require 'rspec-mode)
 (custom-set-variables '(rspec-use-rake-flag nil))
 (defun my-compilation-hook ()
-  (when (not (get-buffer-window "*compilation*"))
+  (when (not (get-buffer-window "*rspec-compilation*"))
    (save-selected-window
       (save-excursion
          (let* ((w (split-window-vertically))
                (h (window-height w)))
           (select-window w)
-          (switch-to-buffer "*compilation*")
+          (switch-to-buffer "*rspec-compilation*")
           (shrink-window (- h 10)))))))
 (add-hook 'compilation-mode-hook 'my-compilation-hook)
 
