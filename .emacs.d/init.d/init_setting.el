@@ -97,20 +97,6 @@
 ;; reverse other-window
 (global-set-key "\C-xp" (lambda () (interactive) (other-window -1)))
 
-(defun my-other-delete-trailing-blank-lines ()
-  "Deletes all blank lines at the end of the file, even the last one"
-  (interactive)
-  (save-excursion
-    (save-restriction
-      (widen)
-      (goto-char (point-max))
-      (delete-blank-lines)
-      (let ((trailnewlines (abs (skip-chars-backward "\n\t"))))
-        (if (> trailnewlines 0)
-            (progn
-              (delete-char trailnewlines)))))))
-(add-hook 'before-save-hook 'my-other-delete-trailing-blank-lines)
-
 ;; 行末の空白を自動削除
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 ;; no tabs by default. modes that really need tabs should enable
@@ -130,6 +116,9 @@
 
 ;; Highlight indentation
 (require 'highlight-indentation)
+
+;; Open symlink, not real file
+(setq vc-follow-symlinks nil)
 
 (provide 'init_setting)
 ;; init_setting.el ends here
