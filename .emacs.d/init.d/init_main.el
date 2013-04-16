@@ -70,5 +70,8 @@
 ;; yasnippet
 (require 'init_yasnippet)
 
+;; git
+(require 'init_git)
+
 (provide 'init_main)
 ;; init_mail.el ends here

@@ -64,3 +64,12 @@
 [submodule ".emacs.d/elisp/elscreen"]
 	path = .emacs.d/elisp/elscreen
 	url = git://github.com/knu/elscreen.git
+[submodule ".emacs.d/elisp/emacs-git-gutter-fringe"]
+	path = .emacs.d/elisp/emacs-git-gutter-fringe
+	url = git://github.com/syohex/emacs-git-gutter-fringe.git
+[submodule ".emacs.d/elisp/emacs-git-gutter"]
+	path = .emacs.d/elisp/emacs-git-gutter
+	url = git://github.com/syohex/emacs-git-gutter.git
+[submodule ".emacs.d/elisp/fringe-helper"]
+	path = .emacs.d/elisp/fringe-helper
+	url = git://github.com/nschum/fringe-helper.el.git
