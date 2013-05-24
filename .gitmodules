@@ -7,12 +7,6 @@
 [submodule ".emacs.d/elisp/yasnippets-rails"]
   path = .emacs.d/elisp/yasnippets-rails
   url = git://github.com/eschulte/yasnippets-rails.git
-[submodule ".emacs.d/elisp/emoji"]
-  path = .emacs.d/elisp/emoji
-  url = git://github.com/imakado/emoji.git
-[submodule ".emacs.d/elisp/egg"]
-  path = .emacs.d/elisp/egg
-  url = git://github.com/bogolisk/egg.git
 [submodule ".emacs.d/elisp/git-emacs"]
   path = .emacs.d/elisp/git-emacs
   url = git://github.com/tsgates/git-emacs.git
@@ -22,9 +16,6 @@
 [submodule ".emacs.d/elisp/auto-complete"]
   path = .emacs.d/elisp/auto-complete
   url = git://github.com/auto-complete/auto-complete.git
-[submodule ".emacs.d/elisp/cofee-mode"]
-	path = .emacs.d/elisp/cofee-mode
-	url = https://github.com/defunkt/coffee-mode.git
 [submodule ".emacs.d/elisp/coffee-mode"]
 	path = .emacs.d/elisp/coffee-mode
 	url = git://github.com/defunkt/coffee-mode.git
@@ -37,9 +28,6 @@
 [submodule ".emacs.d/elisp/popup"]
 	path = .emacs.d/elisp/popup
 	url = git://github.com/auto-complete/popup-el.git
-[submodule ".emacs.d/elisp/emacs-minimap"]
-	path = .emacs.d/elisp/emacs-minimap
-	url = https://github.com/rust/emacs-minimap
 [submodule ".emacs.d/elisp/helm"]
 	path = .emacs.d/elisp/helm
 	url = git://github.com/emacs-helm/helm.git
@@ -73,9 +61,6 @@
 [submodule ".emacs.d/elisp/fringe-helper"]
 	path = .emacs.d/elisp/fringe-helper
 	url = git://github.com/nschum/fringe-helper.el.git
-[submodule ".emacs.d/elisp/wgrep"]
-	path = .emacs.d/elisp/wgrep
-	url = git://github.com/mhayashi1120/Emacs-wgrep.git
 [submodule ".emacs.d/elisp/helm-descbinds"]
 	path = .emacs.d/elisp/helm-descbinds
 	url = git://github.com/emacs-helm/helm-descbinds.git
