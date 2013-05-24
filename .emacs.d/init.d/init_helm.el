@@ -16,7 +16,7 @@
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 
 (helm-mode)
-(helm-dired-bindings)
+(helm-descbinds-mode)
 
 (provide 'init_helm)
 ;; init_helm.el ends here
