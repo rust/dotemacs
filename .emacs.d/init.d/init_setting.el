@@ -33,8 +33,6 @@
 (setq-default tab-width 2)
 (setq tab-width 2)
 (setq-default c-basic-offset 2)
-;; \t を使わない
-(setq-default indent-tabs-mode nil)
 ;; truncate lines
 (setq truncate-lines t)
 (setq truncate-partial-width-windows t)

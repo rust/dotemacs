@@ -48,21 +48,11 @@
 ;; ReVIEW
 (require 'init_review)
 
-;; mozc
-(when x-window-p
-  (require 'init_mozc))
-
-;; evernote
-(require 'init_evernote)
-
 ;; multi-term
 (require 'init_multi-term)
 
 ;; markdown
 (require 'init_markdown)
-
-;; minimap
-(require 'init_minimap)
 
 ;; diff-mode
 (require 'init_diff)

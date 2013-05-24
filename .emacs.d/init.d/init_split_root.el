@@ -16,4 +16,4 @@
 (setq anything-display-function 'display-buffer-function--split-root)
 
 (provide 'init_split_root)
-;; init_mail.el ends here
+;; init_split_root.el ends here

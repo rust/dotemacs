@@ -48,11 +48,6 @@
 (autoload 'rabbit-mode "rabbit-mode" "major mode for Rabbit" t)
 (add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))
 
-;; rdefs
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (define-key ruby-mode-map (kbd "C-'") 'anything-rdefs)))
-
 (setq ruby-deep-indent-paren-style nil)
 (defadvice ruby-indent-line (after unindent-closing-paren activate)
   (let ((column (current-column))

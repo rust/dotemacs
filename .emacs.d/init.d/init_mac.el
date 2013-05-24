@@ -7,10 +7,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;Color
-(set-frame-parameter (selected-frame) 'alpha '(97 75))
-;; metakey
-;; (setq ns-command-modifier (quote meta))
-;; (setq ns-alternate-modifier (quote super))
+;; (set-frame-parameter (selected-frame) 'alpha '(100 75))
 
 ;; hide menu
 (display-time-mode t)
@@ -40,29 +37,12 @@
 (if macbook-air-p (load-theme 'solarized-light t)
   (load-theme 'solarized-dark t))
 
-;; high-light current line
-(defface hlline-face
-  '((((class color)
-      (background dark))
-     ;;(:background "dark state gray"))
-     (:background "gray10"
-                  :underline nil))
-    (((class color)
-      (background light))
-     (:background "ForestGreen"
-                  :underline nil))
-    (t ()))
-  "*Face used by hl-line.")
-(setq hl-line-face 'hlline-face)
-;;(setq hl-line-face 'underline)
-;; (global-hl-line-mode)
-
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(column-number-mode t)
+ '(column-number-mode -1)
  '(show-paren-mode t))
 
 ;; window
