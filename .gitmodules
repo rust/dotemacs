@@ -73,3 +73,9 @@
 [submodule ".emacs.d/elisp/fringe-helper"]
 	path = .emacs.d/elisp/fringe-helper
 	url = git://github.com/nschum/fringe-helper.el.git
+[submodule ".emacs.d/elisp/wgrep"]
+	path = .emacs.d/elisp/wgrep
+	url = git://github.com/mhayashi1120/Emacs-wgrep.git
+[submodule ".emacs.d/elisp/helm-descbinds"]
+	path = .emacs.d/elisp/helm-descbinds
+	url = git://github.com/emacs-helm/helm-descbinds.git
