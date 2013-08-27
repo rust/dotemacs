@@ -64,3 +64,6 @@
 [submodule ".emacs.d/elisp/helm-descbinds"]
 	path = .emacs.d/elisp/helm-descbinds
 	url = git://github.com/emacs-helm/helm-descbinds.git
+[submodule ".emacs.d/elisp/auto-save-buffers-enhanced"]
+	path = .emacs.d/elisp/auto-save-buffers-enhanced
+	url = https://github.com/kentaro/auto-save-buffers-enhanced.git

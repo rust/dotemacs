@@ -112,6 +112,11 @@
 (require 'wdired)
 (define-key dired-mode-map "r" 'wdired-change-to-dired-mode)
 
+;; auto-save-buffers-enhanced
+(require 'auto-save-buffers-enhanced)
+(setq auto-save-buffers-enhanced-interval 30)
+(auto-save-buffers-enhanced t)
+
 ;; Highlight indentation
 (require 'highlight-indentation)
 
