@@ -67,3 +67,6 @@
 [submodule ".emacs.d/elisp/auto-save-buffers-enhanced"]
 	path = .emacs.d/elisp/auto-save-buffers-enhanced
 	url = https://github.com/kentaro/auto-save-buffers-enhanced.git
+[submodule ".emacs.d/elisp/git-modes"]
+	path = .emacs.d/elisp/git-modes
+	url = https://github.com/magit/git-modes
