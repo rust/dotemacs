@@ -1,4 +1,118 @@
-2003-08-19  Christoph Wedler  <Christoph.Wedler@sap.com>
+2011-04-12  Christoph Wedler  <Christoph.Wedler@sap.com>
+
+	* session.el 2.3a: 
+
+2011-04-12  Christoph Wedler  <Christoph.Wedler@sap.com>
+
+	* session.el: Make session better interact with org-mode.
+	Suggested by Le Wang <l26wang@gmail.com>.
+	(session-after-jump-to-last-change-hook): New variable.
+	(session-jump-to-last-change): Use it.
+
+2011-01-15  Christoph Wedler  <wedler@users.sourceforge.net>
+
+	* session.el 2.3 is released.
+
+2010-12-12  Christoph Wedler  <wedler@users.sourceforge.net>
+
+	* session.el: Improve [File][Open...Recently...] menus.
+	Suggested by Eli <eli@beach.weizmann.ac.il>.
+	(session-kill-buffer-hook): Delete file names from both file
+	lists with prefix arg -2 or lower to M-x kill-this-buffer.
+	(session-file-opened-recompute): New function for new menu entry
+	[...Recently Visited][Move File Names Of All Buffers To Top].
+	(session-file-changed-recompute): New function for new menu entry
+	[...Recently Changed][Perform Evaluation For All Buffers].
+	(session-initialize-menus): Add them.
+	(session-find-file): New command, always set history.
+	(session-file-changed-menu-filter): Use it.
+
+	* session.el: Minor file menu improvements.
+	(session-menu-max-size): Change value from 30 to 36.
+	(session-file-menu-max-string): Always use value 50 on Emacs,
+	there are no buffer names in Emacs' File menu.
+	(session-set-file-name-exclude-regexp): Change for MS-Windows.
+	(session-initialize-menus): Use toggle [Permanently List Current
+	Buffer] instead action [Toggle Permanent Flag...].
+	(session-file-changed-menu-filter): Display more info about file
+	buffer - p for permanent entries, and r/v or s/c for currently
+	visited files without or with changes (read-only/not-read-only,
+	with saved/unsaved changes).
+
+2010-12-11  Christoph Wedler  <wedler@users.sourceforge.net>
+
+	* session.el: Improve installation, via customization.  See the
+	initial comment section, checked with custom themes.
+	Suggested by Peter S Galbraith <psg@debian.org>.
+	Suggested by Volkan Yazici <yazicivo@ttmail.com>.
+	(session-use-package): Make it a proper customization option.
+	(session-initialize-and-set): New function as custom :set for
+	`session-use-package'.
+	(session-initialize-do): Renamed from `session-initialize'.
+	(session-initialize): Compatibility function which sets
+	`session-use-package', has no dummy parameter anymore.  No need to
+	add it to `after-init-hook' yourself.
+	(session-set-file-name-history): Check `session-use-package'.
+	(session-find-file-hook): Check `session-use-package'.
+	(session-find-file-not-found-hook): Check `session-use-package'.
+	(session-kill-buffer-hook): Check `session-use-package'.
+	(session-save-session): Check `session-use-package' when not used
+	interactively.
+	
+	* session.el: New save file, minor installation improvements.
+	(session-save-file): Use Emacs user directory for init value.
+	Suggested by Peter S Galbraith <psg@debian.org>.
+	(session-old-save-file): New variable for compatibility.
+	(session-initialize): No `defunx' here, would break autoload.
+	Reported by Peter S Galbraith <psg@debian.org>.
+	(session-jump-to-last-change): Add autoload cookie.
+	(session-register-swap-out): Remove top-level add-hook of
+	`kill-buffer-hook'.
+	(session-initialize-do): Add `session-register-swap-out' here.
+
+2010-11-28  Christoph Wedler  <wedler@users.sourceforge.net>
+
+	* session.el: Exiting Emacs might have failed due to buffers
+	visiting remote files with lost connections.
+	Reported by Julian Scheid <julians37@googlemail.com>.
+	(session-default-buffer-check-p): Use function in variable
+	`session-abbrev-inhibit-function' to not check for remote files.
+	(session-save-session): Be robust against file access errors.
+	(session-set-file-name-history): Don't check for readable file.
+
+	* session.el: Saving the session file would infloop due to
+	variables with recursive values (often in rings).
+	Reported by many people...
+	(session-globals-include): Explicitly add variables `search-ring'
+	and `regexp-search-ring' in case "-ring" variables are excluded.
+	(session-globals-exclude): Add recursive variables `org-mark-ring'
+	and `planner-browser-file-display-rule-ring'.
+	(session-save-print-spec): New non-customizable user option for
+	binding `print-circle', `print-level and `print-length' when
+	printing an element of the variable list to the save-file.
+	(session-save-insert-variable): Use it, only save variables with
+	true-list-p values and without level-1 recursions, ignore elements
+	which are non-readable or have a level-n recursion.
+
+2010-11-27  Christoph Wedler  <wedler@users.sourceforge.net>
+
+	* session.el: Refactorings and minor corrections.
+	(session-globals-include): Correct custom spec.
+	(session-undo-position): Refactor, minor correction.
+	(session-jump-to-last-change): Minor correction.
+	(session-file-prune-name): New function.
+	(session-file-changed-menu-filter): Use it
+	(session-change-menu-item): Deletia, not worth the effort.
+	(session-menu-maybe-accelerator): Don't use it anymore.
+	(session-save-insert-variable): New function.
+	(session-save-session): Use it.
+	(session-next-range-char): New function (int/char)
+	(session-save-registers): Use it.
+	(session-initialize-keys): New function.
+	(session-initialize-menus): New function.
+	(session-initialize): Use them.
+
+2003-08-19  Christoph Wedler  <wedler@users.sourceforge.net>
 
 	* session.el 2.2a.
 

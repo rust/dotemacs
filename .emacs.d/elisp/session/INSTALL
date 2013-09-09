@@ -1,6 +1,6 @@
 ### INSTALL for session.el: Session Management for Emacs
 
-## Copyright 2002 Free Software Foundation, Inc.
+## Copyright 2002, 2011 Free Software Foundation, Inc.
 ##
 ## Author: Christoph Wedler <wedler@users.sourceforge.net>
 ## Keywords: Emacs, session, session management, desktop, data, tools
@@ -8,7 +8,9 @@
 
 
 The installation process with explanations (all files mentioned here are
-relative to top-level directory "session/" in the distribution):
+relative to top-level directory "session/" in the distribution) for a
+user-specific use (check the initial comment section of lisp/session.el
+for a system- or distribution-wide installation):
 
 
  1. Copy file "lisp/session.el" to your load-path.  That means:
@@ -55,17 +57,15 @@ relative to top-level directory "session/" in the distribution):
     You can ignore them, since these functions will not be used in the
     Emacs/XEmacs branch or version you are using.
 
- 3. Visit your Emacs init file.
 
-     - The Emacs init file is usuall file "~/.emacs".
-     - In XEmacs-21.4 or higher, it is usually "~/.xemacs/init.el".
-     - For a system-wide installation, the init file is "default.el".
+ 3. Use Emacs' customization to enable package Session:
 
-    Add the following lines into your init file (it should be inserted
-    after the lines from case 1b):
+      (a) Start customization with M-x customize-group RET session RET
+          or the menu [Options][Customize...]...[Data][Session].
 
-       (require 'session)
-       (add-hook 'after-init-hook 'session-initialize)
+      (b) Toggle the [Session Use Package] option to "in use".
+
+      (c) Save your customization via [Save for future sessions].
 
 
 ### INSTALL ends here

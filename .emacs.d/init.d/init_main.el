@@ -13,7 +13,7 @@
 
 ;; 旧設定
 (load "~/_emacs")
- 
+
 ;; ruby-mode
 (require 'init_ruby)
 ;; rails-mode
@@ -30,7 +30,7 @@
 ;; howm
 (require 'init_howm)
 ;; session.el
-;; (require 'init_session)
+(require 'init_session)
 
 ;; gauche.el
 (require 'init_gauche)

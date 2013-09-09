@@ -1,16 +1,17 @@
 ;;; session.el --- use variables, registers and buffer places across sessions
 
-;; Copyright 1996-1999, 2001-2003 Free Software Foundation, Inc.
+;; Copyright 1996, 1997, 1998, 1999, 2001, 2002, 2003, 2010, 2011
+;; Free Software Foundation, Inc.
 ;;
 ;; Author: Christoph Wedler <wedler@users.sourceforge.net>
-;; Version: (see `session-version' below)
+;; Version: 2.3a (see also `session-version' below)
 ;; Keywords: session, session management, desktop, data, tools
 ;; X-URL: http://emacs-session.sourceforge.net/
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
-;; the Free Software Foundation; either version 2, or (at your option)
-;; any later version.
+;; the Free Software Foundation; either version 3 of the Licence, or
+;; (at your option) any later version.
 ;;
 ;; This program is distributed in the hope that it will be useful,
 ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -18,8 +19,7 @@
 ;; GNU General Public License for more details.
 ;;
 ;; You should have received a copy of the GNU General Public License
-;; along with this program; if not, write to the Free Software
-;; Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+;; along with this program.  If not, see <http://gnu.org/licences/>.
 
 ;;; Commentary:
 
@@ -47,19 +47,77 @@
 ;;    file-representation (for files, dired, info buffers).
 ;;  * Saving window-configurations?
 
-;;; Installation:
+;;; Installation, private:
 
-;; This file requires Emacs-20.2, XEmacs-20.2 or higher.
+;;  1. Make sure to use Emacs-20.2, XEmacs-20.2 or higher.
+;;  2. Put this file into your load-path, i.e. any directory mentioned in the
+;;     value of `load-path'.
+;;  3. Byte-compile this file.
+;;  4. Load this package by M-x load-library RET session RET
+;;  5. Start customization with M-x customize-group RET session RET or the
+;;     menu [Options][Customize...]...[Data][Session].
+;;  6. Toggle the [Session Use Package] option to "in use".
+;;  7. Save your customization via [Save for future sessions].
+;;  8. If you use both this package and desktop.el, customize the variable
+;;     `desktop-globals-to-save' to include only the symbol
+;;     `desktop-missing-file-warning'.
 
-;; Put this file into your load-path and the following into your ~/.emacs:
-;;   (require 'session)
-;;   (add-hook 'after-init-hook 'session-initialize)
+;; Remark: adding some code to your ~/.emacs like in previous versions of
+;; session.el still works.
 
-;; If you want to use both desktop and session, use:
-;;   (setq desktop-globals-to-save '(desktop-missing-file-warning))
+;;; Installation, system- or distribution-wide:
 
-;; To customize, use `M-x customize-group RET session RET' or the customize
-;; entry in menu Options.
+;; The idea here should be to offer new defaults to your users (like using this
+;; package), while allowing them to choose otherwise.  This is probably best
+;; done by defining a custom theme (you probably add other customizations to
+;; the custom theme file as well, custom themes might only work with newer
+;; Emacsen):
+
+;;  1. Like 1-3 in the private installation instruction.
+;;  2. Create the autoloads and custom-loads for session.el and make sure that
+;;     they are loaded at Emacs startup.  You can do it manually by adding the
+;;     code below to your site.start.el.
+;;  3. Define a custom theme like `our-custom' by adding a file called
+;;     "our-custom-theme.el" with the code below to a directory in the
+;;     load-path.
+;;  4. Enable your custom theme by adding the code below to your default.el.
+;;  5. Tell your users that they can disable this package by customizing the
+;;     user option according to 5-7 in the private installation instruction or
+;;     by setting `inhibit-default-init' to t.
+
+;; ;; site-start.el, Emacs:
+;; (autoload 'session-jump-to-last-change "session" nil t)
+;; (autoload 'session-initialize "session" nil t)
+;; (eval-after-load "cus-load"
+;;   '(progn (custom-add-load 'data 'session)
+;;           (custom-add-load 'session 'session)))
+
+;; ;; site-start.el, XEmacs:
+;; (autoload 'session-jump-to-last-change "session" nil t)
+;; (autoload 'session-initialize "session" nil t)
+;; (custom-add-load 'data 'session)
+;; (custom-add-load 'session 'session)
+
+;; ;; our-custom-theme.el, Emacs and XEmacs:
+;; (deftheme our-custom "Created 2011-01-15.")
+;; (custom-theme-set-variables
+;;   'our-custom
+;;   '(session-use-package t nil (session)))
+;; (provide-theme 'our-custom)
+
+;; ;; default.el, Emacs:
+;; (enable-theme 'our-custom)
+
+;; ;; default.el, XEmacs:
+;; (require-theme 'our-custom)
+
+;;; Installation, integration of other packages
+
+;;(defun my-org-reveal-session-jump ()
+;;  (when (and (eq major-mode 'org-mode)
+;;             (outline-invisible-p))
+;;    (org-reveal)))
+;;(add-hook 'session-after-jump-to-last-change-hook 'my-org-reveal-session-jump)
 
 ;;; Code:
 
@@ -134,9 +192,6 @@
 			     'ignore)))))))))))
 
 (eval-when-compile
-  ;; Emacs would define these when compiling as 0-arg functions...
-  ;;  (ignore-errors (defun split-path))
-  ;;  (ignore-errors (defun int-to-char))
   (defvar put-buffer-names-in-file-menu)
   (defvar menu-bar-files-menu)
   (defvar yank-menu)
@@ -149,7 +204,7 @@
 ;;;;##########################################################################
 
 
-(defconst session-version "2.2a"
+(defconst session-version "2.3a"
   "Current version of package session.
 Check <http://emacs-session.sourceforge.net/> for the newest.")
 
@@ -180,20 +235,8 @@ Check <http://emacs-session.sourceforge.net/> for the newest.")
   :group 'session
   :prefix "session-")
 
-;; I could imagine that a future version of package custom could make this
-;; `PACKAGE-initialize' stuff easier
-(defcustom session-use-package nil
-  "Pseudo variable.  Used to initialize session in custom buffer.
-Put `(session-initialize)' into your ~/.emacs to initialize package
-session in future sessions.  See variable `session-initialize'."
-  :group 'session
-  :type '(boolean :format "%{%t%}: %[(session-initialize)%], %v\n"
-		  :on "in use" :off "not yet initialized"
-		  :help-echo "Initialize package Session."
-		  :action session-initialize))
-
 (defcustom session-initialize t
-  "Whether/what to initialize with `session-initialize'.
+  "Whether/what to initialize with function `session-initialize'.
 If t, do full initialization.  Otherwise, the value should be a list
 with element.  To enable, include
 
@@ -216,7 +259,7 @@ with element.  To enable, include
 ;;;  User Options and Configuration: Menu
 ;;;===========================================================================
 
-(defcustom session-menu-max-size 30
+(defcustom session-menu-max-size 36
   "*Max number of entries which may appear in the session menus."
   :group 'session-miscellaneous
   :type 'integer)
@@ -224,7 +267,7 @@ with element.  To enable, include
 (defcustom session-file-menu-max-string
   (if (if (boundp 'put-buffer-names-in-file-menu)
 	  put-buffer-names-in-file-menu	; XEmacs
-	t)				; Emacs
+	nil)				; Emacs: no buffer names in file menu
       (cons 50 20)
     50)
   "*Max length of strings in submenus of the File menu.
@@ -264,8 +307,11 @@ prefix argument -1."
   :group 'session-miscellaneous
   :type 'string)
 
+;; TODO: not quite sure whehter this is needed anymore - and if whether
+;; it is the best way to exclude certain files.  Other options are:
+;; based on directory, file name, mode, calling command
 (defcustom session-set-file-name-exclude-regexp
-  "/\\.overview\\|.session\\|News/"
+  "[/\\]\\.overview\\|[/\\]\\.session\\|News[/\\]"
   "*Regexp matching file names not to be stored in `file-name-history'.
 This is used by `session-set-file-name-history'.  Value nil means, do
 not exclude any file."
@@ -276,12 +322,15 @@ not exclude any file."
   (and (featurep 'menu-accelerator-support)
        (fboundp 'submenu-generate-accelerator-spec)
        'submenu-generate-accelerator-spec)
-  "*Function to generate menu accelerators, or nil if not supported.")
+  "Function to generate menu accelerators, or nil if not supported.")
 
 ;; calling `abbrev-file-name' on remote files opens the connection!
 (defvar session-abbrev-inhibit-function
+;; this will be renamed with the next release (when minimum is
+;; Emacs-22.1, jun 2007 and XEmacs 21.4.12, jan 2003) -> only there we have
+;; `define-obsolete-variable-alias'
   (cond ((fboundp 'file-remote-p) 'file-remote-p)
-	;; maybe I should define my own `file-remote-p', doesn't exist in Emacs
+	;;  `file-remote-p' doesn't exist in Emacs < 22.1
 	((fboundp 'efs-ftp-path) 'efs-ftp-path)
 	((fboundp 'ange-ftp-ftp-name) 'ange-ftp-ftp-name)
 	((fboundp 'ange-ftp-ftp-path) 'ange-ftp-ftp-path))
@@ -324,7 +373,11 @@ will be stored."
   :group 'session-globals
   :type 'integer)
 
-(defcustom session-save-file (expand-file-name "~/.session")
+(defcustom session-save-file
+  (expand-file-name ".session"
+		    (cond ((boundp 'user-emacs-directory) user-emacs-directory)
+			  ((boundp 'user-init-directory) user-init-directory)
+			  (t "~")))
   "File to save global variables and registers into.
 It is saved with coding system `session-save-file-coding-system' at the
 end of an Emacs session and loaded at the beginning.  Used for variables
@@ -332,6 +385,16 @@ which are typically changed by editing operations, e.g., history and
 ring variables.  See \\[session-save-session] for details."
   :group 'session-globals
   :type 'file)
+
+(defvar session-old-save-file (expand-file-name ".session" "~")
+  "Value of `session-save-file' before Version 2.3 of this package.")
+
+(defvar session-save-print-spec '(t 2 1024)
+  ;; only for advanced users -> no custom
+  "*Print specification for the values of global variables to save.
+The value looks like (CIRCLE LEVEL LENGTH) and is used to bind variables
+`print-circle', `print-circle' and `print-circle' when evaluating
+`session-save-session'.")
 
 (defcustom session-save-file-modes 384
   "Mode bits of session save file, as an integer, or nil.
@@ -361,15 +424,18 @@ Variables in `session-globals-exclude' are not saved, but variables in
   :type 'regexp)
 
 (defcustom session-globals-exclude
-  '(load-history register-alist vc-comment-ring flyspell-auto-correct-ring)
+  '(load-history
+    register-alist vc-comment-ring flyspell-auto-correct-ring org-mark-ring
+    planner-browser-file-display-rule-ring)
   "Global variables not to be saved between sessions.
-It affects `session-globals-regexp' but not `session-globals-include'."
+It affects `session-globals-regexp' and `session-globals-include'."
   :group 'session-globals
   :type '(repeat variable))
 
 (defcustom session-globals-include '((kill-ring 10)
 				     (session-file-alist 100 t)
-				     (file-name-history 200))
+				     (file-name-history 200)
+				     search-ring regexp-search-ring)
   "Global variables to be saved between sessions.
 Each element has one of the following forms:
   NAME,
@@ -390,10 +456,10 @@ variable in this list even if it matches `session-globals-regexp'.
 Do not use this variable to customize your Emacs.  Package custom is the
 appropriate choice for this!"
   :group 'session-globals
-  :type '(repeat (group :value '(nil 50)
-			variable
-			(integer :tag "Max size")
-			(option :value t (boolean :tag "Alist")))))
+  :type '(repeat (choice (variable :tag "List var with standard max size")
+			 (list variable
+			       (integer :tag "Max size")
+			       (boolean :tag "Alist")))))
 
 
 ;;;===========================================================================
@@ -412,7 +478,7 @@ means, only save registers if they contain a region which has less then
 types.  Processing of this list starts with type `file'.
 
 Before saving the session files, markers in registers are turned into
-file references, see `session-register-swap-out'."
+file references, see variable `session-register-swap-out'."
   :group 'session-globals
   :type '(repeat (choice (const :tag "File registers:" file)
 			 (const :tag "String registers:" region)
@@ -451,7 +517,8 @@ variables which become local when set, and t (store all variables in
 				      'register-swap-out
 				    'session-register-swap-out)
   "Function processing markers in registers when a buffer is killed.
-If non-nil, this function is added to `kill-buffer-hook'.")
+If non-nil, this function is added to `kill-buffer-hook'.  Good values
+are `register-swap-out' and the function `session-register-swap-out'.")
 
 
 ;;;===========================================================================
@@ -472,6 +539,10 @@ change positions, see `session-jump-undo-remember'."
 See `session-jump-undo-threshold' and `session-jump-to-last-change'."
   :group 'session-places
   :type 'integer)
+
+(defvar session-after-jump-to-last-change-hook nil
+  "Hook to be after `session-jump-to-last-change' has been executed.
+The functions are called if `point' has been moved.")
 
 ;; Problem if homedir is a symlink (/bar/home -> /net/bar.home) & tmp-mounted
 ;;   (file-truename "~/foo") => "/tmp_mnt/net/bar.home/foo"
@@ -656,45 +727,62 @@ returned is the last change after these entries outside the range from
 POS1 to POS2.  Increment `session-jump-to-last-change-counter' by the
 number of entries skipped additionally."
   (let ((undo-list (and (consp buffer-undo-list) buffer-undo-list))
-	back-list pos len elem)
-    (while (and undo-list (null (car undo-list))) (pop undo-list))
+	elem      ; element in undo-list, t = not of interest
+	back-list ; used position must be recomputed due to processed elems
+	len       ; length of deletion/insertion
+	pos)      ; interesting position in undo-list
+    (while (and undo-list (null (car undo-list)))
+      (pop undo-list))			; ignore undo-boundaries at beg
     (while undo-list
+      ;; inspect element in undo-list ----------------------------------------
       (setq elem (pop undo-list))
       (cond ((atom elem)		; marker position
-	     (when (or elem pos1)
-	       (if (integerp elem) (setq pos elem) (setq elem t))))
+	     (when (or elem pos1) ; undo-boundary is of interest if POS1=nil
+	       (if (integerp elem)
+		   (setq pos elem	; use point position in undo-list
+			 back-list (cons nil back-list))
+		 (setq elem t))))	; ignore uninteresting elem
 	    ((stringp (car elem))	; deletion: (TEXT . POSITION)
-	     (setq pos (abs (cdr elem)) len (length (car elem)))
+	     (setq pos (abs (cdr elem))
+		   len (length (car elem)))
 	     (push (list* pos (+ pos len) (- len)) back-list)
-	     (when pos1
+	     (when pos1			; adopt POS{1,2} if after deletion
 	       (if (>  pos1 pos) (incf pos1 len))
 	       (if (>= pos2 pos) (incf pos2 len))))
 	    ((integerp (car elem))	; insertion: (START . END)
-	     (setq pos (car elem) len (- (cdr elem) pos))
+	     (setq pos (car elem)
+		   len (- (cdr elem) pos))
 	     (push (list* pos pos len) back-list)
-	     (setq pos (cdr elem))	; compare/jump with/to end of insertion
-	     (when pos1
+	     (when pos1			; adopt POS{1,2} if after/in insertion
 	       (if (> pos1 pos)
 		   (setq pos1 (if (> pos1 (cdr elem)) (- pos1 len) pos)))
 	       (if (> pos2 pos)
-		   (setq pos2 (if (> pos2 (cdr elem)) (- pos2 len) pos)))))
+		   (setq pos2 (if (> pos2 (cdr elem)) (- pos2 len) pos))))
+	     (setq pos (cdr elem)))	; point more likely at end of insertion
 	    (t
 	     (setq elem t)))
-      (cond ((or (eq elem t) (null num))
-	     (if pos1 (setq pos nil)))
-	    ((and pos1 (> num 0))	; next distance
+      ;; evaluation element inspection ---------------------------------------
+      (cond ((null num))		; set POS1 as `session-last-change'
+	    ((null pos1)		; looking for undo-boundaries
+	     (when (if elem
+		       (and (zerop num) pos)
+		     (<= (decf num) 0))
+	       (setq undo-list nil)))
+	    ((eq elem t)		; uninteresting element
+	     (setq pos nil))
+	    ((> num 0)			; interesting, but not the NUM's one
 	     (decf num)
 	     (setq pos nil))
-	    ((and pos1 (<= pos1 pos) (<= pos pos2))
+	    ((and (<= pos1 pos) (<= pos pos2)) ; inside start region
 	     (incf session-jump-to-last-change-counter)
 	     (setq pos nil))
-	    ((or (zerop num) (and (null elem) (zerop (decf num))))
-	     ;;(if pos1 (message "counter: %d, pos: %d, pos: %d, pos2: %d" session-jump-to-last-change-counter pos pos1 pos2))
+	    (t
 	     (setq undo-list nil))))
-    (cond ((null num)			; point as `session-last-change'
+    ;; finalize: evaluate result and process back-list -----------------------
+    (cond ((null num)			; set POS1 as `session-last-change'
 	   (setq session-last-change pos1
 		 pos session-last-change))
-	  ((or (null pos) (> num 0))
+	  ((or (null pos) (> num 0))	; no position found in undo-list
 	   (setq session-jump-to-last-change-counter nil)
 	   (setq pos session-last-change))
 	  (t				; pos in undo-list
@@ -704,24 +792,27 @@ number of entries skipped additionally."
     (when pos
       (while back-list
 	(setq elem (pop back-list))
-	(cond ((> pos (cadr elem))
-	       (incf pos (cddr elem)))
-	      ((> pos (car elem))
-	       (setq pos (car elem)))))
+	(cond ((null elem))		; integer position in undo-list
+	      ((> pos (cadr elem))	; position after affected region
+	       (incf pos (cddr elem)))	; increment/decrement position
+	      ((> pos (car elem))	; position in affected region
+	       (setq pos (car elem)))))	; set position to region begin
       pos)))
 
+;;;###autoload
 (defun session-jump-to-last-change (&optional arg)
   "Jump to the position of the last change.
 Without prefix arg, jump successively to previous change positions which
 differ by at least `session-jump-undo-threshold' characters by repeated
 invocation of this command.  With prefix argument 0, jump to end of last
 change.  With numeric prefix argument, jump to start of first change in
-the abs(ARG)s undo block in the `buffer-undo-list'.
+the ARG's undo block in the `buffer-undo-list'.
 
 With non-numeric prefix argument (\\[universal-argument] only), set
 point as oldest change position.  It might change slightly if you jump
 to it due to intermediate insert/delete elements in the
 `buffer-undo-list'."
+  ;; note: for compatibility reasons (pre v2.2), we use abs(ARG)
   (interactive "P")
   (if (consp arg)
       (let ((pos (session-undo-position nil (point) (point)))
@@ -740,21 +831,20 @@ to it due to intermediate insert/delete elements in the
 	(let ((recent (nthcdr session-jump-undo-remember
 			      session-jump-to-last-change-recent)))
 	  (if recent (setcdr recent nil)))
-      (setcdr session-jump-to-last-change-recent nil)
+      (setcdr session-jump-to-last-change-recent nil) ; only point
       (setq session-jump-to-last-change-counter 0))
-    (let ((pos (if arg
-		   (session-undo-position (abs (prefix-numeric-value arg))
-					  nil nil)
-		 (point))))
-      (unless arg
+    (let (pos)
+      (if arg
+	  (setq pos (session-undo-position (abs (prefix-numeric-value arg))
+					   nil nil))
 	;; compute position, compare it with positions in
 	;; `session-jump-to-last-change-recent'
 	(let ((recent session-jump-to-last-change-recent) old pos1 pos2)
-	  (while recent
+	  (setq pos (point))
+	  (while recent			; at least point is there
 	    (setq old (pop recent))
 	    (setq pos1 (- pos session-jump-undo-threshold)
 		  pos2 (+ pos session-jump-undo-threshold))
-	    ;;(message "pos: %d, old: %d, len: %d, counter: %d" pos old (length recent) session-jump-to-last-change-counter)
 	    (when (and (<= pos1 old) (<= old pos2))
 	      (setq pos (session-undo-position
 			 session-jump-to-last-change-counter pos1 pos2))
@@ -776,7 +866,8 @@ to it due to intermediate insert/delete elements in the
 	     (cond ((null session-jump-to-last-change-counter)
 		    (message "Jumped to stored last-change position"))
 		   ((null arg)
-		    (setq this-command 'session-jump-to-last-change-seq))))))))
+		    (setq this-command 'session-jump-to-last-change-seq)))
+             (run-hooks 'session-after-jump-to-last-change-hook))))))
 
 
 ;;;===========================================================================
@@ -841,6 +932,7 @@ bound to nil."
     (session-menu-maybe-accelerator menu-items menu)))
 
 (defun session-yank-string (string half-len-str callback active)
+  ;; checkdoc-order: nil
   "Return menu item STRING with callback CALLBACK.
 If ACTIVE is non-nil, the item is active.  HALF-LEN-STR is the length of
 the two parts of a abbreviated menu item name."
@@ -854,8 +946,7 @@ the two parts of a abbreviated menu item name."
     (vector (if (> (- end beg) session-edit-menu-max-string)
 		(let ((gap (and session-compact-yank-gap-regexp
 				(string-match session-compact-yank-gap-regexp
-				 
-				 string (- end half-len-str))
+					      string (- end half-len-str))
 				(match-end 0))))
 		  (if (and gap (< gap (- end 3)))
 		      (setq half-len-str (- (+ half-len-str half-len-str gap)
@@ -866,8 +957,8 @@ the two parts of a abbreviated menu item name."
 			  " ... "
 			  (session-subst-char-in-string
 			   ?\t ?\ (substring string gap end) t)))
-	      (session-subst-char-in-string ?\t ?\
-					    (substring string beg end) t))
+	      (session-subst-char-in-string
+	       ?\t ?\  (substring string beg end) t))
 	    callback
 	    active)))
 
@@ -886,8 +977,28 @@ Unless optional argument INPLACE is non-nil, return a new string."
 
 
 ;;;===========================================================================
-;;;  Menu filters (XEmacs only)
+;;;  Menu filters
 ;;;===========================================================================
+
+(defun session-file-opened-recompute ()
+  "Move file name of all live buffers to top of the menu of visited files."
+  (interactive)
+  (session-file-changed-recompute t))
+
+(defun session-file-changed-recompute (&optional for-opened)
+  "Store buffer places for all live buffers.
+Works like \\[session-file-opened-recompute] if FOR-OPENED is non-nil."
+  (interactive)
+  (let ((session-use-package t))	;#dynamic
+    (save-excursion
+      (dolist (buffer (nreverse (buffer-list)))
+	(set-buffer buffer)
+	(when buffer-file-name
+	  (condition-case nil	; potential errors with remote files
+	      (if for-opened
+		  (session-set-file-name-history)
+		(session-store-buffer-places 1))
+	    (error nil)))))))
 
 (defun session-file-opened-menu-filter (menu-items)
   ;; checkdoc-params: (menu-items)
@@ -903,6 +1014,8 @@ menu.  The files are taken from FILES or `session-file-alist'.  It
 doesn't show the same name twice and shows `session-menu-max-size' names
 at most.  FIND-FN or \\[find-file] is the function to use when selecting
 a file in the menu."
+  (or files (setq files session-file-alist))
+  (or find-fn (setq find-fn 'session-find-file))
   (let ((excl nil)
 	(menu nil)
 	(i session-menu-max-size)
@@ -917,54 +1030,53 @@ a file in the menu."
 					   (cdr session-file-menu-max-string))
 					0)))
 			       (t 50))
-			 16))
-	elem desc name)
-    (or files (setq files session-file-alist))
-    (or find-fn (setq find-fn 'find-file))
+			 16)))
     (while (and files (> i 0))
-      (setq elem (car files)
-	    desc (and (consp elem) elem)
-	    files (cdr files))
-      (if (consp elem) (setq elem (car elem)))
-      (setq elem (session-abbrev-file-name (directory-file-name elem)))
-      (or (member elem excl)
-	  (progn
-	    (setq i (1- i))
-	    (push elem excl)
-	    (setq name elem)
-	    (and (> (length elem) max-string)
-		 (fboundp 'split-path)
-		 (let* ((path-separator (char-to-string
-					 session-directory-sep-char))
-			(components (split-path elem)))
-		   (or (cdr components)
-		       (eq session-directory-sep-char ?\/) ; the right one
-		       (setq path-separator "/"
-			     components (split-path elem)))
-		   (let* ((prefix (if (< (length (car components)) 2)
-				      (concat (pop components) path-separator
-					      (pop components))
-				    (pop components)))
-			  (len (+ (length prefix) 5))
-			  postfix)
-		     (setq components (nreverse components))
-		     (while (and (cdr components)
-				 (< (incf len (length (car components)))
-				    max-string))
-		       (push (pop components) postfix))
-		     (if (or postfix (cdr components))
-			 (setq name
-			       (concat prefix path-separator
-				       " ... " path-separator
-				       (if postfix
-					   (mapconcat 'identity postfix
-						      path-separator)
-					 (car components))))))))
-	    (push (vector name (list find-fn elem)
-			  :keys (and (sixth desc)
-				     session-menu-permanent-string))
-		  menu))))
+      (let ((name (pop files)) desc)
+	(when (consp name)
+	  (setq desc name
+		name (car name)))
+	(setq name (session-abbrev-file-name (directory-file-name name)))
+	(unless (member name excl)
+	  (setq i (1- i))
+	  (push name excl)
+	  (push (vector (or (session-file-prune-name name max-string) name)
+			(list find-fn name)
+			:keys (concat (and (sixth desc) "p")
+				      (let ((buf (get-file-buffer name)))
+					(when buf
+					  (with-current-buffer buf
+					    (if (consp buffer-undo-list)
+						(if (buffer-modified-p)
+						    "c" "s")
+					      (if buffer-read-only
+						  "r" "v")))))))
+		menu))))
     (session-menu-maybe-accelerator menu-items (nreverse menu))))
+
+(defun session-file-prune-name (elem max-string)
+  "Prune name íf menu entry ELEM to use a miximum string length MAX-STRING."
+  (when (> (length elem) max-string)
+    (let* ((sep-string (char-to-string session-directory-sep-char))
+	   (components (split-string elem (regexp-quote sep-string))))
+      (or (cdr components)	; successful split
+	  (eq session-directory-sep-char ?\/) ; already Unix separator
+	  (setq sep-string "/"
+		components (split-string elem (regexp-quote sep-string))))
+      (let* ((prefix (if (< (length (car components)) 3) ; e.g. "~" or "C:"
+			 (concat (pop components) sep-string
+				 (pop components))
+		       (pop components)))
+	     (len (+ (length prefix) 7)) ; "/ ... /"
+	     postfix)
+	(when (cdr components)		; more than one remaining dir component
+	  (setq components (nreverse components))
+	  (incf len (length (car components)))
+	  (push (pop components) postfix) ; always use last one
+	  (while (<= (incf len (1+ (length (car components)))) max-string)
+	    (push (pop components) postfix))
+	  (concat prefix sep-string " ... " sep-string
+		  (mapconcat 'identity postfix sep-string)))))))
 
 (defun session-menu-maybe-accelerator (menu-items menu)
   "Return menu consisting of items in MENU-ITEMS and MENU.
@@ -974,24 +1086,10 @@ name always starts with a accelerator specification \"%_. \".  Also, a
 
 The items in MENU will be modified to add accelerator specifications if
 `session-menu-accelerator-support' is non-nil."
-  (nconc (mapcar 'session-change-menu-item menu-items)
-	 (if session-menu-accelerator-support
-	     (funcall session-menu-accelerator-support menu)
-	   menu)))
-
-(defun session-change-menu-item (item)
-  "Change ITEM according to `session-menu-maybe-accelerator'."
-  (if (vectorp item)
-      (let ((keys (and (eq (aref item 2) :keys)
-		       (not (stringp (aref item 3))))))
-	(if (if session-menu-accelerator-support keys t)
-	    (prog1 (setq item (copy-sequence item))
-	      (if keys
-		  (aset item 3 (eval (aref item 3))))
-	      (or session-menu-accelerator-support
-		  (aset item 0 (substring (aref item 0) 4))))
-	  item))
-    item))
+  (append menu-items
+	  (if session-menu-accelerator-support
+	      (funcall session-menu-accelerator-support menu)
+	    menu)))
 
 (defun session-abbrev-file-name (name)
   "Return a version of NAME shortened using `directory-abbrev-alist'.
@@ -1009,24 +1107,34 @@ home directory."
 ;;;  Functions in hooks
 ;;;===========================================================================
 
+(defun session-find-file (filename)
+  "Call \\[find-file] and add FILENAME to `file-name-history'."
+  ;; also sets history when just switching to existing buffer
+  (interactive "FFind file: ")
+  (find-file filename)
+  (let ((session-use-package t))	;#dynamic
+    (session-set-file-name-history)))
+
 (defun session-set-file-name-history ()
+  ;; TODO later: test `this-command' matching regexo "find-file" or similar
   "Add file-name of current buffer to `file-name-history'.
-Don't add the file name if it does not visit an existing readable file,
-if it matches `session-set-file-name-exclude-regexp', or if it is
-already at the front of `file-name-history'.  This function is useful in
-`find-file-hooks'."
-  (and buffer-file-name
-       (file-exists-p buffer-file-name) (file-readable-p buffer-file-name)
+Don't add the file name if it matches
+`session-set-file-name-exclude-regexp', or if it is already at the front
+of `file-name-history'.  This function is useful in `find-file-hooks'."
+  (and session-use-package
+       buffer-file-name
+       (not (string= (car file-name-history) buffer-file-name))
+       (not (string= (car file-name-history) buffer-file-truename))
+;;       (file-exists-p buffer-file-name) (file-readable-p buffer-file-name)
        (let ((name (session-abbrev-file-name buffer-file-name)))
-	 (or (string= (car file-name-history) name)
-	     (string= (car file-name-history) buffer-file-name)
-	     (and session-set-file-name-exclude-regexp
-		  (string-match session-set-file-name-exclude-regexp name))
-	     (push name file-name-history)))))
+	 (unless (and session-set-file-name-exclude-regexp
+		      (string-match session-set-file-name-exclude-regexp name))
+	   (push name file-name-history)))))
 
 (defun session-find-file-hook ()
   "Function in `find-file-hooks'.  See `session-file-alist'."
-  (unless (eq this-command 'session-disable)
+  (unless (or (eq this-command 'session-disable)
+	      (null session-use-package))
     (let* ((ass (assoc (session-buffer-file-name) session-file-alist))
 	   (point (second ass))
 	   (mark (third ass))
@@ -1056,13 +1164,27 @@ already at the front of `file-name-history'.  This function is useful in
 (defun session-kill-buffer-hook ()
   "Function in `kill-buffer-hook'.
 See `session-file-alist' and `session-registers'."
-  (if buffer-file-name
-      (condition-case nil
-	  (session-store-buffer-places
-	   (if (memq this-command session-kill-buffer-commands)
-	       (prefix-numeric-value current-prefix-arg)
-	     1))
-	(error nil))))
+  (if (and session-use-package buffer-file-name)
+      (let ((arg (if (memq this-command session-kill-buffer-commands)
+		     (prefix-numeric-value current-prefix-arg)
+		   1)))
+	(condition-case nil
+	    (if (> arg -2)
+		(session-store-buffer-places arg)
+	      (setq file-name-history
+		    (delete buffer-file-truename
+			    (delete buffer-file-name file-name-history)))
+;;;	      (setq session-file-alist
+;;;		    (delete* (session-buffer-file-name) session-file-alist
+;;;			     :key 'car :test 'string=)))  ; Emacs CL policy...
+	      (let ((fname (session-buffer-file-name))
+		    (alist (cons nil session-file-alist)))
+		(while (cdr alist)
+		  (if (string= (cadr alist) fname)
+		      (setcdr alist (cddr alist))
+		    (setq alist (cdr alist))))
+		(setq session-file-alist (cdr alist))))
+	  (error nil)))))
 
 
 ;;;===========================================================================
@@ -1070,7 +1192,8 @@ See `session-file-alist' and `session-registers'."
 ;;;===========================================================================
 
 (defun session-register-swap-out ()
-  "Turn markers in registers into file references when a buffer is killed."
+  "Turn markers in registers into file references when a buffer is killed.
+See variable `session-register-swap-out'."
   (and buffer-file-name
        (let ((tail register-alist))
 	 (while tail
@@ -1079,9 +1202,6 @@ See `session-file-alist' and `session-registers'."
 		(setcdr (car tail)
 			(cons 'file buffer-file-name)))
 	   (setq tail (cdr tail))))))
-
-(if session-register-swap-out
-    (add-hook 'kill-buffer-hook session-register-swap-out))
 
 
 
@@ -1147,6 +1267,8 @@ An entry for the current buffer and its places is added to the front of
 mentioned in the list below.  ARG is the prefix argument to a command in
 `session-kill-buffer-commands' or 1 for any other command.
 
+ARG=-2: delete current buffer from `session-file-alist' (implemented
+  in `session-kill-buffer-hook')
 ARG=-1: delete PERMANENT flag for buffer,
 ARG=0: do nothing,
 ARG=1: store buffer places, if the PERMANENT flag is set or the buffer
@@ -1198,12 +1320,13 @@ becoming too old to be saved across session.  By default, only the first
 (defun session-find-file-not-found-hook ()
   "Query the user to delete the permanent flag for a non-existent file.
 Always return nil."
-  (let ((file-name (session-buffer-file-name)))
-    (when file-name
-      (let ((permanent (nthcdr 5 (assoc file-name session-file-alist))))
-	(and (car permanent)
-	     (y-or-n-p "Delete permanent flag for non-existent file? ")
-	     (setcar permanent nil))))))
+  (when session-use-package
+    (let ((file-name (session-buffer-file-name)))
+      (when file-name
+	(let ((permanent (nthcdr 5 (assoc file-name session-file-alist))))
+	  (and (car permanent)
+	       (y-or-n-p "Delete permanent flag for non-existent file? ")
+	       (setcar permanent nil)))))))
 
 
 ;;;===========================================================================
@@ -1225,7 +1348,9 @@ Argument BUFFER should be the current buffer."
 		  session-undo-check))))
    ;; mode and name check ----------------------------------------------------
    (let ((file (buffer-file-name buffer)))
-     (and (file-exists-p file) (file-readable-p file)
+     (and (or (and (fboundp session-abbrev-inhibit-function)
+		   (funcall session-abbrev-inhibit-function file))
+	      (and (file-exists-p file) (file-readable-p file)))
 	  (if (if session-auto-store
 		  (not (memq major-mode session-mode-disable-list))
 		(memq major-mode session-mode-enable-list))
@@ -1239,7 +1364,7 @@ Argument BUFFER should be the current buffer."
 ;;;  Save session file
 ;;;===========================================================================
 
-(defun session-save-session ()
+(defun session-save-session (&optional force)
   "Save session: file places, *-ring, *-history, registers.
 Save some global variables and registers into file `session-save-file'
 with coding system `session-save-file-coding-system'.  Run functions in
@@ -1248,10 +1373,14 @@ with coding system `session-save-file-coding-system'.  Run functions in
 See also `session-globals-regexp', `session-globals-include' and
 `session-registers'.
 
-This command is executed when using \\[save-buffers-kill-emacs] without
-prefix argument 0.  See `kill-emacs-hook'."
-  (interactive)
-  (and session-save-file
+This function does not save the session if `session-use-package' is nil
+and FORCE is nil.  When called interactively, FORCE is non-nil.
+
+This command is automatically executed when exiting Emacs, except when
+using \\[save-buffers-kill-emacs] with prefix argument 0."
+  (interactive "p")
+  (and (or force session-use-package)
+       session-save-file
        (not (and (eq this-command 'save-buffers-kill-emacs)
 		 (equal current-prefix-arg 0)))
        (or session-successful-p
@@ -1259,83 +1388,42 @@ prefix argument 0.  See `kill-emacs-hook'."
 	   (y-or-n-p "Overwrite old session file (not loaded)? "))
        (save-excursion
 	 ;; `kill-emacs' doesn't kill the buffers ----------------------------
-	 (let ((buffers (nreverse (buffer-list))))
-	   (while buffers
-	     (set-buffer (car buffers))
-	     (when buffer-file-name
-	       (session-store-buffer-places 1)
-	       (if session-register-swap-out
-		   (funcall session-register-swap-out)))
-	     (setq buffers (cdr buffers))))
+	 (dolist (buffer (nreverse (buffer-list)))
+	   (set-buffer buffer)
+	   (when buffer-file-name
+	     (condition-case nil	; potential errors with remote files
+		 (session-store-buffer-places 1)
+	       (error nil))
+	     (if session-register-swap-out
+		 (funcall session-register-swap-out))))
 	 ;; create header of session file ------------------------------------
 	 (set-buffer (get-buffer-create " session "))
 	 (erase-buffer)
-	 (let ((s-excl session-globals-exclude)
-	       (slist (append session-globals-include
-			      (apropos-internal session-globals-regexp
-						'boundp)))
-	       ;;(print-readably t) ; no way!
-	       symbol val vlist len ass-p
-	       coding-system-for-write)
-	   (if session-save-file-coding-system
-	       (condition-case nil
-		   (progn
-		     (setq coding-system-for-write
-			   (check-coding-system
-			    session-save-file-coding-system))
-		     (insert (format ";;; -*- coding: %S; -*-\n"
-				     session-save-file-coding-system)))
-		 (error nil)))
-	   (insert ";;; Automatically generated on "
-		   (current-time-string)
-		   "\n;;; Invoked by "
-		   (user-login-name)
-		   "@"
-		   (system-name)
-		   " using "
-		   emacs-version
-		   "\n")
-	   ;; save global variables ------------------------------------------
-	   (while slist
-	     (setq symbol (car slist)
-		   slist  (cdr slist)
-		   len session-globals-max-size
-		   ass-p nil)
-	     (if (consp symbol)
-		 (setq ass-p (third symbol)
-		       len (or (second symbol) session-globals-max-size)
-		       symbol  (first symbol)))
-	     (and (default-boundp symbol)
-		  (setq val (default-value symbol))
-		  (consp val)
-		  (not (memq symbol s-excl))
-		  (condition-case nil
-		      (progn
-			(push symbol s-excl)
-			;; only takes first of same elements, cut length
-			(setq vlist nil)
-			(while val
-			  (or (and (stringp (car val))
-				   (> (length (car val))
-				      session-globals-max-string))
-			      (if ass-p
-				  (assoc (caar val) vlist)
-				(member (car val) vlist))
-			      (progn
-				(push (car val) vlist)
-				(>= (setq len (1- len)) 0))
-			      (setq val nil))
-			  (setq val (cdr val)))
-			;; print (the tricky part (read/load isn't clever)):
-			;; check each elem
-			(while vlist
-			  (condition-case nil
-			      (push (read (prin1-to-string (car vlist))) val)
-			    (error nil))
-			  (setq vlist (cdr vlist)))
-			(insert (format "(setq-default %S '%S)\n" symbol val)))
-		    (error nil))))
+	 (let ((coding-system-for-write	;#dynamic
+		(and session-save-file-coding-system
+		     (condition-case nil
+			 (check-coding-system session-save-file-coding-system)
+		       (error nil)))))
+	   (when coding-system-for-write
+	     (insert (format ";;; -*- coding: %S; -*-\n"
+			     session-save-file-coding-system)))
+	   (insert ";;; Automatically generated on " (current-time-string)
+		   "\n;;; Invoked by " (user-login-name) "@" (system-name)
+		   " using " emacs-version "\n")
+	   ;; save global variables and registers ----------------------------
+	   (let ((s-excl session-globals-exclude))
+	     (dolist (incl (append session-globals-include
+				   (apropos-internal session-globals-regexp
+						     'boundp)))
+	       (let ((symbol (if (consp incl) (car incl) incl)))
+		 (unless (memq symbol s-excl)
+		   (push symbol s-excl)
+		   (when (default-boundp symbol)
+		     (session-save-insert-variable symbol
+						   (default-value symbol)
+						   (cdr-safe incl)))))))
 	   (session-save-registers)
+	   ;; write session file ---------------------------------------------
 	   (run-hooks 'session-before-save-hook)
 	   (condition-case var
 	       (progn
@@ -1353,6 +1441,61 @@ prefix argument 0.  See `kill-emacs-hook'."
 			   (car var) (cdr var))))))
 	   (kill-buffer (current-buffer))))))
 
+(defun session-save-insert-variable (symbol val spec)
+  "Print SYMBOL and its value VAL into the current buffer.
+Argument SPEC looks like (MAX-SIZE ASSOC-P), see variable
+`session-globals-include' for details.
+
+Only true lists are printed which do not have a level-1 recursion.
+Elements in the list are not printed if one of the following is true:
+ - the element is no cons if ASSO-P is non-nil,
+ - strings which are too long, see `session-globals-max-string',
+ - non-readable elements, or
+ - elements which are not fully represented according to the
+   specification in `session-save-print-spec'."
+  (when (consp val)
+    (let ((print-circle (car session-save-print-spec)) ;#dynamic
+	  (print-level  (cadr session-save-print-spec)) ;#dynamic
+	  (print-length (caddr session-save-print-spec)) ;#dynamic
+	  (len   (or (car spec) session-globals-max-size))
+	  (ass-p (cadr spec))
+	  (slist nil) klist clist)
+      (while (and (consp val) (> len 0))
+	(if (memq val clist)
+	    (setq val t)	; don't print recursive lists
+	  (push val clist)
+	  (let* ((elem (pop val))
+		 (estr (prin1-to-string elem)))
+	    ;; read/load isn't clever: ignore non-readable elements
+	    (unless (cond (ass-p
+			   (or (atom elem)
+			       (member (car elem) klist)
+			       (condition-case nil
+				   (prog1 nil
+				     (read estr)
+				     (push (car elem) klist))
+				 (error t))))
+			  ((member estr slist))
+			  ((stringp elem)
+			   (> (length elem) session-globals-max-string))
+			  ((condition-case nil
+			       (prog1 nil
+				 (read estr))
+			     (error t))))
+	      (push estr slist)
+	      (decf len)))))
+      (when (and slist (null val))	; don't print non-true lists
+	(insert (format "(setq-default %S '(" symbol))
+	(setq slist (nreverse slist))
+	(while slist
+	  (insert (pop slist) (if slist " " "))\n")))))))
+
+(defunx session-next-range-char (char)
+  ;; XEmacs register functions should handle integers as chars better...
+  :emacs-only  1+
+  "Return the next char after CHAR."
+  (int-to-char (1+ char)))
+
 (defun session-save-registers ()
   "Save registers in `session-registers'."
   (let ((chars session-registers)
@@ -1369,8 +1512,6 @@ prefix argument 0.  See `kill-emacs-hook'."
 		  from (car from))
 	  (setq to from))
 	(while (<= from to)
-	  (and (numberp from) (fboundp 'int-to-char)
-	       (setq from (int-to-char from)))
 	  (setq register (get-register from))
 	  (cond ((null register))
 		((and (memq type '(file t))
@@ -1385,7 +1526,7 @@ prefix argument 0.  See `kill-emacs-hook'."
 		      (stringp register)
 		      (< (length register) session-registers-max-string))
 		 (insert (format "(set-register %S %S)\n" from register))))
-	  (setq from (1+ from)))))))
+	  (setq from (session-next-range-char from)))))))
 
 
 ;;;===========================================================================
@@ -1460,97 +1601,154 @@ If the \"File\" menu does not exist, no submenu is added.  See
 			(cond ((vectorp first) (aref first 0))
 			      ((consp first) (car first))))))))
 
-;;;###autoload
-(defunx session-initialize (&rest dummies)
-  ;; checkdoc-params: (dummies)
+(defunx session-initialize-keys ()
+  "Define some key bindings for package session."
+  (define-key ctl-x-map [(undo)] 'session-jump-to-last-change)
+  (define-key ctl-x-map [(control ?\/)] 'session-jump-to-last-change)
+  (define-key minibuffer-local-map [(meta ?\?)]
+    'session-minibuffer-history-help)
+  :XEMACS
+  ;; C-down-mouse-3 pops up mode menu under Emacs
+  (define-key global-map [(control button3)] 'session-popup-yank-menu)
+  :EMACS
+  ;; Emacs doesn't seem to have keymap inheritance...
+  (define-key minibuffer-local-completion-map [(meta ?\?)]
+    'session-minibuffer-history-help)
+  (define-key minibuffer-local-must-match-map [(meta ?\?)]
+    'session-minibuffer-history-help)
+  (define-key minibuffer-local-ns-map [(meta ?\?)]
+    'session-minibuffer-history-help))
+
+(defunx session-initialize-menus ()
+  "Add some submenus for package session."
+  (session-add-submenu '("Open...Recently Visited"
+			 :included file-name-history
+			 :filter session-file-opened-menu-filter
+			 ["Move File Names Of All Buffers To Top"
+			  session-file-opened-recompute]
+			 "---"))
+  (session-add-submenu '("Open...Recently Changed"
+			 ;;:included session-file-alist
+			 :filter session-file-changed-menu-filter
+			 ["Perform Evaluation For All Buffers"
+			  session-file-changed-recompute]
+			 ["Permanently List Current Buffer "
+			  session-toggle-permanent-flag
+			  ;; :keys must be at third position!
+			  ;;:keys (session-toggle-permanent-flag nil t)
+			  :active buffer-file-name
+			  :style toggle
+			  :selected (session-toggle-permanent-flag nil t)]
+			 "---"))
+  :XEMACS
+  (and (featurep 'menubar)
+       (find-menu-item default-menubar '("Edit"))
+       (let ((current-menubar default-menubar))
+	 ;; XEmacs-20.4 `add-submenu' does not have 4th arg IN-MENU
+	 (add-submenu '("Edit")
+		      '("Select and Paste"
+			:included kill-ring
+			:filter session-yank-menu-filter)
+		      (cond ((find-menu-item default-menubar
+					     '("Edit" "Delete"))
+			     "Delete")	; why just BEFORE, not AFTER
+			    ((find-menu-item default-menubar
+					     '("Edit" "Paste"))
+			     "Paste")
+			    ((find-menu-item default-menubar
+					     '("Edit" "Undo"))
+			     "Undo"))))))
+
+(defun session-initialize-do ()
   "Initialize package session and read previous session file.
-Setup hooks and load `session-save-file', see `session-initialize'.  At
+Setup hooks and load `session-save-file', see variable `session-initialize'.  At
+best, this function is called at the end of the Emacs startup, i.e., add
+this function to `after-init-hook'."
+  (when (and session-use-package
+	     (null (get 'session-initialize :initilized-with)))
+    (when (or (eq session-initialize t)
+	      (memq 'de-saveplace session-initialize))
+      ;; Features of package saveplace, which has an auto-init, are covered by
+      ;; this package.
+      (when (functionp 'eval-after-load)
+	(eval-after-load "saveplace"
+	  '(progn
+	     (remove-hook 'find-file-hooks 'save-place-find-file-hook)
+	     (remove-hook 'kill-emacs-hook 'save-place-kill-emacs-hook)
+	     (remove-hook 'kill-buffer-hook 'save-place-to-alist)))))
+    (when (or (eq session-initialize t)
+	      (memq 'places session-initialize))
+      ;; `session-find-file-hook' should be *very* late in `find-file-hooks',
+      ;; esp. if some package, e.g. crypt, iso-cvt, change the buffer contents:
+      (add-hook 'find-file-hooks 'session-find-file-hook t)
+      (add-hook 'find-file-not-found-hooks 'session-find-file-not-found-hook t)
+      (add-hook 'kill-buffer-hook 'session-kill-buffer-hook)
+      (if session-register-swap-out
+	  (add-hook 'kill-buffer-hook session-register-swap-out)))
+    (when (or (eq session-initialize t) (memq 'keys session-initialize))
+      (condition-case nil
+	  (session-initialize-keys)
+	(error nil)))
+    (when (or (eq session-initialize t) (memq 'menus session-initialize))
+      (unless (memq 'session-set-file-name-history find-file-hooks)
+	;; already initialized (probably not a good idea to redo for menus)
+	(add-hook 'find-file-hooks 'session-set-file-name-history)
+	(session-initialize-menus)))
+    (when (or (eq session-initialize t)
+	      (memq 'session session-initialize))
+      (add-hook 'kill-emacs-hook 'session-save-session)
+      (or session-successful-p
+	  (setq session-successful-p
+		(and session-save-file
+		     (condition-case nil
+			 (progn
+			   ;; load might fail with coding-system = emacs-mule
+			   (unless (load session-save-file t nil t)
+			     (and session-old-save-file
+				  (load session-old-save-file t nil t)))
+			   (run-hooks 'session-after-load-save-file-hook)
+			   t)
+		       (error nil))))))
+    (put 'session-initialize :initilized-with session-initialize)))
+
+(defun session-initialize-and-set (symbol value)
+  "Custom :set function for `session-use-package'.
+It sets the default value of SYMBOL to VALUE and initializes this
+package."
+  (set-default symbol value)     ; symbol should be `session-use-package'
+  (when value
+    (if (cond-emacs-xemacs
+	 :EMACS  (and (boundp 'after-init-time) (null after-init-time))
+	 :XEMACS (null init-file-loaded))
+	;; in the meantime,`session-use-package' could have been reset to nil
+	;; (e.g. when using custom theme with t, user setting with nil)
+	(add-hook 'after-init-hook 'session-initialize-do)
+      (session-initialize-do))))
+
+;; This must be late in this file as set function is called during loading.
+(defcustom session-use-package nil
+  "Non-nil if package session is in use.
+If in use,
+ - the file name history is updated when visiting a file,
+ - buffer places are stored when killing a buffer,
+ - the session file is saved when exiting Emacs, and
+ - keybindings are menus are added the first time the package is put
+   into use, see variable `session-initialize'."
+  :group 'session
+  :type '(boolean :on "in use" :off "not yet initialized or turned off"
+		  :help-echo "Use package Session, initialize if necessary.")
+  :require 'session
+  :set 'session-initialize-and-set)
+
+;;;###autoload
+(defun session-initialize ()
+  "Initialize package session and read previous session file.
+Setup hooks and load `session-save-file', see variable `session-initialize'.  At
 best, this function is called at the end of the Emacs startup, i.e., add
 this function to `after-init-hook'."
   (interactive)
-  (setq session-use-package t)
-  (when (or (eq session-initialize t)
-	    (memq 'de-saveplace session-initialize))
-    ;; Features of package saveplace, which has an auto-init, are covered by
-    ;; this package.
-    (when (functionp 'eval-after-load)
-      (eval-after-load "saveplace"
-	'(progn
-	   (remove-hook 'find-file-hooks 'save-place-find-file-hook)
-	   (remove-hook 'kill-emacs-hook 'save-place-kill-emacs-hook)
-	   (remove-hook 'kill-buffer-hook 'save-place-to-alist)))))
-  (when (or (eq session-initialize t)
-	    (memq 'places session-initialize))
-    ;; `session-find-file-hook' should be *very* late in `find-file-hooks',
-    ;; esp. if some package, e.g. crypt or iso-cvt, change the buffer contents:
-    (add-hook 'find-file-hooks 'session-find-file-hook t)
-    (add-hook 'find-file-not-found-hooks 'session-find-file-not-found-hook t)
-    (add-hook 'kill-buffer-hook 'session-kill-buffer-hook))
-  (when (or (eq session-initialize t) (memq 'keys session-initialize))
-    (condition-case nil
-	(progn
-	  (define-key ctl-x-map [(undo)] 'session-jump-to-last-change)
-	  (define-key ctl-x-map [(control ?\/)] 'session-jump-to-last-change)
-	  (define-key minibuffer-local-map [(meta ?\?)]
-	    'session-minibuffer-history-help)
-	  :XEMACS
-	  ;; C-down-mouse-3 pops up mode menu under Emacs
-	  (define-key global-map [(control button3)] 'session-popup-yank-menu)
-	  :EMACS
-	  ;; Emacs doesn't seem to have keymap inheritance...
-	  (define-key minibuffer-local-completion-map [(meta ?\?)]
-	    'session-minibuffer-history-help)
-	  (define-key minibuffer-local-must-match-map [(meta ?\?)]
-	    'session-minibuffer-history-help)
-	  (define-key minibuffer-local-ns-map [(meta ?\?)]
-	    'session-minibuffer-history-help))
-      (error nil)))
-  (when (or (eq session-initialize t)
-	    (memq 'menus session-initialize))
-    (add-hook 'find-file-hooks 'session-set-file-name-history)
-    (session-add-submenu '("Open...recently visited"
-			   :included file-name-history
-			   :filter session-file-opened-menu-filter))
-    (session-add-submenu '("Open...recently changed"
-			   :included session-file-alist
-			   :filter session-file-changed-menu-filter
-			   ["%_* Toggle Permanent Flag of Current Buffer"
-			    session-toggle-permanent-flag
-			    ;; :keys must be at third position!
-			    :keys (session-toggle-permanent-flag nil t)
-			    :active buffer-file-name]
-			   "---"))
-    :XEMACS
-    (and (featurep 'menubar)
-	 (find-menu-item default-menubar '("Edit"))
-	 (let ((current-menubar default-menubar))
-	   ;; XEmacs-20.4 `add-submenu' does not have 4th arg IN-MENU
-	   (add-submenu '("Edit")
-			'("Select and Paste"
-			  :included kill-ring
-			  :filter session-yank-menu-filter)
-			(cond ((find-menu-item default-menubar
-					       '("Edit" "Delete"))
-			       "Delete") ; why just BEFORE, not AFTER
-			      ((find-menu-item default-menubar
-					       '("Edit" "Paste"))
-			       "Paste")
-			      ((find-menu-item default-menubar
-					       '("Edit" "Undo"))
-			       "Undo"))))))
-  (when (or (eq session-initialize t)
-	    (memq 'session session-initialize))
-    (add-hook 'kill-emacs-hook 'session-save-session)
-    (or session-successful-p
-	(setq session-successful-p
-	      (and session-save-file
-		   (condition-case nil
-		       (progn
-			 ;; load might fail with coding-system = emacs-mule
-			 (load session-save-file t nil t)
-			 (run-hooks 'session-after-load-save-file-hook)
-			 t)
-		     (error nil)))))))
+  (put 'session-initialize :initilized-with nil)
+  (custom-set-variables '(session-use-package t nil (session))))
 
 ;;; Local IspellPersDict: .ispell_session
 ;;; session.el ends here
