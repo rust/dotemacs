@@ -8,11 +8,6 @@
 (add-to-list 'auto-mode-alist '("\\.h$"    . c++-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; minibuf-isearch
-;;   minibufでisearchを使えるようにする
-(require 'minibuf-isearch nil t)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; css-mode
 (require 'css-mode)
 (setq cssm-indent-function #'cssm-c-style-indenter)
@@ -73,8 +68,6 @@
          "#ff55ff" "#55ffff" "white"]))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; pos-tip.el
-(require 'pos-tip)
 ;; auto-complete
 (require 'auto-complete)
 (add-to-list 'ac-dictionary-directories "~/.emacs.d/elisp/dict")

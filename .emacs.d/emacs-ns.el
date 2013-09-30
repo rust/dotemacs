@@ -53,8 +53,6 @@
   (add-to-list 'default-frame-alist '(font . "fontset-menlokakugo")))
 
 (require 'color-theme)
-;; (load "my-color-theme-window")
-;; (my-color-theme-window)
 (color-theme-initialize)
 (color-theme-hober)
 
@@ -116,7 +114,6 @@
 (setq w3m-favicon-cache-expire-wait nil)
 
 ;; elscreen
-(add-to-list 'load-path "~/.emacs.d/apel")
 (add-to-list 'load-path "~/.emacs.d/elscreen")
 (require 'elscreen)
 (require 'elscreen-gf)

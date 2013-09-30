@@ -6,8 +6,6 @@
 ;; 256 colors
 (load "emacs21-256color-hack.el")
 (require 'color-theme)
-(load "my-color-theme")
-(my-color-theme)
 
 ;; wb-line-number
 (require 'wb-line-number)

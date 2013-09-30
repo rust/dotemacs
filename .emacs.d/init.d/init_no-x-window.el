@@ -16,8 +16,6 @@
 (require 'color-theme)
 ;;(color-theme-initialize)
 ;;(color-theme-dark-laptop)
-(load "my-color-theme")
-(my-color-theme)
 
 ;; wb-line-number
 (require 'wb-line-number)

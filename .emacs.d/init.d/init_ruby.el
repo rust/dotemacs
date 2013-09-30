@@ -25,12 +25,6 @@
     (electric-pair-mode t)
     (electric-indent-mode t)
     (electric-layout-mode t)))
-;; fastri
-(setq ri-ruby-script "/usr/local/bin/ri-emacs")
-(load "ri-ruby")
-;; rcodetools
-(require 'rcodetools)
-(setq rct-find-tag-if-available nil)
 (defun make-ruby-scratch-buffer ()
   (with-current-buffer (get-buffer-create "*ruby scratch*")
     (ruby-mode)
@@ -38,12 +32,6 @@
 (defun ruby-scratch ()
   (interactive)
   (pop-to-buffer (make-ruby-scratch-buffer)))
-(defun ruby-mode-hook-rcodetools ()
-  (define-key ruby-mode-map "\M-\C-i" 'rct-complete-symbol)
-  (define-key ruby-mode-map "\C-c\C-t" 'ruby-toggle-buffer)
-  (define-key ruby-mode-map "\C-c\C-d" 'xmp)
-  (define-key ruby-mode-map "\C-c\C-f" 'rct-ri))
-(add-hook 'ruby-mode-hook 'ruby-mode-hook-rcodetools)
 ;; for rabbit-mode
 (autoload 'rabbit-mode "rabbit-mode" "major mode for Rabbit" t)
 (add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))

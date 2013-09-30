@@ -28,8 +28,6 @@
                     (cons fontname "unicode-bmp")))
 
 (require 'color-theme)
-;; (load "my-color-theme-window")
-;; (my-color-theme-window)
 (color-theme-initialize)
 (color-theme-hober)
 
