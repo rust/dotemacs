@@ -73,3 +73,6 @@
 [submodule ".emacs.d/elisp/review-el"]
 	path = .emacs.d/elisp/review-el
 	url = https://github.com/kmuto/review-el.git
+[submodule ".emacs.d/elisp/yard-mode"]
+	path = .emacs.d/elisp/yard-mode
+	url = https://github.com/pd/yard-mode.el.git

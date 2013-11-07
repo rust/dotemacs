@@ -8,8 +8,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ruby
 (require 'ruby-mode)
-(require 'inf-ruby)
-(add-hook 'ruby-mode-hook 'inf-ruby-keys)
 ;; auto-mode by ruby
 (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
@@ -92,6 +90,14 @@
               ((looking-at "\\s *#.*coding\\s *[:=]"))
               (t (when ruby-insert-encoding-magic-comment
                    (insert "# coding: " coding-system "\n"))))))))
+
+(require 'yard-mode)
+(add-hook 'ruby-mode-hook 'yard-mode)
+
+;;; http://www.emacswiki.org/emacs/ruby-block.el
+(require 'ruby-block)
+(ruby-block-mode t)
+(setq ruby-block-highlight-toggle t)
 
 (provide 'init_ruby)
 ;; init_ruby.el ends here
