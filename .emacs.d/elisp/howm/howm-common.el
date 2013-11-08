@@ -1,7 +1,7 @@
 ;;; howm-common.el --- Wiki-like note-taking tool
 ;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
 ;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-common.el,v 1.88 2011-12-31 15:07:29 hira Exp $
+;;; $Id: howm-common.el,v 1.89 2012-12-27 03:20:12 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -141,7 +141,7 @@ STRING should be given if the last search was by `string-match' on STRING."
 
 ;; (howm-map-with-index #'cons '(a b c)) ==> ((a . 0) (b . 1) (c . 2))
 (defun howm-map-with-index (f seq)
-  "Map with index. For example, 
+  "Map with index. For example,
 (howm-map-with-index #'cons '(a b c)) returns ((a . 0) (b . 1) (c . 2))."
   (let ((howm-map-with-index-count -1))
     (mapcar (lambda (x)
@@ -151,7 +151,7 @@ STRING should be given if the last search was by `string-match' on STRING."
 
 (defun howm-capital-p (str)
   "Return nil iff STR has no capital letter."
-  (let ((case-fold-search nil)) 
+  (let ((case-fold-search nil))
     (string-match "[A-Z]" str)))
 
 (defun howm-single-element-p (a)
@@ -271,6 +271,8 @@ If PASS-RET-THROUGH is non-nil, RET is unread and nil is returned.
 
 (defun howm-get-buffer-for-file (file &optional buffer-name)
   "Get buffer for FILE, and rename buffer if BUFFER-NAME is given."
+  ;; This may cause "File XXX no longer exists!" message if the file
+  ;; is deleted and the corresponding buffer still exists.
   (let ((buf (find-file-noselect file)))
     (when buffer-name
       (with-current-buffer buf
@@ -359,7 +361,7 @@ current timezone rule uniformly to avoid inconsistency."
   "Execute BODY where (need xxx) exits from this form if xxx is nil."
   (let ((g (howm-cl-gensym)))
     `(catch ',g
-       (labels ((need (x) (or x (throw ',g nil))))
+       (cl-labels ((need (x) (or x (throw ',g nil))))
          ,@body))))
 
 ;; view-in-background
@@ -381,12 +383,12 @@ Use `howm-view-in-background' and `howm-view-in-background-p' instead.")
 ;;; exclusion
 
 ;; Fix me on inefficiency.
-;; 
+;;
 ;; [2005-02-18] I can't remember why I checked relative path in old versions.
 ;; [2005-04-24] Now I remember the reason.
 ;; Some people like ~/.howm/ rather than ~/howm/ as their howm-directory.
 ;; It must be included even if it matches to howm-excluded-file-regexp.
-;; 
+;;
 ;; Bug: (howm-exclude-p "~/howm/CVS") != (howm-exclude-p "~/howm/CVS/")
 (defun howm-exclude-p (filename)
   (not (howm-cl-find-if-not
@@ -483,7 +485,7 @@ examples:
   ;; (howm-call-process "grep" '("pattern" "001" ... "099"))
   ;; (howm-call-process "grep" '("pattern" "101" ... "199"))
   ;; ..., depending on howm-command-length-limit.
-  (labels ((div (a limit measure)
+  (cl-labels ((div (a limit measure)
                 ;; (div '(3 1 4 1 5 9 2 6 5 3 5 8 9 7 9 3 2 3 8) 20 #'identity)
                 ;; ==> ((3 1 4 1 5) (9 2 6) (5 3 5) (8 9) (7 9 3) (2 3 8))
                 ;; [create new group when sum >= 20]
@@ -559,7 +561,7 @@ after tomorrow'. BODY is evaluated under this setting;
   (read-event)
   ;; We have to skip #<magic-event Expose> when howm-action-lock-date is
   ;; called (RET is hit on date format like [2005-10-15]) in menu buffer.
-  ;; 
+  ;;
   ;; Though (make-event 'key-press `(key ,(read-char))) looks to be a simpler
   ;; solution, it causes error when RET RET is hit in the above situation.
   ;; I don't have enough time to examine it now.
@@ -622,7 +624,7 @@ after tomorrow'. BODY is evaluated under this setting;
 ;;         (concat "\\<" re "\\>")
 ;;       re)))
 
-;;; 
+;;;
 
 (provide 'howm-common)
 

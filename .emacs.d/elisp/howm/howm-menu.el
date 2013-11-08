@@ -1,7 +1,7 @@
 ;;; howm-menu.el --- Wiki-like note-taking tool
 ;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
 ;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-menu.el,v 1.105 2011-12-31 15:07:29 hira Exp $
+;;; $Id: howm-menu.el,v 1.106 2012-09-23 11:34:59 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -906,6 +906,7 @@ If you don't like misc. category, try
         (goto-char (point-min))
         (while (re-search-forward r nil t)
           (replace-match howm-view-title-header nil nil))
+        (howm-mode 1)
         (save-buffer)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

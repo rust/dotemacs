@@ -1,7 +1,7 @@
 ;;; howm-mode.el --- Wiki-like note-taking tool
 ;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
 ;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-mode.el,v 1.316 2011-12-31 15:07:29 hira Exp $
+;;; $Id: howm-mode.el,v 1.317 2012-09-23 10:44:24 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -265,7 +265,7 @@ in `howm-template'. %s is replaced with name of last file. See `format'.")
 ;; Definitions
 
 (easy-mmode-define-minor-mode howm-mode
-  "With no argument, this command toggles the mode. 
+  "With no argument, this command toggles the mode.
 Non-null prefix argument turns on the mode.
 Null prefix argument turns off the mode.
 
@@ -273,27 +273,27 @@ When the mode is enabled, underlines are drawn on texts which match
 to titles of other files. Typing \\[action-lock-magic-return] there,
 you can jump to the corresponding file.
 
-key	binding
----	-------
-\\[action-lock-magic-return]	Follow link
-\\[howm-refresh]	Refresh buffer
-\\[howm-list-all]	List all files
-\\[howm-list-grep]	Search (grep)
-\\[howm-create]	Create new file
-\\[howm-dup]	Duplicate current file
-\\[howm-insert-keyword]	Insert keyword
-\\[howm-insert-date]	Insert date
-\\[howm-insert-dtime]	Insert date with time
-\\[howm-keyword-to-kill-ring]	Copy current keyword to kill ring
-\\[action-lock-goto-next-link]	Go to next link
-\\[action-lock-goto-previous-link]	Go to previous link
-\\[howm-next-memo]	Go to next entry in current buffer
-\\[howm-previous-memo]	Go to previous entry in current buffer
-\\[howm-first-memo]	Go to first entry in current buffer
-\\[howm-last-memo]	Go to last entry in current buffer
-\\[howm-create-here]	Add new entry to current buffer
-\\[howm-create-interactively]	Create new file interactively (not recommended)
-\\[howm-random-walk]	Browse random entries automtically
+key binding
+--- -------
+\\[action-lock-magic-return]  Follow link
+\\[howm-refresh]  Refresh buffer
+\\[howm-list-all] List all files
+\\[howm-list-grep]  Search (grep)
+\\[howm-create] Create new file
+\\[howm-dup]  Duplicate current file
+\\[howm-insert-keyword] Insert keyword
+\\[howm-insert-date]  Insert date
+\\[howm-insert-dtime] Insert date with time
+\\[howm-keyword-to-kill-ring] Copy current keyword to kill ring
+\\[action-lock-goto-next-link]  Go to next link
+\\[action-lock-goto-previous-link]  Go to previous link
+\\[howm-next-memo]  Go to next entry in current buffer
+\\[howm-previous-memo]  Go to previous entry in current buffer
+\\[howm-first-memo] Go to first entry in current buffer
+\\[howm-last-memo]  Go to last entry in current buffer
+\\[howm-create-here]  Add new entry to current buffer
+\\[howm-create-interactively] Create new file interactively (not recommended)
+\\[howm-random-walk]  Browse random entries automtically
 "
   nil ;; default = off
   howm-lighter ;; mode-line
@@ -636,7 +636,7 @@ key	binding
                        (format "^%s$"
                                (regexp-quote (expand-file-name keyword)))))
             (case-fold-search howm-keyword-case-fold-search))
-        (labels ((check (tag flag reg &optional tag-when-multi-hits)
+        (cl-labels ((check (tag flag reg &optional tag-when-multi-hits)
                         (when flag
                           (let ((r (howm-normalize-check item-list tag reg
                                                          tag-when-multi-hits)))
@@ -1048,7 +1048,7 @@ is necessary.")
 (defun howm-expand-aliases-recursively (keyword aliases)
   (let ((keys (list keyword))
         (prev nil))
-    (labels ((expand (keys)
+    (cl-labels ((expand (keys)
                      (sort (howm-cl-remove-duplicates
                             (howm-cl-mapcan (lambda (k)
                                               (howm-cl-mapcan
@@ -1211,6 +1211,16 @@ KEYWORD itself is always at the head of the returneded list.
           (setq keyword-list (cons key-str keyword-list))))
       (howm-keyword-add keyword-list)
       (message "%s" m))))
+(defun howm-keyword-add-items (items)
+  (let ((files (mapcar #'howm-view-item-filename items)))
+    (with-temp-buffer
+      (setq default-directory dir)
+      (mapc (lambda (f)
+              (erase-buffer)
+              (insert-file-contents f)
+              (howm-set-configuration-for-file-name f)
+              (howm-keyword-add-current-buffer))
+            files))))
 
 (defun howm-keyword-read ()
   (let ((ks nil)

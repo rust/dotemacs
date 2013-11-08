@@ -327,7 +327,7 @@ This value is passed to `format-time-string', and the result must be a regexp."
       (goto-line (1+ n)))))
 
 (defun howm-schedule-menu (days &optional days-before)
-  (let* ((today (howm-encode-day t)) 
+  (let* ((today (howm-encode-day t))
          (from (- today (or days-before 0)))
          (to (+ today days 1))
          (howm-schedule-types howm-schedule-menu-types)  ;; dirty
@@ -750,7 +750,7 @@ When D is t, the beginning of today is encoded."
   (howm-modify-form #'action-lock-invoke form-reg cursor-reg))
 
 (defun howm-modify-form (proc form-reg cursor-reg &rest args)
-  (labels
+  (cl-labels
       ((f-cursor ()
                  (beginning-of-line)
                  (re-search-forward cursor-reg

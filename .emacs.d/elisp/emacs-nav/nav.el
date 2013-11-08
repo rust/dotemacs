@@ -21,7 +21,7 @@
 ;; limitations under the License.
 
 ;;; Commentary:
-;; 
+;;
 ;; To use this file, put something like the following in your
 ;; ~/.emacs:
 ;;
@@ -161,7 +161,7 @@ This is used if only one window besides the Nav window is visible."
 
 
 (defun nav-filter-out-boring-filenames (filenames boring-regexps)
-  (flet ((is-boring (filename)
+  (cl-flet ((is-boring (filename)
                     (nav-filename-matches-some-regexp filename boring-regexps)))
     (remove-if 'is-boring filenames)))
 
@@ -172,7 +172,7 @@ This is used if only one window besides the Nav window is visible."
 
 
 (defun nav-dir-files-or-nil (dirname)
-  "Returns a list of files in DIRNAME. 
+  "Returns a list of files in DIRNAME.
 If DIRNAME is not a directory or is not accessible, returns nil."
   (condition-case err
       (directory-files dirname)
@@ -192,7 +192,7 @@ If DIRNAME is not a directory or is not accessible, returns nil."
 
     (setq default-directory dirname)
     (nav-show-dir dirname)
-    
+
     ;; Remember what line we were on last time we visited this directory.
     (let ((line-num (nav-get-line-for-cur-dir)))
       (when line-num
@@ -286,7 +286,7 @@ This works like a web browser's back button."
                          'follow-link t
                          'help-echo ""))
           (forward-line 1)))
-    (error 
+    (error
      ;; This can happen for versions of emacs that don't have
      ;; make-button defined.
      'failed)))
@@ -349,7 +349,7 @@ This works like a web browser's back button."
 (defun nav-open-file-other-window-1 ()
   "Opens the file under the cursor in the first other window.
 
-This is equivalent to just pressing the [enter] key. 
+This is equivalent to just pressing the [enter] key.
 See nav-open-file-other-window-2."
   (interactive)
   (nav-open-file-other-window 1))
@@ -418,10 +418,10 @@ If there is no second other window, Nav will create one."
 (defun nav-quit ()
   "Exits Nav."
   (interactive)
-  (let ((window	(get-buffer-window nav-buffer-name)))
+  (let ((window (get-buffer-window nav-buffer-name)))
     (when window
       (when nav-resize-frame-p
-        (set-frame-width (selected-frame) 
+        (set-frame-width (selected-frame)
                          (- (frame-width) (nav-outer-width))))
       (delete-window window)))
   (kill-buffer nav-buffer-name)
@@ -513,10 +513,10 @@ directory, or if the user says it's ok."
   (interactive "sCopy to: ")
   (let ((filename (nav-get-cur-line-str)))
     (if (nav-this-is-a-microsoft-os)
-	(copy-file filename target-name)
+  (copy-file filename target-name)
       (if (nav-ok-to-overwrite target-name)
-	  (let ((maybe-dash-r (if (file-directory-p filename) "-r" "")))
-	    (shell-command (format "cp %s '%s' '%s'" maybe-dash-r filename
+    (let ((maybe-dash-r (if (file-directory-p filename) "-r" "")))
+      (shell-command (format "cp %s '%s' '%s'" maybe-dash-r filename
                                    target-name))))))
   (nav-refresh))
 
@@ -551,7 +551,7 @@ directory, or if the user says it's ok."
           (remove-if-not (lambda (name) (string-match pattern name)) filenames))
          (names-matching-pattern
           (nav-append-slashes-to-dir-names names-matching-pattern))
-	 (saved-directory default-directory))
+   (saved-directory default-directory))
     (pop-to-buffer nav-buffer-name-for-find-results nil)
     (setq default-directory saved-directory)
     (if names-matching-pattern
@@ -664,13 +664,13 @@ depending on the passed-in function next-i."
 
 (defun nav-resize-frame ()
   "Widens the frame to fit Nav without shrinking the editing space."
-  (set-frame-width (selected-frame) 
+  (set-frame-width (selected-frame)
                    (+ (frame-width) (nav-outer-width)))
   ;; set-frame-width resizes the nav window; set it back
   (nav-set-window-width nav-width))
 
 
-(define-derived-mode nav-mode fundamental-mode 
+(define-derived-mode nav-mode fundamental-mode
   "Nav-mode is for IDE-like navigation of directories.
 
  It's more IDEish than dired, not as heavy weight as speedbar."

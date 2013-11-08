@@ -758,7 +758,7 @@ When the value is elisp function, it is used instead of `howm-fake-grep'."
   "*Command name for fgrep.
 This variable is obsolete and may be removed in future.")
 (defvar howm-view-grep-default-option
-  (labels ((ed (d) (concat "--exclude-dir=" d)))
+  (cl-labels ((ed (d) (concat "--exclude-dir=" d)))
     (let* ((has-ed (condition-case nil
                        (eq 0 (call-process howm-view-grep-command nil nil nil
                                            (ed "/") "--version"))

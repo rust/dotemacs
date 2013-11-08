@@ -1,7 +1,7 @@
 ;;; howm-view.el --- Wiki-like note-taking tool
 ;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
 ;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-view.el,v 1.245 2011-12-31 15:07:29 hira Exp $
+;;; $Id: howm-view.el,v 1.246 2012-09-13 10:48:06 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
 (defvar howm-view-summary-format
   (let* ((path (format-time-string howm-file-name-format))
          (width (length (file-name-nondirectory path))))
-    (concat "%-" (format "%s" width) "s " howm-view-summary-sep " ")))
+    (concat "%-" (format "%s" (1+ width)) "s" howm-view-summary-sep " ")))
 (defvar howm-view-header-format
   "\n==========================>>> %s\n"
   "Format string of header for howm-view-contents.
@@ -110,14 +110,14 @@
 
 ;; Only howm-view.el should call riffle-xxx.
 ;; Define alias if it is used in howm-xxx besides howm-view.el.
-(defalias 'howm-view-name          #'riffle-name)          
-(defalias 'howm-view-item-list     #'riffle-item-list)     
-(defalias 'howm-view-line-number   #'riffle-line-number)   
-(defalias 'howm-view-summary-check #'riffle-summary-check) 
-(defalias 'howm-view-persistent-p  #'riffle-persistent-p)  
-(defalias 'howm-view-kill-buffer   #'riffle-kill-buffer)   
-(defalias 'howm-view-set-place     #'riffle-set-place)     
-(defalias 'howm-view-get-place     #'riffle-get-place)     
+(defalias 'howm-view-name          #'riffle-name)
+(defalias 'howm-view-item-list     #'riffle-item-list)
+(defalias 'howm-view-line-number   #'riffle-line-number)
+(defalias 'howm-view-summary-check #'riffle-summary-check)
+(defalias 'howm-view-persistent-p  #'riffle-persistent-p)
+(defalias 'howm-view-kill-buffer   #'riffle-kill-buffer)
+(defalias 'howm-view-set-place     #'riffle-set-place)
+(defalias 'howm-view-get-place     #'riffle-get-place)
 (defalias 'howm-view-summary-current-item  #'riffle-summary-current-item)
 (defalias 'howm-view-contents-current-item #'riffle-contents-current-item)
 (defalias 'howm-view-summary-to-contents   #'riffle-summary-to-contents)
@@ -144,7 +144,8 @@
 (defvar howm-view-font-lock-silent t
   "Inhibit font-lock-verbose if non-nil.")
 (howm-defvar-risky howm-view-summary-font-lock-keywords
-  '(("^[^ \t\r\n]+ +" . howm-view-name-face)
+  `((,(concat "\\(^[^ \t\r\n].*\\)" (regexp-quote howm-view-summary-sep))
+     1 howm-view-name-face)
     ("^ +" . howm-view-empty-face)))
 (howm-defvar-risky howm-view-contents-font-lock-keywords nil)
 
@@ -162,31 +163,31 @@ This is a shameful global variable and should be clearned in future.")
 
 (riffle-define-derived-mode howm-view-summary-mode riffle-summary-mode "HowmS"
   "memo viewer (summary mode)
-key	binding
----	-------
-\\[howm-view-summary-open]	Open file
-\\[next-line]	Next item
-\\[previous-line]	Previous item
-\\[riffle-pop-or-scroll-other-window]	Pop and scroll contents
-\\[scroll-other-window-down]	Scroll contents
-\\[riffle-scroll-other-window]	Scroll contents one line
-\\[riffle-scroll-other-window-down]	Scroll contents one line
-\\[riffle-summary-to-contents]	Concatenate all contents
-\\[howm-view-filter-uniq]	Remove duplication of same file
-\\[howm-view-summary-shell-command]	Execute command in inferior shell
+key binding
+--- -------
+\\[howm-view-summary-open]  Open file
+\\[next-line] Next item
+\\[previous-line] Previous item
+\\[riffle-pop-or-scroll-other-window] Pop and scroll contents
+\\[scroll-other-window-down]  Scroll contents
+\\[riffle-scroll-other-window]  Scroll contents one line
+\\[riffle-scroll-other-window-down] Scroll contents one line
+\\[riffle-summary-to-contents]  Concatenate all contents
+\\[howm-view-filter-uniq] Remove duplication of same file
+\\[howm-view-summary-shell-command] Execute command in inferior shell
 
-\\[delete-other-windows]	Delete contents window
-\\[riffle-pop-window]	Pop contents window
-\\[riffle-toggle-window]	Toggle contents window
-\\[howm-list-toggle-title]	Show/Hide Title
+\\[delete-other-windows]  Delete contents window
+\\[riffle-pop-window] Pop contents window
+\\[riffle-toggle-window]  Toggle contents window
+\\[howm-list-toggle-title]  Show/Hide Title
 
-\\[howm-view-filter]	Filter (by date, contents, etc.)
-\\[howm-view-filter-by-contents]	Search (= filter by contents)
-\\[howm-view-sort]	Sort (by date, summary line, etc.)
-\\[howm-view-sort-reverse]	Reverse order
-\\[howm-view-dired]	Invoke Dired-X
-\\[describe-mode]	This help
-\\[riffle-kill-buffer]	Quit
+\\[howm-view-filter]  Filter (by date, contents, etc.)
+\\[howm-view-filter-by-contents]  Search (= filter by contents)
+\\[howm-view-sort]  Sort (by date, summary line, etc.)
+\\[howm-view-sort-reverse]  Reverse order
+\\[howm-view-dired] Invoke Dired-X
+\\[describe-mode] This help
+\\[riffle-kill-buffer]  Quit
 "
   (make-local-variable 'font-lock-keywords)
   (cheat-font-lock-mode howm-view-font-lock-silent)
@@ -212,26 +213,26 @@ key	binding
 
 (riffle-define-derived-mode howm-view-contents-mode riffle-contents-mode "HowmC"
   "memo viewer (contents mode)
-key	binding
----	-------
-\\[howm-view-contents-open]	Open file
-\\[next-line]	Next line
-\\[previous-line]	Previous line
-\\[scroll-up]	Scroll up
-\\[scroll-down]	Scroll down
-\\[riffle-scroll-up]	Scroll one line up
-\\[riffle-scroll-down]	Scroll one line down
-\\[riffle-contents-to-summary]	Summary
-\\[riffle-contents-goto-next-item]	Next item
-\\[riffle-contents-goto-previous-item]	Previous item
+key binding
+--- -------
+\\[howm-view-contents-open] Open file
+\\[next-line] Next line
+\\[previous-line] Previous line
+\\[scroll-up] Scroll up
+\\[scroll-down] Scroll down
+\\[riffle-scroll-up]  Scroll one line up
+\\[riffle-scroll-down]  Scroll one line down
+\\[riffle-contents-to-summary]  Summary
+\\[riffle-contents-goto-next-item]  Next item
+\\[riffle-contents-goto-previous-item]  Previous item
 
-\\[howm-view-filter]	Filter (by date, contents, etc.)
-\\[howm-view-filter-by-contents]	Search (= filter by contents)
-\\[howm-view-sort]	Sort
-\\[howm-view-sort-reverse]	Reverse order
-\\[howm-view-dired]	Invoke Dired-X
-\\[describe-mode]	This help
-\\[riffle-kill-buffer]	Quit
+\\[howm-view-filter]  Filter (by date, contents, etc.)
+\\[howm-view-filter-by-contents]  Search (= filter by contents)
+\\[howm-view-sort]  Sort
+\\[howm-view-sort-reverse]  Reverse order
+\\[howm-view-dired] Invoke Dired-X
+\\[describe-mode] This help
+\\[riffle-kill-buffer]  Quit
 "
 ;   (kill-all-local-variables)
   (make-local-variable 'font-lock-keywords)
@@ -1116,7 +1117,7 @@ list of items in ITEM-LIST which do not satisfy the above condition."
                ))
        ;; inhibit 'reference to free variable' warning in byte-compilation
       (check nil))
-  (labels ((check (ans result)
+  (cl-labels ((check (ans result)
                   (cond ((null ans) (null result))
                         ((not (equal (car ans) (car result))) nil)
                         (t (funcall check (cdr ans) (cdr result))))))

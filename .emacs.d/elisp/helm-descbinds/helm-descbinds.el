@@ -103,10 +103,10 @@
     ("Find Function" . helm-descbinds-action:find-func))
   "Actions of selected candidate."
   :type '(repeat
-	  (cons
-	   :tag "Action"
-	   (string :tag "Name")
-	   (function :tag "Function")))
+    (cons
+     :tag "Action"
+     (string :tag "Name")
+     (function :tag "Function")))
   :group 'helm-descbinds)
 
 (defcustom helm-descbinds-string-actions
@@ -135,9 +135,9 @@ This function called two argument KEY and BINDING."
 (defcustom helm-descbinds-window-style 'one-window
   "Window splitting style."
   :type '(choice
-	  (const :tag "One Window" one-window)
-	  (const :tag "Same Window" same-window)
-	  (const :tag "Split Window" split-window))
+    (const :tag "One Window" one-window)
+    (const :tag "Same Window" same-window)
+    (const :tag "Split Window" split-window))
   :group 'helm-descbinds)
 
 (defcustom helm-descbinds-section-order
@@ -185,38 +185,38 @@ This function called two argument KEY and BINDING."
       (describe-buffer-bindings buffer prefix menus))
     (goto-char (point-min))
     (let ((header-p (not (= (char-after) ?\f)))
-	  sections header section)
+    sections header section)
       (while (not (eobp))
-	(cond
-	 (header-p
-	  (setq header (buffer-substring-no-properties
-			(point)
-			(line-end-position)))
-	  (setq header-p nil)
-	  (forward-line 3))
-	 ((= (char-after) ?\f)
-	  (push (cons header (nreverse section)) sections)
-	  (setq section nil)
-	  (setq header-p t))
-	 ((looking-at "^[ \t]*$")
-	  ;; ignore
-	  )
-	 (t
-	  (let ((binding-start (save-excursion
-				 (and (re-search-forward "\t+" nil t)
-				      (match-end 0))))
-		key binding)
-	    (when binding-start
-	      (setq key (buffer-substring-no-properties (point) binding-start)
-		    key (replace-regexp-in-string"^[ \t\n]+" "" key)
-		    key (replace-regexp-in-string"[ \t\n]+$" "" key))
-	      (goto-char binding-start)
-	      (setq binding (buffer-substring-no-properties
-			     binding-start
-			     (line-end-position)))
-	      (unless (member binding '("self-insert-command"))
-		(push (cons key binding) section))))))
-	(forward-line))
+  (cond
+   (header-p
+    (setq header (buffer-substring-no-properties
+      (point)
+      (line-end-position)))
+    (setq header-p nil)
+    (forward-line 3))
+   ((= (char-after) ?\f)
+    (push (cons header (nreverse section)) sections)
+    (setq section nil)
+    (setq header-p t))
+   ((looking-at "^[ \t]*$")
+    ;; ignore
+    )
+   (t
+    (let ((binding-start (save-excursion
+         (and (re-search-forward "\t+" nil t)
+              (match-end 0))))
+    key binding)
+      (when binding-start
+        (setq key (buffer-substring-no-properties (point) binding-start)
+        key (replace-regexp-in-string"^[ \t\n]+" "" key)
+        key (replace-regexp-in-string"[ \t\n]+$" "" key))
+        (goto-char binding-start)
+        (setq binding (buffer-substring-no-properties
+           binding-start
+           (line-end-position)))
+        (unless (member binding '("self-insert-command"))
+    (push (cons key binding) section))))))
+  (forward-line))
       (push (cons header (nreverse section)) sections)
       (nreverse sections))))
 
@@ -241,13 +241,13 @@ This function called two argument KEY and BINDING."
   (format "%-10s\t%s" key binding))
 
 (defun helm-descbinds-sort-sections (sections)
-  (flet ((order (x)
-		(loop for n = 0 then (1+ n)
-		      for regexp in helm-descbinds-section-order
-		      if (and (car x) (string-match regexp (car x))) return n
-		      finally return n)))
+  (cl-flet ((order (x)
+    (loop for n = 0 then (1+ n)
+          for regexp in helm-descbinds-section-order
+          if (and (car x) (string-match regexp (car x))) return n
+          finally return n)))
     (sort sections (lambda (a b)
-		     (< (order a) (order b))))))
+         (< (order a) (order b))))))
 
 (defun helm-descbinds-transform-candidates (candidates)
   (mapcar
