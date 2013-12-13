@@ -18,5 +18,7 @@
 (helm-mode)
 (helm-descbinds-mode)
 
+(setq helm-ff-auto-update-initial-value t)
+
 (provide 'init_helm)
 ;; init_helm.el ends here
