@@ -24,7 +24,13 @@
                   (font-spec :family "Ricty" :size 14)
                   nil
                   'append)
-(add-to-list 'default-frame-alist '(font . "fontset-ricty"))
+(create-fontset-from-ascii-font "Source Code Pro-12:weight=normal:slant=normal" nil "sourcecodepro")
+(set-fontset-font "fontset-sourcecodepro"
+                  'unicode
+                  (font-spec :family "Hiragino Kaku Gothic Pro" :size 12)
+                  nil
+                  'append)
+(add-to-list 'default-frame-alist '(font . "fontset-sourcecodepro"))
 
 (require 'color-theme)
 (color-theme-initialize)
