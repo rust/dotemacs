@@ -76,3 +76,9 @@
 [submodule ".emacs.d/elisp/yard-mode"]
 	path = .emacs.d/elisp/yard-mode
 	url = https://github.com/pd/yard-mode.el.git
+[submodule ".emacs.d/elisp/enhanced-ruby-mode"]
+	path = .emacs.d/elisp/enhanced-ruby-mode
+	url = https://github.com/zenspider/enhanced-ruby-mode.git
+[submodule ".emacs.d/elisp/emacs-anzu"]
+	path = .emacs.d/elisp/emacs-anzu
+	url = https://github.com/syohex/emacs-anzu.git

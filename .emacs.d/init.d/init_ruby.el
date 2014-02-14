@@ -17,7 +17,7 @@
 (add-to-list 'auto-mode-alist '("\\.rb\\.tmp" . ruby-mode))
 ;; ;; indent
 (require 'ruby-end)
-(add-hook 'ruby-mode-hook
+(add-hook 'enh-ruby-mode-hook
   '(lambda ()
     (abbrev-mode 1)
     (electric-pair-mode t)
@@ -50,7 +50,7 @@
       (indent-line-to indent)
       (when (> offset 0) (forward-char offset)))))
 
-(add-hook 'ruby-mode-hook
+(add-hook 'enh-ruby-mode-hook
           (lambda ()
             (font-lock-add-keywords nil
                                     '(("^[^\n]\\{128\\}\\(.*\\)$" 1 font-lock-warning-face t)))))
@@ -58,7 +58,7 @@
 (defun ruby-mode-set-encoding () ())
 
 (require 'yard-mode)
-(add-hook 'ruby-mode-hook 'yard-mode)
+(add-hook 'enh-ruby-mode-hook 'yard-mode)
 
 ;;; http://www.emacswiki.org/emacs/ruby-block.el
 (require 'ruby-block)

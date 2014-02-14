@@ -27,8 +27,8 @@
 ;; web-mode
 (require 'init_web-mode)
 
-;; howm
-(require 'init_howm)
+;;;; howm
+;;(require 'init_howm)
 ;; session.el
 (require 'init_session)
 
@@ -42,8 +42,6 @@
 (require 'init_python)
 ;; elscreen
 (require 'init_elscreen)
-;; howm
-(require 'init_howm)
 
 ;; ReVIEW
 (require 'init_review)
@@ -62,6 +60,9 @@
 
 ;; git
 (require 'init_git)
+
+;; anzu
+(require 'init_anzu)
 
 (provide 'init_main)
 ;; init_mail.el ends here
