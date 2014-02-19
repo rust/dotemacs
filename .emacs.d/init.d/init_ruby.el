@@ -7,7 +7,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ruby
-(require 'ruby-mode)
+(require 'enh-ruby-mode)
 ;; auto-mode by ruby
 (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
@@ -17,12 +17,9 @@
 (add-to-list 'auto-mode-alist '("\\.rb\\.tmp" . ruby-mode))
 ;; ;; indent
 (require 'ruby-end)
-(add-hook 'enh-ruby-mode-hook
-  '(lambda ()
-    (abbrev-mode 1)
-    (electric-pair-mode t)
-    (electric-indent-mode t)
-    (electric-layout-mode t)))
+(require 'ruby-electric)
+(add-hook 'enh-ruby-mode-hook '(lambda () (ruby-electric-mode t)))
+(setq ruby-electric-expand-delimiters-list nil)
 (defun make-ruby-scratch-buffer ()
   (with-current-buffer (get-buffer-create "*ruby scratch*")
     (ruby-mode)
