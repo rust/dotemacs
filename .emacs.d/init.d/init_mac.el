@@ -17,20 +17,23 @@
 ;; frame title
 (setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
 
-;; フォント
-(create-fontset-from-ascii-font "Ricty-14:weight=normal:slant=normal" nil "ricty")
-(set-fontset-font "fontset-ricty"
-                  'unicode
-                  (font-spec :family "Ricty" :size 14)
-                  nil
-                  'append)
+;; Font: Source Code Pro 14
 (create-fontset-from-ascii-font "Source Code Pro-12:weight=normal:slant=normal" nil "sourcecodepro")
 (set-fontset-font "fontset-sourcecodepro"
                   'unicode
-                  (font-spec :family "Hiragino Kaku Gothic Pro" :size 12)
+                  (font-spec :family "Hiragino Kaku Gothic Pro" :size 14)
                   nil
                   'append)
 (add-to-list 'default-frame-alist '(font . "fontset-sourcecodepro"))
+
+;;;; Font: Ricty
+;; (create-fontset-from-ascii-font "Ricty-12:weight=normal:slant=normal" nil "ricty")
+;; (set-fontset-font "fontset-ricty"
+;;                   'unicode
+;;                   (font-spec :family "Ricty" :size 12)
+;;                   nil
+;;                   'append)
+;; (add-to-list 'default-frame-alist '(font . "fontset-ricty"))
 
 (require 'color-theme)
 (color-theme-initialize)

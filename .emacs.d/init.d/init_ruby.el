@@ -17,6 +17,7 @@
 (add-to-list 'auto-mode-alist '("\\.rb\\.tmp" . ruby-mode))
 ;; ;; indent
 (require 'ruby-end)
+(add-hook 'enh-ruby-mode-hook 'ruby-end-mode)
 (require 'ruby-electric)
 (add-hook 'enh-ruby-mode-hook '(lambda () (ruby-electric-mode t)))
 (setq ruby-electric-expand-delimiters-list nil)

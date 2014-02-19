@@ -15,6 +15,7 @@
 (require 'git-gutter-fringe)
 
 (add-hook 'ruby-mode-hook 'git-gutter-mode)
+(add-hook 'enh-ruby-mode-hook 'git-gutter-mode)
 (add-hook 'coffee-mode-hook 'git-gutter-mode)
 (add-hook 'haml-mode-hook 'git-gutter-mode)
 (add-hook 'rhtml-mode-hook 'git-gutter-mode)
