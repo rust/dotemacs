@@ -20,7 +20,7 @@
 (add-hook 'enh-ruby-mode-hook 'ruby-end-mode)
 (require 'ruby-electric)
 (add-hook 'enh-ruby-mode-hook '(lambda () (ruby-electric-mode t)))
-(setq ruby-electric-expand-delimiters-list nil)
+;; (setq ruby-electric-expand-delimiters-list nil)
 (defun make-ruby-scratch-buffer ()
   (with-current-buffer (get-buffer-create "*ruby scratch*")
     (ruby-mode)
@@ -33,27 +33,15 @@
 (add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))
 
 (setq ruby-deep-indent-paren-style nil)
-(defadvice ruby-indent-line (after unindent-closing-paren activate)
-  (let ((column (current-column))
-        indent offset)
-    (save-excursion
-      (back-to-indentation)
-      (let ((state (syntax-ppss)))
-        (setq offset (- column (current-column)))
-        (when (and (eq (char-after) ?\))
-                   (not (zerop (car state))))
-          (goto-char (cadr state))
-          (setq indent (current-indentation)))))
-    (when indent
-      (indent-line-to indent)
-      (when (> offset 0) (forward-char offset)))))
+(setq enh-ruby-deep-indent-paren nil)
+(setq enh-ruby-check-syntax nil)
 
 (add-hook 'enh-ruby-mode-hook
           (lambda ()
             (font-lock-add-keywords nil
                                     '(("^[^\n]\\{128\\}\\(.*\\)$" 1 font-lock-warning-face t)))))
 
-(defun ruby-mode-set-encoding () ())
+(defun enh-ruby-mode-set-encoding () ())
 
 (require 'yard-mode)
 (add-hook 'enh-ruby-mode-hook 'yard-mode)
