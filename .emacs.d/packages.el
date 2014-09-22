@@ -23,17 +23,21 @@
     jedi
 
     ;;;; helm
-    helm ac-helm helm-git helm-git-files
+    helm ac-helm helm-git helm-git-files helm-descbinds
 
     ;;;; git
-    magit git-gutter git-gutter-fringe
+    magit git-gutter git-gutter-fringe git-blame
 
     ;;;; Ruby / Rails
     enh-ruby-mode rinari rspec-mode ruby-block rubocop yard-mode rhtml-mode js2-mode haml-mode
-    fringe-helper ruby-electric yasnippet
+    fringe-helper ruby-electric yasnippet ruby-end scss-mode sass-mode
+    yaml-mode
 
     ;;;; modes
-    coffee-mode web-mode review-mode
+    coffee-mode web-mode review-mode ghc markdown-mode scala-mode graphviz-dot-mode
+
+    ;;;; utils
+    multi-term nav auto-install
     ))
 
 ;; Install packages
