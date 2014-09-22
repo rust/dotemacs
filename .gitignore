@@ -2,6 +2,9 @@
 tmp
 *.elc
 .emacs.d/session.*
+.emacs.d/.session
 .emacs.d/ac-comphist.dat
 .emacs.d/tramp
 auto-save-list
+.emacs.d/elpa
+.emacs.d/eshell

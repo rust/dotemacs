@@ -1,87 +1,12 @@
-[submodule ".emacs.d/elisp/rinari"]
-  path = .emacs.d/elisp/rinari
-  url = git://github.com/eschulte/rinari.git
-[submodule ".emacs.d/elisp/rhtml-mode"]
-  path = .emacs.d/elisp/rhtml-mode
-  url = git://github.com/eschulte/rhtml.git
 [submodule ".emacs.d/elisp/yasnippets-rails"]
   path = .emacs.d/elisp/yasnippets-rails
   url = git://github.com/eschulte/yasnippets-rails.git
-[submodule ".emacs.d/elisp/git-emacs"]
-  path = .emacs.d/elisp/git-emacs
-  url = git://github.com/tsgates/git-emacs.git
-[submodule ".emacs.d/elisp/magit"]
-  path = .emacs.d/elisp/magit
-  url = git://github.com/magit/magit.git
-[submodule ".emacs.d/elisp/auto-complete"]
-  path = .emacs.d/elisp/auto-complete
-  url = git://github.com/auto-complete/auto-complete.git
-[submodule ".emacs.d/elisp/coffee-mode"]
-	path = .emacs.d/elisp/coffee-mode
-	url = git://github.com/defunkt/coffee-mode.git
 [submodule ".emacs.d/elisp/scss-mode"]
 	path = .emacs.d/elisp/scss-mode
 	url = https://github.com/antonj/scss-mode.git
-[submodule ".emacs.d/elisp/js2-mode"]
-	path = .emacs.d/elisp/js2-mode
-	url = git://github.com/mooz/js2-mode.git
-[submodule ".emacs.d/elisp/popup"]
-	path = .emacs.d/elisp/popup
-	url = git://github.com/auto-complete/popup-el.git
-[submodule ".emacs.d/elisp/helm"]
-	path = .emacs.d/elisp/helm
-	url = git://github.com/emacs-helm/helm.git
-[submodule ".emacs.d/elisp/rspec-mode"]
-	path = .emacs.d/elisp/rspec-mode
-	url = git://github.com/pezra/rspec-mode.git
-[submodule ".emacs.d/elisp/haml-mode"]
-	path = .emacs.d/elisp/haml-mode
-	url = git://github.com/nex3/haml-mode.git
-[submodule ".emacs.d/elisp/emacs-color-theme-solarized"]
-	path = .emacs.d/elisp/emacs-color-theme-solarized
-	url = git://github.com/sellout/emacs-color-theme-solarized.git
-[submodule ".emacs.d/elisp/yasnippet"]
-	path = .emacs.d/elisp/yasnippet
-	url = git://github.com/capitaomorte/yasnippet.git
-[submodule ".emacs.d/elisp/web-mode"]
-	path = .emacs.d/elisp/web-mode
-	url = git://github.com/fxbois/web-mode.git
-[submodule ".emacs.d/elisp/Highlight-Indentation-for-Emacs"]
-	path = .emacs.d/elisp/Highlight-Indentation-for-Emacs
-	url = git://github.com/antonj/Highlight-Indentation-for-Emacs.git
-[submodule ".emacs.d/elisp/elscreen"]
-	path = .emacs.d/elisp/elscreen
-	url = git://github.com/knu/elscreen.git
-[submodule ".emacs.d/elisp/emacs-git-gutter-fringe"]
-	path = .emacs.d/elisp/emacs-git-gutter-fringe
-	url = git://github.com/syohex/emacs-git-gutter-fringe.git
-[submodule ".emacs.d/elisp/emacs-git-gutter"]
-	path = .emacs.d/elisp/emacs-git-gutter
-	url = git://github.com/syohex/emacs-git-gutter.git
-[submodule ".emacs.d/elisp/fringe-helper"]
-	path = .emacs.d/elisp/fringe-helper
-	url = git://github.com/nschum/fringe-helper.el.git
 [submodule ".emacs.d/elisp/helm-descbinds"]
 	path = .emacs.d/elisp/helm-descbinds
 	url = git://github.com/emacs-helm/helm-descbinds.git
-[submodule ".emacs.d/elisp/auto-save-buffers-enhanced"]
-	path = .emacs.d/elisp/auto-save-buffers-enhanced
-	url = https://github.com/kentaro/auto-save-buffers-enhanced.git
 [submodule ".emacs.d/elisp/git-modes"]
 	path = .emacs.d/elisp/git-modes
 	url = https://github.com/magit/git-modes
-[submodule ".emacs.d/elisp/review-el"]
-	path = .emacs.d/elisp/review-el
-	url = https://github.com/kmuto/review-el.git
-[submodule ".emacs.d/elisp/yard-mode"]
-	path = .emacs.d/elisp/yard-mode
-	url = https://github.com/pd/yard-mode.el.git
-[submodule ".emacs.d/elisp/enhanced-ruby-mode"]
-	path = .emacs.d/elisp/enhanced-ruby-mode
-	url = https://github.com/zenspider/enhanced-ruby-mode.git
-[submodule ".emacs.d/elisp/emacs-anzu"]
-	path = .emacs.d/elisp/emacs-anzu
-	url = https://github.com/syohex/emacs-anzu.git
-[submodule ".emacs.d/elisp/ruby-electric"]
-	path = .emacs.d/elisp/ruby-electric
-	url = https://github.com/qoobaa/ruby-electric.git

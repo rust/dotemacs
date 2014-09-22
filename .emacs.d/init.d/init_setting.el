@@ -8,6 +8,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 初期設定
 
+;; Setup packages
+(require 'package)
+;; Add MELPA
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+;; Add Marmalade
+(add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
+;; Initialize
+(package-initialize)
+
+
 ;; 大文字変換を無効化
 (put 'upcase-region 'disabled nil)
 ;; 日本語
