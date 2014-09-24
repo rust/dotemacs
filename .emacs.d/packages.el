@@ -37,7 +37,7 @@
     coffee-mode web-mode review-mode ghc markdown-mode scala-mode graphviz-dot-mode
 
     ;;;; utils
-    multi-term nav auto-install
+    multi-term nav auto-install session
     ))
 
 ;; Install packages
