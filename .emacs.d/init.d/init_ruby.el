@@ -18,8 +18,8 @@
 ;; ;; indent
 (require 'ruby-end)
 (add-hook 'enh-ruby-mode-hook 'ruby-end-mode)
-(require 'ruby-electric)
-(add-hook 'enh-ruby-mode-hook '(lambda () (ruby-electric-mode t)))
+;; (require 'ruby-electric)
+;; (add-hook 'enh-ruby-mode-hook '(lambda () (ruby-electric-mode t)))
 ;; (setq ruby-electric-expand-delimiters-list nil)
 (defun make-ruby-scratch-buffer ()
   (with-current-buffer (get-buffer-create "*ruby scratch*")

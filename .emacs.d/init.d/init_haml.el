@@ -18,7 +18,7 @@
             (define-key haml-mode-map "\C-m" 'newline-and-indent)))
 
 (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
-(add-to-list 'auto-mode-alist '("\\.scss$" . sass-mode))
+(add-to-list 'auto-mode-alist '("\\.scss$" . scss-mode))
 (setq scss-compile-at-save nil)
 (setq cssm-indent-function #'cssm-c-style-indenter)
 (defun scss-custom ()
