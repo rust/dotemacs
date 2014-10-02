@@ -8,3 +8,4 @@ tmp
 auto-save-list
 .emacs.d/elpa
 .emacs.d/eshell
+.emacs.d/url
