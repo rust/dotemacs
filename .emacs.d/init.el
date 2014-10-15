@@ -44,9 +44,6 @@
               "/opt/local/bin"
               "/sw/bin"
               "/usr/local/bin"
-              (expand-file-name "~/.rvm/gems/ruby-1.9.3-p194/bin")
-              (expand-file-name "~/.rvm/gems/ruby-1.9.3-p194@global/bin")
-              (expand-file-name "~/.rvm/rubies/ruby-1.9.3-p194/bin")
               (expand-file-name "~/bin")
               (expand-file-name "~/.emacs.d/bin")
               ))
