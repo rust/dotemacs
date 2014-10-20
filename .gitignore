@@ -6,6 +6,6 @@ tmp
 .emacs.d/ac-comphist.dat
 .emacs.d/tramp
 auto-save-list
-.emacs.d/elpa
 .emacs.d/eshell
 .emacs.d/url
+.emacs.d/.cask

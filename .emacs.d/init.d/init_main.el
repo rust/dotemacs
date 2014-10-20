@@ -8,8 +8,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 初期設定など
 (require 'init_setting)
-;; install-elisp & auto-install
-(require 'init_auto-install)
 
 ;; 旧設定
 (load "~/_emacs")

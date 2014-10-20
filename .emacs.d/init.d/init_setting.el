@@ -8,15 +8,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 初期設定
 
-;; Setup packages
-(require 'package)
-;; Add MELPA
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-;; Add Marmalade
-(add-to-list 'package-archives  '("marmalade" . "http://marmalade-repo.org/packages/"))
-;; Initialize
-(package-initialize)
-
+;; Cask
+(require 'cask)
+(cask-initialize)
 
 ;; 大文字変換を無効化
 (put 'upcase-region 'disabled nil)
@@ -127,11 +121,14 @@
 (setq auto-save-buffers-enhanced-interval 30)
 (auto-save-buffers-enhanced t)
 
-;; Highlight indentation
-(require 'highlight-indentation)
-
 ;; Open symlink, not real file
 (setq vc-follow-symlinks nil)
+
+;; Region
+(require 'expand-region)
+(global-set-key (kbd "C-,") 'er/expand-region)
+(global-set-key (kbd "C-M-,") 'er/contract-region)
+(transient-mark-mode t)
 
 (provide 'init_setting)
 ;; init_setting.el ends here

@@ -1,0 +1,96 @@
+(source gnu)
+(source melpa)
+
+;;;; General
+(depends-on "color-theme-solarized")
+(depends-on "auto-save-buffers-enhanced")
+
+;;;; for auto-complete
+(depends-on "auto-complete")
+(depends-on "fuzzy")
+(depends-on "popup")
+(depends-on "pos-tip")
+
+;;;; Search
+(depends-on "anzu")
+
+;;;; Buffer utils
+(depends-on "popwin")
+(depends-on "elscreen" :git "https://github.com/emacs-jp/elscreen.git" :branch "fixed")
+(depends-on "yascroll")
+(depends-on "buffer-move")
+
+;; Region
+(depends-on "expand-region")
+
+;; Programming Misc
+(depends-on "rainbow-mode")
+
+;;;; flymake
+(depends-on "flycheck")
+(depends-on "flymake-jslint")
+
+;;;; Python
+(depends-on "jedi")
+
+;;;; go
+(depends-on "go-mode")
+(depends-on "go-autocomplete")
+
+;;;; helm
+(depends-on "helm")
+(depends-on "ac-helm")
+(depends-on "helm-git")
+(depends-on "helm-git-files")
+(depends-on "helm-descbinds")
+
+;;;; git
+(depends-on "magit")
+(depends-on "git-modes" :git "https://github.com/magit/git-modes.git")
+(depends-on "git-gutter")
+(depends-on "git-gutter-fringe")
+(depends-on "git-blame")
+
+;;;; Ruby
+(depends-on "enh-ruby-mode")
+(depends-on "ruby-block")
+(depends-on "ruby-end")
+(depends-on "fringe-helper")
+(depends-on "ruby-electric")
+(depends-on "yasnippet")
+(depends-on "rubocop")
+
+;;;; Rails
+(depends-on "rinari")
+(depends-on "rspec-mode")
+(depends-on "yard-mode")
+(depends-on "rhtml-mode")
+(depends-on "js2-mode")
+(depends-on "haml-mode")
+(depends-on "scss-mode")
+(depends-on "sass-mode")
+(depends-on "yaml-mode")
+
+;;;; Haskell
+(depends-on "ghc")
+
+;;;; Scala
+(depends-on "scala-mode")
+
+;;;; CoffeeScript
+(depends-on "coffee-mode")
+(depends-on "sourcemap")
+
+;;;; Misc modes
+(depends-on "web-mode")
+(depends-on "review-mode")
+(depends-on "markdown-mode")
+(depends-on "graphviz-dot-mode")
+
+;;;; Utils
+(depends-on "multi-term")
+(depends-on "nav")
+(depends-on "session")
+
+;;;; Color
+(depends-on "color-theme-solarized")
