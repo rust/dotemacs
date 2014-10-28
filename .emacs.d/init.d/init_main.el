@@ -62,5 +62,8 @@
 ;; anzu
 (require 'init_anzu)
 
+;; go
+(require 'init_go)
+
 (provide 'init_main)
 ;; init_mail.el ends here
