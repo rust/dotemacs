@@ -18,13 +18,13 @@
 
 ;; autocomplete
 ;; % go get -u github.com/nsf/gocode
-(add-to-load-path (list "~/Works/golang/src/github.com/nsf/gocode/emacs"))
+ (add-to-list 'load-path (expand-file-name "~/Works/golang/src/github.com/nsf/gocode/emacs"))
 (require 'go-autocomplete)
 (require 'auto-complete-config)
 
 ;; go-flymake
 ;; % go get -u github.com/dougm/goflymake
-(add-to-load-path (list "~/Works/golang/src/github.com/dougm/goflymake"))
+(add-to-list 'load-path (expand-file-name "~/Works/golang/src/github.com/dougm/goflymake"))
 (require 'go-flymake)
 
 (provide 'init_go)
