@@ -1,7 +1,7 @@
 ;;; howm-reminder.el --- Wiki-like note-taking tool
-;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
 ;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-reminder.el,v 1.82 2011-12-31 15:07:29 hira Exp $
+;;; $Id: howm-reminder.el,v 1.83 2012-12-29 08:57:18 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -234,8 +234,8 @@ schedules outside the range in %reminder in the menu.")
 
 ;; Clean me.
 ;; I cannot remember why I wrote howm-with-schedule-summary-format.
-(put 'howm-with-schedule-summary-format 'lisp-indent-hook 0)
 (defmacro howm-with-schedule-summary-format (&rest body)
+  (declare (indent 0))
   `(let ((howm-view-summary-format (if howm-view-split-horizontally ;; dirty!
                                       ""
                                     howm-view-summary-format)))
@@ -324,10 +324,10 @@ This value is passed to `format-time-string', and the result must be a regexp."
                   (string< (car rest) today))
         (setq rest (cdr rest)
               n (1+ n)))
-      (goto-line (1+ n)))))
+      (howm-goto-line (1+ n)))))
 
 (defun howm-schedule-menu (days &optional days-before)
-  (let* ((today (howm-encode-day t))
+  (let* ((today (howm-encode-day t)) 
          (from (- today (or days-before 0)))
          (to (+ today days 1))
          (howm-schedule-types howm-schedule-menu-types)  ;; dirty
@@ -678,8 +678,8 @@ When D is t, the beginning of today is encoded."
 (defun howm-action-lock-forward-escape ()
   (setq howm-action-lock-forward-wconf
         (current-window-configuration)))
-(put 'howm-action-lock-forward-block 'lisp-indent-hook 0)
 (defmacro howm-action-lock-forward-block (&rest body)
+  (declare (indent 0))
   `(prog2
        (setq howm-action-lock-forward-wconf nil)
        (progn
@@ -750,7 +750,7 @@ When D is t, the beginning of today is encoded."
   (howm-modify-form #'action-lock-invoke form-reg cursor-reg))
 
 (defun howm-modify-form (proc form-reg cursor-reg &rest args)
-  (cl-labels
+  (labels
       ((f-cursor ()
                  (beginning-of-line)
                  (re-search-forward cursor-reg

@@ -29,8 +29,8 @@
 (setq howm-menu-schedule-days-before 10) ;; 10日前から
 (setq howm-menu-schedule-days 3)         ;; 3日後まで
 ;;
-(setq howm-refresh-after-save nil)
-(setq howm-menu-refresh-after-save nil)
+(setq howm-refresh-after-save t)
+(setq howm-menu-refresh-after-save t)
 (setq howm-menu-recent-num 10)
 (setq howm-menu-todo-num 10)
 (setq howm-view-keep-one-window t)

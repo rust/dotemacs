@@ -1,7 +1,7 @@
 =begin
 
 = howm (一人お手軽 Wiki もどき)
-$Id: README.ja.rd,v 1.334 2012-12-27 03:20:12 hira Exp $
+$Id: README.ja.rd,v 1.337 2012-12-29 00:59:48 hira Exp $
 
 Emacs で断片的なメモをどんどんとるための環境です.
 分類機能はあえてつけません.
@@ -923,12 +923,27 @@ Emacs で断片的なメモをどんどんとるための環境です.
 
 thx > patch・改良案・指摘をくださった皆様
 
+* リリース版 howm-1.4.2 [2013-12-31]
+  * Note
+    * emacs 24.3 に対応. 2013-12-25 時点の trunk (24.3.50.1) でも起動を確認.
+    * howm-test130321 や howm-1.4.2rc1 と同じ内容です
+  * 改良
+    * C-c , a (howm-list-all) を高速化
+      ((<thx|URL:http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste>))
+  * fix
+    * emacs 24.3.1 でバイトコンパイルせずに実行したときのエラー
+      "Can't detect type of ..."
+      ((<thx|URL:http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste>))
+    * シンボリックリンク下で新規メモが howm-mode にならないバグ
+      ((<thx|URL:http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste>))
+    * バイトコンパイル時の警告
+
 * リリース版 howm-1.4.1 [2012-12-27]
-    * ~/.howm-keys が無かったら, 全メモをスキャンして再生成
-      ((<thx|URL:http://sourceforge.jp/projects/howm/lists/archive/eng/2012/000099.html>))
-      > Albert-san (areiner at tph.tuwien.ac.at)
-    * fix: *.txt と *.howm が混在しても一覧モードの表示がずれないように
-      ((<thx|URL:http://toro.2ch.net/test/read.cgi/unix/1141892764/940>))
+  * ~/.howm-keys が無かったら, 全メモをスキャンして再生成
+    ((<thx|URL:http://sourceforge.jp/projects/howm/lists/archive/eng/2012/000099.html>))
+    > Albert-san (areiner at tph.tuwien.ac.at)
+  * fix: *.txt と *.howm が混在しても一覧モードの表示がずれないように
+    ((<thx|URL:http://toro.2ch.net/test/read.cgi/unix/1141892764/940>))
 
 * リリース版 howm-1.4.0 [2012-08-16]
   * Note
@@ -1001,23 +1016,6 @@ thx > patch・改良案・指摘をくださった皆様
   * fix: 2012-01-21 以降の emacs-24 でエラー (void-variable inhibit-first-line-modes-regexps)
     ((<thx|URL:http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste>))
     thx > 佐々木 寛 さん (sasaki at fcc.ad.jp)
-
-* リリース版 howm-1.3.9.2 [2011-12-28]
-  * こまごま fix (howm-1.3.9.2rc4 と同内容です)
-    * mac で grep 使用時にエラーが出ていた
-      ((<thx|URL:http://hibari.2ch.net/test/read.cgi/unix/1141892764/787-790n>))
-      ((<thx|URL:http://hibari.2ch.net/test/read.cgi/unix/1141892764/898-901n>))
-      * grep のデフォルトオプションを設定する前に,
-        --exclude-dir が通るか確認するようにしました.
-    * 大きいフレームで一覧表示をしたときの余計なウィンドウ分割を修正
-      ((<thx|URL:http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste>))
-    * howm-vars.elc ロード時の警告「old-style backqoute detected!」を回避.
-      ((<thx|URL:http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste>))
-
-* リリース版 howm-1.3.9.1 [2011-01-02]
-  * fix: emacs-24.0.50 でのエラー
-    (Symbol's function definition is void: make-local-hook).
-    thx > 山本 宗宏 さん (munepi at vinelinux.org)
 
 * 隠し機能 (experimental)
   * 1.1.1.* 以前から
@@ -1220,6 +1218,30 @@ thx > patch・改良案・指摘をくださった皆様
       ((<thx|URL:http://sourceforge.jp/projects/howm/lists/archive/eng/2010/000097.html>))
       > Morgan Veyret さん (morgan.veyret at gmail.com).
       * 単に "断片的" としないのは, メニューファイル自身がヒットするのを避ける小細工
+  * 1.4.2
+    * 一覧バッファで「ファイル | マッチ行」のかわりにこんな表示に.
+      このときタイトル先頭の「=」は表示しないように.
+      (experimental)
+      ((<thx|URL:http://sourceforge.jp/projects/howm/lists/archive/eng/2012/000107.html>))
+      ((<thx|URL:http://sourceforge.jp/projects/howm/lists/archive/eng/2012/000111.html>))
+      > Albert-san (areiner at tph.tuwien.ac.at)
+        タイトル A|
+        |マッチ行 A1
+        |マッチ行 A2
+        タイトル B|
+        |マッチ行 B1
+        |マッチ行 B2
+      * 設定
+          (setq howm-view-list-title-type 2) ;; Show title before summary.
+          (setq howm-view-summary-format "") ;; If you want to delete file names.
+          (setq howm-entitle-items-style2-max-length 50)
+          (setq howm-entitle-items-style2-format "%-0s|%s") ;; for title and summary
+          (setq howm-entitle-items-style2-title-line t) ;; independent title line?
+      * さらに, M-x customize-variable RET howm-list-title RET も設定を
+      * 制限: 一ファイル複数メモで C-c , a (howm-list-all) したときは
+        対応するタイトル行に飛んでくれない
+        * そもそも行指向で作っていたので実装が無理矢理
+        * きちんと直すのはめんどう. 強い需要がなければ…
 
 * …履歴抜粋… (((<URL:OLD.rd>)) 参照)
   * [2010-12-30] 1.3.9 微修正

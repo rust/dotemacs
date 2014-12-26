@@ -12,6 +12,23 @@ $Id: OLD.rd,v 1.18 2012-08-16 09:52:06 hira Exp $
 
 == 1.3.x
 
+* リリース版 howm-1.3.9.2 [2011-12-28]
+  * こまごま fix (howm-1.3.9.2rc4 と同内容です)
+    * mac で grep 使用時にエラーが出ていた
+      ((<thx|URL:http://hibari.2ch.net/test/read.cgi/unix/1141892764/787-790n>))
+      ((<thx|URL:http://hibari.2ch.net/test/read.cgi/unix/1141892764/898-901n>))
+      * grep のデフォルトオプションを設定する前に,
+        --exclude-dir が通るか確認するようにしました.
+    * 大きいフレームで一覧表示をしたときの余計なウィンドウ分割を修正
+      ((<thx|URL:http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste>))
+    * howm-vars.elc ロード時の警告「old-style backqoute detected!」を回避.
+      ((<thx|URL:http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste>))
+
+* リリース版 howm-1.3.9.1 [2011-01-02]
+  * fix: emacs-24.0.50 でのエラー
+    (Symbol's function definition is void: make-local-hook).
+    thx > 山本 宗宏 さん (munepi at vinelinux.org)
+
 * リリース版 howm-1.3.9 [2010-12-30]
   * Note
     * ほとんど変更はありませんが, また一年ほどたったのでリリースしておきます.

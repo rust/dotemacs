@@ -1,7 +1,7 @@
 ;;; howm-common.el --- Wiki-like note-taking tool
-;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
 ;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-common.el,v 1.89 2012-12-27 03:20:12 hira Exp $
+;;; $Id: howm-common.el,v 1.90 2012-12-29 08:57:18 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -88,8 +88,8 @@ STRING should be given if the last search was by `string-match' on STRING."
             (buffer-substring-no-properties (match-beginning num)
                                             (match-end num))))))
 
-(put 'howm-message-time 'lisp-indent-hook 1)
 (defmacro howm-message-time (name &rest body)
+  (declare (indent 1))
   `(let ((howm-message-time-0 (current-time)))
      (prog1
          (progn
@@ -141,7 +141,7 @@ STRING should be given if the last search was by `string-match' on STRING."
 
 ;; (howm-map-with-index #'cons '(a b c)) ==> ((a . 0) (b . 1) (c . 2))
 (defun howm-map-with-index (f seq)
-  "Map with index. For example,
+  "Map with index. For example, 
 (howm-map-with-index #'cons '(a b c)) returns ((a . 0) (b . 1) (c . 2))."
   (let ((howm-map-with-index-count -1))
     (mapcar (lambda (x)
@@ -151,7 +151,7 @@ STRING should be given if the last search was by `string-match' on STRING."
 
 (defun howm-capital-p (str)
   "Return nil iff STR has no capital letter."
-  (let ((case-fold-search nil))
+  (let ((case-fold-search nil)) 
     (string-match "[A-Z]" str)))
 
 (defun howm-single-element-p (a)
@@ -245,8 +245,8 @@ If PASS-RET-THROUGH is non-nil, RET is unread and nil is returned.
               val
             (format "%s" val))))
 
-(put 'howm-edit-read-only-buffer 'lisp-indent-hook 0)
 (defmacro howm-edit-read-only-buffer (&rest body)
+  (declare (indent 0))
   `(progn
      (buffer-disable-undo)
      (setq buffer-read-only nil)
@@ -254,8 +254,8 @@ If PASS-RET-THROUGH is non-nil, RET is unread and nil is returned.
      (set-buffer-modified-p nil)
      (setq buffer-read-only t)))
 
-(put 'howm-rewrite-read-only-buffer 'lisp-indent-hook 0)
 (defmacro howm-rewrite-read-only-buffer (&rest body)
+  (declare (indent 0))
   `(howm-edit-read-only-buffer
      (erase-buffer)
      ,@body))
@@ -356,13 +356,17 @@ instead of the original `decode-time', so that we can force
 current timezone rule uniformly to avoid inconsistency."
   (butlast (decode-time specified-time) 3))
 
-(put 'howm-with-need 'lisp-indent-hook 0)
 (defmacro howm-with-need (&rest body)
   "Execute BODY where (need xxx) exits from this form if xxx is nil."
+  (declare (indent 0))
   (let ((g (howm-cl-gensym)))
     `(catch ',g
-       (cl-labels ((need (x) (or x (throw ',g nil))))
+       (labels ((need (x) (or x (throw ',g nil))))
          ,@body))))
+
+(defun howm-goto-line (n)
+  ;; see the document of `goto-line'
+  (goto-char (point-min)) (forward-line (1- n)))
 
 ;; view-in-background
 
@@ -371,9 +375,9 @@ current timezone rule uniformly to avoid inconsistency."
 Don't set this variable directly.
 Use `howm-view-in-background' and `howm-view-in-background-p' instead.")
 
-(put 'howm-view-in-background 'lisp-indent-hook 0)
 (defmacro howm-view-in-background (&rest body)
   "Obsolete. Do not use this any more."
+  (declare (indent 0))
   `(let ((*howm-view-in-background* t))
      ,@body))
 
@@ -383,12 +387,12 @@ Use `howm-view-in-background' and `howm-view-in-background-p' instead.")
 ;;; exclusion
 
 ;; Fix me on inefficiency.
-;;
+;; 
 ;; [2005-02-18] I can't remember why I checked relative path in old versions.
 ;; [2005-04-24] Now I remember the reason.
 ;; Some people like ~/.howm/ rather than ~/howm/ as their howm-directory.
 ;; It must be included even if it matches to howm-excluded-file-regexp.
-;;
+;; 
 ;; Bug: (howm-exclude-p "~/howm/CVS") != (howm-exclude-p "~/howm/CVS/")
 (defun howm-exclude-p (filename)
   (not (howm-cl-find-if-not
@@ -436,13 +440,13 @@ This variable exists only for debug. You can reproduce the last call
 with the below code.
  (apply #'howm-call-process howm-call-process-last-command)")
 
-(put 'howm-with-coding-system 'lisp-indent-hook 1)
 (defmacro howm-with-coding-system (coding-system &rest body)
   "With CODING-SYSTEM, execute BODY.
 examples:
  (howm-with-coding-system 'euc-jp-unix ...)  ;; for both read and write
  (howm-with-coding-system '(utf-8-unix . sjis-unix) ...)  ;; (read . write)
  (howm-with-coding-system nil ...)  ;; howm-process-coding-system is used."
+  (declare (indent 1))
   (let ((g (howm-cl-gensym))
         (cs (or coding-system 'howm-process-coding-system)))
     `(let* ((,g ,cs)
@@ -485,7 +489,7 @@ examples:
   ;; (howm-call-process "grep" '("pattern" "001" ... "099"))
   ;; (howm-call-process "grep" '("pattern" "101" ... "199"))
   ;; ..., depending on howm-command-length-limit.
-  (cl-labels ((div (a limit measure)
+  (labels ((div (a limit measure)
                 ;; (div '(3 1 4 1 5 9 2 6 5 3 5 8 9 7 9 3 2 3 8) 20 #'identity)
                 ;; ==> ((3 1 4 1 5) (9 2 6) (5 3 5) (8 9) (7 9 3) (2 3 8))
                 ;; [create new group when sum >= 20]
@@ -527,16 +531,16 @@ INTERVAL is a form like (-1 2), which means 'from yesterday to the day
 after tomorrow'. BODY is evaluated under this setting;
 `howm-reminder-schedule-interval-from' returns -1 and
 `howm-reminder-schedule-interval-to' returns 2."
+  (declare (indent 1))
   `(let ((howm-reminder-schedule-interval ,(cons 'cons interval)))
     ,@body))
-(put 'howm-with-schedule-interval 'lisp-indent-hook 1)
 
 (defmacro howm-with-reminder-setting  (&rest body)
+  (declare (indent 0))
   `(howm-with-schedule-interval
        (howm-menu-schedule-days-before howm-menu-schedule-days)
      (let ((howm-todo-menu-types howm-reminder-menu-types))  ;; dirty!
        ,@body)))
-(put 'howm-with-reminder-setting 'lisp-indent-hook 0)
 
 ;;; xemacs
 
@@ -546,8 +550,8 @@ after tomorrow'. BODY is evaluated under this setting;
   (defun howm-xemacsp ()
     (featurep 'xemacs)))
 
-(put 'howm-defun-xemacs 'lisp-indent-hook 'defun)
 (defmacro howm-defun-xemacs (func args emacs-f xemacs-f)
+  (declare (indent 'defun))
   `(defun ,func ,args
      ,(if (howm-xemacsp)
           xemacs-f
@@ -561,7 +565,7 @@ after tomorrow'. BODY is evaluated under this setting;
   (read-event)
   ;; We have to skip #<magic-event Expose> when howm-action-lock-date is
   ;; called (RET is hit on date format like [2005-10-15]) in menu buffer.
-  ;;
+  ;; 
   ;; Though (make-event 'key-press `(key ,(read-char))) looks to be a simpler
   ;; solution, it causes error when RET RET is hit in the above situation.
   ;; I don't have enough time to examine it now.
@@ -624,7 +628,7 @@ after tomorrow'. BODY is evaluated under this setting;
 ;;         (concat "\\<" re "\\>")
 ;;       re)))
 
-;;;
+;;; 
 
 (provide 'howm-common)
 

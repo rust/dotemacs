@@ -1,3 +1,103 @@
+2013-12-31  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	* configure.in: version 1.4.2
+
+2013-12-25  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	* configure.in: version 1.4.2rc1
+
+2013-03-21  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	* configure.in: test version
+
+	* howm-misc.el (howm-normalize-file-name): fix.
+	howm-mode was not set at C-c , c (howm-create)
+	if howm-directory is placed under symbolic links.
+	thx > dareka 2013-03-20
+	http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste
+
+2013-03-18  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+        * configure.in: test version
+
+	* gfunc.el (gfunc-with): fix an error in emacs 24.3.1 without byte-compilation.
+	"Can't detect type of ((:nest /home/.../) (%menu%) t) for howm-folder-grep-internal."
+	thx > dareka 2013-03-17
+	http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste
+
+2013-01-03  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	test version
+	- update copyright years
+	- use "declare" instead of "lisp-indent-hook"
+
+2012-12-30  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	test version
+
+2012-12-29  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	* howm-misc.el (howm-auto-mode-interpreter-regexp): use howm-if-unbound macro
+
+	* howm-mode.el (howm-keyword-add): fix `save-excursion' defeated by `set-buffer'
+
+	* howm-misc.el (howm-random-walk-summary): avoid non-interactive next-line
+
+	* howm-common.el (howm-goto-line): avoid non-interactive goto-line
+
+	* riffle.el (riffle-contents-to-summary, riffle-set-place): ditto.
+
+	* howm-reminder.el (howm-reminder-goto-today): ditto.
+
+	* howm-view.el (howm-view-summary-shell-command): ditto.
+
+	* howm-mode.el (howm-keyword-add-items): fix reference to free variable `dir'
+
+	* howm-backend.el (howm-open-directory-independently): ditto.
+
+2012-12-29  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	* configure.in: test version
+
+	* howm-view.el
+	(howm-item-list-rangeset, howm-item-list-filter): cleaned
+	(howm-rangeset-belong-p): add "almighty" for the above cleaning
+	(howm-rangeset-hit-indicator): added for the above cleaning
+	(howm-rangeset-hit!, howm-rangeset-hit-p): ditto.
+
+2012-12-28  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	* configure.in: test version
+
+	* howm-view.el
+	(howm-entitle-items-style1): improve efficiency of howm-list-all
+	by avoiding redundant grep calls.
+	thx > dareka 2012-12-10, 2012-12-15, 2012-12-16, 2012-12-28
+	http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste
+	(howm-item-list-filter): ditto
+
+2012-12-27  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	* configure.in: test version
+
+	* howm-view.el
+	(howm-entitle-items-style2): add features to summary buffer
+	when howm-view-list-title-type is 2.
+	- min/max length of titles
+	- independent title lines
+	- delete title header "="
+	thx > Albert-san (areiner at tph.tuwien.ac.at)
+	http://sourceforge.jp/projects/howm/lists/archive/eng/2012/000107.html
+	http://sourceforge.jp/projects/howm/lists/archive/eng/2012/000111.html
+	(howm-entitle-items-style2-max-length): ditto.
+	(howm-entitle-items-style2-format): ditto.
+	(howm-entitle-items-style2-title-line): ditto.
+	(howm-view-summary-font-lock-keywords): ditto.
+	(howm-item-titles): ditto.
+	(howm-entitle-items-style1): delete redundant code
+	(howm-view-list-title): ditto.
+	howm-view-list-title1 and howm-view-list-title2 are deleted.
+
 2012-12-27  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
 
 	* configure.in: version 1.4.1

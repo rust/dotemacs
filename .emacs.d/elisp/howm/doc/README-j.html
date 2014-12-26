@@ -8,7 +8,7 @@
 </head>
 <body>
 <h1><a name="label-0" id="label-0">howm (一人お手軽 Wiki もどき)</a></h1><!-- RDLabel: "howm (一人お手軽 Wiki もどき)" -->
-<p>$Id: README-j.html,v 1.137 2012-12-27 03:23:31 hira Exp $</p>
+<p>$Id: README.ja.rd,v 1.337 2012-12-29 00:59:48 hira Exp $</p>
 <p>Emacs で断片的なメモをどんどんとるための環境です.
 分類機能はあえてつけません.
 かわりに, 全文検索とメモ間リンクが手軽にできるようにしました.
@@ -1287,13 +1287,35 @@ make test</pre></li>
 <h3><a name="label-18" id="label-18">更新記録</a></h3><!-- RDLabel: "更新記録" -->
 <p>thx &gt; patch・改良案・指摘をくださった皆様</p>
 <ul>
+<li>リリース版 howm-1.4.2 [2013-12-31]
+<ul>
+<li>Note
+<ul>
+<li>emacs 24.3 に対応. 2013-12-25 時点の trunk (24.3.50.1) でも起動を確認.</li>
+<li>howm-test130321 や howm-1.4.2rc1 と同じ内容です</li>
+</ul></li>
+<li>改良
+<ul>
+<li>C-c , a (howm-list-all) を高速化
+      <a href="http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste">thx</a></li>
+</ul></li>
+<li>fix
+<ul>
+<li>emacs 24.3.1 でバイトコンパイルせずに実行したときのエラー
+      "Can't detect type of ..."
+      <a href="http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste">thx</a></li>
+<li>シンボリックリンク下で新規メモが howm-mode にならないバグ
+      <a href="http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste">thx</a></li>
+<li>バイトコンパイル時の警告</li>
+</ul></li>
+</ul></li>
 <li>リリース版 howm-1.4.1 [2012-12-27]
 <ul>
 <li>~/.howm-keys が無かったら, 全メモをスキャンして再生成
-      <a href="http://sourceforge.jp/projects/howm/lists/archive/eng/2012/000099.html">thx</a>
-      &gt; Albert-san (areiner at tph.tuwien.ac.at)</li>
+    <a href="http://sourceforge.jp/projects/howm/lists/archive/eng/2012/000099.html">thx</a>
+    &gt; Albert-san (areiner at tph.tuwien.ac.at)</li>
 <li>fix: *.txt と *.howm が混在しても一覧モードの表示がずれないように
-      <a href="http://toro.2ch.net/test/read.cgi/unix/1141892764/940">thx</a></li>
+    <a href="http://toro.2ch.net/test/read.cgi/unix/1141892764/940">thx</a></li>
 </ul></li>
 <li>リリース版 howm-1.4.0 [2012-08-16]
 <ul>
@@ -1389,29 +1411,6 @@ make test</pre></li>
 <li>fix: 2012-01-21 以降の emacs-24 でエラー (void-variable inhibit-first-line-modes-regexps)
     <a href="http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste">thx</a>
     thx &gt; 佐々木 寛 さん (sasaki at fcc.ad.jp)</li>
-</ul></li>
-<li>リリース版 howm-1.3.9.2 [2011-12-28]
-<ul>
-<li>こまごま fix (howm-1.3.9.2rc4 と同内容です)
-<ul>
-<li>mac で grep 使用時にエラーが出ていた
-      <a href="http://hibari.2ch.net/test/read.cgi/unix/1141892764/787-790n">thx</a>
-      <a href="http://hibari.2ch.net/test/read.cgi/unix/1141892764/898-901n">thx</a>
-<ul>
-<li>grep のデフォルトオプションを設定する前に,
-        --exclude-dir が通るか確認するようにしました.</li>
-</ul></li>
-<li>大きいフレームで一覧表示をしたときの余計なウィンドウ分割を修正
-      <a href="http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste">thx</a></li>
-<li>howm-vars.elc ロード時の警告「old-style backqoute detected!」を回避.
-      <a href="http://howm.sourceforge.jp/cgi-bin/hiki/hiki.cgi?BugReportPaste">thx</a></li>
-</ul></li>
-</ul></li>
-<li>リリース版 howm-1.3.9.1 [2011-01-02]
-<ul>
-<li>fix: emacs-24.0.50 でのエラー
-    (Symbol's function definition is void: make-local-hook).
-    thx &gt; 山本 宗宏 さん (munepi at vinelinux.org)</li>
 </ul></li>
 <li>隠し機能 (experimental)
 <ul>
@@ -1699,6 +1698,36 @@ make test</pre></li>
       &gt; Morgan Veyret さん (morgan.veyret at gmail.com).
 <ul>
 <li>単に "断片的" としないのは, メニューファイル自身がヒットするのを避ける小細工</li>
+</ul></li>
+</ul></li>
+<li>1.4.2
+<ul>
+<li><p>一覧バッファで「ファイル | マッチ行」のかわりにこんな表示に.
+      このときタイトル先頭の「=」は表示しないように.
+      (experimental)
+      <a href="http://sourceforge.jp/projects/howm/lists/archive/eng/2012/000107.html">thx</a>
+      <a href="http://sourceforge.jp/projects/howm/lists/archive/eng/2012/000111.html">thx</a>
+      &gt; Albert-san (areiner at tph.tuwien.ac.at)</p>
+<pre>タイトル A|
+|マッチ行 A1
+|マッチ行 A2
+タイトル B|
+|マッチ行 B1
+|マッチ行 B2</pre>
+<ul>
+<li><p>設定</p>
+<pre>(setq howm-view-list-title-type 2) ;; Show title before summary.
+(setq howm-view-summary-format "") ;; If you want to delete file names.
+(setq howm-entitle-items-style2-max-length 50)
+(setq howm-entitle-items-style2-format "%-0s|%s") ;; for title and summary
+(setq howm-entitle-items-style2-title-line t) ;; independent title line?</pre></li>
+<li>さらに, M-x customize-variable RET howm-list-title RET も設定を</li>
+<li>制限: 一ファイル複数メモで C-c , a (howm-list-all) したときは
+        対応するタイトル行に飛んでくれない
+<ul>
+<li>そもそも行指向で作っていたので実装が無理矢理</li>
+<li>きちんと直すのはめんどう. 強い需要がなければ…</li>
+</ul></li>
 </ul></li>
 </ul></li>
 </ul></li>

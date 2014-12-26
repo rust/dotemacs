@@ -1,5 +1,5 @@
 ;;; howm-mkmenu.el --- Wiki-like note-taking tool
-;;; Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+;;; Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
 ;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
 ;;; $Id: howm-mkmenu.el,v 1.11 2011-12-31 15:07:29 hira Exp $
 ;;;
@@ -28,8 +28,8 @@
     (howm-menu-ja "ja/0000-00-00-000000.txt" euc-jp iso-2022-7bit)
     ))
 
-(put 'howm-mkmenu-insert 'lisp-indent-hook 0)
 (defmacro howm-mkmenu-insert (&rest clauses)
+  (declare (indent 0))
   (let ((commands (mapcar (lambda (c)
                             (let ((format (car c))
                                   (parameters (cdr c)))

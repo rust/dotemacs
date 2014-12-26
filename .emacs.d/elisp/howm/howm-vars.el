@@ -1,5 +1,5 @@
 ;;; howm-vars.el --- Wiki-like note-taking tool
-;;; Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+;;; Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
 ;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
 ;;; $Id: howm-vars.el,v 1.59 2011-12-31 15:07:29 hira Exp $
 ;;;
@@ -30,12 +30,11 @@
          (gargs (howm-cl-gensym))
          (docstring (format "Do `%s' and set risky-local-variable property."
                             orig)))
-    `(progn
-       (put ',risky 'lisp-indent-hook 'defun)
-       (defmacro ,risky
+    `(defmacro ,risky
          (,gsymbol &rest ,gargs)
          ,docstring
-         (howm-define-risky-command-body ',orig ,gsymbol ,gargs)))))
+         (declare (indent 'defun))
+         (howm-define-risky-command-body ',orig ,gsymbol ,gargs))))
 
 ;; [2011-01-13]
 ;; I split this function from howm-define-risky-command for avoiding
@@ -83,7 +82,6 @@ we have checked availability like (if (boundp xxx) ...)."
   `(when (boundp (quote ,var))
      (defvar ,var nil)))
 
-(put 'howm-funcall-if-defined 'lisp-indent-hook 1)
 (defmacro howm-funcall-if-defined (call &rest not-defined)
   "Execute CALL if its car is defined as a function.
 Otherwise, execute expressions in NOT-DEFINED.
@@ -97,6 +95,7 @@ Byte-compiler says \"not known to be defined\" even for codes like
           (funcall howm-funcall-if-defined-f roma))
       nil)
 "
+  (declare (indent 1))
   (let ((func (car call))
         (args (cdr call)))
     `(if (fboundp (quote ,func))
@@ -132,8 +131,8 @@ as default of some variables; put (setq howm-compatible-to-ver1dot3 t)
   "Compatibility to howm-1.3.*."
   :group 'howm)
 
-(put 'howm-if-ver1dot3 'lisp-indent-hook 1)
 (defmacro howm-if-ver1dot3 (oldval def)
+  (declare (indent 1))
   (destructuring-bind (command var val &rest args) def
     `(,command ,var (if howm-compatible-to-ver1dot3 ,oldval ,val)
                ,@args
@@ -758,7 +757,7 @@ When the value is elisp function, it is used instead of `howm-fake-grep'."
   "*Command name for fgrep.
 This variable is obsolete and may be removed in future.")
 (defvar howm-view-grep-default-option
-  (cl-labels ((ed (d) (concat "--exclude-dir=" d)))
+  (labels ((ed (d) (concat "--exclude-dir=" d)))
     (let* ((has-ed (condition-case nil
                        (eq 0 (call-process howm-view-grep-command nil nil nil
                                            (ed "/") "--version"))
@@ -970,7 +969,8 @@ If the value is t, it means 'always'."
 
 (howm-defcustom-risky howm-user-font-lock-keywords nil
   "Font lock keywords for all howm-related buffers.
-See help of `font-lock-keywords' for details."
+See help of `font-lock-keywords' for details.
+Note: `howm-menu-font-lock-rules' overrides this variable."
   ;;   :type '(repeat (radio (cons regexp (list (const quote) face))
   ;;                         sexp))
   :type 'sexp

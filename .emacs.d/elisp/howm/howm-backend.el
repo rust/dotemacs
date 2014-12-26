@@ -1,7 +1,7 @@
 ;;; howm-backend.el --- Wiki-like note-taking tool
-;;; Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+;;; Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
 ;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-backend.el,v 1.49 2012-09-23 10:44:24 hira Exp $
+;;; $Id: howm-backend.el,v 1.50 2012-12-29 08:57:18 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -327,7 +327,7 @@ DUMMY-EXCLUSION-CHECKER has no effect; it should be removed soon."
 
 ;; test:
 (defun howm-search-namazu (dir pattern)
-  (interactive "Dindex directory:
+  (interactive "Dindex directory: 
 ssearch: ")
   (let ((folder (howm-make-folder:namazu (expand-file-name dir))))
     (howm-view-summary "<namazu>"
@@ -468,7 +468,7 @@ ssearch: ")
         (case-fold (or force-case-fold
                        (not (let ((case-fold-search nil))
                               (string-match "[A-Z]" str))))))
-    (cl-labels ((add-opt (pred x) (when (and pred x) (setq opt (cons x opt)))))
+    (labels ((add-opt (pred x) (when (and pred x) (setq opt (cons x opt)))))
       (add-opt case-fold howm-view-grep-ignore-case-option)
       (add-opt fixed-p howm-view-grep-fixed-option)
       (add-opt (not fixed-p) howm-view-grep-extended-option))
@@ -489,7 +489,7 @@ ssearch: ")
                            (t (error "Wrong type: %s" str))))
            (caps-p (howm-cl-member-if (lambda (s) (howm-capital-p s)) str-list))
            (case-fold (or force-case-fold (not caps-p))))
-      (cl-labels ((add-opt (pred x) (when (and pred x) (setq opt (cons x opt)))))
+      (labels ((add-opt (pred x) (when (and pred x) (setq opt (cons x opt)))))
         (add-opt case-fold howm-view-grep-ignore-case-option)
         (add-opt fixed-p howm-view-grep-fixed-option)
         (add-opt (not fixed-p) howm-view-grep-extended-option))
@@ -965,8 +965,8 @@ With arg, search `howm-search-path' iff arg is positive."
   (add-to-list '*howm-independent-directories*
                (expand-file-name dir))
   (let ((default-directory dir))
-    (howm-normalize-show "" (howm-folder-items dir t)))
-  (howm-keyword-add-items (howm-view-item-list)))
+    (howm-normalize-show "" (howm-folder-items dir t))
+    (howm-keyword-add-items (howm-view-item-list))))
 
 (defvar howm-keyword-buffer-name-format " *howm-keys:%s*")
 (defun howm-keyword-buffer ()

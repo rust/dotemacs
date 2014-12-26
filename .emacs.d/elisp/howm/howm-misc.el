@@ -1,7 +1,7 @@
 ;;; howm-misc.el --- Wiki-like note-taking tool
-;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
 ;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
-;;; $Id: howm-misc.el,v 1.95 2012-09-23 10:44:24 hira Exp $
+;;; $Id: howm-misc.el,v 1.96 2012-12-29 08:57:18 hira Exp $
 ;;;
 ;;; This program is free software; you can redistribute it and/or modify
 ;;; it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@
            (howm-folder-territory-p hdir (buffer-file-name))))))
 
 (defun howm-normalize-file-name (filename)
-  (let ((f (expand-file-name filename)))
+  (let ((f (file-truename (expand-file-name filename))))
     ;; for meadow
     (if (string-match "^[A-Z]:" f)
         (let ((drive (substring f 0 1))
@@ -150,9 +150,9 @@
 ;; (I don't want to set the mode actually. Sigh...)
 (howm-dont-warn-free-variable auto-mode-interpreter-regexp)
 (defvar howm-auto-mode-interpreter-regexp
-  (if (boundp 'auto-mode-interpreter-regexp) ;; xemacs doesn't have it.
-      auto-mode-interpreter-regexp
-    "#![ \t]?\\([^ \t\n]*/bin/env[ \t]\\)?\\([^ \t\n]+\\)"))
+  (howm-if-unbound auto-mode-interpreter-regexp
+                   ;; xemacs doesn't have it.
+                   "#![ \t]?\\([^ \t\n]*/bin/env[ \t]\\)?\\([^ \t\n]+\\)"))
 (defun howm-auto-mode (&optional file-name)
   "Major mode appropriate for current buffer.
 This checks for a -*- mode tag in the buffer's text,
@@ -238,41 +238,41 @@ This function merely returns the mode; it does not set the mode.
     (if (and (not done) file-name)
         (let ((name file-name)
               (keep-going t))
-    ;; Remove backup-suffixes from file name.
-    (setq name (file-name-sans-versions name))
-    (while keep-going
-      (setq keep-going nil)
-      (let ((alist auto-mode-alist)
-      (mode nil))
-        ;; Find first matching alist entry.
-        (let ((case-fold-search
-         (memq system-type '(vax-vms windows-nt))))
-    (while (and (not mode) alist)
-      (if (string-match (car (car alist)) name)
-          (if (and (consp (cdr (car alist)))
-             (nth 2 (car alist)))
-        (setq mode (car (cdr (car alist)))
-        name (substring name 0 (match-beginning 0))
-        keep-going t)
-      (setq mode (cdr (car alist))
-            keep-going nil)))
-      (setq alist (cdr alist))))
-        (if mode
+	  ;; Remove backup-suffixes from file name.
+	  (setq name (file-name-sans-versions name))
+	  (while keep-going
+	    (setq keep-going nil)
+	    (let ((alist auto-mode-alist)
+		  (mode nil))
+	      ;; Find first matching alist entry.
+	      (let ((case-fold-search
+		     (memq system-type '(vax-vms windows-nt))))
+		(while (and (not mode) alist)
+		  (if (string-match (car (car alist)) name)
+		      (if (and (consp (cdr (car alist)))
+			       (nth 2 (car alist)))
+			  (setq mode (car (cdr (car alist)))
+				name (substring name 0 (match-beginning 0))
+				keep-going t)
+			(setq mode (cdr (car alist))
+			      keep-going nil)))
+		  (setq alist (cdr alist))))
+	      (if mode
                   (setq ans mode)
-    ;; If we can't deduce a mode from the file name,
-    ;; look for an interpreter specified in the first line.
-    ;; As a special case, allow for things like "#!/bin/env perl",
-    ;; which finds the interpreter anywhere in $PATH.
-    (let ((interpreter
-           (save-excursion
-       (goto-char (point-min))
-       (if (looking-at howm-auto-mode-interpreter-regexp)
-           (match-string 2)
-         "")))
-          elt)
-      ;; Map interpreter name to a mode.
-      (setq elt (assoc (file-name-nondirectory interpreter)
-           interpreter-mode-alist))
+		;; If we can't deduce a mode from the file name,
+		;; look for an interpreter specified in the first line.
+		;; As a special case, allow for things like "#!/bin/env perl",
+		;; which finds the interpreter anywhere in $PATH.
+		(let ((interpreter
+		       (save-excursion
+			 (goto-char (point-min))
+			 (if (looking-at howm-auto-mode-interpreter-regexp)
+			     (match-string 2)
+			   "")))
+		      elt)
+		  ;; Map interpreter name to a mode.
+		  (setq elt (assoc (file-name-nondirectory interpreter)
+				   interpreter-mode-alist))
                   (if elt
                       (setq ans (cdr elt)))))))))
     ans
@@ -479,8 +479,8 @@ and replace a sub-expression, e.g.
 
 ;;; next/previous memo
 
-(put 'howm-save-narrowing 'lisp-indent-hook 0)
 (defmacro howm-save-narrowing (&rest body)
+  (declare (indent 0))
   `(let ((narrowp (howm-narrow-p)))
      (when narrowp
        (widen))
@@ -545,7 +545,7 @@ and replace a sub-expression, e.g.
 (defun howm-random-walk-summary ()
   (let ((n (length (riffle-item-list))))
     (goto-char (point-min))
-    (next-line (random n))
+    (forward-line (random n))
     (howm-view-summary-check)
     (sit-for howm-random-walk-wait)
     (howm-view-summary-open)))
@@ -650,14 +650,14 @@ and replace a sub-expression, e.g.
   (set-window-configuration howm-remember-wconf))
 
 ;; Rename buffer
-;;
+;; 
 ;; You can rename howm buffers based on their titles.
 ;; Only buffer names in emacs are changed; file names are kept unchanged.
-;;
+;; 
 ;; Add the next lines to your .emacs if you like this feature.
 ;; (add-hook 'howm-mode-hook 'howm-mode-set-buffer-name)
 ;; (add-hook 'after-save-hook 'howm-mode-set-buffer-name)
-;;
+;; 
 ;; The original idea and code are given by Mielke-san (peter at exegenix.com).
 ;; http://lists.sourceforge.jp/mailman/archives/howm-eng/2006/000020.html
 ;; thx!
@@ -691,8 +691,8 @@ When DOTS-STR is non-nil, it is used instead of \"...\"."
         (while (re-search-forward title-regexp nil t)
           (setq titles
                 (cons (match-string-no-properties title-regexp-pos)
-                      titles)))
-        (let ((name0 (mapconcat
+                      titles))) 
+        (let ((name0 (mapconcat  
                       (lambda (s)
                         (howm-truncate-string s howm-buffer-name-limit))
                       (reverse (howm-cl-remove-if (lambda (s) (string= s ""))
@@ -732,8 +732,8 @@ When DOTS-STR is non-nil, it is used instead of \"...\"."
 (defun howm-memoize-reset (fname)
   (howm-memoize-put fname nil))
 
-(put 'howm-defun-memoize 'lisp-indent-hook 2)
 (defmacro howm-defun-memoize (fname args &rest body)
+  (declare (indent 2))
   `(progn
      (howm-memoize-reset ',fname)
      (defun ,fname ,args
@@ -747,12 +747,12 @@ When DOTS-STR is non-nil, it is used instead of \"...\"."
 ;; (howm-memoize-get 'fib)
 
 ;; Bayesian set
-;;
+;; 
 ;; "M-x howm-bayesian-set RET lisp scheme haskell RET" to estimate
 ;; related keywords with lisp, scheme, and haskell.
 ;; If you are lucky, you may find ruby, elisp, gauche, etc.
 ;; in estimated candidates.
-;;
+;; 
 ;; (ref.)
 ;; Zoubin Ghahramani and Katherine Heller: "Bayesian Sets",
 ;; Advances in Neural Information Processing Systems,
@@ -854,7 +854,7 @@ When DOTS-STR is non-nil, it is used instead of \"...\"."
 
 ;; xemacs: add-to-list doesn't have APPEND
 ;; (add-to-list 'auto-mode-alist '("\\.howm$" . text-mode) t)
-(setq auto-mode-alist (append auto-mode-alist
+(setq auto-mode-alist (append auto-mode-alist 
                               (list '("\\.howm$" . text-mode))))
 
 ;; xyzzy doesn't have eval-after-load.
@@ -875,7 +875,7 @@ When DOTS-STR is non-nil, it is used instead of \"...\"."
   ad-do-it)
 
 ;; (obsolete)
-;;
+;; 
 ;; If you have a trouble on behavior of RET key, check this first:
 ;; (progn (print (mapcar #'car minor-mode-map-alist)) nil)
 
@@ -937,7 +937,7 @@ When DOTS-STR is non-nil, it is used instead of \"...\"."
       '(mapc #'howm-raise-in-minor-mode-map-alist
              '(anthy-minor-mode)))
     ))
-
+ 
 ;; for mcomplete.el [2003-12-17]
 ;; http://homepage1.nifty.com/bmonkey/emacs/elisp/mcomplete.el
 ;; error when this-command is (lambda () (interactive) ...)
@@ -976,7 +976,7 @@ When DOTS-STR is non-nil, it is used instead of \"...\"."
     ;; make silent `write-region', which doesn't say "Wrote ...".
     ;; I borrowed the idea from Okuyama's auto-save-buffers. thx.
     ;; http://homepage3.nifty.com/oatu/emacs/misc.html
-    (cl-flet ((write-region (start end filename
+    (flet ((write-region (start end filename
                                 &optional append visit lockname must)
                          (funcall original-write-region
                                   start end filename append
