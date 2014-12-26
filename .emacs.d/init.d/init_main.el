@@ -25,8 +25,8 @@
 ;; web-mode
 (require 'init_web-mode)
 
-;;;; howm
-;;(require 'init_howm)
+;; howm
+(require 'init_howm)
 ;; session.el
 (require 'init_session)
 
