@@ -6,9 +6,6 @@
 ;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; user-emacs-directory for 22.x
-(unless (boundp 'user-emacs-directory)
-  (defvar user-emacs-directory (expand-file-name "~/.emacs.d/")))
 ;; path-list を load-path へ追加する
 (defun add-to-load-path (path-list)
   "Add paths to 'load-path"
@@ -22,7 +19,6 @@
 (add-to-load-path (list "init.d" "elisp"))
 
 ;; 環境判別
-(defvar emacs22-p (equal emacs-major-version 22))
 (defvar emacs23-p (equal emacs-major-version 23))
 (defvar emacs-p (>= emacs-major-version 23))
 (defvar mac-p (and (eq window-system 'mac) emacs-p))
@@ -51,10 +47,6 @@
  (when (and (file-exists-p dir) (not (member dir exec-path)))
    (setenv "PATH" (concat dir ":" (getenv "PATH")))
    (setq exec-path (append (list dir) exec-path))))
-
-;; 23と24.1の互換性維持のため
-(when (not (boundp 'inhibit-first-line-modes-regexps))
-  (defvaralias 'inhibit-first-line-modes-regexps 'inhibit-local-variables-regexps))
 
 ;; 共通設定ファイル
 (require 'init_main)
