@@ -31,7 +31,7 @@
 ;;
 (setq howm-refresh-after-save t)
 (setq howm-menu-refresh-after-save t)
-(setq howm-menu-recent-num 10)
+(setq howm-menu-recent-num 30)
 (setq howm-menu-todo-num 10)
 (setq howm-view-keep-one-window t)
 (setq howm-list-normalizer 'howm-view-sort-by-reverse-date)
