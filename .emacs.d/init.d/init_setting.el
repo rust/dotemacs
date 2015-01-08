@@ -130,5 +130,24 @@
 (global-set-key (kbd "C-M-,") 'er/contract-region)
 (transient-mark-mode t)
 
+(require 'hl-todo)
+(setq hl-todo-keyword-faces
+  '(("HOLD" . "#d0bf8f")
+    ("TODO" . "#cc9393")
+    ("NEXT" . "#dca3a3")
+    ("THEM" . "#dc8cc3")
+    ("PROG" . "#7cb8bb")
+    ("OKAY" . "#7cb8bb")
+    ("DONT" . "#5f7f5f")
+    ("FAIL" . "#8c5353")
+    ("DONE" . "#afd8af")
+    ("FIXME" . "#cc9393")
+    ("XXX"   . "#cc9393")
+    ("XXXX"  . "#cc9393")
+    ("???"   . "#cc9393")))
+(setq hl-todo-activate-in-modes
+      '(prog-mode ruby-mode enh-ruby-mode gfm-mode markdown-mode))
+(global-hl-todo-mode 1)
+
 (provide 'init_setting)
 ;; init_setting.el ends here

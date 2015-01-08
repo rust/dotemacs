@@ -97,3 +97,4 @@
 
 ;;;; Color
 (depends-on "color-theme-solarized")
+(depends-on "hl-todo")
