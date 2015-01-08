@@ -43,6 +43,9 @@
 (depends-on "helm-git")
 (depends-on "helm-git-files")
 (depends-on "helm-descbinds")
+(depends-on "helm-swoop")
+(depends-on "helm-migemo")
+(depends-on "ace-isearch")
 
 ;;;; git
 (depends-on "magit")
