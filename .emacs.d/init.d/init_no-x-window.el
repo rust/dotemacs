@@ -2,7 +2,7 @@
 
 ;; init_no-x-window.el
 
-;; Copyright (C) 2010 Shin-ichiro OGAWA
+;; Copyright (C) 2015 Shin-ichiro OGAWA
 ;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -11,11 +11,7 @@
 ;; メニューバーを消す
 (menu-bar-mode -1)
 
-;; 256 colors
-(load "emacs21-256color-hack.el")
-(require 'color-theme)
-;;(color-theme-initialize)
-;;(color-theme-dark-laptop)
+(load-theme 'solarized-dark)
 
 ;; wb-line-number
 (require 'wb-line-number)

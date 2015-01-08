@@ -27,9 +27,7 @@
                     'japanese-jisx0208
                     (cons fontname "unicode-bmp")))
 
-(require 'color-theme)
-(color-theme-initialize)
-(color-theme-hober)
+(load-theme 'solarized-dark)
 
 ;; transparent
 (add-to-list 'default-frame-alist '(alpha . 85))

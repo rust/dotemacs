@@ -35,12 +35,9 @@
 ;;                   'append)
 ;; (add-to-list 'default-frame-alist '(font . "fontset-ricty"))
 
-(require 'color-theme)
-(color-theme-initialize)
-(add-to-list 'custom-theme-load-path "~/.emacs.d/elisp/emacs-color-theme-solarized")
 (setq solarized-termcolors 256)
 (setq solarized-degrade t)
-(setq solarized-contrast 'high)
+;; (setq solarized-contrast 'high)
 (setq solarized-visibility 'high)
 (setq solarized-broken-srgb t)
 (if macbook-air-p (load-theme 'solarized-light t)

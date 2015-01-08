@@ -2,7 +2,7 @@
 (source melpa)
 
 ;;;; General
-(depends-on "color-theme-solarized")
+(depends-on "solarized-theme")
 (depends-on "auto-save-buffers-enhanced")
 
 ;;;; for auto-complete
