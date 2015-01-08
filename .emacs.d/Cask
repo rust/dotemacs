@@ -92,5 +92,8 @@
 (depends-on "nav")
 (depends-on "session")
 
+;;;; migemo
+(depends-on "migemo")
+
 ;;;; Color
 (depends-on "color-theme-solarized")

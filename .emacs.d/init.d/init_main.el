@@ -62,6 +62,9 @@
 ;; anzu
 (require 'init_anzu)
 
+;; migemo
+(require 'init_migemo)
+
 ;; go
 (require 'init_go)
 
