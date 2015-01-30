@@ -28,4 +28,4 @@
 (require 'go-flymake)
 
 (provide 'init_go)
-;; init_ruby.el ends here
+;; init_go.el ends here
