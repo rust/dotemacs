@@ -9,3 +9,5 @@ auto-save-list
 .emacs.d/eshell
 .emacs.d/url
 .emacs.d/.cask
+.emacs.d/ido.last
+.emacs.d/recentf
