@@ -43,6 +43,7 @@
                                     '(("^[^\n]\\{128\\}\\(.*\\)$" 1 font-lock-warning-face t)))))
 
 (defun enh-ruby-mode-set-encoding () ())
+(defun ruby-mode-set-encoding () ())
 
 (require 'yard-mode)
 (add-hook 'enh-ruby-mode-hook 'yard-mode)
