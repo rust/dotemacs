@@ -17,14 +17,8 @@
 ;; frame title
 (setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
 
-;; Font: Source Code Pro 14
-(create-fontset-from-ascii-font "Source Code Pro-11:weight=normal:slant=normal" nil "sourcecodepro")
-(set-fontset-font "fontset-sourcecodepro"
-                  'unicode
-                  (font-spec :family "Hiragino Kaku Gothic Pro" :size 11)
-                  nil
-                  'append)
-(add-to-list 'default-frame-alist '(font . "fontset-sourcecodepro"))
+;; Font: CodeM
+(add-to-list 'default-frame-alist '(font . "CodeM-11"))
 
 ;;;; Font: Ricty
 ;; (create-fontset-from-ascii-font "Ricty-12:weight=normal:slant=normal" nil "ricty")
