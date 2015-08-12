@@ -9,6 +9,8 @@
 ;; git
 
 ;; magit.el
+(setq magit-last-seen-setup-instructions "1.4.0")
+
 (require 'magit)
 (require 'git-blame)
 

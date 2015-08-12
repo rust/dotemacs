@@ -78,7 +78,8 @@
 (depends-on "ghc")
 
 ;;;; Scala
-(depends-on "scala-mode")
+(depends-on "scala-mode2")
+(depends-on "ensime")
 
 ;;;; CoffeeScript
 (depends-on "coffee-mode")

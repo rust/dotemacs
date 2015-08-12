@@ -68,5 +68,8 @@
 ;; go
 (require 'init_go)
 
+;; scala
+(require 'init_scala)
+
 (provide 'init_main)
 ;; init_mail.el ends here
