@@ -9,6 +9,10 @@
 ;;Color
 ;; (set-frame-parameter (selected-frame) 'alpha '(100 75))
 
+;; Cask
+(require 'cask)
+(cask-initialize)
+
 ;; hide menu
 (display-time-mode t)
 (tool-bar-mode -1)

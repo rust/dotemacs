@@ -8,10 +8,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 初期設定
 
-;; Cask
-(require 'cask)
-(cask-initialize)
-
 ;; 大文字変換を無効化
 (put 'upcase-region 'disabled nil)
 ;; 日本語

@@ -6,6 +6,10 @@
 ;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Cask
+(require 'cask)
+(cask-initialize)
+
 ;; X or no-X
 (cond
  (x-window-p (require 'init_x-window))
