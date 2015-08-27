@@ -8,7 +8,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; for rails
 ;;;; Rinari
-(require 'rinari)
+;;(require 'rinari)
 ;;;; rhtml-mode
 (require 'rhtml-mode)
 (add-hook 'rhtml-mode-hook

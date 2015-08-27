@@ -14,7 +14,7 @@
 (require 'magit)
 (require 'git-blame)
 
-(require 'git-gutter-fringe)
+;;(require 'git-gutter-fringe)
 
 (add-hook 'ruby-mode-hook 'git-gutter-mode)
 (add-hook 'enh-ruby-mode-hook 'git-gutter-mode)
