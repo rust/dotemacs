@@ -3,7 +3,8 @@ tmp
 *.elc
 .emacs.d/session.*
 .emacs.d/.session
-.emacs.d/ac-comphist.dat
+.emacs.d/**/ac-comphist.dat
+.emacs.d/**/network-security.data
 .emacs.d/tramp
 auto-save-list
 .emacs.d/eshell
@@ -11,3 +12,5 @@ auto-save-list
 .emacs.d/.cask
 .emacs.d/ido.last
 .emacs.d/recentf
+.emacs.d/el-get
+.emacs.d/elpa

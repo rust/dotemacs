@@ -8,12 +8,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; path-list を load-path へ追加する
 
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
-
 (defun add-to-load-path (path-list)
   "Add paths to 'load-path"
   (let (path)
@@ -54,6 +48,9 @@
  (when (and (file-exists-p dir) (not (member dir exec-path)))
    (setenv "PATH" (concat dir ":" (getenv "PATH")))
    (setq exec-path (append (list dir) exec-path))))
+
+;; el-get
+(require 'my-el-get)
 
 ;; 共通設定ファイル
 (require 'init_main)
