@@ -145,5 +145,14 @@
       '(prog-mode ruby-mode enh-ruby-mode gfm-mode markdown-mode))
 (global-hl-todo-mode 1)
 
+;; terminal colors
+(when window-system
+  (setq
+   term-default-fg-color "White"
+   term-default-bg-color "Black"
+   ansi-term-color-vector
+        [unspecified "black" "#ff5555" "#55ff55" "#ffff55" "#5555ff"
+         "#ff55ff" "#55ffff" "white"]))
+
 (provide 'init_setting)
 ;; init_setting.el ends here

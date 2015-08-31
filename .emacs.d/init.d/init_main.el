@@ -9,8 +9,11 @@
 ;; 初期設定など
 (require 'init_setting)
 
-;; 旧設定
-(load "~/_emacs")
+;; misc
+(require 'init_misc)
+
+;; auto-complete
+(require 'init_auto-complete)
 
 ;; ruby-mode
 (require 'init_ruby)
@@ -70,6 +73,8 @@
 
 ;; scala
 (require 'init_scala)
+
+
 
 (provide 'init_main)
 ;; init_mail.el ends here
