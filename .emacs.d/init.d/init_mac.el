@@ -33,13 +33,12 @@
 ;;                   'append)
 ;; (add-to-list 'default-frame-alist '(font . "fontset-ricty"))
 
+(require 'solarized-theme)
 (setq solarized-termcolors 256)
 (setq solarized-degrade t)
 ;; (setq solarized-contrast 'high)
 (setq solarized-visibility 'high)
 (setq solarized-broken-srgb t)
-(if macbook-air-p (load-theme 'solarized-light t)
-  (load-theme 'solarized-dark t))
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
