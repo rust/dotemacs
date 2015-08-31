@@ -41,6 +41,9 @@
 ;; Programming Misc
 (el-get-bundle rainbow-mode)
 
+;; https://github.com/Fuco1/smartparens
+(el-get-bundle Fuco1/smartparens)
+
 ;; ;;;; flymake
 ;; (el-get-bundle flycheck)
 ;; (el-get-bundle flymake-jslint)
@@ -70,10 +73,7 @@
 
 ;;;; Ruby
 (el-get-bundle enh-ruby-mode)
-(el-get-bundle ruby-block)
-(el-get-bundle ruby-end)
 (el-get-bundle fringe-helper)
-(el-get-bundle ruby-electric)
 (el-get-bundle yasnippet)
 (el-get-bundle rubocop)
 
@@ -118,6 +118,12 @@
 ;;;; Color
 (el-get-bundle color-theme-solarized)
 (el-get-bundle hl-todo)
+
+;;;; Elixir
+(el-get-bundle erlang-mode)
+(el-get-bundle elixir-lang/emacs-elixir)
+(el-get-bundle tonini/alchemist.el)
+(el-get-bundle syohex/emacs-ac-alchemist)
 
 (provide 'my-el-get)
 ;; my-el-get.el ends here

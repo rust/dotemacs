@@ -25,5 +25,14 @@
 (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 (setq ac-quick-help-prefer-x t)
 
+;; smartparens
+(require 'smartparens-config)
+(require 'smartparens-ruby)
+(smartparens-global-mode)
+(show-smartparens-global-mode t)
+(sp-with-modes '(rhtml-mode)
+  (sp-local-pair "<" ">")
+  (sp-local-pair "<%" "%>"))
+
 (provide 'init_auto-complete)
 ;; init_auto-complete.el ends here
