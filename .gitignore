@@ -14,3 +14,4 @@ auto-save-list
 .emacs.d/recentf
 .emacs.d/el-get
 .emacs.d/elpa
+.emacs.d/server
