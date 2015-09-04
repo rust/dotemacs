@@ -116,7 +116,6 @@
 (el-get-bundle migemo)
 
 ;;;; Color
-(el-get-bundle color-theme-solarized)
 (el-get-bundle hl-todo)
 
 ;;;; Elixir
@@ -124,6 +123,9 @@
 (el-get-bundle elixir-lang/emacs-elixir)
 (el-get-bundle tonini/alchemist.el)
 (el-get-bundle syohex/emacs-ac-alchemist)
+
+;;;; Virtualization
+(el-get-bundle dockerfile-mode)
 
 (provide 'my-el-get)
 ;; my-el-get.el ends here

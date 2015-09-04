@@ -74,7 +74,8 @@
 ;; scala
 (require 'init_scala)
 
-
+;; Virtualization
+(require 'init_virtualization)
 
 (provide 'init_main)
 ;; init_mail.el ends here
