@@ -19,12 +19,10 @@
 ;; Font: CodeM
 (add-to-list 'default-frame-alist '(font . "CodeM-09"))
 
-(require 'solarized-theme)
-(setq solarized-termcolors 256)
-(setq solarized-degrade t)
-;; (setq solarized-contrast 'high)
-(setq solarized-visibility 'high)
-(setq solarized-broken-srgb t)
+(load-theme 'ample t t)
+(load-theme 'ample-flat t t)
+(load-theme 'ample-light t t)
+(enable-theme 'ample)
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.

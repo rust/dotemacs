@@ -17,7 +17,6 @@
 
 ;; packages
 ;;;; General
-(el-get-bundle solarized-theme)
 (el-get-bundle auto-save-buffers-enhanced)
 
 ;;;; for auto-complete
@@ -116,6 +115,8 @@
 (el-get-bundle migemo)
 
 ;;;; Color
+(el-get-bundle solarized-theme)
+(el-get-bundle ample-theme)
 (el-get-bundle hl-todo)
 
 ;;;; Elixir
