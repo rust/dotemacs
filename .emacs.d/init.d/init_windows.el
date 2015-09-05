@@ -39,7 +39,5 @@
 ;; disable scroll-bar
 (set-scroll-bar-mode nil)
 
-(setq magit-git-executable "C:/Program Files (x86)/Git/cmd/git.exe")
-
 (provide 'init_windows)
 ;; init_windows.el ends here
