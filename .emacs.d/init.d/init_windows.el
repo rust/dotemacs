@@ -19,6 +19,7 @@
 ;; Font: CodeM
 (add-to-list 'default-frame-alist '(font . "CodeM-09"))
 
+(require 'ample-theme)
 (load-theme 'ample t t)
 (load-theme 'ample-flat t t)
 (load-theme 'ample-light t t)
