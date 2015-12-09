@@ -20,5 +20,7 @@
 (load-library "migemo")
 (migemo-init)
 
+(helm-migemo-mode 1)
+
 (provide 'init_migemo)
 ;; init_migemo.el ends here

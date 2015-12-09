@@ -61,7 +61,6 @@
 (el-get-bundle helm-git-files)
 (el-get-bundle helm-descbinds)
 (el-get-bundle helm-swoop)
-(el-get-bundle helm-migemo)
 (el-get-bundle ace-isearch)
 
 ;;;; git
