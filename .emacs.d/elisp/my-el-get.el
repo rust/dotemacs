@@ -49,6 +49,8 @@
 
 ;;;; Python
 (el-get-bundle jedi)
+(el-get-bundle py-autopep8)
+(el-get-bundle python-django)
 
 ;;;; go
 (el-get-bundle go-mode)

@@ -23,6 +23,12 @@
 (add-hook 'python-mode-hook '(lambda ()
                                (require 'pycomplete)
                                ))
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+
+(add-hook 'python-mode-hook 'py-autopep8-enable-on-save)
+
+(require 'python-django)
 
 (provide 'init_python)
 ;; init_python.el ends here
