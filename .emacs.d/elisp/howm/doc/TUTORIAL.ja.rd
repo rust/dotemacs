@@ -5,8 +5,6 @@
 これを読むよりも, ↓の方がわかりやすくておすすめです
 
 * ((<"Meadow/Emacs memo での紹介"|URL:http://www.bookshelf.jp/cgi-bin/goto.cgi?file=meadow&node=howm>))
-* ヽ(´ー`)ノさんの
-  ((<howm チュートリアル|URL:http://briefcase.yahoo.co.jp/karaage_dayomon>))
 * ((<UNIX USER 誌の記事|URL:http://howm.sourceforge.jp/uu/>))
 
 == メモを書く

@@ -1,5 +1,5 @@
 ;;; howm-common.el --- Wiki-like note-taking tool
-;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
+;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015
 ;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
 ;;; $Id: howm-common.el,v 1.90 2012-12-29 08:57:18 hira Exp $
 ;;;
@@ -33,6 +33,9 @@
   "For the directory DIR, check whether TARGET is under it.
 When TARGET and DIR are same, (not STRICT) is returned."
   (and (stringp dir)
+       ;; avoid unnecessary password prompting
+       ;; (I'm not sure about the return value of file-remote-p.)
+       (eq (not (file-remote-p dir)) (not (file-remote-p target)))
        (progn
          (setq target (howm-normalize-file-name target))
          (setq dir (howm-normalize-file-name dir))

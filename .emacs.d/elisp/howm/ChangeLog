@@ -1,3 +1,43 @@
+2015-12-31  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	* configure.ac: version 1.4.3
+
+2015-12-27  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	* configure.ac: version 1.4.3rc1
+
+	* howm-mode.el (howm-list-around): fix. howm-list-title didn't work.
+
+2015-05-24  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	* configure.ac: test version
+
+	* howm-common.el (howm-subdirectory-p):
+	check "local/remote" for avoiding unnecessary password prompting
+	(cf. http://howm.osdn.jp/cgi-bin/hiki/hiki.cgi?Recentf)
+	thx > Koie-san (hide at koie.org)
+
+	* howm-misc.el (howm-normalize-file-name): ditto.
+
+2015-01-31  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	update autotools
+
+2015-01-31  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
+
+	* configure.in: test version
+
+	* howm-vars.el (howm-view-grep-default-option):
+	fix (void-function ed) error in git-head emacs (d5e3922)
+
+	* configure: use autoconf 2.69 instead of 2.67
+
+	* howm.el: update copyright years
+
+	* INSTALL: fix file mode
+
+	* COPYING: ditto.
+
 2013-12-31  HIRAOKA Kazuyuki  <khi@users.sourceforge.jp>
 
 	* configure.in: version 1.4.2

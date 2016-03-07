@@ -1,5 +1,5 @@
 ;;; howm-mode.el --- Wiki-like note-taking tool
-;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
+;;; Copyright (C) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015
 ;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
 ;;; $Id: howm-mode.el,v 1.318 2012-12-29 08:57:18 hira Exp $
 ;;;
@@ -779,10 +779,11 @@ We need entire-match in order to
   (let ((f (buffer-file-name))
         (item-list (howm-view-sort-by-reverse-date-internal
                     (howm-all-items))))
-    (howm-view-summary "" item-list)
+    (let ((howm-normalizer #'identity))
+      (howm-normalize-show "" item-list))
     (let ((pos (howm-cl-position-if (lambda (item)
                                       (string= (howm-item-name item) f))
-                                    item-list)))
+                                    (howm-view-item-list))))
       (goto-char (point-min))
       (when pos
         (forward-line pos)))

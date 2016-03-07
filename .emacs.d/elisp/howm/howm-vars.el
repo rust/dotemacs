@@ -1,5 +1,5 @@
 ;;; howm-vars.el --- Wiki-like note-taking tool
-;;; Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013
+;;; Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2015
 ;;;   HIRAOKA Kazuyuki <khi@users.sourceforge.jp>
 ;;; $Id: howm-vars.el,v 1.59 2011-12-31 15:07:29 hira Exp $
 ;;;
@@ -40,10 +40,11 @@
 ;; I split this function from howm-define-risky-command for avoiding
 ;; nested backquotes. Nested backquotes are byte-compiled to
 ;; old-style-backquotes, that cause warnings when *.elc is loaded.
-(defun howm-define-risky-command-body (command symbol args)
-  `(progn
-     (,command ,symbol ,@args)
-     (put ',symbol 'risky-local-variable t)))
+(eval-when (compile load eval)
+  (defun howm-define-risky-command-body (command symbol args)
+    `(progn
+       (,command ,symbol ,@args)
+       (put ',symbol 'risky-local-variable t))))
 
 ;; ;; This code is byte-compiled to old-style-backquotes. Sigh...
 ;; (defmacro howm-define-risky-command (risky orig)
@@ -757,13 +758,14 @@ When the value is elisp function, it is used instead of `howm-fake-grep'."
   "*Command name for fgrep.
 This variable is obsolete and may be removed in future.")
 (defvar howm-view-grep-default-option
-  (flet ((ed (d) (concat "--exclude-dir=" d)))
-    (let* ((has-ed (condition-case nil
-                       (eq 0 (call-process howm-view-grep-command nil nil nil
-                                           (ed "/") "--version"))
+  ;; "labels" causes a trouble in git-head emacs (d5e3922) [2015-01-31]
+  (let* ((ed (lambda (d) (concat "--exclude-dir=" d)))
+         (has-ed (condition-case nil
+                     (eq 0 (call-process howm-view-grep-command nil nil nil
+                                         (apply ed "/") "--version"))
                      (error nil)))
-           (opts (cons "-Hnr" (and has-ed (mapcar #'ed howm-excluded-dirs)))))
-      (mapconcat #'identity opts " "))))
+         (opts (cons "-Hnr" (and has-ed (mapcar ed howm-excluded-dirs)))))
+    (mapconcat #'identity opts " ")))
 (howm-defcustom-risky howm-view-grep-option howm-view-grep-default-option
   "*Common grep option for howm."
   :type `(radio (const :tag "scan all files"
