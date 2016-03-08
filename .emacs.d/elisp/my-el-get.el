@@ -119,6 +119,7 @@
 (el-get-bundle solarized-theme)
 (el-get-bundle ample-theme)
 (el-get-bundle hl-todo)
+(el-get-bundle highlight-indentation)
 
 ;;;; Elixir
 (el-get-bundle erlang-mode)
