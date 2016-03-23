@@ -7,7 +7,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ruby
-(setq enh-ruby-program "/usr/bin/ruby")
 (require 'enh-ruby-mode)
 ;; auto-mode by ruby
 (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
