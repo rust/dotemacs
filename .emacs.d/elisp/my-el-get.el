@@ -86,6 +86,7 @@
 (el-get-bundle scss-mode)
 (el-get-bundle sass-mode)
 (el-get-bundle yaml-mode)
+(el-get-bundle json-mode)
 
 ;;;; Haskell
 (el-get-bundle ghc)
