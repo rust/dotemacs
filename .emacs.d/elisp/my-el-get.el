@@ -39,6 +39,7 @@
 
 ;; Programming Misc
 (el-get-bundle rainbow-mode)
+(el-get-bundle vimrc-mode)
 
 ;; https://github.com/Fuco1/smartparens
 (el-get-bundle Fuco1/smartparens)
