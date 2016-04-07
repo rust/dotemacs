@@ -39,6 +39,10 @@
 ;; script-mode
 (add-to-list 'auto-mode-alist '("\\.zsh" . shell-script-mode))
 
+;; conf-mode
+(add-to-list 'auto-mode-alist '("ssh/config"    . conf-mode))
+(add-to-list 'auto-mode-alist '("\\*ssh_config" . conf-mode))
+
 ;; json-mode
 (add-hook 'json-mode-hook
           (lambda ()
