@@ -74,8 +74,8 @@
 ;; scala
 (require 'init_scala)
 
-;; Virtualization
-(require 'init_virtualization)
+;; For infra
+(require 'init_infra)
 
 (provide 'init_main)
 ;; init_mail.el ends here

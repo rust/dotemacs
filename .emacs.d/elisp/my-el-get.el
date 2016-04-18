@@ -131,6 +131,8 @@
 
 ;;;; Virtualization
 (el-get-bundle dockerfile-mode)
+(el-get-bundle terraform-mode)
+(el-get-bundle hcl-mode)
 
 (provide 'my-el-get)
 ;; my-el-get.el ends here
