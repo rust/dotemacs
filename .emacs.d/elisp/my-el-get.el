@@ -93,7 +93,7 @@
 (el-get-bundle ghc)
 
 ;;;; Scala
-(el-get-bundle scala-mode2)
+(el-get-bundle scala-mode)
 (el-get-bundle ensime)
 
 ;;;; CoffeeScript
@@ -111,7 +111,6 @@
 
 ;;;; Utils
 (el-get-bundle multi-term)
-(el-get-bundle nav)
 (el-get-bundle session)
 
 ;;;; migemo

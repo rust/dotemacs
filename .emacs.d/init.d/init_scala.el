@@ -9,7 +9,7 @@
 ;; scala
 
 ;; scala-mode2
-(require 'scala-mode2)
+(require 'scala-mode)
 (add-to-list 'auto-mode-alist '("\.sbt$" . scala-mode))
 
 ;; ensime
