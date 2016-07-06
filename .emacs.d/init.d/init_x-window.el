@@ -13,21 +13,15 @@
 
 (when (>= emacs-major-version 23)
   (setq fontname (cond
-                  ((string-match "rust-worker" system-name)
-                   "M+2VM+IPAG circle-8")
-                  ((string-match "netbook" system-name)
-                   "M+2VM+IPAG circle-6")
-                  ((string-match "precision" system-name)
-                   "M+2VM+IPAG circle-9")
-                  ((string-match "optiplex" system-name)
-                   "M+2VM+IPAG circle-10")))
+                  ((string-match "ThinkpadX220" system-name)
+                   "M+2VM+IPAG circle-8")))
   (add-to-list 'default-frame-alist (cons 'font fontname))
   (set-default-font fontname)
   (set-fontset-font "fontset-default"
                     'japanese-jisx0208
                     (cons fontname "unicode-bmp")))
 
-(load-theme 'solarized-dark)
+(require 'solarized-dark-theme)
 
 ;; transparent
 (add-to-list 'default-frame-alist '(alpha . 85))
