@@ -21,7 +21,7 @@
                     'japanese-jisx0208
                     (cons fontname "unicode-bmp")))
 
-(require 'solarized-dark-theme)
+(require 'solarized-light-theme)
 
 ;; transparent
 (add-to-list 'default-frame-alist '(alpha . 85))
@@ -29,20 +29,20 @@
 (setq frame-alpha-lower-limit 85)
 
 ;; high-light current line
-(defface hlline-face
-  '((((class color)
-      (background dark))
-     ;;(:background "dark state gray"))
-     (:background "gray10"
-                  :underline "gray24"))
-    (((class color)
-      (background light))
-     (:background "ForestGreen"
-                  :underline nil))
-    (t ()))
-  "*Face used by hl-line.")
-(setq hl-line-face 'hlline-face)
-;;(setq hl-line-face 'underline)
+;; (defface hlline-face
+;;   '((((class color)
+;;       (background dark))
+;;      ;;(:background "dark state gray"))
+;;      (:background "gray10"
+;;                   :underline "gray24"))
+;;     (((class color)
+;;       (background light))
+;;      (:background "Green"
+;;                   :underline nil))
+;;     (t ()))
+;;   "*Face used by hl-line.")
+;;(setq hl-line-face 'hlline-face)
+(setq hl-line-face 'underline)
 (global-hl-line-mode)
 
 (custom-set-variables
@@ -86,19 +86,6 @@
 ;; window
 (windmove-default-keybindings)
 (setq windmove-wrap-around t)
-
-;; emoji
-(add-to-list 'load-path "~/.emacs.d/emoji")
-(require 'emoji)
-
-;; skype
-(add-to-list 'load-path "~/.emacs.d/skype")
-(defun my-skype ()
-  (interactive)
-  (require 'skype)
-  (setq skype--my-user-handle "stnard")
-  (skype--init)
-  (skype--open-all-users-buffer-command))
 
 ;;; git commit したときのバッファを utf-8 にする
 (add-hook 'server-visit-hook
