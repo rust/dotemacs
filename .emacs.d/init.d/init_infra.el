@@ -19,5 +19,9 @@
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 
+;; Nginx
+(require 'nginx-mode)
+(add-to-list 'auto-mode-alist '("nginx\\(.*\\).conf[^/]*$" . nginx-mode))
+
 (provide 'init_infra)
 ;; init_infra.el ends here
