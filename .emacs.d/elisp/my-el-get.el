@@ -108,6 +108,7 @@
 (el-get-bundle review-mode)
 (el-get-bundle markdown-mode)
 (el-get-bundle graphviz-dot-mode)
+(el-get-bundle adaptive-wrap)
 
 ;;;; Utils
 (el-get-bundle multi-term)

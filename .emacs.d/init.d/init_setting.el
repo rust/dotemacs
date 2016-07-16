@@ -33,9 +33,6 @@
 (setq-default tab-width 2)
 (setq tab-width 2)
 (setq-default c-basic-offset 2)
-;; truncate lines
-(setq truncate-lines t)
-(setq truncate-partial-width-windows t)
 ;; Ctrl+h -> backspace
 (global-set-key "\C-h" 'backward-delete-char)
 ;; assign null-function for beep
@@ -156,6 +153,13 @@
 
 ;; Delete region C-d
 (delete-selection-mode t)
+
+;; truncate lines setting
+(require 'adaptive-wrap)
+(with-eval-after-load 'adaptive-wrap
+  (setq-default adaptive-wrap-extra-indent 2))
+(setq truncate-lines t)
+(setq truncate-partial-width-windows t)
 
 (provide 'init_setting)
 ;; init_setting.el ends here
