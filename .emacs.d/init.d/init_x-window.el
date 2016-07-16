@@ -25,20 +25,6 @@
 (set-frame-parameter nil 'alpha 85)
 (setq frame-alpha-lower-limit 85)
 
-;; high-light current line
-;; (defface hlline-face
-;;   '((((class color)
-;;       (background dark))
-;;      ;;(:background "dark state gray"))
-;;      (:background "gray10"
-;;                   :underline "gray24"))
-;;     (((class color)
-;;       (background light))
-;;      (:background "Green"
-;;                   :underline nil))
-;;     (t ()))
-;;   "*Face used by hl-line.")
-;;(setq hl-line-face 'hlline-face)
 (setq hl-line-face 'underline)
 (global-hl-line-mode)
 
