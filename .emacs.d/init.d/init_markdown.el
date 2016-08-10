@@ -13,11 +13,6 @@
 (add-to-list 'auto-mode-alist '("\\.md\\'" . gfm-mode))
 (setq markdown-command "/usr/local/bin/multimarkdown")
 
-(add-hook 'gfm-mode-hook
-          '(lambda()
-             (visual-line-mode t)
-             (adaptive-wrap-prefix-mode t)))
-
 (custom-set-faces
  '(markdown-header-face-1 ((t (:inherit org-level-1 markdown-header-face))))
  '(markdown-header-face-2 ((t (:inherit org-level-2 markdown-header-face))))
