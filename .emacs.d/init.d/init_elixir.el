@@ -11,6 +11,8 @@
 (require 'elixir-mode)
 (require 'alchemist)
 
+(add-to-list 'auto-mode-alist '("\\.exs" . elixir-mode))
+
 (setq alchemist-key-command-prefix (kbd "C-c a"))
 
 (add-hook 'elixir-mode-hook 'ac-alchemist-setup)
