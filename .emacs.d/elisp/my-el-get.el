@@ -109,6 +109,7 @@
 (el-get-bundle markdown-mode)
 (el-get-bundle graphviz-dot-mode)
 (el-get-bundle adaptive-wrap)
+(el-get-bundle elpa:toml-mode)
 
 ;;;; Utils
 (el-get-bundle multi-term)
