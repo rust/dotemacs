@@ -128,6 +128,7 @@
 (el-get-bundle elixir-lang/emacs-elixir)
 (el-get-bundle tonini/alchemist.el)
 (el-get-bundle syohex/emacs-ac-alchemist)
+(el-get-bundle pkg-info)
 
 ;;;; Virtualization
 (el-get-bundle dockerfile-mode)

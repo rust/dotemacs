@@ -74,6 +74,9 @@
 ;; scala
 (require 'init_scala)
 
+;; elixir
+(require 'init_elixir)
+
 ;; For infra
 (require 'init_infra)
 
