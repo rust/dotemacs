@@ -21,9 +21,9 @@
 (require 'solarized-light-theme)
 
 ;; transparent
-(add-to-list 'default-frame-alist '(alpha . 85))
-(set-frame-parameter nil 'alpha 85)
-(setq frame-alpha-lower-limit 85)
+(add-to-list 'default-frame-alist '(alpha . 100))
+(set-frame-parameter nil 'alpha 100)
+(setq frame-alpha-lower-limit 95)
 
 (setq hl-line-face 'underline)
 (global-hl-line-mode)
