@@ -12,7 +12,7 @@
 
 (add-to-list 'exec-path (expand-file-name "~/Works/golang/bin"))
 
-;; % go get code.google.com/p/rog-go/exp/cmd/godef
+;; % go get -u github.com/rogpeppe/godef
 (add-hook 'go-mode-hook (lambda ()
                           (local-set-key (kbd "M-.") 'godef-jump)))
 
