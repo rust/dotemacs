@@ -1,6 +1,6 @@
 ;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
 
-;; my-el-get.el
+;; my-package.el
 
 ;; Copyright (C) 2015 Shin-ichiro OGAWA
 ;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
@@ -15,9 +15,9 @@
     (goto-char (point-max))
     (eval-print-last-sexp)))
 
-;; packages
+;; el-get packages
 ;;;; General
-(el-get-bundle auto-save-buffers-enhanced)
+;; (el-get-bundle auto-save-buffers-enhanced)
 
 ;;;; for auto-complete
 (el-get-bundle auto-complete)
@@ -38,7 +38,7 @@
 (el-get-bundle expand-region)
 
 ;; Programming Misc
-(el-get-bundle rainbow-mode)
+;; (el-get-bundle rainbow-mode)
 (el-get-bundle vimrc-mode)
 
 ;; https://github.com/Fuco1/smartparens
@@ -90,7 +90,7 @@
 (el-get-bundle json-mode)
 
 ;;;; Haskell
-(el-get-bundle ghc)
+(el-get-bundle ghc-mod)
 
 ;;;; Scala
 (el-get-bundle scala-mode)
@@ -98,7 +98,7 @@
 
 ;;;; CoffeeScript
 (el-get-bundle coffee-mode)
-(el-get-bundle sourcemap)
+;; (el-get-bundle sourcemap)
 
 ;;;; Python
 (el-get-bundle python-mode)
@@ -108,20 +108,20 @@
 (el-get-bundle review-mode)
 (el-get-bundle markdown-mode)
 (el-get-bundle graphviz-dot-mode)
-(el-get-bundle adaptive-wrap)
-(el-get-bundle elpa:toml-mode)
+;; (el-get-bundle adaptive-wrap)
+;; (el-get-bundle toml-mode)
 
 ;;;; Utils
 (el-get-bundle multi-term)
-(el-get-bundle session)
+;; (el-get-bundle session)
 
 ;;;; migemo
 (el-get-bundle migemo)
 
 ;;;; Color
-(el-get-bundle solarized-theme)
-(el-get-bundle ample-theme)
-(el-get-bundle hl-todo)
+;; (el-get-bundle solarized-theme)
+;; (el-get-bundle ample-theme)
+;; (el-get-bundle hl-todo)
 (el-get-bundle highlight-indentation)
 
 ;;;; Elixir
@@ -139,5 +139,20 @@
 (el-get-bundle hcl-mode)
 (el-get-bundle nginx-mode)
 
-(provide 'my-el-get)
+;; package.el
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(package-initialize)
+(package-refresh-contents)
+
+(package-install 'auto-save-buffers-enhanced)
+(package-install 'rainbow-mode)
+(package-install 'sourcemap)
+(package-install 'adaptive-wrap)
+(package-install 'toml-mode)
+(package-install 'session)
+(package-install 'solarized-theme)
+(package-install 'ample-theme)
+(package-install 'hl-todo)
+
+(provide 'my-package)
 ;; my-el-get.el ends here

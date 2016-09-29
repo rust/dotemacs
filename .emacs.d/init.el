@@ -17,7 +17,7 @@
         (if (fboundp 'normal-top-level-add-subdirs-to-load-path)
             (normal-top-level-add-subdirs-to-load-path))))))
 ;; init.d と elisp を追加
-(add-to-load-path (list "init.d" "elisp"))
+(add-to-load-path (list "init.d" "elisp" "elpa"))
 
 ;; 環境判別
 (defvar emacs23-p (equal emacs-major-version 23))
@@ -50,8 +50,8 @@
    (setenv "PATH" (concat dir ":" (getenv "PATH")))
    (setq exec-path (append (list dir) exec-path))))
 
-;; el-get
-(require 'my-el-get)
+;; packages
+(require 'my-package)
 
 ;; 共通設定ファイル
 (require 'init_main)
