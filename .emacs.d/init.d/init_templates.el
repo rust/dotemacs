@@ -1,8 +1,8 @@
 ;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
 
-;; init_haml.el
+;; init_templates.el
 
-;; Copyright (C) 2010 Shin-ichiro OGAWA
+;; Copyright (C) 2016 Shin-ichiro OGAWA
 ;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -10,6 +10,7 @@
 (require 'haml-mode)
 (require 'sass-mode)
 (require 'scss-mode)
+(require 'slim-mode)
 
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
 (add-hook 'haml-mode-hook
@@ -48,5 +49,5 @@
 (add-hook 'php-mode-hook 'rainbow-mode)
 (add-hook 'html-mode-hook 'rainbow-mode)
 
-(provide 'init_haml)
+(provide 'init_templates)
 ;; init_haml.el ends here

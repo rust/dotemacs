@@ -19,8 +19,8 @@
 (require 'init_ruby)
 ;; rails-mode
 (require 'init_rails)
-;; haml-mode/sass-mode
-(require 'init_haml)
+;; for templates
+(require 'init_templates)
 ;; coffee-mode
 (require 'init_coffee_script)
 ;; yaml-mode
