@@ -154,6 +154,7 @@
 (package-install 'solarized-theme)
 (package-install 'ample-theme)
 (package-install 'hl-todo)
+(package-install 'jsx-mode)
 
 (provide 'my-package)
 ;; my-el-get.el ends here
