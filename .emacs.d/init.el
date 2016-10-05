@@ -30,6 +30,7 @@
 (defvar no-x-p (and (not (eq window-system 'x)) linux-p))
 (defvar lubuntu-p (string= system-name "netbook"))
 (defvar macbook-air-p (string-match "Macbook-Air" "Shin-ichiro-no-MacBook-Air.local"))
+(defvar fullhd-p (string-match "fullhd" system-name))
 (defvar windows-p (equal window-system 'w32))
 
 ;; PATHの設定 from http://sakito.jp/emacs/emacsshell.html#path
