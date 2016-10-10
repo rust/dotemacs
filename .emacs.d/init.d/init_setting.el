@@ -161,5 +161,8 @@
 (setq truncate-lines t)
 (setq truncate-partial-width-windows t)
 
+;; Disable close-other-windows
+(global-set-key (kbd "M-ESC ESC") 'keyboard-quit)
+
 (provide 'init_setting)
 ;; init_setting.el ends here
