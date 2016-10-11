@@ -9,14 +9,11 @@
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
-(setq fontname (cond
-                ((string-match "ThinkpadX220" system-name)
-                 "M+2VM+IPAG circle-8")))
-(add-to-list 'default-frame-alist (cons 'font fontname))
-(set-default-font fontname)
-(set-fontset-font "fontset-default"
-                  'japanese-jisx0208
-                  (cons fontname "unicode-bmp"))
+;; frame title
+(setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
+
+;; Font: CodeM
+(add-to-list 'default-frame-alist '(font . "CodeM-7"))
 
 (require 'solarized-light-theme)
 
