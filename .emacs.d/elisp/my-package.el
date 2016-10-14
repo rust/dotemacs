@@ -44,8 +44,8 @@
 ;; https://github.com/Fuco1/smartparens
 (el-get-bundle Fuco1/smartparens)
 
-;; ;;;; flymake
-;; (el-get-bundle flycheck)
+;;;; flymake
+(el-get-bundle flycheck)
 ;; (el-get-bundle flymake-jslint)
 
 ;;;; Python
