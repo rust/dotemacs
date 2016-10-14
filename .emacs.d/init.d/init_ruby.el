@@ -15,6 +15,7 @@
 (add-to-list 'auto-mode-alist '("\\.cgi$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rb\\.tmp" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Schemafile" . ruby-mode))
 
 (defun make-ruby-scratch-buffer ()
   (with-current-buffer (get-buffer-create "*ruby scratch*")
