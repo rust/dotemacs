@@ -22,7 +22,7 @@
 (global-set-key "\M-}" 'elscreen-next)
 (global-set-key "\M-{" 'elscreen-previous)
 (global-set-key [(s t)] 'elscreen-create)
-(global-set-key [(s w)] 'elscreen-kill)
+;; (global-set-key [(s w)] 'elscreen-kill)
 (global-set-key [(s })] 'elscreen-next)
 (global-set-key [(s {)] 'elscreen-previous)
 (global-set-key [(C-tab)] 'elscreen-next)
