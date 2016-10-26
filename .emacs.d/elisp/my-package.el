@@ -111,6 +111,7 @@
 (el-get-bundle graphviz-dot-mode)
 ;; (el-get-bundle adaptive-wrap)
 ;; (el-get-bundle toml-mode)
+(el-get-bundle yatex)
 
 ;;;; Utils
 (el-get-bundle multi-term)
