@@ -164,5 +164,8 @@
 ;; Disable close-other-windows
 (global-set-key (kbd "M-ESC ESC") 'keyboard-quit)
 
+;; Avoid to write `package-selected-packages` in init.el
+(load (setq custom-file (expand-file-name "elisp/custom.el" user-emacs-directory)))
+
 (provide 'init_setting)
 ;; init_setting.el ends here
