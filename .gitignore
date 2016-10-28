@@ -15,4 +15,4 @@ auto-save-list
 .emacs.d/el-get
 .emacs.d/elpa
 .emacs.d/server
-
+.emacs.d/elisp/custom.el
