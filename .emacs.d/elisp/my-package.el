@@ -73,7 +73,9 @@
 (el-get-bundle git-blame)
 
 ;;;; Ruby
-(el-get-bundle enh-ruby-mode)
+(el-get-bundle rbenv)
+(el-get-bundle ruby-block)
+(el-get-bundle inf-ruby)
 (el-get-bundle fringe-helper)
 (el-get-bundle yasnippet)
 (el-get-bundle rubocop)

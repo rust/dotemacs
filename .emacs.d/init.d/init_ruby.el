@@ -7,7 +7,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ruby
-(require 'enh-ruby-mode)
+
 ;; auto-mode by ruby
 (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
@@ -17,31 +17,29 @@
 (add-to-list 'auto-mode-alist '("\\.rb\\.tmp" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Schemafile" . ruby-mode))
 
-(defun make-ruby-scratch-buffer ()
-  (with-current-buffer (get-buffer-create "*ruby scratch*")
-    (ruby-mode)
-    (current-buffer)))
-(defun ruby-scratch ()
-  (interactive)
-  (pop-to-buffer (make-ruby-scratch-buffer)))
-;; for rabbit-mode
-(autoload 'rabbit-mode "rabbit-mode" "major mode for Rabbit" t)
-(add-to-list 'auto-mode-alist '("\\.\\(rbt\\|rab\\)$" . rabbit-mode))
-
-(setq ruby-deep-indent-paren-style nil)
-(setq enh-ruby-deep-indent-paren nil)
-(setq enh-ruby-check-syntax nil)
-
-(add-hook 'enh-ruby-mode-hook
-          (lambda ()
-            (font-lock-add-keywords nil
-                                    '(("^[^\n]\\{128\\}\\(.*\\)$" 1 font-lock-warning-face t)))))
-
-(defun enh-ruby-mode-set-encoding () ())
 (defun ruby-mode-set-encoding () ())
 
 (require 'yard-mode)
-(add-hook 'enh-ruby-mode-hook 'yard-mode)
+(add-hook 'ruby-mode 'yard-mode)
+
+;; rbenv
+(require 'rbenv)
+(global-rbenv-mode)
+(setq rbenv-installation-dir "~/.rbenv")
+
+;; coding style
+(electric-pair-mode t)
+(add-to-list 'electric-pair-pairs '(?| . ?|))
+
+;; highlight block
+(require 'ruby-block)
+(setq ruby-block-highlight-toggle t)
+
+;; inf-ruby
+(require 'inf-ruby)
+(setq inf-ruby-default-implementation "pry")
+(setq inf-ruby-eval-binding "Pry.toplevel_binding")
+(add-hook 'inf-ruby-mode-hook 'ansi-color-for-comint-mode-on)
 
 ;; for M-x align
 (require 'align)
