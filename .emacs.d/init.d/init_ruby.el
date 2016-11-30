@@ -16,6 +16,7 @@
 (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rb\\.tmp" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Schemafile" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.schema$" . ruby-mode))
 
 (defun ruby-mode-set-encoding () ())
 
