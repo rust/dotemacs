@@ -164,6 +164,7 @@
 ;; Themes
 (package-install 'spacemacs-theme)
 (package-install 'solarized-theme)
+(package-install 'powerline)
 
 (provide 'my-package)
 ;; my-el-get.el ends here

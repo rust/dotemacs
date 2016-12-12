@@ -31,6 +31,8 @@
 ;; (add-to-list 'default-frame-alist '(font . "fontset-ricty"))
 
 (require 'spacemacs-light-theme)
+(require 'powerline)
+(powerline-default-theme)
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
