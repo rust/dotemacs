@@ -30,7 +30,7 @@
 ;;                   'append)
 ;; (add-to-list 'default-frame-alist '(font . "fontset-ricty"))
 
-(require 'solarized-light-theme)
+(require 'spacemacs-light-theme)
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.

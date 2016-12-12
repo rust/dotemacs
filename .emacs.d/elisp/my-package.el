@@ -148,16 +148,22 @@
 (package-initialize)
 (package-refresh-contents)
 
+;; Utils
 (package-install 'auto-save-buffers-enhanced)
+
+;; Modes
 (package-install 'rainbow-mode)
 (package-install 'sourcemap)
 (package-install 'adaptive-wrap)
 (package-install 'toml-mode)
 (package-install 'session)
-(package-install 'solarized-theme)
 (package-install 'ample-theme)
 (package-install 'hl-todo)
 (package-install 'jsx-mode)
+
+;; Themes
+(package-install 'spacemacs-theme)
+(package-install 'solarized-theme)
 
 (provide 'my-package)
 ;; my-el-get.el ends here
