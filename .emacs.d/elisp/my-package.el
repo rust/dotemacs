@@ -105,9 +105,6 @@
 (el-get-bundle multi-term)
 ;; (el-get-bundle session)
 
-;;;; migemo
-(el-get-bundle migemo)
-
 ;;;; Color
 ;; (el-get-bundle solarized-theme)
 ;; (el-get-bundle ample-theme)
@@ -138,6 +135,7 @@
 ;; Utils
 (package-install 'auto-save-buffers-enhanced)
 (package-install 'pkg-info)
+(package-install 'migemo)
 
 ;; Modes
 (package-install 'rainbow-mode)

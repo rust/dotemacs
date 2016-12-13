@@ -60,17 +60,8 @@
 ;; diff-mode
 (require 'init_diff)
 
-;; yasnippet
-(require 'init_yasnippet)
-
 ;; git
 (require 'init_git)
-
-;; anzu
-(require 'init_anzu)
-
-;; migemo
-(require 'init_migemo)
 
 ;; For infra
 (require 'init_infra)
