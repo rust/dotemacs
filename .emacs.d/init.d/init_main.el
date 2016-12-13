@@ -72,9 +72,6 @@
 ;; migemo
 (require 'init_migemo)
 
-;; elixir
-(require 'init_elixir)
-
 ;; For infra
 (require 'init_infra)
 
