@@ -31,11 +31,6 @@
 
 ;; howm
 (require 'init_howm)
-;; session.el
-(require 'init_session)
-
-;; gauche.el
-(require 'init_gauche)
 
 ;; helm
 (require 'init_helm)
@@ -45,9 +40,6 @@
 
 ;; ReVIEW
 (require 'init_review)
-
-;; multi-term
-(require 'init_multi-term)
 
 ;; markdown
 (require 'init_markdown)

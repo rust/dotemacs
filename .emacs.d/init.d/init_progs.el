@@ -66,5 +66,23 @@
   (setq alchemist-key-command-prefix (kbd "C-c a"))
   (add-hook 'elixir-mode-hook 'ac-alchemist-setup))
 
+;; Gauche
+(use-package scheme-mode
+  :commands run-scheme
+  :defer t
+  :bind (("C-c s" . scheme-other-window))
+  :config
+  (modify-coding-system-alist 'process "gosh" '(utf-8 . utf-8))
+  (cond ((or mac-p ns-p)
+         (setq scheme-program-name "/opt/local/bin/gosh -i"))
+        (linux-p
+         (setq scheme-program-name "gosh -i")))
+  (defun scheme-other-window ()
+    "Run scheme on other window"
+    (interactive)
+    (switch-to-buffer-other-window
+     (get-buffer-create "*scheme*"))
+    (run-scheme scheme-program-name)))
+
 (provide 'init_progs)
 ;; init_progs.el ends here

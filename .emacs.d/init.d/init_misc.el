@@ -174,5 +174,38 @@
   (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
   (setq ac-quick-help-prefer-x t))
 
+;; session.el
+;;   kill-ringやミニバッファで過去に開いたファイルなどの履歴を保存する
+(use-package session
+  :config
+  (setq session-initialize '(de-saveplace session keys menus places)
+        session-globals-include '((kill-ring 50)
+                                  (session-file-alist 500 t)
+                                  (file-name-history 10000)))
+  (add-hook 'after-init-hook 'session-initialize)
+  ;; 前回閉じたときの位置にカーソルを復帰
+  (setq session-undo-check -1))
+
+;; multi-term
+(use-package multi-term
+  :bind (("C-c n" . multi-term-next)
+         ("C-c p" . multi-term-prev))
+  :config
+  (setq multi-term-program shell-file-name)
+
+  (add-hook 'term-mode-hook
+            '(lambda ()
+               ;; C-h を term 内文字削除にする
+               (define-key term-raw-map (kbd "C-h") 'term-send-backspace)
+               ;; C-y を term 内ペーストにする
+               (define-key term-raw-map (kbd "C-y") 'term-paste)
+               ))
+
+  (global-set-key (kbd "C-c t") '(lambda ()
+                                   (interactive)
+                                   (if (get-buffer "*terminal<1>*")
+                                       (switch-to-buffer "*terminal<1>*")
+                                     (multi-term)))))
+
 (provide 'init_misc)
 ;; init_misc.el ends here
