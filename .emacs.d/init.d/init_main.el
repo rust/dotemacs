@@ -72,9 +72,6 @@
 ;; migemo
 (require 'init_migemo)
 
-;; scala
-(require 'init_scala)
-
 ;; elixir
 (require 'init_elixir)
 

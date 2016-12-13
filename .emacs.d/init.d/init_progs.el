@@ -34,5 +34,13 @@
   (add-to-list 'load-path (expand-file-name "~/Works/golang/src/github.com/dougm/goflymake"))
   (require 'go-flymake))
 
+;; scala-mode
+(use-package scala-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\.sbt$" . scala-mode))
+  ;; ensime
+  (require 'ensime)
+  (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
+
 (provide 'init_progs)
 ;; init_progs.el ends here
