@@ -9,7 +9,7 @@
 ;; misc
 
 ;; haskell-mode
-(use-package ghc-mod
+(use-package ghc
   :config
   (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
   (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
@@ -18,36 +18,34 @@
 
 ;; go-mode
 (use-package go-mode
+  :defer t
   :config
   (add-to-list 'exec-path (expand-file-name "~/Works/golang/bin"))
+  (add-to-list 'load-path (expand-file-name "~/Works/golang/src/github.com/nsf/gocode/emacs"))
+  (add-to-list 'load-path (expand-file-name "~/Works/golang/src/github.com/dougm/goflymake"))
   ;; Run gofmt before saving
   (add-hook 'before-save-hook 'gofmt-before-save)
 
   ;; % go get -u github.com/rogpeppe/godef
   (add-hook 'go-mode-hook (lambda ()
-                            (local-set-key (kbd "M-.") 'godef-jump)))
-  ;; % go get -u github.com/nsf/gocode
-  (add-to-list 'load-path (expand-file-name "~/Works/golang/src/github.com/nsf/gocode/emacs"))
-  (require 'go-autocomplete)
-  (require 'auto-complete-config)
-  ;; % go get -u github.com/dougm/goflymake
-  (add-to-list 'load-path (expand-file-name "~/Works/golang/src/github.com/dougm/goflymake"))
-  (require 'go-flymake))
+                            (local-set-key (kbd "M-.") 'godef-jump))))
+;; % go get -u github.com/nsf/gocode
+(use-package go-autocomplete :defer t)
+;; % go get -u github.com/dougm/goflymake
+(use-package go-flymake :defer t)
 
 ;; scala-mode
 (use-package scala-mode
   :config
-  (add-to-list 'auto-mode-alist '("\.sbt$" . scala-mode))
-  ;; ensime
-  (require 'ensime)
+  (add-to-list 'auto-mode-alist '("\.sbt$" . scala-mode)))
+(use-package ensime
+  :config
   (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
 
 ;; elixir-mode
+(use-package erlang)
 (use-package elixir-mode
   :config
-  (require 'alchemist)
-  (setq alchemist-key-command-prefix (kbd "C-c a"))
-  (add-hook 'elixir-mode-hook 'ac-alchemist-setup)
   (defun my-elixir-do-end-close-action (id action context)
     (when (eq action 'insert)
       (newline-and-indent)
@@ -63,6 +61,10 @@
                    :when '(("SPC" "RET"))
                    :post-handlers '(:add my-elixir-do-end-close-action)
                    :actions '(insert))))
+(use-package alchemist
+  :config
+  (setq alchemist-key-command-prefix (kbd "C-c a"))
+  (add-hook 'elixir-mode-hook 'ac-alchemist-setup))
 
 (provide 'init_progs)
 ;; init_progs.el ends here

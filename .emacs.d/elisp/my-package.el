@@ -87,10 +87,6 @@
 (el-get-bundle sass-mode)
 (el-get-bundle yaml-mode)
 
-;;;; Scala
-(el-get-bundle scala-mode)
-(el-get-bundle ensime)
-
 ;;;; CoffeeScript
 (el-get-bundle coffee-mode)
 ;; (el-get-bundle sourcemap)
@@ -104,7 +100,6 @@
 (el-get-bundle markdown-mode)
 (el-get-bundle graphviz-dot-mode)
 ;; (el-get-bundle adaptive-wrap)
-;; (el-get-bundle toml-mode)
 
 ;;;; Utils
 (el-get-bundle multi-term)
@@ -124,7 +119,6 @@
 (el-get-bundle elixir-lang/emacs-elixir)
 (el-get-bundle tonini/alchemist.el)
 (el-get-bundle syohex/emacs-ac-alchemist)
-(el-get-bundle pkg-info)
 
 ;;;; Virtualization
 (el-get-bundle dockerfile-mode)
@@ -135,14 +129,15 @@
 (el-get-bundle nginx-mode)
 
 ;; package.el and use-package
-;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 (package-refresh-contents)
 (package-install 'use-package)
 
-
 ;; Utils
 (package-install 'auto-save-buffers-enhanced)
+(package-install 'pkg-info)
 
 ;; Modes
 (package-install 'rainbow-mode)
@@ -153,6 +148,13 @@
 (package-install 'ample-theme)
 (package-install 'hl-todo)
 (package-install 'jsx-mode)
+(package-install 'yatex)
+(package-install 'json-mode)
+(package-install 'ghc)
+(package-install 'go-mode)
+(package-install 'go-autocomplete)
+(package-install 'scala-mode)
+(package-install 'ensime)
 
 ;; Themes
 (package-install 'spacemacs-theme)
