@@ -90,10 +90,6 @@
 (el-get-bundle scss-mode)
 (el-get-bundle sass-mode)
 (el-get-bundle yaml-mode)
-(el-get-bundle json-mode)
-
-;;;; Haskell
-(el-get-bundle ghc-mod)
 
 ;;;; Scala
 (el-get-bundle scala-mode)
@@ -113,7 +109,6 @@
 (el-get-bundle graphviz-dot-mode)
 ;; (el-get-bundle adaptive-wrap)
 ;; (el-get-bundle toml-mode)
-(el-get-bundle yatex)
 
 ;;;; Utils
 (el-get-bundle multi-term)
@@ -143,10 +138,12 @@
 (el-get-bundle hcl-mode)
 (el-get-bundle nginx-mode)
 
-;; package.el
+;; package.el and use-package
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 (package-refresh-contents)
+(package-install 'use-package)
+
 
 ;; Utils
 (package-install 'auto-save-buffers-enhanced)

@@ -8,12 +8,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; misc
 
-;; for tex
-(setq auto-mode-alist
-      (cons (cons "\\.tex$" 'yatex-mode) auto-mode-alist))
-(autoload 'yatex-mode "yatex" "Yet Another LaTeX mode" t)
-(setq YaTeX-kanji-code nil)
-(setq YaTeX-use-AMS-LaTeX t)
+;; for TeX
+(use-package yatex
+  :config
+  (setq auto-mode-alist
+        (cons (cons "\\.tex$" 'yatex-mode) auto-mode-alist))
+  (setq YaTeX-kanji-code nil)
+  (setq YaTeX-use-AMS-LaTeX t))
 
 ;; haskell-mode
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
@@ -29,18 +30,23 @@
 (add-to-list 'auto-mode-alist '("\\.h$"    . c++-mode))
 
 ;; css-mode
-(require 'css-mode)
-(setq cssm-indent-function #'cssm-c-style-indenter)
+(use-package css-mode
+  :config
+  (setq cssm-indent-function #'cssm-c-style-indenter))
+
 
 ;;; Interactively Do Things
-(require 'ido)
-(ido-mode t)
+(use-package ido
+  :config
+  (ido-mode t))
 
 ;; json-mode
-(add-hook 'json-mode-hook
+(use-package json-mode
+  :config
+  (add-hook 'json-mode-hook
           (lambda ()
             (make-local-variable 'js-indent-level)
-            (setq js-indent-level 2)))
+            (setq js-indent-level 2))))
 
 (provide 'init_misc)
 ;; init_misc.el ends here

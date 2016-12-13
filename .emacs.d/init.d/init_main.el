@@ -29,6 +29,8 @@
 (require 'init_yaml)
 ;; web-mode
 (require 'init_web-mode)
+;; Programing Languages
+(require 'init_progs)
 
 ;; howm
 (require 'init_howm)
