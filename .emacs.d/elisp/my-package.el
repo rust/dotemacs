@@ -53,10 +53,6 @@
 (el-get-bundle py-autopep8)
 (el-get-bundle python-django)
 
-;;;; go
-(el-get-bundle go-mode)
-(el-get-bundle go-autocomplete)
-
 ;;;; helm
 (el-get-bundle helm)
 ;; (el-get-bundle ac-helm)
@@ -139,7 +135,7 @@
 (el-get-bundle nginx-mode)
 
 ;; package.el and use-package
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
+;; (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 (package-initialize)
 (package-refresh-contents)
 (package-install 'use-package)

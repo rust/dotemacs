@@ -72,9 +72,6 @@
 ;; migemo
 (require 'init_migemo)
 
-;; go
-(require 'init_go)
-
 ;; scala
 (require 'init_scala)
 
