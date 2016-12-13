@@ -167,5 +167,30 @@
 ;; Avoid to write `package-selected-packages` in init.el
 (load (setq custom-file (expand-file-name "elisp/custom.el" user-emacs-directory)))
 
+(defun diff-mode-setup-faces ()
+  (set-face-attribute 'diff-added-face nil
+                      :foreground "green"
+                      :background nil
+                      :weight 'normal)
+  (set-face-attribute 'diff-removed-face nil
+                      :foreground "firebrick1"
+                      :background nil
+                      :weight 'normal)
+  (set-face-attribute 'diff-refine-change nil
+                      :background "gray12"
+                      :weight 'extra-bold)
+  (set-face-attribute 'diff-header-face nil
+                      :background "midnight blue")
+  (set-face-attribute 'diff-file-header-face nil
+                      :foreground "DarkOrange1"
+                      :background "midnight blue"
+                      :weight 'extra-bold)
+  (set-face-attribute 'diff-hunk-header-face nil
+                      :foreground "deep sky blue"
+                      :background "midnight blue"
+                      :weight 'extra-bold)
+  )
+(add-hook 'diff-mode-hook 'diff-mode-setup-faces)
+
 (provide 'init_setting)
 ;; init_setting.el ends here

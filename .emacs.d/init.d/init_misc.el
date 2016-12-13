@@ -116,5 +116,63 @@
      (custom-set-variables '(yas/prompt-functions '(my-yas/prompt)))
      (define-key helm-command-map (kbd "y") 'yas/insert-snippet)))
 
+;; elscreen
+(use-package elscreen
+  ;; :bind (("C-z SPC"           . elscreen-next)
+  ;;        ("C-z DEL"           . elscreen-previous)
+  ;;        ;; compatibility for MacOS X
+  ;;        ("M-t"               . elscreen-create)
+  ;;        ("M-T"               . elscreen-clone)
+  ;;        ("M-}"               . elscreen-next)
+  ;;        ("M-{"               . elscreen-previous)
+  ;;        ([(s t)]             . elscreen-create)
+  ;;        ;; (global-set-key [(s w)] . elscreen-kill)
+  ;;        ([(s })]             . elscreen-next)
+  ;;        ([(s {)]             . elscreen-previous)
+  ;;        ([(C-tab)]           . elscreen-next)
+  ;;        ([(C-S-iso-lefttab)] . elscreen-previous)
+  ;;        ("C-z C-a"           . helm-elscreen))
+  :config
+  ;; (require 'elscreen-gf)
+  ;; (require 'elscreen-howm)
+  ;; (require 'elscreen-w3m)
+  (elscreen-start)
+  ;; prefix-setting
+  (elscreen-set-prefix-key "\C-z")
+  (global-set-key (kbd "C-z SPC") 'elscreen-next)
+  (global-set-key (kbd "C-z DEL") 'elscreen-previous)
+  ;; compatibility for MacOS X
+  (global-set-key "\M-t" 'elscreen-create)
+  (global-set-key "\M-T" 'elscreen-clone)
+  (global-set-key "\M-}" 'elscreen-next)
+  (global-set-key "\M-{" 'elscreen-previous)
+  (global-set-key [(s t)] 'elscreen-create)
+  ;; (global-set-key [(s w)] 'elscreen-kill)
+  (global-set-key [(s })] 'elscreen-next)
+  (global-set-key [(s {)] 'elscreen-previous)
+  (global-set-key [(C-tab)] 'elscreen-next)
+  (global-set-key [(C-S-iso-lefttab)] 'elscreen-previous)
+  (global-set-key (kbd "C-z C-a") 'helm-elscreen))
+
+;; autocomplete
+(use-package auto-complete
+  :commands auto-complete-config
+  :config
+  (add-to-list 'ac-dictionary-directories "~/.emacs.d/elisp/dict")
+  (ac-config-default)
+  ;; for global
+  (global-auto-complete-mode t)
+  (define-key ac-completing-map (kbd "M-n") 'ac-next)
+  (define-key ac-completing-map (kbd "M-p") 'ac-previous)
+  (setq ac-dwim t)
+  ;; sources
+  (setq-default ac-sources '(ac-source-filename ac-source-words-in-same-mode-buffers))
+  (add-hook 'emacs-lisp-mode-hool (lambda () (add-to-list 'ac-sources 'ac-source-symbold t)))
+  ;; automatic completion
+  (setq ac-auto-start 5)
+  (ac-set-trigger-key "TAB")
+  (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+  (setq ac-quick-help-prefer-x t))
+
 (provide 'init_misc)
 ;; init_misc.el ends here

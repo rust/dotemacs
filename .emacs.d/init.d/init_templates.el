@@ -49,5 +49,14 @@
 (add-hook 'php-mode-hook 'rainbow-mode)
 (add-hook 'html-mode-hook 'rainbow-mode)
 
+;; smartparens
+(require 'smartparens-config)
+(require 'smartparens-ruby)
+(smartparens-global-mode)
+(show-smartparens-global-mode t)
+(sp-with-modes '(rhtml-mode)
+  (sp-local-pair "<" ">")
+  (sp-local-pair "<%" "%>"))
+
 (provide 'init_templates)
 ;; init_haml.el ends here

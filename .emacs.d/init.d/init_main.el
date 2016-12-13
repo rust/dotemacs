@@ -12,9 +12,6 @@
 ;; misc
 (require 'init_misc)
 
-;; auto-complete
-(require 'init_auto-complete)
-
 ;; ruby-mode
 (require 'init_ruby)
 ;; rails-mode
@@ -45,8 +42,6 @@
 
 ;; python-mode
 (require 'init_python)
-;; elscreen
-(require 'init_elscreen)
 
 ;; ReVIEW
 (require 'init_review)
@@ -56,9 +51,6 @@
 
 ;; markdown
 (require 'init_markdown)
-
-;; diff-mode
-(require 'init_diff)
 
 ;; git
 (require 'init_git)
