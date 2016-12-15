@@ -32,6 +32,7 @@
 (defvar macbook-air-p (string-match "Macbook-Air" "Shin-ichiro-no-MacBook-Air.local"))
 (defvar fullhd-p (string-match "fullhd" system-name))
 (defvar windows-p (equal window-system 'w32))
+(defvar sierra-p (string= system-name "MacBookPro.local"))
 
 ;; PATHの設定 from http://sakito.jp/emacs/emacsshell.html#path
 ;; より下に記述した物が PATH の先頭に追加されます
