@@ -60,8 +60,8 @@
    '(anzu-search-threshold 1000)
    '(anzu-use-mimego t)
    '(anzu-replace-to-string-separator " => "))
-  :bind ((("M-%") . anzu-query-replace)
-         (("C-M-%") . anzu-query-replace-regexp)))
+  :bind (("M-%"   . anzu-query-replace)
+         ("C-M-%" . anzu-query-replace-regexp)))
 
 ;; migemo
 (use-package migemo
