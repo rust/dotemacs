@@ -19,7 +19,7 @@
 
 ;; Font: CodeM
 (cond (fullhd-p (add-to-list 'default-frame-alist '(font . "CodeM-10")))
-      (t (add-to-list 'default-frame-alist '(font . "CodeM-11"))))
+      (t (add-to-list 'default-frame-alist '(font . "CodeM-12"))))
 
 ;;;; Font: Ricty
 ;; (create-fontset-from-ascii-font "Ricty-12:weight=normal:slant=normal" nil "ricty")
@@ -30,7 +30,7 @@
 ;;                   'append)
 ;; (add-to-list 'default-frame-alist '(font . "fontset-ricty"))
 
-(require 'spacemacs-dark-theme)
+(require 'spacemacs-light-theme)
 (require 'powerline)
 (defun powerline-my-theme ()
   "Setup the default mode-line."
