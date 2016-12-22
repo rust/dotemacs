@@ -31,8 +31,8 @@
 ;; css-mode
 (use-package css-mode
   :config
-  (setq cssm-indent-function #'cssm-c-style-indenter))
-
+  (setq cssm-indent-function #'cssm-c-style-indenter)
+  (setq css-indent-offset 2))
 
 ;;; Interactively Do Things
 (use-package ido
@@ -60,8 +60,8 @@
    '(anzu-search-threshold 1000)
    '(anzu-use-mimego t)
    '(anzu-replace-to-string-separator " => "))
-  :bind (("M-%"   . anzu-query-replace)
-         ("C-M-%" . anzu-query-replace-regexp)))
+  (bind-keys ("M-%"   . anzu-query-replace)
+             ("C-M-%" . anzu-query-replace-regexp)))
 
 ;; migemo
 (use-package migemo
