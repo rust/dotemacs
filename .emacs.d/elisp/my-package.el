@@ -153,6 +153,8 @@
 (package-install 'go-autocomplete)
 (package-install 'scala-mode)
 (package-install 'ensime)
+(package-install 'php-mode)
+(package-install 'ac-php)
 
 ;; Themes
 (package-install 'spacemacs-theme)
