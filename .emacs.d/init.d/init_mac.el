@@ -30,7 +30,8 @@
 ;;                   'append)
 ;; (add-to-list 'default-frame-alist '(font . "fontset-ricty"))
 
-(require 'spacemacs-light-theme)
+;; (require 'spacemacs-light-theme)
+(require 'solarized-light-theme)
 (require 'powerline)
 (defun powerline-my-theme ()
   "Setup the default mode-line."
