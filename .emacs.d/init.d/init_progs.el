@@ -99,5 +99,10 @@
                ))
   )
 
+;; Rust
+(use-package rust-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+
 (provide 'init_progs)
 ;; init_progs.el ends here

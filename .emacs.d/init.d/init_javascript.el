@@ -10,6 +10,7 @@
 
 (require 'jsx-mode)
 (add-to-list 'auto-mode-alist '("\\.js\\'" . jsx-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . jsx-mode))
 
 (add-hook 'jsx-mode-hook
           (lambda ()

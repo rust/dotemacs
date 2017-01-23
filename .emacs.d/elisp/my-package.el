@@ -155,6 +155,7 @@
 (package-install 'ensime)
 (package-install 'php-mode)
 (package-install 'ac-php)
+(package-install 'rust-mode)
 
 ;; Themes
 (package-install 'spacemacs-theme)
