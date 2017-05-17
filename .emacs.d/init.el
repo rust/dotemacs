@@ -31,7 +31,7 @@
 (defvar lubuntu-p (string= system-name "netbook"))
 (defvar fullhd-p (string-match "fullhd" system-name))
 (defvar windows-p (equal window-system 'w32))
-(defvar sierra-p (string-match "16.4." (shell-command-to-string "uname -r")))
+(defvar sierra-p (string-match "16." (shell-command-to-string "uname -r")))
 
 ;; PATHの設定 from http://sakito.jp/emacs/emacsshell.html#path
 ;; より下に記述した物が PATH の先頭に追加されます
