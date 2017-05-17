@@ -35,12 +35,14 @@
 (use-package go-flymake :defer t)
 
 ;; scala-mode
-(use-package scala-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\.sbt$" . scala-mode)))
 (use-package ensime
+  :ensure t
   :config
   (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
+(use-package sbt-mode
+  :pin melpa)
+(use-package scala-mode
+  :pin melpa)
 
 ;; elixir-mode
 (use-package erlang)
