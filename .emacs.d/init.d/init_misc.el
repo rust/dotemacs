@@ -134,7 +134,6 @@
   ;;        ("C-z C-a"           . helm-elscreen))
   :config
   ;; (require 'elscreen-gf)
-  ;; (require 'elscreen-howm)
   ;; (require 'elscreen-w3m)
   (elscreen-start)
   ;; prefix-setting

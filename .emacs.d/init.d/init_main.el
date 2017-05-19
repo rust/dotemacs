@@ -29,9 +29,6 @@
 ;; Programing Languages
 (require 'init_progs)
 
-;; howm
-(require 'init_howm)
-
 ;; helm
 (require 'init_helm)
 
