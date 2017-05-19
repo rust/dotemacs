@@ -106,5 +106,14 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode)))
 
+;; Java/Groovy
+(use-package groovy-mode
+  :config
+  (add-hook 'groovy-mode-hook '(lambda ()
+                                 (require 'groovy-electric)
+                                 (groovy-electric-mode)
+                                 (c-set-offset 'label 4)))
+  (add-to-list 'auto-mode-alist '("Jenkinsfile" . groovy-mode)))
+
 (provide 'init_progs)
 ;; init_progs.el ends here

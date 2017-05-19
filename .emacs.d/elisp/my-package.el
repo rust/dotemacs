@@ -156,6 +156,7 @@
 (package-install 'php-mode)
 (package-install 'ac-php)
 (package-install 'rust-mode)
+(package-install 'groovy-mode)
 
 ;; Themes
 (package-install 'spacemacs-theme)
