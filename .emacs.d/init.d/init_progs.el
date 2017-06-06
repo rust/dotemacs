@@ -47,15 +47,6 @@
 (use-package scala-mode
   :pin melpa)
 
-;; meghanada-mode
-(use-package meghanada
-  :config
-  (add-hook 'java-mode-hook
-            (lambda()
-              (meghanada-mode t)
-              (setq c-basic-offset 2)
-              (add-hook 'before-save-hook 'meghanada-code-beautify-before-save))))
-
 ;; elixir-mode
 (use-package erlang)
 (use-package elixir-mode

@@ -157,7 +157,6 @@
 (package-install 'ac-php)
 (package-install 'rust-mode)
 (package-install 'groovy-mode)
-(package-install 'meghanada)
 
 ;; Themes
 (package-install 'spacemacs-theme)
