@@ -16,3 +16,4 @@ auto-save-list
 .emacs.d/elpa
 .emacs.d/server
 .emacs.d/elisp/custom.el
+.emacs.d/meghanada/
