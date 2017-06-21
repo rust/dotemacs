@@ -28,7 +28,10 @@
 
   ;; % go get -u github.com/rogpeppe/godef
   (add-hook 'go-mode-hook (lambda ()
-                            (local-set-key (kbd "M-.") 'godef-jump))))
+                            (local-set-key (kbd "M-.") 'godef-jump)
+                            (setq indent-tabs-mode nil)
+                            (setq c-basic-offset 4)
+                            (setq tab-width 4))))
 ;; % go get -u github.com/nsf/gocode
 (use-package go-autocomplete :defer t)
 ;; % go get -u github.com/dougm/goflymake
