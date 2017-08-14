@@ -66,7 +66,7 @@
 (el-get-bundle magit)
 (el-get-bundle git-gutter)
 (el-get-bundle git-gutter-fringe)
-(el-get-bundle git-blame)
+;;(el-get-bundle git-blame)
 
 ;;;; Ruby
 (el-get-bundle rbenv)
