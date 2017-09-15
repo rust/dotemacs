@@ -48,11 +48,6 @@
 (el-get-bundle flycheck)
 ;; (el-get-bundle flymake-jslint)
 
-;;;; Python
-(el-get-bundle jedi)
-(el-get-bundle py-autopep8)
-(el-get-bundle python-django)
-
 ;;;; helm
 (el-get-bundle helm)
 ;; (el-get-bundle ac-helm)
@@ -90,9 +85,6 @@
 ;;;; CoffeeScript
 (el-get-bundle coffee-mode)
 ;; (el-get-bundle sourcemap)
-
-;;;; Python
-(el-get-bundle python-mode)
 
 ;;;; Misc modes
 (el-get-bundle web-mode)
@@ -136,6 +128,7 @@
 (package-install 'auto-save-buffers-enhanced)
 (package-install 'pkg-info)
 (package-install 'migemo)
+(package-install 'exec-path-from-shell)
 
 ;; Modes
 (package-install 'rainbow-mode)
@@ -157,6 +150,14 @@
 (package-install 'ac-php)
 (package-install 'rust-mode)
 (package-install 'groovy-mode)
+
+;; Python
+(package-install 'python-mode)
+(package-install 'jedi)
+(package-install 'python-django)
+(package-install 'py-autopep8)
+(package-install 'flymake-cursor)
+(package-install 'flymake-python-pyflakes)
 
 ;; Themes
 (package-install 'spacemacs-theme)

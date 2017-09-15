@@ -17,3 +17,4 @@ auto-save-list
 .emacs.d/server
 .emacs.d/elisp/custom.el
 .emacs.d/meghanada/
+.emacs.d/.python-environments/

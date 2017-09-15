@@ -116,5 +116,19 @@
                                  (c-set-offset 'label 4)))
   (add-to-list 'auto-mode-alist '("Jenkinsfile" . groovy-mode)))
 
+
+;; Python
+(use-package python-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+  (add-to-list 'interpreter-mode-alist '("python" . python-mode))
+  (setq jedi:complete-on-dot t)
+  (setq py-autopep8-options '("--max-line-length=200"))
+  (setq flycheck-flake8-maximum-line-length 200)
+  (py-autopep8-enable-on-save)
+  (require 'flymake-python-pyflakes)
+  (flymake-python-pyflakes-load))
+
 (provide 'init_progs)
 ;; init_progs.el ends here
+  (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))

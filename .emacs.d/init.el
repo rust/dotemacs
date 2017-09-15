@@ -54,6 +54,9 @@
 ;; packages
 (require 'my-package)
 
+;; Set PATH
+(exec-path-from-shell-initialize)
+
 ;; 共通設定ファイル
 (require 'init_main)
 
