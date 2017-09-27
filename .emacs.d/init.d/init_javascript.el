@@ -8,17 +8,17 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; for javascript
 
-(require 'rjsx-mode)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
+(use-package rjsx-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+  (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
+  (add-hook 'rjsx-mode-hook
+            (lambda ()
+              (setq jsx-indent-level 2)
+              (define-key haml-mode-map "\C-m" 'newline-and-indent)))
 
-(add-hook 'rjsx-mode-hook
-          (lambda ()
-            (setq jsx-indent-level 2)
-            (define-key haml-mode-map "\C-m" 'newline-and-indent)))
-
-;; Set 2 spaces tab
-(setq-default js2-basic-offset 2)
+  ;; Set 2 spaces tab
+  (setq-default js2-basic-offset 2))
 
 (provide 'init_javascript)
 ;; init_javascript.el ends here
