@@ -58,7 +58,6 @@
 ;; (el-get-bundle ace-isearch)
 
 ;;;; git
-(el-get-bundle magit)
 (el-get-bundle git-gutter)
 (el-get-bundle git-gutter-fringe)
 ;;(el-get-bundle git-blame)
@@ -130,6 +129,9 @@
 (package-install 'migemo)
 (package-install 'exec-path-from-shell)
 
+;; Git
+(package-install 'magit)
+
 ;; Modes
 (package-install 'rainbow-mode)
 (package-install 'sourcemap)
@@ -138,7 +140,6 @@
 (package-install 'session)
 (package-install 'ample-theme)
 (package-install 'hl-todo)
-(package-install 'jsx-mode)
 (package-install 'rjsx-mode)
 (package-install 'yatex)
 (package-install 'json-mode)
