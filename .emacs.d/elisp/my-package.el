@@ -167,6 +167,7 @@
 (package-install 'rainbow-delimiters)
 (package-install 'twilight-anti-bright-theme)
 (package-install 'dracula-theme)
+(package-install 'tangotango-theme)
 
 (provide 'my-package)
 ;; my-el-get.el ends here

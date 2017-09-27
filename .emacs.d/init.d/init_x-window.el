@@ -20,7 +20,9 @@
 ;; (load-theme 'atom-one-dark t)
 ;; (require 'twilight-anti-bright-theme)
 ;; (load-theme 'twilight-anti-bright t)
-(load-theme 'dracula t)
+;; (load-theme 'dracula t)
+;; (load-theme 'misterioso t)
+(load-theme 'tangotango t)
 
 ;; transparent
 (add-to-list 'default-frame-alist '(alpha . 100))
