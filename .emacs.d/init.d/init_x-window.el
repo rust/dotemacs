@@ -15,7 +15,12 @@
 ;; Font: CodeM
 (add-to-list 'default-frame-alist '(font . "CodeM-10"))
 
-(require 'solarized-light-theme)
+;; (require 'solarized-light-theme)
+;; (load-theme 'solarized-light t)
+;; (load-theme 'atom-one-dark t)
+;; (require 'twilight-anti-bright-theme)
+;; (load-theme 'twilight-anti-bright t)
+(load-theme 'dracula t)
 
 ;; transparent
 (add-to-list 'default-frame-alist '(alpha . 100))

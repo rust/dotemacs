@@ -163,6 +163,10 @@
 (package-install 'spacemacs-theme)
 (package-install 'solarized-theme)
 (package-install 'powerline)
+(package-install 'atom-one-dark-theme)
+(package-install 'rainbow-delimiters)
+(package-install 'twilight-anti-bright-theme)
+(package-install 'dracula-theme)
 
 (provide 'my-package)
 ;; my-el-get.el ends here
