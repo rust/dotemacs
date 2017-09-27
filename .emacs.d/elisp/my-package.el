@@ -139,6 +139,7 @@
 (package-install 'ample-theme)
 (package-install 'hl-todo)
 (package-install 'jsx-mode)
+(package-install 'rjsx-mode)
 (package-install 'yatex)
 (package-install 'json-mode)
 (package-install 'ghc)

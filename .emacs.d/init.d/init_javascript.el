@@ -8,11 +8,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; for javascript
 
-(require 'jsx-mode)
-(add-to-list 'auto-mode-alist '("\\.js\\'" . jsx-mode))
-(add-to-list 'auto-mode-alist '("\\.jsx\\'" . jsx-mode))
+(require 'rjsx-mode)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
 
-(add-hook 'jsx-mode-hook
+(add-hook 'rjsx-mode-hook
           (lambda ()
             (setq jsx-indent-level 2)
             (define-key haml-mode-map "\C-m" 'newline-and-indent)))
