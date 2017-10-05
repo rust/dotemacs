@@ -15,7 +15,7 @@
 ;; Font: CodeM
 (add-to-list 'default-frame-alist '(font . "CodeM-10"))
 
-(load-theme 'tangotango t)
+(load-theme 'solarized-light t)
 
 ;; transparent
 (add-to-list 'default-frame-alist '(alpha . 100))

@@ -164,12 +164,14 @@
 ;; Themes
 (package-install 'powerline)
 ;; (package-install 'spacemacs-theme)
-;; (package-install 'solarized-theme)
+(package-install 'solarized-theme)
 ;; (package-install 'atom-one-dark-theme)
 ;; (package-install 'rainbow-delimiters)
 ;; (package-install 'twilight-anti-bright-theme)
 ;; (package-install 'dracula-theme)
-(package-install 'tangotango-theme)
+;; (package-install 'tangotango-theme)
+;; (package-install 'color-theme-sanityinc-tomorrow)
+;; (package-install 'base16-theme)
 
 (provide 'my-package)
 ;; my-el-get.el ends here
