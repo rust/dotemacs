@@ -15,6 +15,7 @@
   (add-hook 'rjsx-mode-hook
             (lambda ()
               (setq jsx-indent-level 2)
+              (setq js2-strict-missing-semi-warning nil)
               (define-key haml-mode-map "\C-m" 'newline-and-indent)))
 
   ;; Set 2 spaces tab
