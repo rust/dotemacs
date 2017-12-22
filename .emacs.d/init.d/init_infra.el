@@ -22,6 +22,10 @@
 ;; Nginx
 (require 'nginx-mode)
 (add-to-list 'auto-mode-alist '("nginx\\(.*\\).conf[^/]*$" . nginx-mode))
+(add-hook 'nginx-mode-hook (lambda ()
+                             (setq indent-tabs-mode nil)
+                             (setq c-basic-offset 4)
+                             (setq tab-width 4)))
 
 (provide 'init_infra)
 ;; init_infra.el ends here
