@@ -152,6 +152,7 @@
 (package-install 'ac-php)
 (package-install 'rust-mode)
 (package-install 'groovy-mode)
+(package-install 'prettier-js)
 
 ;; Python
 (package-install 'python-mode)
