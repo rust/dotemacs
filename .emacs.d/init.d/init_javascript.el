@@ -14,6 +14,7 @@
   (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode))
   (add-hook 'rjsx-mode-hook
             (lambda ()
+              (setq js-switch-indent-offset 2)
               (setq jsx-indent-level 2)
               (setq js2-strict-missing-semi-warning nil)
               (define-key haml-mode-map "\C-m" 'newline-and-indent)))
