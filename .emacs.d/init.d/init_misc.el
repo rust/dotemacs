@@ -47,6 +47,11 @@
             (make-local-variable 'js-indent-level)
             (setq js-indent-level 2))))
 
+;; jsonnet-mode
+(use-package jsonnet-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.jsonnet\\'" . jsonnet-mode)))
+
 ;; anzu
 (use-package anzu
   :config

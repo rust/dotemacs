@@ -143,6 +143,7 @@
 (package-install 'rjsx-mode)
 (package-install 'yatex)
 (package-install 'json-mode)
+(package-install 'jsonnet-mode)
 (package-install 'ghc)
 (package-install 'go-mode)
 (package-install 'go-autocomplete)
