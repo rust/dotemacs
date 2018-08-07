@@ -50,7 +50,8 @@
 ;; jsonnet-mode
 (use-package jsonnet-mode
   :config
-  (add-to-list 'auto-mode-alist '("\\.jsonnet\\'" . jsonnet-mode)))
+  (add-to-list 'auto-mode-alist '("\\.jsonnet\\'" . jsonnet-mode))
+  (add-to-list 'auto-mode-alist '("\\.libsonnet\\'" . jsonnet-mode)))
 
 ;; anzu
 (use-package anzu
