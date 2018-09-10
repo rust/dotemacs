@@ -108,9 +108,6 @@
 (el-get-bundle tonini/alchemist.el)
 (el-get-bundle syohex/emacs-ac-alchemist)
 
-;;;; Virtualization
-(el-get-bundle dockerfile-mode)
-
 ;; infra
 (el-get-bundle terraform-mode)
 (el-get-bundle hcl-mode)
@@ -131,6 +128,10 @@
 
 ;; Git
 (package-install 'magit)
+
+;;;; Virtualization
+(package-install 'dockerfile-mode)
+(package-install 'docker-compose-mode)
 
 ;; Modes
 (package-install 'rainbow-mode)

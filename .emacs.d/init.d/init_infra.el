@@ -16,8 +16,11 @@
 (add-to-list 'auto-mode-alist '("\\*ssh_config" . conf-mode))
 
 ;; docker
-(require 'dockerfile-mode)
-(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+(use-package dockerfile-mode
+  :config
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+
+(use-package docker-compose-mode)
 
 ;; Nginx
 (require 'nginx-mode)
