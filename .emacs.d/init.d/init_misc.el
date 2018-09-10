@@ -50,6 +50,9 @@
 ;; jsonnet-mode
 (use-package jsonnet-mode
   :config
+  (add-hook 'jsonnet-mode-hook
+            '(lambda ()
+               (setq comment-start "#")))
   (add-to-list 'auto-mode-alist '("\\.jsonnet\\'" . jsonnet-mode))
   (add-to-list 'auto-mode-alist '("\\.libsonnet\\'" . jsonnet-mode)))
 
