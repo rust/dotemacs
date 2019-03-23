@@ -92,6 +92,7 @@
 (el-get-bundle graphviz-dot-mode)
 ;; (el-get-bundle adaptive-wrap)
 (el-get-bundle vue-mode)
+(el-get-bundle vue-html-mode)
 
 ;;;; Utils
 (el-get-bundle multi-term)
