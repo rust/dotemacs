@@ -53,11 +53,26 @@
   (use-package pos-tip
     :ensure t))
 
+(use-package typescript-mode
+  :ensure t
+  :config
+  (setq typescript-indent-level 2)
+  (add-hook 'typescript-mode #'subword-mode))
+
 (use-package web-mode
   :ensure t
-  :mode (("\\.html?\\'" . web-mode)
-         ("\\.tsx\\'" . web-mode)
-         ("\\.jsx\\'" . web-mode))
+  :mode (("\\.html?\\'"   . web-mode)
+         ("\\.tsx\\'"     . web-mode)
+         ("\\.jsx\\'"     . web-mode)
+         ("\\.erb$"       . web-mode)
+         ("\\.phtml$"     . web-mode)
+         ("\\.tpl\\.php$" . web-mode)
+         ("\\.jsp$"       . web-mode)
+         ("\\.as[cp]x$"   . web-mode)
+         ("\\.erb$"       . web-mode)
+         ("\\.html?$"     . web-mode)
+         ("\\.eex$"       . web-mode)
+         ("\\.blade\\."   . web-mode))
   :config
   (setq web-mode-attr-indent-offset nil
         web-mode-markup-indent-offset 2
@@ -67,11 +82,15 @@
         indent-tabs-mode nil
         tab-width 2
         web-mode-enable-current-element-highlight t)
+  (setq web-mode-engines-alist
+        '(("ruby"          . "\\.erb\\'")
+          ("elixir"        . "\\.eex\\'")))
   (add-hook 'web-mode-hook
             (lambda()
               (when (string-equal "tsx" (file-name-extension buffer-file-name))
                 (setup-tide-mode))))
   (flycheck-add-mode 'typescript-tslint 'web-mode))
+
 
 (use-package typescript-mode
   :ensure t

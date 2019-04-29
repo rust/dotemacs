@@ -24,8 +24,6 @@
 (require 'init_javascript)
 ;; yaml-mode
 (require 'init_yaml)
-;; web-mode
-(require 'init_web-mode)
 ;; Programing Languages
 (require 'init_progs)
 
