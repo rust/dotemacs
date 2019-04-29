@@ -74,18 +74,21 @@
 (el-get-bundle rspec-mode)
 (el-get-bundle yard-mode)
 (el-get-bundle rhtml-mode)
-(el-get-bundle js2-mode)
 (el-get-bundle haml-mode)
 (el-get-bundle slim-mode)
 (el-get-bundle scss-mode)
 (el-get-bundle sass-mode)
 (el-get-bundle yaml-mode)
 
-;;;; CoffeeScript
+;;;; JavaScript
 (el-get-bundle coffee-mode)
 ;; (el-get-bundle sourcemap)
+(el-get-bundle js2-mode)
+(el-get-bundle tide)
 
 ;;;; Misc modes
+(el-get-bundle company-mode)
+(el-get-bundle company-quickhelp)
 (el-get-bundle web-mode)
 (el-get-bundle review-mode)
 (el-get-bundle markdown-mode)
