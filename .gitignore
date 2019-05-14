@@ -12,8 +12,8 @@ auto-save-list
 .emacs.d/.cask
 .emacs.d/ido.last
 .emacs.d/recentf
-.emacs.d/el-get
-.emacs.d/elpa
+.emacs.d/el-get/*
+.emacs.d/elpa/*
 .emacs.d/server
 .emacs.d/elisp/custom.el
 .emacs.d/meghanada/
