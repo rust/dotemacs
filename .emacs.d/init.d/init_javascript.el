@@ -33,9 +33,6 @@
   (setq flycheck-check-syntax-automatically '(save mode-enabled))
   (eldoc-mode +1)
   (tide-hl-identifier-mode +1)
-  ;; company is an optional dependency. You have to
-  ;; install it separately via package-install
-  ;; `M-x package-install [ret] company`
   (company-mode +1))
 
 (use-package company
@@ -52,12 +49,6 @@
   (company-quickhelp-mode 1)
   (use-package pos-tip
     :ensure t))
-
-(use-package typescript-mode
-  :ensure t
-  :config
-  (setq typescript-indent-level 2)
-  (add-hook 'typescript-mode #'subword-mode))
 
 (use-package web-mode
   :ensure t
@@ -85,6 +76,7 @@
   (setq web-mode-engines-alist
         '(("ruby"          . "\\.erb\\'")
           ("elixir"        . "\\.eex\\'")))
+  (setq web-mode-extra-keywords '(("javascript" . ("type" "interface"))))
   (add-hook 'web-mode-hook
             (lambda()
               (when (string-equal "tsx" (file-name-extension buffer-file-name))
