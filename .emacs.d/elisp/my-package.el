@@ -20,7 +20,7 @@
 ;; (el-get-bundle auto-save-buffers-enhanced)
 
 ;;;; for auto-complete
-(el-get-bundle auto-complete)
+;; (el-get-bundle auto-complete)
 (el-get-bundle fuzzy)
 (el-get-bundle popup)
 (el-get-bundle pos-tip)
@@ -58,8 +58,8 @@
 ;; (el-get-bundle ace-isearch)
 
 ;;;; git
-(el-get-bundle git-gutter)
-(el-get-bundle git-gutter-fringe)
+(el-get-bundle git-gutter+)
+(el-get-bundle git-gutter-fringe+)
 ;;(el-get-bundle git-blame)
 
 ;;;; Ruby
@@ -86,6 +86,12 @@
 (el-get-bundle js2-mode)
 (el-get-bundle tide)
 
+;; Search
+(el-get-bundle ivy)
+(el-get-bundle counsel)
+(el-get-bundle all-the-icon-ivy)
+(el-get-bundle ivy-rich)
+
 ;;;; Misc modes
 (el-get-bundle company-mode)
 (el-get-bundle company-quickhelp)
@@ -96,6 +102,7 @@
 ;; (el-get-bundle adaptive-wrap)
 (el-get-bundle vue-mode)
 (el-get-bundle vue-html-mode)
+(el-get-bundle rainbow-delimiters)
 
 ;;;; Utils
 (el-get-bundle multi-term)
@@ -174,7 +181,6 @@
 ;; (package-install 'spacemacs-theme)
 (package-install 'solarized-theme)
 ;; (package-install 'atom-one-dark-theme)
-;; (package-install 'rainbow-delimiters)
 ;; (package-install 'twilight-anti-bright-theme)
 ;; (package-install 'dracula-theme)
 ;; (package-install 'tangotango-theme)

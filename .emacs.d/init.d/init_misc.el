@@ -215,5 +215,30 @@
                                        (switch-to-buffer "*terminal<1>*")
                                      (multi-term)))))
 
+(use-package rainbow-delimiters
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+(use-package ivy
+  :ensure t
+  :config
+  (ivy-mode 1)
+  (counsel-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq enable-recursive-minibuffers t)
+  (setq ivy-height 30)
+  (setq ivy-extra-directories nil)
+  (setq ivy-re-builders-alist
+        '((t . ivy--regex-plus)))
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "<menu>") 'counsel-M-x))
+
+(use-package all-the-icons-ivy
+  :ensure t
+  :config
+  (all-the-icons-ivy-setup))
+
 (provide 'init_misc)
 ;; init_misc.el ends here
