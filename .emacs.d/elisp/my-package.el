@@ -89,7 +89,7 @@
 ;; Search
 (el-get-bundle ivy)
 (el-get-bundle counsel)
-(el-get-bundle all-the-icon-ivy)
+(el-get-bundle all-the-icons-ivy)
 (el-get-bundle ivy-rich)
 
 ;;;; Misc modes
