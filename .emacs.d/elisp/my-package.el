@@ -48,15 +48,6 @@
 (el-get-bundle flycheck)
 ;; (el-get-bundle flymake-jslint)
 
-;;;; helm
-(el-get-bundle helm)
-;; (el-get-bundle ac-helm)
-;; (el-get-bundle helm-git)
-;; (el-get-bundle helm-git-files)
-(el-get-bundle helm-descbinds)
-;; (el-get-bundle helm-swoop)
-;; (el-get-bundle ace-isearch)
-
 ;;;; git
 (el-get-bundle git-gutter+)
 (el-get-bundle git-gutter-fringe+)
