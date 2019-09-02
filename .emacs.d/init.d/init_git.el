@@ -17,7 +17,6 @@
   (setq magit-completing-read-function 'ivy-completing-read))
 
 (use-package git-gutter+
-  :ensure t
   :init (global-git-gutter+-mode)
   :config
   (add-hook 'ruby-mode-hook 'git-gutter-mode)

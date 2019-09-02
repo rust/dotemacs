@@ -9,7 +9,6 @@
 ;; for javascript
 
 (use-package rjsx-mode
-  :ensure t
   :mode (("\\.js\\'" . rjsx-mode)
          ("\\.jsx\\'" . rjsx-mode))
   :config
@@ -36,7 +35,6 @@
   (company-mode +1))
 
 (use-package company
-  :ensure t
   :config
   (setq company-show-numbers t)
   (setq company-tooltip-align-annotations t)
@@ -44,14 +42,11 @@
   (global-company-mode))
 
 (use-package company-quickhelp
-  :ensure t
   :init
   (company-quickhelp-mode 1)
-  (use-package pos-tip
-    :ensure t))
+  (use-package pos-tip))
 
 (use-package web-mode
-  :ensure t
   :mode (("\\.html?\\'"   . web-mode)
          ("\\.tsx\\'"     . web-mode)
          ("\\.jsx\\'"     . web-mode)
@@ -85,14 +80,12 @@
 
 
 (use-package typescript-mode
-  :ensure t
   :config
   (setq typescript-indent-level 2)
   (add-hook 'typescript-mode #'subword-mode))
 
 (use-package tide
   :init
-  :ensure t
   :after (typescript-mode company flycheck)
   :hook ((typescript-mode . tide-setup)
          (typescript-mode . tide-hl-identifier-mode)

@@ -39,13 +39,10 @@
 
 ;; scala-mode
 (use-package ensime
-  :ensure t
   :config
   (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
-(use-package sbt-mode
-  :pin melpa)
-(use-package scala-mode
-  :pin melpa)
+(use-package sbt-mode)
+(use-package scala-mode)
 
 ;; elixir-mode
 (use-package erlang)
