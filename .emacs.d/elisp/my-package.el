@@ -85,7 +85,9 @@
 (el-get-bundle counsel)
 (el-get-bundle all-the-icons-ivy)
 (el-get-bundle ivy-rich)
+(el-get-bundle ivy-prescient)
 (el-get-bundle migemo)
+(el-get-bundle avy)
 (el-get-bundle avy-migemo)
 
 ;;;; Misc modes
