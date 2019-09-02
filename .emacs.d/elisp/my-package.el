@@ -17,13 +17,22 @@
 
 ;; el-get packages
 ;;;; General
-;; (el-get-bundle auto-save-buffers-enhanced)
+(el-get-bundle auto-save-buffers-enhanced)
+(el-get-bundle use-package)
+(el-get-bundle pkg-info)
+(el-get-bundle exec-path-from-shell)
+(el-get-bundle session)
+(el-get-bundle rainbow-mode)
 
 ;;;; for auto-complete
 ;; (el-get-bundle auto-complete)
 (el-get-bundle fuzzy)
 (el-get-bundle popup)
 (el-get-bundle pos-tip)
+(el-get-bundle expand-region)
+
+;; Git
+(el-get-bundle magit)
 
 ;;;; Search
 (el-get-bundle anzu)
@@ -33,13 +42,6 @@
 (el-get-bundle elscreen)
 (el-get-bundle yascroll)
 (el-get-bundle buffer-move)
-
-;; Region
-(el-get-bundle expand-region)
-
-;; Programming Misc
-;; (el-get-bundle rainbow-mode)
-(el-get-bundle vimrc-mode)
 
 ;; https://github.com/Fuco1/smartparens
 (el-get-bundle Fuco1/smartparens)
@@ -73,9 +75,10 @@
 
 ;;;; JavaScript
 (el-get-bundle coffee-mode)
-;; (el-get-bundle sourcemap)
+(el-get-bundle sourcemap)
 (el-get-bundle js2-mode)
 (el-get-bundle tide)
+(el-get-bundle prettier-js)
 
 ;; Search
 (el-get-bundle ivy)
@@ -102,9 +105,8 @@
 ;; (el-get-bundle session)
 
 ;;;; Color
-;; (el-get-bundle solarized-theme)
-;; (el-get-bundle ample-theme)
-;; (el-get-bundle hl-todo)
+(el-get-bundle powerline)
+(el-get-bundle solarized-theme)
 (el-get-bundle highlight-indentation)
 
 ;;;; Elixir
@@ -113,71 +115,43 @@
 (el-get-bundle tonini/alchemist.el)
 (el-get-bundle syohex/emacs-ac-alchemist)
 
+;; Python
+(el-get-bundle python-mode)
+(el-get-bundle jedi)
+(el-get-bundle python-django)
+(el-get-bundle py-autopep8)
+(el-get-bundle flymake-cursor)
+(el-get-bundle flymake-python-pyflakes)
+
+;; Scala
+(el-get-bundle scala-mode)
+(el-get-bundle ensime)
+
+;; Misc Programming languages
+(el-get-bundle php-mode)
+(el-get-bundle ac-php)
+(el-get-bundle rust-mode)
+(el-get-bundle groovy-mode)
+(el-get-bundle go-mode)
+(el-get-bundle go-autocomplete)
+(el-get-bundle rjsx-mode)
+(el-get-bundle ghc)
+(el-get-bundle hl-todo)
+(el-get-bundle adaptive-wrap)
+
+;; TeX
+(el-get-bundle yatex)
+
 ;; infra
 (el-get-bundle terraform-mode)
 (el-get-bundle hcl-mode)
 (el-get-bundle nginx-mode)
-
-;; package.el and use-package
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
-(package-refresh-contents)
-(package-install 'use-package)
-
-;; Utils
-(package-install 'auto-save-buffers-enhanced)
-(package-install 'pkg-info)
-(package-install 'exec-path-from-shell)
-
-;; Git
-(package-install 'magit)
-
-;;;; Virtualization
-(package-install 'dockerfile-mode)
-(package-install 'docker-compose-mode)
-
-;; Modes
-(package-install 'rainbow-mode)
-(package-install 'sourcemap)
-(package-install 'adaptive-wrap)
-(package-install 'toml-mode)
-(package-install 'session)
-(package-install 'ample-theme)
-(package-install 'hl-todo)
-(package-install 'rjsx-mode)
-(package-install 'yatex)
-(package-install 'json-mode)
-(package-install 'jsonnet-mode)
-(package-install 'ghc)
-(package-install 'go-mode)
-(package-install 'go-autocomplete)
-(package-install 'scala-mode)
-(package-install 'ensime)
-(package-install 'php-mode)
-(package-install 'ac-php)
-(package-install 'rust-mode)
-(package-install 'groovy-mode)
-(package-install 'prettier-js)
-
-;; Python
-(package-install 'python-mode)
-(package-install 'jedi)
-(package-install 'python-django)
-(package-install 'py-autopep8)
-(package-install 'flymake-cursor)
-(package-install 'flymake-python-pyflakes)
-
-;; Themes
-(package-install 'powerline)
-;; (package-install 'spacemacs-theme)
-(package-install 'solarized-theme)
-;; (package-install 'atom-one-dark-theme)
-;; (package-install 'twilight-anti-bright-theme)
-;; (package-install 'dracula-theme)
-;; (package-install 'tangotango-theme)
-;; (package-install 'color-theme-sanityinc-tomorrow)
-;; (package-install 'base16-theme)
+(el-get-bundle dockerfile-mode)
+(el-get-bundle docker-compose-mode)
+(el-get-bundle toml-mode)
+(el-get-bundle json-mode)
+(el-get-bundle jsonnet-mode)
+(el-get-bundle vimrc-mode)
 
 (provide 'my-package)
 ;; my-el-get.el ends here
