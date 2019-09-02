@@ -19,3 +19,4 @@ auto-save-list
 .emacs.d/meghanada/
 .emacs.d/.python-environments/
 .emacs.d/var
+.emacs.d/transient/
