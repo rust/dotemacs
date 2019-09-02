@@ -83,8 +83,13 @@
   (setq migemo-regex-dictionary nil)
   (setq migemo-coding-system 'utf-8-unix)
   (load-library "migemo")
-  (migemo-init)
-  (helm-migemo-mode 1))
+  (migemo-init))
+
+(use-package avy-migemo
+  :ensure t
+  :config
+  (avy-migemo-mode 1)
+  (require 'avy-migemo-e.g.swiper))
 
 ;; yasnippet
 (use-package yasnippet

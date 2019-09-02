@@ -82,6 +82,8 @@
 (el-get-bundle counsel)
 (el-get-bundle all-the-icons-ivy)
 (el-get-bundle ivy-rich)
+(el-get-bundle migemo)
+(el-get-bundle avy-migemo)
 
 ;;;; Misc modes
 (el-get-bundle company-mode)
@@ -126,7 +128,6 @@
 ;; Utils
 (package-install 'auto-save-buffers-enhanced)
 (package-install 'pkg-info)
-(package-install 'migemo)
 (package-install 'exec-path-from-shell)
 
 ;; Git
