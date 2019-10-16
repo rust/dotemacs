@@ -34,7 +34,6 @@
   (after-init . ivy-mode)
   (ivy-mode . counsel-mode)
   :custom
-  (counsel-yank-pop-height 15)
   (ivy-use-selectable-prompt t)
   (ivy-use-virtual-buffers t)
   (ivy-on-del-error-function nil)
@@ -114,7 +113,7 @@
     (defun ivy-rich-buffer-icon (candidate)
       "Display buffer icons in `ivy-rich'."
       (when (display-graphic-p)
-        (when-let* ((buffer (get-buffer candidate))
+        (when-let ((buffer (get-buffer candidate))
                     (major-mode (buffer-local-value 'major-mode buffer))
                     (icon (if (and (buffer-file-name buffer)
                                    (all-the-icons-auto-mode-match? candidate))
