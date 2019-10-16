@@ -14,6 +14,8 @@
 
 ;; misc
 (require 'init_misc)
+;; org-mode
+(require 'init_org)
 
 ;; ruby-mode
 (require 'init_ruby)

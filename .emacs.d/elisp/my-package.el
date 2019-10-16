@@ -108,7 +108,7 @@
 
 ;;;; Color
 (el-get-bundle powerline)
-(el-get-bundle solarized-theme)
+;;(el-get-bundle solarized-theme)
 (el-get-bundle highlight-indentation)
 
 ;;;; Elixir
@@ -123,7 +123,7 @@
 (el-get-bundle python-django)
 (el-get-bundle py-autopep8)
 (el-get-bundle flymake-cursor)
-(el-get-bundle flymake-python-pyflakes)
+;;(el-get-bundle flymake-python-pyflakes)
 
 ;; Scala
 (el-get-bundle scala-mode)
@@ -133,12 +133,12 @@
 (el-get-bundle php-mode)
 (el-get-bundle ac-php)
 (el-get-bundle rust-mode)
-(el-get-bundle groovy-mode)
+;;(el-get-bundle groovy-mode)
 (el-get-bundle go-mode)
 (el-get-bundle go-autocomplete)
 (el-get-bundle rjsx-mode)
-(el-get-bundle ghc)
-(el-get-bundle hl-todo)
+;;(el-get-bundle ghc)
+;;(el-get-bundle hl-todo)
 (el-get-bundle adaptive-wrap)
 
 ;; TeX
@@ -149,11 +149,24 @@
 (el-get-bundle hcl-mode)
 (el-get-bundle nginx-mode)
 (el-get-bundle dockerfile-mode)
-(el-get-bundle docker-compose-mode)
+;;(el-get-bundle docker-compose-mode)
 (el-get-bundle toml-mode)
 (el-get-bundle json-mode)
-(el-get-bundle jsonnet-mode)
+;;(el-get-bundle jsonnet-mode)
 (el-get-bundle vimrc-mode)
+
+;; Fallback
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+(package-refresh-contents)
+
+(package-install 'solarized-theme)
+(package-install 'groovy-mode)
+(package-install 'flymake-python-pyflakes)
+(package-install 'hl-todo)
+(package-install 'docker-compose-mode)
+(package-install 'jsonnet-mode)
 
 (provide 'my-package)
 ;; my-el-get.el ends here
