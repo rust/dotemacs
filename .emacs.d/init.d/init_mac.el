@@ -19,7 +19,7 @@
 
 ;; Font: CodeM
 (cond (fullhd-p (add-to-list 'default-frame-alist '(font . "CodeM-10")))
-      (t (add-to-list 'default-frame-alist '(font . "CodeM-12"))))
+      (t (add-to-list 'default-frame-alist '(font . "CodeM-14"))))
 
 ;;;; Font: Ricty
 ;; (create-fontset-from-ascii-font "Ricty-12:weight=normal:slant=normal" nil "ricty")
@@ -30,7 +30,18 @@
 ;;                   'append)
 ;; (add-to-list 'default-frame-alist '(font . "fontset-ricty"))
 
-(load-theme 'tangotango-theme t)
+(load-theme 'solarized-light t)
+
+;; transparent
+(add-to-list 'default-frame-alist '(alpha . 100))
+(set-frame-parameter nil 'alpha 100)
+(setq frame-alpha-lower-limit 95)
+
+(setq hl-line-face 'underline)
+(global-hl-line-mode)
+
+(setq frame-resize-pixelwise t)
+
 (require 'powerline)
 (defun powerline-my-theme ()
   "Setup the default mode-line."
