@@ -122,8 +122,8 @@
   (define-key function-key-map [134217893] [?\M-\\])
   (define-key function-key-map [201326757] [?\C-\M-\\]))
 
-(setq mac-command-modifier 'super)
-(setq mac-option-modifier 'meta)
+(setq mac-command-modifier 'meta)
+(setq mac-option-modifier 'super)
 (setq mac-right-command-modifier 'super)
 (setq mac-right-option-modifier 'meta)
 
