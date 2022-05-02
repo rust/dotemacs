@@ -129,6 +129,9 @@
 (el-get-bundle scala-mode)
 (el-get-bundle ensime)
 
+(el-get-bundle kotlin-mode)
+(el-get-bundle flycheck-kotlin)
+
 ;; Misc Programming languages
 (el-get-bundle php-mode)
 (el-get-bundle ac-php)
