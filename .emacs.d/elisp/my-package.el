@@ -158,18 +158,7 @@
 ;;(el-get-bundle jsonnet-mode)
 (el-get-bundle vimrc-mode)
 
-;; Fallback
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/") t)
-(package-initialize)
-(package-refresh-contents)
-
-(package-install 'solarized-theme)
-(package-install 'groovy-mode)
-(package-install 'flymake-python-pyflakes)
-(package-install 'hl-todo)
-(package-install 'docker-compose-mode)
-(package-install 'jsonnet-mode)
+(el-get 'sync)
 
 (provide 'my-package)
 ;; my-el-get.el ends here

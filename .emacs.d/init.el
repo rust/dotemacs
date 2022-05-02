@@ -18,7 +18,6 @@
             (normal-top-level-add-subdirs-to-load-path))))))
 ;; init.d と elisp を追加
 (add-to-load-path (list "init.d" "elisp"))
-(package-initialize)
 
 ;; 環境判別
 (defvar emacs23-p (equal emacs-major-version 23))
