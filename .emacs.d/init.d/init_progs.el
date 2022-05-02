@@ -44,6 +44,9 @@
 (use-package sbt-mode)
 (use-package scala-mode)
 
+;; kotlin-mode
+(use-package kotlin-mode)
+
 ;; elixir-mode
 (use-package erlang)
 (use-package elixir-mode
