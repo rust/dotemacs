@@ -97,7 +97,6 @@
 (el-get-bundle review-mode)
 (el-get-bundle markdown-mode)
 (el-get-bundle graphviz-dot-mode)
-;; (el-get-bundle adaptive-wrap)
 (el-get-bundle vue-mode)
 (el-get-bundle vue-html-mode)
 (el-get-bundle rainbow-delimiters)
@@ -108,7 +107,7 @@
 
 ;;;; Color
 (el-get-bundle powerline)
-;;(el-get-bundle solarized-theme)
+(el-get-bundle solarized-theme)
 (el-get-bundle highlight-indentation)
 
 ;;;; Elixir
@@ -123,7 +122,7 @@
 (el-get-bundle python-django)
 (el-get-bundle py-autopep8)
 (el-get-bundle flymake-cursor)
-;;(el-get-bundle flymake-python-pyflakes)
+(el-get-bundle flymake-python-pyflakes)
 
 ;; Scala
 (el-get-bundle scala-mode)
@@ -141,7 +140,8 @@
 (el-get-bundle go-autocomplete)
 (el-get-bundle rjsx-mode)
 (el-get-bundle ghc)
-;;(el-get-bundle hl-todo)
+(el-get-bundle haskell-mode)
+(el-get-bundle hl-todo)
 (el-get-bundle adaptive-wrap)
 
 ;; TeX
@@ -152,10 +152,10 @@
 (el-get-bundle hcl-mode)
 (el-get-bundle nginx-mode)
 (el-get-bundle dockerfile-mode)
-;;(el-get-bundle docker-compose-mode)
+(el-get-bundle docker-compose-mode)
 (el-get-bundle toml-mode)
 (el-get-bundle json-mode)
-;;(el-get-bundle jsonnet-mode)
+(el-get-bundle jsonnet-mode)
 (el-get-bundle vimrc-mode)
 
 (el-get 'sync)
