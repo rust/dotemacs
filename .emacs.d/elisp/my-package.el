@@ -32,7 +32,7 @@
 (el-get-bundle expand-region)
 
 ;; Git
-(el-get-bundle magit)
+(el-get-bundle magit :info "docs")
 
 ;;;; Search
 (el-get-bundle anzu)
