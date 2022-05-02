@@ -139,8 +139,8 @@
 (el-get-bundle go-mode)
 (el-get-bundle go-autocomplete)
 (el-get-bundle rjsx-mode)
-(el-get-bundle ghc)
 (el-get-bundle haskell-mode)
+(el-get-bundle ghc-mod)
 (el-get-bundle hl-todo)
 (el-get-bundle adaptive-wrap)
 

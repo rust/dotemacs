@@ -9,12 +9,13 @@
 ;; misc
 
 ;; haskell-mode
-(use-package ghc
+(use-package haskell-mode
+  :defer t
   :config
-  (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-  (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-  (add-hook 'haskell-mode-hook 'font-lock-mode)
-  (add-hook 'haskell-mode-hook 'imenu-add-menubar-index))
+  (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
+  (add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
+  (add-to-list 'auto-mode-alist '("\\.cabal$" . haskell-cabal-mode)))
+;;(use-package haskell-cabal)
 
 ;; go-mode
 (use-package go-mode
