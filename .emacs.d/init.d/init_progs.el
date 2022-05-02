@@ -49,7 +49,6 @@
 (use-package kotlin-mode)
 
 ;; elixir-mode
-(use-package erlang)
 (use-package elixir-mode
   :config
   (defun my-elixir-do-end-close-action (id action context)

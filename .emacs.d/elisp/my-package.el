@@ -81,6 +81,7 @@
 (el-get-bundle prettier-js)
 
 ;; Search
+(el-get-bundle swiper)
 (el-get-bundle ivy)
 (el-get-bundle counsel)
 (el-get-bundle all-the-icons-ivy)
@@ -143,6 +144,7 @@
 (el-get-bundle ghc-mod)
 (el-get-bundle hl-todo)
 (el-get-bundle adaptive-wrap)
+(el-get-bundle groovy-mode)
 
 ;; TeX
 (el-get-bundle yatex)
