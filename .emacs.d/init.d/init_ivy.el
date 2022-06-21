@@ -282,8 +282,7 @@
   (require 'avy-migemo-e.g.swiper))
 
 (use-package all-the-icons-ivy
-  :config
-  (all-the-icons-ivy-setup))
+  :init (add-hook 'after-init-hook 'all-the-icons-ivy-setup))
 
 (provide 'init_ivy)
 ;; init_ivy.el ends here

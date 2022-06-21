@@ -83,6 +83,7 @@
 ;; Search
 (el-get-bundle swiper)
 (el-get-bundle ivy)
+(el-get-bundle ivy-hydra)
 (el-get-bundle counsel)
 (el-get-bundle all-the-icons-ivy)
 (el-get-bundle ivy-rich)
