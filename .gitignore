@@ -20,3 +20,6 @@ auto-save-list
 .emacs.d/.python-environments/
 .emacs.d/var
 .emacs.d/transient/
+.emacs.d/.emacs.desktop*
+.emacs.d/eln-cache
+.emacs.d/history
