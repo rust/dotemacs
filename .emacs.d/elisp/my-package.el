@@ -21,7 +21,6 @@
 (el-get-bundle use-package)
 (el-get-bundle pkg-info)
 (el-get-bundle exec-path-from-shell)
-(el-get-bundle session)
 (el-get-bundle rainbow-mode)
 
 ;;;; for auto-complete
@@ -106,7 +105,6 @@
 
 ;;;; Utils
 (el-get-bundle multi-term)
-;; (el-get-bundle session)
 
 ;;;; Color
 (el-get-bundle powerline)
