@@ -39,9 +39,6 @@
 (use-package go-flymake :defer t)
 
 ;; scala-mode
-(use-package ensime
-  :config
-  (add-hook 'scala-mode-hook 'ensime-scala-mode-hook))
 (use-package sbt-mode)
 (use-package scala-mode)
 
