@@ -8,13 +8,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; misc
 
-;; for TeX
-(use-package yatex
-  :mode (("\\.tex$" . yatex-mode))
-  :config
-  (setq YaTeX-kanji-code nil)
-  (setq YaTeX-use-AMS-LaTeX t))
-
 ;; haskell-mode
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
@@ -71,19 +64,6 @@
    '(anzu-replace-to-string-separator " => "))
   (bind-keys ("M-%"   . anzu-query-replace)
              ("C-M-%" . anzu-query-replace-regexp)))
-
-;; migemo
-(use-package migemo
-  :config
-  (setq migemo-command "cmigemo")
-  (setq migemo-options '("-q" "--emacs"))
-  ;; Set your installed path
-  (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
-  (setq migemo-user-dictionary nil)
-  (setq migemo-regex-dictionary nil)
-  (setq migemo-coding-system 'utf-8-unix)
-  (load-library "migemo")
-  (migemo-init))
 
 ;; yasnippet
 (use-package yasnippet

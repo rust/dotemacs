@@ -24,7 +24,6 @@
 (el-get-bundle rainbow-mode)
 
 ;;;; for auto-complete
-;; (el-get-bundle auto-complete)
 (el-get-bundle fuzzy)
 (el-get-bundle popup)
 (el-get-bundle pos-tip)
@@ -47,12 +46,10 @@
 
 ;;;; flymake
 (el-get-bundle flycheck)
-;; (el-get-bundle flymake-jslint)
 
 ;;;; git
 (el-get-bundle git-gutter+)
 (el-get-bundle git-gutter-fringe+)
-;;(el-get-bundle git-blame)
 
 ;;;; Ruby
 (el-get-bundle rbenv)
@@ -79,18 +76,8 @@
 (el-get-bundle tide)
 (el-get-bundle prettier-js)
 
-;; Search
-(el-get-bundle hydra)
-(el-get-bundle swiper)
-(el-get-bundle ivy-hydra)
-(el-get-bundle ivy)
-(el-get-bundle counsel)
-(el-get-bundle all-the-icons-ivy)
-(el-get-bundle ivy-rich)
-(el-get-bundle ivy-prescient)
-(el-get-bundle migemo)
-(el-get-bundle avy)
-(el-get-bundle avy-migemo)
+;; Finder
+(el-get-bundle vertico)
 
 ;;;; Misc modes
 (el-get-bundle company-mode)
@@ -135,7 +122,6 @@
 (el-get-bundle php-mode)
 (el-get-bundle ac-php)
 (el-get-bundle rust-mode)
-;;(el-get-bundle groovy-mode)
 (el-get-bundle go-mode)
 (el-get-bundle go-autocomplete)
 (el-get-bundle rjsx-mode)
@@ -144,9 +130,6 @@
 (el-get-bundle hl-todo)
 (el-get-bundle adaptive-wrap)
 (el-get-bundle groovy-mode)
-
-;; TeX
-(el-get-bundle yatex)
 
 ;; infra
 (el-get-bundle terraform-mode)
