@@ -9,8 +9,8 @@
 ;; 初期設定など
 (require 'init_setting)
 
-;; ivy
-(require 'init_ivy)
+;; finder
+(require 'init_finder)
 
 ;; misc
 (require 'init_misc)

@@ -11,10 +11,7 @@
 ;; magit.el
 (setq magit-last-seen-setup-instructions "1.4.0")
 
-(use-package magit
-  :after (ivy)
-  :config
-  (setq magit-completing-read-function 'ivy-completing-read))
+(use-package magit)
 
 (use-package git-gutter+
   :init (global-git-gutter+-mode)
