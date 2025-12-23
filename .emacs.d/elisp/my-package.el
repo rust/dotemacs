@@ -95,6 +95,9 @@
 (el-get-bundle multi-term)
 (el-get-bundle lsp-mode)
 
+;; AI
+(el-get-bundle copilot)
+
 ;;;; Color
 (el-get-bundle powerline)
 (el-get-bundle solarized-theme)

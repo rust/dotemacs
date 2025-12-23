@@ -49,5 +49,8 @@
 ;; For infra
 (require 'init_infra)
 
+;; AI
+(require 'init_ai)
+
 (provide 'init_main)
 ;; init_mail.el ends here
