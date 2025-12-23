@@ -11,6 +11,10 @@
 (use-package copilot)
 
 (add-hook 'prog-mode-hook 'copilot-mode)
+(setq copilot-indent-offset-warning-disable t)
+
+(define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
+(define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion)
 
 (provide 'init_ai)
 ;; init_ai.el ends here
