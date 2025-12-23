@@ -34,9 +34,6 @@
 ;; LSP
 (require 'init_lsp)
 
-;; helm
-(require 'init_helm)
-
 ;; python-mode
 (require 'init_python)
 

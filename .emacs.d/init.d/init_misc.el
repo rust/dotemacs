@@ -84,25 +84,7 @@
   ;; 新規スニペットを作成するバッファを用意する
   (define-key yas-minor-mode-map (kbd "C-x s n") 'yas-new-snippet)
   ;; 既存スニペットを閲覧・編集する
-  (define-key yas-minor-mode-map (kbd "C-x s v") 'yas-visit-snippet-file)
-
-  ;; helm interface
-  '(progn
-     (defun my-yas/prompt (prompt choices &optional display-fn)
-       (let* ((names (loop for choice in choices
-                           collect (or (and display-fn (funcall display-fn choice))
-                                       choice)))
-              (selected (helm-other-buffer
-                         `(((name . ,(format "%s" prompt))
-                            (candidates . names)
-                            (action . (("Insert snippet" . (lambda (arg) arg))))))
-                         "*helm yas/prompt*")))
-         (if selected
-             (let ((n (position selected names :test 'equal)))
-               (nth n choices))
-           (signal 'quit "user quit!"))))
-     (custom-set-variables '(yas/prompt-functions '(my-yas/prompt)))
-     (define-key helm-command-map (kbd "y") 'yas/insert-snippet)))
+  (define-key yas-minor-mode-map (kbd "C-x s v") 'yas-visit-snippet-file))
 
 ;; elscreen
 (use-package elscreen
@@ -119,7 +101,6 @@
   ;;        ([(s {)]             . elscreen-previous)
   ;;        ([(C-tab)]           . elscreen-next)
   ;;        ([(C-S-iso-lefttab)] . elscreen-previous)
-  ;;        ("C-z C-a"           . helm-elscreen))
   :config
   ;; (require 'elscreen-gf)
   ;; (require 'elscreen-w3m)
@@ -138,8 +119,7 @@
   (global-set-key [(s })] 'elscreen-next)
   (global-set-key [(s {)] 'elscreen-previous)
   (global-set-key [(C-tab)] 'elscreen-next)
-  (global-set-key [(C-S-iso-lefttab)] 'elscreen-previous)
-  (global-set-key (kbd "C-z C-a") 'helm-elscreen))
+  (global-set-key [(C-S-iso-lefttab)] 'elscreen-previous))
 
 ;; autocomplete
 (use-package auto-complete
