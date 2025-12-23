@@ -10,6 +10,9 @@
 
 (desktop-save-mode t)
 (setq desktop-auto-save-timeout 60)
+(add-hook 'kill-emacs-hook
+          (lambda ()
+            (desktop-save (expand-file-name "~/.emacs.d/") t)))
 
 ;; haskell-mode
 (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
@@ -169,6 +172,8 @@
   :ensure t
   :config
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+(global-font-lock-mode t)
 
 (provide 'init_misc)
 ;; init_misc.el ends here
