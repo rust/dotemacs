@@ -7,7 +7,7 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; el-get
-(add-to-list 'load-path (locate-user-emacs-file "el-get/el-get"))
+(add-to-list 'load-path (expand-file-name "el-get/el-get" user-emacs-directory))
 (unless (require 'el-get nil 'noerror)
   (with-current-buffer
       (url-retrieve-synchronously
@@ -18,7 +18,6 @@
 ;; el-get packages
 ;;;; General
 (el-get-bundle auto-save-buffers-enhanced)
-(el-get-bundle use-package)
 (el-get-bundle pkg-info)
 (el-get-bundle exec-path-from-shell)
 (el-get-bundle rainbow-mode)
@@ -142,8 +141,6 @@
 (el-get-bundle json-mode)
 (el-get-bundle jsonnet-mode)
 (el-get-bundle vimrc-mode)
-
-(el-get 'sync)
 
 (provide 'my-package)
 ;; my-el-get.el ends here
