@@ -14,12 +14,7 @@
      "7fea145741b3ca719ae45e6533ad1f49b2a43bf199d9afaee5b6135fd9e6f9b8"
      "0f9a1b7a0f1d09544668297c1f04e5a5452ae1f4cf69f11b125f4cff1d54783d"
      default))
- '(package-selected-packages
-   '(adaptive-wrap auto-save-buffers-enhanced copilot docker-compose-mode
-                   flycheck-kotlin groovy-mode hl-todo jsonnet-mode
-                   lsp-mode php-mode pinentry rainbow-delimiters
-                   rainbow-mode solarized-theme sourcemap vertico
-                   vue-mode))
+ '(package-selected-packages nil)
  '(rspec-use-rake-flag nil)
  '(yas-trigger-key "TAB"))
 (custom-set-faces
