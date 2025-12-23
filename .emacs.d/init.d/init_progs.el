@@ -86,7 +86,7 @@
 (use-package php-mode
   :ensure t
   :mode
-  ("\\.php" . pho-mode))
+  ("\\.php" . php-mode))
 
 ;; Rust
 (use-package rust-mode
