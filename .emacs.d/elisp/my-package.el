@@ -31,6 +31,7 @@
 
 ;; Git
 (el-get-bundle magit :info "docs")
+(el-get-bundle pinentry)
 
 ;;;; Search
 (el-get-bundle anzu)

@@ -24,5 +24,9 @@
   (add-hook 'sass-mode-hook 'git-gutter-mode)
   (add-hook 'scss-mode-hook 'git-gutter-mode))
 
+(use-package pinentry
+  :config
+  (pinentry-start))
+
 (provide 'init_git)
 ;; init_git.el ends here
