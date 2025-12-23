@@ -22,11 +22,8 @@
 (add-to-load-path (list "init.d" "elisp"))
 
 ;; 環境判別
-(defvar mac-p (eq window-system 'mac))
-(defvar ns-p (eq window-system 'ns))
-(defvar linux-p (eq system-type 'gnu/linux))
-(defvar x-window-p (and (eq window-system 'x) linux-p))
-(defvar no-x-p (and (not (eq window-system 'x)) linux-p))
+(defvar mac-p (or (eq window-system 'mac) (eq window-system 'ns)))
+(defvar window-p (or mac-p (eq window-system 'x)))
 
 ;; PATHの設定 from http://sakito.jp/emacs/emacsshell.html#path
 ;; より下に記述した物が PATH の先頭に追加されます
@@ -57,7 +54,7 @@
 
 ;; 環境依存設定ファイル
 (cond
- ((or ns-p mac-p) (require 'init_mac))
- (linux-p (require 'init_linux)))
+ (window-p (require 'init_window))
+ (t (require 'init_terminal-mode)))
 
 (provide 'init)
