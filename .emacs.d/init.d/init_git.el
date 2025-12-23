@@ -16,13 +16,13 @@
 (use-package git-gutter+
   :init (global-git-gutter+-mode)
   :config
-  (add-hook 'ruby-mode-hook 'git-gutter-mode)
-  (add-hook 'enh-ruby-mode-hook 'git-gutter-mode)
-  (add-hook 'coffee-mode-hook 'git-gutter-mode)
-  (add-hook 'haml-mode-hook 'git-gutter-mode)
-  (add-hook 'rhtml-mode-hook 'git-gutter-mode)
-  (add-hook 'sass-mode-hook 'git-gutter-mode)
-  (add-hook 'scss-mode-hook 'git-gutter-mode))
+  (add-hook 'ruby-mode-hook 'git-gutter+-mode)
+  (add-hook 'enh-ruby-mode-hook 'git-gutter+-mode)
+  (add-hook 'coffee-mode-hook 'git-gutter+-mode)
+  (add-hook 'haml-mode-hook 'git-gutter+-mode)
+  (add-hook 'rhtml-mode-hook 'git-gutter+-mode)
+  (add-hook 'sass-mode-hook 'git-gutter+-mode)
+  (add-hook 'scss-mode-hook 'git-gutter+-mode))
 
 (use-package pinentry
   :config
