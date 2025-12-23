@@ -11,8 +11,6 @@
  (x-window-p (require 'init_x-window))
  (no-x-p (require 'init_no-x-window)))
 
-(when lubuntu-p (require 'init_disable-mouse))
-
 ;; rdefs
 (setq ar:command "~/bin/rdefs")
 

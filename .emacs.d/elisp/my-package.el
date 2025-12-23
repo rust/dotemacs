@@ -70,7 +70,6 @@
 (el-get-bundle yaml-mode)
 
 ;;;; JavaScript
-(el-get-bundle coffee-mode)
 (el-get-bundle sourcemap)
 (el-get-bundle js2-mode)
 (el-get-bundle tide)

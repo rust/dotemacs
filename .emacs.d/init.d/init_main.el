@@ -23,8 +23,6 @@
 (require 'init_rails)
 ;; for templates
 (require 'init_templates)
-;; coffee-mode
-(require 'init_coffee_script)
 ;; javascript mode
 (require 'init_javascript)
 ;; yaml-mode
