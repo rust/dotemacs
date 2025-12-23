@@ -10,5 +10,7 @@
 
 (use-package copilot)
 
+(add-hook 'prog-mode-hook 'copilot-mode)
+
 (provide 'init_ai)
 ;; init_ai.el ends here
