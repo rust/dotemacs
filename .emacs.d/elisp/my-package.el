@@ -66,7 +66,6 @@
 (el-get-bundle rhtml-mode)
 (el-get-bundle haml-mode)
 (el-get-bundle slim-mode)
-(el-get-bundle scss-mode)
 (el-get-bundle sass-mode)
 (el-get-bundle yaml-mode)
 

@@ -9,7 +9,6 @@
 ;; haml
 (require 'haml-mode)
 (require 'sass-mode)
-(require 'scss-mode)
 (require 'slim-mode)
 
 (add-to-list 'auto-mode-alist '("\\.haml$" . haml-mode))
@@ -19,18 +18,7 @@
             (define-key haml-mode-map "\C-m" 'newline-and-indent)))
 
 (add-to-list 'auto-mode-alist '("\\.sass$" . sass-mode))
-(add-to-list 'auto-mode-alist '("\\.scss$" . scss-mode))
-(setq scss-compile-at-save nil)
 (setq cssm-indent-function #'cssm-c-style-indenter)
-(defun scss-custom ()
-  "scss-mode-hook"
-  (and
-   (set (make-local-variable 'css-indent-offset) 2)
-   (set (make-local-variable 'scss-compile-at-save) nil)
-   )
-  )
-(add-hook 'scss-mode-hook
-          '(lambda() (scss-custom)))
 
 (add-hook 'haml-mode-hook 'highlight-indentation-current-column-mode)
 
@@ -45,7 +33,6 @@
 
 (require 'rainbow-mode)
 (add-hook 'css-mode-hook 'rainbow-mode)
-(add-hook 'scss-mode-hook 'rainbow-mode)
 (add-hook 'php-mode-hook 'rainbow-mode)
 (add-hook 'html-mode-hook 'rainbow-mode)
 
