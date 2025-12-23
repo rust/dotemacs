@@ -36,7 +36,6 @@
 (use-package go-autocomplete :defer t)
 
 ;; scala-mode
-(use-package sbt-mode)
 (use-package scala-mode)
 
 ;; kotlin-mode
@@ -114,4 +113,3 @@
 
 (provide 'init_progs)
 ;; init_progs.el ends here
-  (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
