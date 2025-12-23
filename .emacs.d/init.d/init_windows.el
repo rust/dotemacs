@@ -17,7 +17,7 @@
 (setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
 
 ;; Font: CodeM
-(add-to-list 'default-frame-alist '(font . "CodeM-09"))
+(add-to-list 'default-frame-alist '(font . "Moralerspace Neon HWJPdoc-09"))
 
 (require 'ample-theme)
 (load-theme 'ample t t)

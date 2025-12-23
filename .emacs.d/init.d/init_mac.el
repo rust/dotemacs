@@ -18,8 +18,8 @@
 (setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
 
 ;; Font: CodeM
-(cond (fullhd-p (add-to-list 'default-frame-alist '(font . "CodeM-10")))
-      (t (add-to-list 'default-frame-alist '(font . "CodeM-14"))))
+(cond (fullhd-p (add-to-list 'default-frame-alist '(font . "Moralerspace Neon HWJPDOC-10")))
+      (t (add-to-list 'default-frame-alist '(font . "Moralerspace Neon HWJPDOC-14"))))
 
 ;;;; Font: Ricty
 ;; (create-fontset-from-ascii-font "Ricty-12:weight=normal:slant=normal" nil "ricty")
