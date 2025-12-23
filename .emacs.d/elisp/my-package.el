@@ -93,6 +93,7 @@
 
 ;;;; Utils
 (el-get-bundle multi-term)
+(el-get-bundle lsp-mode)
 
 ;;;; Color
 (el-get-bundle powerline)

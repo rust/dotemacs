@@ -23,11 +23,6 @@
 (require 'yard-mode)
 (add-hook 'ruby-mode 'yard-mode)
 
-;; rbenv
-(require 'rbenv)
-(global-rbenv-mode)
-(setq rbenv-installation-dir "~/.rbenv")
-
 ;; coding style
 (electric-pair-mode t)
 (add-to-list 'electric-pair-pairs '(?| . ?|))

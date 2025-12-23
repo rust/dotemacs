@@ -23,3 +23,4 @@ auto-save-list
 .emacs.d/.emacs.desktop*
 .emacs.d/eln-cache
 .emacs.d/history
+.emacs.d/.lsp-session*

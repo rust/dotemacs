@@ -31,6 +31,8 @@
 (require 'init_yaml)
 ;; Programing Languages
 (require 'init_progs)
+;; LSP
+(require 'init_lsp)
 
 ;; helm
 (require 'init_helm)
