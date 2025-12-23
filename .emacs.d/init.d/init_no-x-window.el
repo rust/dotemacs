@@ -12,6 +12,7 @@
 (menu-bar-mode -1)
 
 (global-set-key (kbd "C-m") 'newline-and-indent)
+(load-theme 'solarized-light)
 
 (provide 'init_no-x-window)
 ;; init_no-x-window.el ends here

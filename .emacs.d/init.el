@@ -20,11 +20,9 @@
 (add-to-load-path (list "init.d" "elisp"))
 
 ;; 環境判別
-(defvar emacs23-p (equal emacs-major-version 23))
 (defvar emacs-p (>= emacs-major-version 23))
 (defvar mac-p (and (eq window-system 'mac) emacs-p))
 (defvar ns-p (and (eq window-system 'ns) emacs-p))
-(defvar carbon-p (and (eq window-system 'mac) emacs23-p))
 (defvar linux-p (eq system-type 'gnu/linux))
 (defvar x-window-p (and (eq window-system 'x) linux-p))
 (defvar no-x-p (and (not (eq window-system 'x)) linux-p))
