@@ -44,7 +44,7 @@
 ;; https://github.com/Fuco1/smartparens
 (el-get-bundle Fuco1/smartparens)
 
-;;;; flymake
+;;;; flycheck
 (el-get-bundle flycheck)
 
 ;;;; git
@@ -109,8 +109,6 @@
 (el-get-bundle jedi)
 (el-get-bundle python-django)
 (el-get-bundle py-autopep8)
-(el-get-bundle flymake-cursor)
-(el-get-bundle flymake-python-pyflakes)
 
 ;; Scala
 (el-get-bundle scala-mode)

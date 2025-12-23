@@ -23,7 +23,6 @@
   :config
   (add-to-list 'exec-path (expand-file-name "~/Works/golang/bin"))
   (add-to-list 'load-path (expand-file-name "~/Works/golang/src/github.com/nsf/gocode/emacs"))
-  (add-to-list 'load-path (expand-file-name "~/Works/golang/src/github.com/dougm/goflymake"))
   ;; Run gofmt before saving
   (add-hook 'before-save-hook 'gofmt-before-save)
 
@@ -35,8 +34,6 @@
                             (setq tab-width 4))))
 ;; % go get -u github.com/nsf/gocode
 (use-package go-autocomplete :defer t)
-;; % go get -u github.com/dougm/goflymake
-(use-package go-flymake :defer t)
 
 ;; scala-mode
 (use-package sbt-mode)
@@ -113,9 +110,7 @@
   (setq jedi:complete-on-dot t)
   (setq py-autopep8-options '("--max-line-length=200"))
   (setq flycheck-flake8-maximum-line-length 200)
-  (py-autopep8-enable-on-save)
-  (require 'flymake-python-pyflakes)
-  (flymake-python-pyflakes-load))
+  (py-autopep8-enable-on-save))
 
 (provide 'init_progs)
 ;; init_progs.el ends here
