@@ -17,7 +17,7 @@
 ;; Font: Moralerspace
 (add-to-list 'default-frame-alist '(font . "Moralerspace Neon HWJPDOC-10"))
 
-(load-theme 'solarized-light t)
+(load-theme 'wombat t)
 
 ;; transparent
 (add-to-list 'default-frame-alist '(alpha . 100))

@@ -8,6 +8,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; path-list を load-path へ追加する
 
+(setq debug-on-error t)
+(global-tree-sitter-mode)
+
+
 (defun add-to-load-path (path-list)
   "Add paths to 'load-path"
   (let (path)
@@ -41,12 +45,21 @@
    (setenv "PATH" (concat dir ":" (getenv "PATH")))
    (setq exec-path (append (list dir) exec-path))))
 
+;; use-package
+(require 'package)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
+
+(require 'use-package)
+(setq use-package-always-ensure t)
+
 ;; Set PATH
-(use-package exec-path-from-shell
-  :ensure t)
+(use-package exec-path-from-shell)
 
 ;; 共通設定ファイル
 (require 'init_main)
+
+(use-package solarized-theme)
 
 ;; 環境依存設定ファイル
 (cond

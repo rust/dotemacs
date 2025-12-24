@@ -50,14 +50,12 @@
   (add-hook 'html-mode-hook 'rainbow-mode))
 
 ;; smartparens
-(use-package smartparents
-  :ensure smartparents
+(use-package smartparens
+  :ensure smartparens  ;; install the package
+  :hook (prog-mode text-mode markdown-mode) ;; add `smartparens-mode` to these hooks
   :config
-  (smartparens-global-mode)
-  (show-smartparens-global-mode t)
-  (sp-with-modes '(rhtml-mode)
-    (sp-local-pair "<" ">")
-    (sp-local-pair "<%" "%>")))
+  ;; load default config
+  (require 'smartparens-config))
 
 (provide 'init_templates)
 ;; init_haml.el ends here

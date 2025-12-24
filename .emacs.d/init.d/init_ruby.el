@@ -9,35 +9,22 @@
 ;; ruby
 
 ;; auto-mode by ruby
-(use-package ruby-mode
+(use-package ruby-ts-mode
   :ensure t
   :config
-  (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("Gemfile" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("\\.cgi$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("\\.rb\\.tmp" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("Schemafile" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("\\.schema$" . ruby-mode))
-
-  (defun ruby-mode-set-encoding () ())
-
-  ;; coding style
-  (electric-pair-mode t)
-  (add-to-list 'electric-pair-pairs '(?| . ?|))
-  )
+  (add-to-list 'auto-mode-alist '("Rakefile" . ruby-ts-mode))
+  (add-to-list 'auto-mode-alist '("Gemfile" . ruby-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.cgi$" . ruby-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.rb\\.tmp" . ruby-ts-mode))
+  (add-to-list 'auto-mode-alist '("Schemafile" . ruby-ts-mode))
+  (add-to-list 'auto-mode-alist '("\\.schema$" . ruby-ts-mode)))
 
 (use-package yard-mode
   :ensure t
   :config
   (add-hook 'ruby-mode 'yard-mode))
-
-;; highlight block
-(use-package ruby-block
-  :ensure t
-  :config
-  (setq ruby-block-highlight-toggle t))
 
 ;; inf-ruby
 (use-package inf-ruby

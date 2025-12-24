@@ -49,23 +49,7 @@
 
 ;; elixir-mode
 (use-package elixir-mode
-  :ensure t
-  :config
-  (defun my-elixir-do-end-close-action (id action context)
-    (when (eq action 'insert)
-      (newline-and-indent)
-      (forward-line -1)
-      (indent-according-to-mode)))
-  (sp-with-modes '(elixir-mode)
-    (sp-local-pair "->" "end"
-                   :when '(("RET"))
-                   :post-handlers '(:add my-elixir-do-end-close-action)
-                   :actions '(insert)))
-  (sp-with-modes '(elixir-mode)
-    (sp-local-pair "do" "end"
-                   :when '(("SPC" "RET"))
-                   :post-handlers '(:add my-elixir-do-end-close-action)
-                   :actions '(insert))))
+  :ensure t)
 
 (use-package alchemist
   :ensure t
@@ -74,21 +58,7 @@
   (add-hook 'elixir-mode-hook 'ac-alchemist-setup))
 
 ;; Gauche
-(use-package scheme-mode
-  :commands run-scheme
-  :defer t
-  :bind (("C-c s" . scheme-other-window))
-  :config
-  (modify-coding-system-alist 'process "gosh" '(utf-8 . utf-8))
-  (cond (mac-p (setq scheme-program-name "/opt/local/bin/gosh -i"))
-        (linux-p
-         (setq scheme-program-name "gosh -i")))
-  (defun scheme-other-window ()
-    "Run scheme on other window"
-    (interactive)
-    (switch-to-buffer-other-window
-     (get-buffer-create "*scheme*"))
-    (run-scheme scheme-program-name)))
+(use-package scheme)
 
 ;; PHP
 (use-package php-mode

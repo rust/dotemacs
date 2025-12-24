@@ -13,7 +13,5 @@
 
 (global-set-key (kbd "C-m") 'newline-and-indent)
 
-(load-theme 'solarized-light t)
-
 (provide 'init_terminal-mode)
 ;; init_terminal-mode.el ends here
