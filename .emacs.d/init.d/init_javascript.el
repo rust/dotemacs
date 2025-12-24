@@ -1,7 +1,7 @@
 ;;; init_javascript.el --- JavaScript開発環境設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2016 Shin-ichiro OGAWA
-;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shinichiro OGAWA <rust.stnard@gmail.com>
 
 ;;; Commentary:
 

@@ -1,7 +1,7 @@
 ;;; init_finder.el --- ファイル検索・選択の設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2025 Shin-ichiro OGAWA
-;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shinichiro OGAWA <rust.stnard@gmail.com>
 
 ;;; Commentary:
 

@@ -1,7 +1,7 @@
 ;;; init_markdown.el --- Markdown設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014 Shin-ichiro OGAWA
-;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shinichiro OGAWA <rust.stnard@gmail.com>
 
 ;;; Commentary:
 

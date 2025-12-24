@@ -1,7 +1,7 @@
 ;;; init_main.el --- メイン設定ファイルの読み込み  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2010 Shin-ichiro OGAWA
-;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shinichiro OGAWA <rust.stnard@gmail.com>
 
 ;;; Commentary:
 
