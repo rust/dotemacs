@@ -179,5 +179,9 @@
 ;; Syntax highlight in all buffers
 (global-font-lock-mode t)
 
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+
 (provide 'init_setting)
 ;; init_setting.el ends here

@@ -17,5 +17,13 @@
   :init
   (setq lsp-ruby-lsp-use-bundler t))
 
+(use-package company
+  :ensure t
+  :config
+  (setq company-show-numbers t)
+  (setq company-tooltip-align-annotations t)
+  (setq company-tooltip-flip-when-above t)
+  (global-company-mode))
+
 (provide 'init_lsp)
 ;; init_lsp.el ends here

@@ -23,22 +23,15 @@
   ;; Set 2 spaces tab
   (setq-default js2-basic-offset 2))
 
-(add-hook 'js2-mode-hook 'prettier-js-mode)
-(add-hook 'web-mode-hook 'prettier-js-mode)
-
-(use-package company
+(use-package prettier-js
+  :ensure t
   :config
-  (setq company-show-numbers t)
-  (setq company-tooltip-align-annotations t)
-  (setq company-tooltip-flip-when-above t)
-  (global-company-mode))
-
-(use-package company-quickhelp
-  :init
-  (company-quickhelp-mode 1)
-  (use-package pos-tip))
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode)
+  (add-hook 'rjsx-mode-hook 'prettier-js-mode))
 
 (use-package web-mode
+  :ensure t
   :mode (("\\.html?\\'"   . web-mode)
          ("\\.tsx\\'"     . web-mode)
          ("\\.jsx\\'"     . web-mode)

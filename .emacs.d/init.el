@@ -41,9 +41,6 @@
    (setenv "PATH" (concat dir ":" (getenv "PATH")))
    (setq exec-path (append (list dir) exec-path))))
 
-;; packages
-(require 'my-package)
-
 ;; Set PATH
 (use-package exec-path-from-shell
   :ensure t)
