@@ -15,6 +15,9 @@
 ;; misc
 (require 'init_misc)
 
+;; treesit
+(require 'init_treesit)
+
 ;; ruby-mode
 (require 'init_ruby)
 ;; rails-mode
