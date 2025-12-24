@@ -189,10 +189,5 @@
   :config
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
-(use-package highlight-indent-guides
-  :ensure t
-  :config
-  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
-
 (provide 'init_misc)
 ;; init_misc.el ends here

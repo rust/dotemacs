@@ -180,9 +180,6 @@
   )
 (add-hook 'diff-mode-hook 'diff-mode-setup-faces)
 
-;; Syntax highlight in all buffers
-(global-font-lock-mode t)
-
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))

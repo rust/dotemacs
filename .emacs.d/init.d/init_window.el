@@ -21,8 +21,6 @@
 ;; Font: Moralerspace
 (add-to-list 'default-frame-alist '(font . "Moralerspace Neon HWJPDOC-10"))
 
-(load-theme 'wombat t)
-
 ;; transparent
 (add-to-list 'default-frame-alist '(alpha . 100))
 (set-frame-parameter nil 'alpha 100)
@@ -37,6 +35,8 @@
 
 (cond
  (mac-p (require 'init_mac)))
+
+(load-theme 'solarized-light t)
 
 (provide 'init_window)
 ;; init_window.el ends here

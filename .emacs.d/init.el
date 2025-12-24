@@ -13,8 +13,6 @@
 ;; path-list を load-path へ追加する
 
 (setq debug-on-error t)
-(global-tree-sitter-mode)
-
 
 (defun add-to-load-path (path-list)
   "Add paths to 'load-path"
@@ -63,11 +61,20 @@
 ;; 共通設定ファイル
 (require 'init_main)
 
-(use-package solarized-theme)
+;; Color theme and indent guide
+(use-package solarized-theme
+  :ensure t)
 
 ;; 環境依存設定ファイル
 (cond
  (window-p (require 'init_window))
  (t (require 'init_terminal-mode)))
+
+(use-package highlight-indent-guides
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+
+(global-font-lock-mode t)
 
 (provide 'init)
