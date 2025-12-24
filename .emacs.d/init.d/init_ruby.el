@@ -8,6 +8,10 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ruby
 
+(add-to-list 'treesit-language-source-alist
+             '(ruby "https://github.com/tree-sitter/tree-sitter-ruby"))
+(treesit-install-language-grammar 'ruby)
+
 ;; auto-mode by ruby
 (use-package ruby-ts-mode
   :ensure t

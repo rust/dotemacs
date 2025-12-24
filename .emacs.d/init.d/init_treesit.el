@@ -9,11 +9,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; for treesit
 
-(use-package treesit
-  :ensure t
-  :config
-  (setq treesit-font-lock-level 4))
-
 (use-package treesit-auto
   :ensure t
   :init
