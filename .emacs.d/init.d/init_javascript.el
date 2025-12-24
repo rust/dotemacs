@@ -9,6 +9,7 @@
 ;; for javascript
 
 (use-package rjsx-mode
+  :ensure t
   :mode (("\\.js\\'" . rjsx-mode)
          ("\\.jsx\\'" . rjsx-mode))
   :config
@@ -114,6 +115,14 @@
     (tide-hl-identifier-mode +1)
     (company-mode +1))
   (setq company-tooltip-align-annotations t))
+
+(use-package vue-mode
+  :ensure t
+  :mode "\\.vue\\'"
+  :config
+  (setq vue-html-tab-width 2))
+(use-package vue-html-mode
+  :ensure t)
 
 (provide 'init_javascript)
 ;; init_javascript.el ends here

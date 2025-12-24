@@ -10,6 +10,7 @@
 
 ;; haskell-mode
 (use-package haskell-mode
+  :ensure t
   :defer t
   :config
   (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
@@ -19,6 +20,7 @@
 
 ;; go-mode
 (use-package go-mode
+  :ensure t
   :defer t
   :config
   (add-to-list 'exec-path (expand-file-name "~/Works/golang/bin"))
@@ -33,16 +35,21 @@
                             (setq c-basic-offset 4)
                             (setq tab-width 4))))
 ;; % go get -u github.com/nsf/gocode
-(use-package go-autocomplete :defer t)
+(use-package go-autocomplete
+  :ensure t
+  :defer t)
 
 ;; scala-mode
-(use-package scala-mode)
+(use-package scala-mode
+  :ensure t)
 
 ;; kotlin-mode
-(use-package kotlin-mode)
+(use-package kotlin-mode
+  :ensure t)
 
 ;; elixir-mode
 (use-package elixir-mode
+  :ensure t
   :config
   (defun my-elixir-do-end-close-action (id action context)
     (when (eq action 'insert)
@@ -59,7 +66,9 @@
                    :when '(("SPC" "RET"))
                    :post-handlers '(:add my-elixir-do-end-close-action)
                    :actions '(insert))))
+
 (use-package alchemist
+  :ensure t
   :config
   (setq alchemist-key-command-prefix (kbd "C-c a"))
   (add-hook 'elixir-mode-hook 'ac-alchemist-setup))
@@ -71,8 +80,7 @@
   :bind (("C-c s" . scheme-other-window))
   :config
   (modify-coding-system-alist 'process "gosh" '(utf-8 . utf-8))
-  (cond ((or mac-p ns-p)
-         (setq scheme-program-name "/opt/local/bin/gosh -i"))
+  (cond (mac-p (setq scheme-program-name "/opt/local/bin/gosh -i"))
         (linux-p
          (setq scheme-program-name "gosh -i")))
   (defun scheme-other-window ()
@@ -90,26 +98,17 @@
 
 ;; Rust
 (use-package rust-mode
+  :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode)))
 
 ;; Java/Groovy
 (use-package groovy-mode
+  :ensure t
   :config
   (add-hook 'groovy-mode-hook '(lambda ()
                                  (c-set-offset 'label 4)))
   (add-to-list 'auto-mode-alist '("Jenkinsfile" . groovy-mode)))
-
-
-;; Python
-(use-package python-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-  (add-to-list 'interpreter-mode-alist '("python" . python-mode))
-  (setq jedi:complete-on-dot t)
-  (setq py-autopep8-options '("--max-line-length=200"))
-  (setq flycheck-flake8-maximum-line-length 200)
-  (py-autopep8-enable-on-save))
 
 (provide 'init_progs)
 ;; init_progs.el ends here

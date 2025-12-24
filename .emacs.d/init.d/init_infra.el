@@ -17,21 +17,31 @@
 
 ;; docker
 (use-package dockerfile-mode
-  :ensure f
+  :ensure t
   :config
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
 (use-package docker-compose-mode
-  :ensure f)
+  :ensure t)
 
 ;; Nginx
 (use-package nginx-mode
+  :ensure t
   :config
   (add-to-list 'auto-mode-alist '("nginx\\(.*\\).conf[^/]*$" . nginx-mode))
   (add-hook 'nginx-mode-hook (lambda ()
                                (setq indent-tabs-mode nil)
                                (setq c-basic-offset 4)
                                (setq tab-width 4))))
+
+(use-package terraform-mode
+  :ensure t)
+(use-package hcl-mode
+  :ensure t)
+(use-package toml-mode
+  :ensure t)
+(use-package vimrc-mode
+  :ensure t)
 
 (provide 'init_infra)
 ;; init_infra.el ends here
