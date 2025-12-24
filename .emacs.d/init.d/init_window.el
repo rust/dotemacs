@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_window.el
+;;; init_window.el --- ウィンドウシステム設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2025 Shinichiro OGAWA
-;;   Author  : Shinichiro OGAWA <rust.stnard@gmail.com>
+;; Author: Shinichiro OGAWA <rust.stnard@gmail.com>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; ウィンドウシステム環境の設定。
+;; フレーム設定、ツールバー、フォントなどの設定を含む。
+
+;;; Code:
+
 ;; initialization for Window System
 
 ;; hide menu

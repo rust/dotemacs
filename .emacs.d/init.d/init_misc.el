@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_misc.el
+;;; init_misc.el --- その他の設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2015 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; 各種言語モードやツールの設定。
+;; Haskell、CSS、JSON、yasnippet、elscreen、auto-completeなどを含む。
+
+;;; Code:
+
 ;; misc
 
 (desktop-save-mode t)

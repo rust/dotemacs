@@ -1,3 +1,12 @@
+;;; .emacs-old.el --- 古いEmacs設定  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;; 古いEmacs設定ファイル。
+;; 参考のために保持されているが、現在は使用されていない。
+
+;;; Code:
+
 ;; multi-term
 (require 'multi-term)
 (setq multi-term-program "/usr/bin/zsh")

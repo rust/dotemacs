@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_python.el
+;;; init_python.el --- Python設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2010 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; Python開発環境の設定。
+;; python-modeとDjangoサポートの設定を含む。
+
+;;; Code:
+
 ;; python
 
 ;; python-mode, pycomplete

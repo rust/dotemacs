@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_lsp.el
+;;; init_lsp.el --- LSP設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2025 Shinichiro OGAWA
-;;   Author  : Shinichiro OGAWA <rust.stnard@gmail.com>
+;; Author: Shinichiro OGAWA <rust.stnard@gmail.com>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; Language Server Protocolの設定。
+;; 各言語のLSPサーバー設定とlsp-modeの設定を含む。
+
+;;; Code:
+
 ;; lsp
 
 (use-package lsp-mode

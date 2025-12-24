@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init.el
+;;; init.el --- Emacs設定のエントリーポイント  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2010 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; Emacs初期化ファイル。
+;; load-path の設定、パッケージ管理、各種設定モジュールの読み込みを行う。
+
+;;; Code:
+
 ;; path-list を load-path へ追加する
 
 (setq debug-on-error t)

@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_javascript.el
+;;; init_javascript.el --- JavaScript開発環境設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2016 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; JavaScriptとReactの開発環境設定。
+;; RJSX-modeの設定を含む。
+
+;;; Code:
+
 ;; for javascript
 
 (use-package rjsx-mode

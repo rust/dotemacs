@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_progs.el
+;;; init_progs.el --- プログラミング言語設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2016 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; 各種プログラミング言語の設定。
+;; Haskell、Rust、Goなどのモード設定を含む。
+
+;;; Code:
+
 ;; misc
 
 ;; haskell-mode

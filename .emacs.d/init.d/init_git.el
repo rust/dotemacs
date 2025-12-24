@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_git.el
+;;; init_git.el --- Git設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2013 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; Gitツールの設定。
+;; Magitなどのgit連携ツールの設定を含む。
+
+;;; Code:
+
 ;; git
 
 ;; magit.el

@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_infra.el
+;;; init_infra.el --- インフラ関連設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2016 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; インフラ系ファイルの設定。
+;; シェルスクリプト、設定ファイル、Dockerfileなどのモード設定を含む。
+
+;;; Code:
+
 ;; infra
 
 ;; script-mode

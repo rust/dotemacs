@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_terminal-mode.el
+;;; init_terminal-mode.el --- ターミナルモード設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2025 Shinichiro OGAWA
-;;   Author  : Shinichiro OGAWA <rust.stnard@gmail.com>
+;; Author: Shinichiro OGAWA <rust.stnard@gmail.com>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; ターミナル環境での設定。
+;; ツールバーやメニューバーの非表示設定を含む。
+
+;;; Code:
+
 ;; initialization in Terminal
 
 (tool-bar-mode -1)

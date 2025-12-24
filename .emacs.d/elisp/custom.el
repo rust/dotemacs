@@ -1,3 +1,11 @@
+;;; custom.el --- Emacsカスタマイズ設定  -*- lexical-binding: t; -*-
+
+;;; Commentary:
+
+;; Emacsのカスタマイズインターフェースで設定された値を保存するファイル。
+;; このファイルは自動生成されるため、手動で編集しないこと。
+
+;;; Code:
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

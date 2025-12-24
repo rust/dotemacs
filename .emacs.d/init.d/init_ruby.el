@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_ruby.el
+;;; init_ruby.el --- Ruby設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2010 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; Ruby開発環境の設定。
+;; tree-sitterベースのruby-modeとその関連設定を含む。
+
+;;; Code:
+
 ;; ruby
 
 (add-to-list 'treesit-language-source-alist

@@ -1,11 +1,14 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_templates.el
+;;; init_templates.el --- テンプレート言語の設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2016 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; HAMLやSlimなどのテンプレート言語の設定。
+
+;;; Code:
+
 ;; haml
 (use-package haml-mode
   :ensure t

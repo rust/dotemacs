@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_setting.el
+;;; init_setting.el --- 基本設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2010 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; Emacsの基本設定。
+;; 言語環境、エンコーディング、バックアップ、表示設定などを含む。
+
+;;; Code:
+
 ;; 初期設定
 
 ;; 大文字変換を無効化

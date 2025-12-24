@@ -1,11 +1,14 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_markdown.el
+;;; init_markdown.el --- Markdown設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2014 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; Markdownファイル編集のための設定。
+
+;;; Code:
+
 ;; markdown-mode
 (use-package markdown-mode
   :ensure t)

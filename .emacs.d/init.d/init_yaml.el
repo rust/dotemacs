@@ -1,11 +1,14 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_yaml.el
+;;; init_yaml.el --- YAML設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2010 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; YAMLファイル編集のための設定。
+
+;;; Code:
+
 ;; yaml
 (use-package yaml-mode
   :ensure t

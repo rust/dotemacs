@@ -1,11 +1,14 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_mac.el
+;;; init_mac.el --- macOS固有設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2010 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; macOS環境での固有設定。
+;; フォント設定やmacOS固有のキーバインドを含む。
+
+;;; Code:
 
 ;; Font: Moralerspace
 (add-to-list 'default-frame-alist '(font . "Moralerspace Neon HWJPDOC-14"))

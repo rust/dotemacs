@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_main.el
+;;; init_main.el --- メイン設定ファイルの読み込み  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2010 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; 各種設定ファイルを読み込むメインモジュール。
+;; プログラミング言語の設定、Git、LSP、AIなどの設定を含む。
+
+;;; Code:
+
 ;; 初期設定など
 (require 'init_setting)
 
@@ -49,4 +53,4 @@
 (require 'init_ai)
 
 (provide 'init_main)
-;; init_mail.el ends here
+;;; init_main.el ends here

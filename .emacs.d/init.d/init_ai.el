@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_ai.el
+;;; init_ai.el --- AI支援ツール設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2025 Shinichiro OGAWA
-;;   Author  : Shinichiro OGAWA <rust.stnard@gmail.com>
+;; Author: Shinichiro OGAWA <rust.stnard@gmail.com>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; AI支援ツールの設定。
+;; Copilotなどのコード補完AIツールの設定を含む。
+
+;;; Code:
+
 ;; AI
 
 (use-package copilot

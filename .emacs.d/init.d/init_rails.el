@@ -1,11 +1,15 @@
-;;; -*- mode: emacs-lisp; coding: utf-8; indent-tabs-mode: nil -*-
-
-;; init_rails.el
+;;; init_rails.el --- Rails開発環境設定  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2010 Shin-ichiro OGAWA
-;;   Author  : Shin-ichiro OGAWA <rust@stnard.jp>
+;; Author: Shin-ichiro OGAWA <rust@stnard.jp>
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Commentary:
+
+;; Ruby on Rails開発のための設定。
+;; RHTMLモードなどのテンプレート関連の設定を含む。
+
+;;; Code:
+
 ;; for rails
 ;;;; rhtml-mode
 (use-package rhtml-mode
