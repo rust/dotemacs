@@ -25,15 +25,6 @@
 (add-hook 'js2-mode-hook 'prettier-js-mode)
 (add-hook 'web-mode-hook 'prettier-js-mode)
 
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (flycheck-mode +1)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (eldoc-mode +1)
-  (tide-hl-identifier-mode +1)
-  (company-mode +1))
-
 (use-package company
   :config
   (setq company-show-numbers t)
@@ -78,18 +69,51 @@
                 (setup-tide-mode))))
   (flycheck-add-mode 'typescript-tslint 'web-mode))
 
-
-(use-package typescript-mode
+(use-package typescript-ts-mode
+  :mode (("\\\\.tsx\\\\'" . tsx-ts-mode)
+         ("\\\\.ts\\\\'" . tsx-ts-mode))
   :config
-  (setq typescript-indent-level 2)
-  (add-hook 'typescript-mode #'subword-mode))
+  (setq typescript-ts-mode-indent-offset 2))
+
+(use-package treesit
+  :config
+  (setq treesit-font-lock-level 4))
+
+(use-package treesit-auto
+  :ensure t
+  :init
+  (require 'treesit-auto)
+  (global-treesit-auto-mode)
+  :config
+  (setq treesit-auto-install t))
+
+(use-package tree-sitter
+  :ensure t
+  :hook ((typescript-ts-mode . tree-sitter-hl-mode)
+         (tsx-ts-mode . tree-sitter-hl-mode))
+  :config
+  (global-tree-sitter-mode))
+
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter
+  :config
+  (tree-sitter-require 'tsx)
+  (add-to-list 'tree-sitter-major-mode-language-alist '(tsx-ts-mode . tsx)))
 
 (use-package tide
-  :init
-  :after (typescript-mode company flycheck)
-  :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode)
-         (before-save . tide-format-before-save)))
+  :ensure t
+  :hook (tsx-ts-mode . setup-tide-mode)
+  :config
+  (defun setup-tide-mode ()
+    (interactive)
+    (tide-setup)
+    (flycheck-mode +1)
+    (setq flycheck-check-syntax-automatically '(save mode-enabled))
+    (eldoc-mode +1)
+    (tide-hl-identifier-mode +1)
+    (company-mode +1))
+  (setq company-tooltip-align-annotations t))
 
 (provide 'init_javascript)
 ;; init_javascript.el ends here

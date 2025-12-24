@@ -16,28 +16,13 @@
     (eval-print-last-sexp)))
 
 ;; el-get packages
-;;;; General
-(el-get-bundle auto-save-buffers-enhanced)
-(el-get-bundle pkg-info)
-(el-get-bundle exec-path-from-shell)
-(el-get-bundle rainbow-mode)
-
 ;;;; for auto-complete
 (el-get-bundle fuzzy)
 (el-get-bundle popup)
 (el-get-bundle pos-tip)
-(el-get-bundle expand-region)
-
-;; Git
-(el-get-bundle magit :info "docs")
-(el-get-bundle pinentry)
-
-;;;; Search
-(el-get-bundle anzu)
 
 ;;;; Buffer utils
 (el-get-bundle popwin)
-(el-get-bundle elscreen)
 (el-get-bundle yascroll)
 (el-get-bundle buffer-move)
 
@@ -47,35 +32,10 @@
 ;;;; flycheck
 (el-get-bundle flycheck)
 
-;;;; git
-(el-get-bundle git-gutter+)
-(el-get-bundle git-gutter-fringe+)
-
-;;;; Ruby
-(el-get-bundle rbenv)
-(el-get-bundle ruby-block)
-(el-get-bundle inf-ruby)
-(el-get-bundle fringe-helper)
-(el-get-bundle yasnippet)
-(el-get-bundle rubocop)
-
-;;;; Rails
-(el-get-bundle rspec-mode)
-(el-get-bundle yard-mode)
-(el-get-bundle rhtml-mode)
-(el-get-bundle haml-mode)
-(el-get-bundle slim-mode)
-(el-get-bundle sass-mode)
-(el-get-bundle yaml-mode)
-
 ;;;; JavaScript
 (el-get-bundle sourcemap)
 (el-get-bundle js2-mode)
-(el-get-bundle tide)
 (el-get-bundle prettier-js)
-
-;; Finder
-(el-get-bundle vertico)
 
 ;;;; Misc modes
 (el-get-bundle company-mode)
@@ -86,19 +46,13 @@
 (el-get-bundle graphviz-dot-mode)
 (el-get-bundle vue-mode)
 (el-get-bundle vue-html-mode)
-(el-get-bundle rainbow-delimiters)
 
 ;;;; Utils
 (el-get-bundle multi-term)
-(el-get-bundle lsp-mode)
-
-;; AI
-(el-get-bundle copilot)
 
 ;;;; Color
 (el-get-bundle powerline)
 (el-get-bundle solarized-theme)
-(el-get-bundle highlight-indentation)
 
 ;;;; Elixir
 (el-get-bundle erlang-mode)
@@ -119,16 +73,12 @@
 (el-get-bundle flycheck-kotlin)
 
 ;; Misc Programming languages
-(el-get-bundle php-mode)
 (el-get-bundle ac-php)
 (el-get-bundle rust-mode)
 (el-get-bundle go-mode)
 (el-get-bundle go-autocomplete)
 (el-get-bundle rjsx-mode)
-(el-get-bundle haskell-mode)
 (el-get-bundle ghc-mod)
-(el-get-bundle hl-todo)
-(el-get-bundle adaptive-wrap)
 (el-get-bundle groovy-mode)
 
 ;; infra
@@ -138,8 +88,6 @@
 (el-get-bundle dockerfile-mode)
 (el-get-bundle docker-compose-mode)
 (el-get-bundle toml-mode)
-(el-get-bundle json-mode)
-(el-get-bundle jsonnet-mode)
 (el-get-bundle vimrc-mode)
 
 (provide 'my-package)

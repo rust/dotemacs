@@ -11,18 +11,17 @@
 ;; magit.el
 (setq magit-last-seen-setup-instructions "1.4.0")
 
-(use-package magit)
+(use-package magit
+  :ensure t)
 
-(use-package git-gutter+
-  :init (global-git-gutter+-mode)
+(use-package git-gutter
+  :ensure t
+  :init (global-git-gutter-mode)
   :config
-  (add-hook 'ruby-mode-hook 'git-gutter+-mode)
-  (add-hook 'enh-ruby-mode-hook 'git-gutter+-mode)
-  (add-hook 'haml-mode-hook 'git-gutter+-mode)
-  (add-hook 'rhtml-mode-hook 'git-gutter+-mode)
-  (add-hook 'sass-mode-hook 'git-gutter+-mode))
+  (add-hook 'prog-mode-hook 'git-gutter-mode))
 
 (use-package pinentry
+  :ensure t
   :config
   (pinentry-start))
 

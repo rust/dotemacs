@@ -15,10 +15,16 @@
             (desktop-save (expand-file-name "~/.emacs.d/") t)))
 
 ;; haskell-mode
-(add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-(add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-(add-hook 'haskell-mode-hook 'font-lock-mode)
-(add-hook 'haskell-mode-hook 'imenu-add-menubar-index)
+(use-package
+  haskell-mode
+  :config
+  (add-to-list 'auto-mode-alist '("\\.hs$"    . haskell-mode))
+  (add-to-list 'auto-mode-alist '("\\.lhs$"   . literate-haskell-mode))
+  (add-to-list 'auto-mode-alist '("\\.cabal$" . haskell-cabal-mode))
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+  (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+  (add-hook 'haskell-mode-hook 'font-lock-mode)
+  (add-hook 'haskell-mode-hook 'imenu-add-menubar-index))
 
 ;; Makefile
 (add-to-list 'auto-mode-alist '("\\.make$" . makefile-gmake-mode))
@@ -40,6 +46,7 @@
 
 ;; json-mode
 (use-package json-mode
+  :ensure t
   :config
   (add-hook 'json-mode-hook
           (lambda ()
@@ -48,6 +55,7 @@
 
 ;; jsonnet-mode
 (use-package jsonnet-mode
+  :ensure t
   :config
   (add-hook 'jsonnet-mode-hook
             '(lambda ()
@@ -57,6 +65,7 @@
 
 ;; anzu
 (use-package anzu
+  :ensure t
   :config
   (global-anzu-mode +1)
 
@@ -73,6 +82,7 @@
 
 ;; yasnippet
 (use-package yasnippet
+  :ensure t
   :mode (("\\.yasnippet$" . snippet-mode))
   :config
   (yas-global-mode 1)
@@ -94,6 +104,7 @@
 
 ;; elscreen
 (use-package elscreen
+  :ensure t
   ;; :bind (("C-z SPC"           . elscreen-next)
   ;;        ("C-z DEL"           . elscreen-previous)
   ;;        ;; compatibility for MacOS X
@@ -149,6 +160,7 @@
 
 ;; multi-term
 (use-package multi-term
+  :ensure t
   :bind (("C-c n" . multi-term-next)
          ("C-c p" . multi-term-prev))
   :config
@@ -173,7 +185,10 @@
   :config
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
-(global-font-lock-mode t)
+(use-package highlight-indent-guides
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
 
 (provide 'init_misc)
 ;; init_misc.el ends here

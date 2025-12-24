@@ -45,7 +45,8 @@
 (require 'my-package)
 
 ;; Set PATH
-(exec-path-from-shell-initialize)
+(use-package exec-path-from-shell
+  :ensure t)
 
 ;; 共通設定ファイル
 (require 'init_main)
