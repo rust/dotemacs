@@ -19,7 +19,14 @@
    (ruby-ts-mode . lsp-deferred)
    )
   :init
-  (setq lsp-ruby-lsp-use-bundler t))
+  (setq lsp-ruby-lsp-use-bundler t)
+  :config
+  (lsp-register-client
+   (make-lsp-client
+    :new-connection (lsp-stdio-connection
+                     (lambda () '("mise" "x" "--" "ruby-lsp")))
+    :major-modes '(ruby-mode ruby-ts-mode)
+    :server-id 'ruby-lsp-mise)))
 
 (use-package company
   :ensure t

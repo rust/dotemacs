@@ -12,8 +12,6 @@
 
 ;; path-list を load-path へ追加する
 
-(setq debug-on-error t)
-
 (defun add-to-load-path (path-list)
   "Add paths to 'load-path"
   (let (path)
