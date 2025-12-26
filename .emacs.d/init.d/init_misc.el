@@ -189,5 +189,8 @@
   :config
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
+(use-package nix-mode
+  :ensure t)
+
 (provide 'init_misc)
 ;; init_misc.el ends here
