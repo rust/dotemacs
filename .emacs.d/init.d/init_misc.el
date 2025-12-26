@@ -19,8 +19,9 @@
             (desktop-save (expand-file-name "~/.emacs.d/") t)))
 
 ;; haskell-mode
-(use-package
-  haskell-mode
+(use-package haskell-mode
+  :ensure t
+  :defer t
   :config
   (add-to-list 'auto-mode-alist '("\\.hs$"    . haskell-mode))
   (add-to-list 'auto-mode-alist '("\\.lhs$"   . literate-haskell-mode))
@@ -39,18 +40,22 @@
 
 ;; css-mode
 (use-package css-mode
+  :ensure t
+  :defer t
   :config
   (setq cssm-indent-function #'cssm-c-style-indenter)
   (setq css-indent-offset 2))
 
 ;;; Interactively Do Things
 (use-package ido
+  :ensure t
   :config
   (ido-mode t))
 
 ;; json-mode
 (use-package json-mode
   :ensure t
+  :defer t
   :config
   (add-hook 'json-mode-hook
           (lambda ()
@@ -60,6 +65,7 @@
 ;; jsonnet-mode
 (use-package jsonnet-mode
   :ensure t
+  :defer t
   :config
   (add-hook 'jsonnet-mode-hook
             '(lambda ()
@@ -186,11 +192,13 @@
 
 (use-package rainbow-delimiters
   :ensure t
+  :defer t
   :config
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (use-package nix-mode
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (provide 'init_misc)
 ;; init_misc.el ends here

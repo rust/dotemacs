@@ -14,6 +14,7 @@
 
 (use-package lsp-mode
   :ensure t
+  :defer t
   :hook
   ((ruby-mode . lsp-deferred)
    (ruby-ts-mode . lsp-deferred)

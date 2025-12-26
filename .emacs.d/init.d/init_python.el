@@ -14,9 +14,8 @@
 
 ;; python-mode, pycomplete
 (use-package python-mode
-  :ensure t)
-(use-package python-django
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (provide 'init_python)
 ;; init_python.el ends here

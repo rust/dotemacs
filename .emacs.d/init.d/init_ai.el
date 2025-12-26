@@ -14,8 +14,9 @@
 
 (use-package copilot
   :ensure t
+  :defer t
+  :hook ((prog-mode . copilot-mode))
   :config
-  (add-hook 'prog-mode-hook 'copilot-mode)
   (setq copilot-indent-offset-warning-disable t)
 
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)

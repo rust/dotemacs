@@ -45,40 +45,37 @@
 
 ;; scala-mode
 (use-package scala-mode
-  :ensure t)
+  :ensure t
+  :defer t)
 
 ;; kotlin-mode
 (use-package kotlin-mode
-  :ensure t)
+  :ensure t
+  :defer t)
 
 ;; elixir-mode
 (use-package elixir-mode
-  :ensure t)
-
-(use-package alchemist
   :ensure t
-  :config
-  (setq alchemist-key-command-prefix (kbd "C-c a"))
-  (add-hook 'elixir-mode-hook 'ac-alchemist-setup))
-
-;; Gauche
-(use-package scheme)
+  :defer t)
 
 ;; PHP
 (use-package php-mode
   :ensure t
+  :defer t
   :mode
   ("\\.php" . php-mode))
 
 ;; Rust
 (use-package rust-mode
   :ensure t
+  :defer t
   :config
   (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode)))
 
 ;; Java/Groovy
 (use-package groovy-mode
   :ensure t
+  :defer t
   :config
   (add-hook 'groovy-mode-hook '(lambda ()
                                  (c-set-offset 'label 4)))

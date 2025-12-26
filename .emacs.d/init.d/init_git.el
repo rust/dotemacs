@@ -16,16 +16,19 @@
 (setq magit-last-seen-setup-instructions "1.4.0")
 
 (use-package magit
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package git-gutter
   :ensure t
+  :defer t
   :init (global-git-gutter-mode)
   :config
   (add-hook 'prog-mode-hook 'git-gutter-mode))
 
 (use-package pinentry
   :ensure t
+  :defer t
   :config
   (pinentry-start))
 
