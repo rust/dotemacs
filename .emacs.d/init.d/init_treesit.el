@@ -9,14 +9,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; for treesit
 
-(use-package treesit-auto
-  :ensure t
-  :init
-  (require 'treesit-auto)
-  (global-treesit-auto-mode)
-  :config
-  (setq treesit-auto-install t))
-
 (use-package tree-sitter
   :ensure t
   :hook (tree-sitter-after-on . tree-sitter-hl-mode)
@@ -29,6 +21,12 @@
   :config
   (tree-sitter-require 'tsx)
   (add-to-list 'tree-sitter-major-mode-language-alist '(tsx-ts-mode . tsx)))
+
+(use-package treesit-auto
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook #'treesit-auto-mode)
+  (setq treesit-auto-install t))
 
 ;; install target languages
 (setq treesit-language-source-alist
