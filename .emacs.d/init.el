@@ -12,6 +12,10 @@
 
 ;; path-list を load-path へ追加する
 
+;; disalbe Mac Magic File Name
+(defconst my-saved-file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
 (defun add-to-load-path (path-list)
   "Add paths to 'load-path"
   (let (path)
@@ -74,5 +78,8 @@
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
 
 (global-font-lock-mode t)
+
+;; restore Mac Magic File Name
+(setq file-name-handler-alist my-saved-file-name-handler-alist)
 
 (provide 'init)
