@@ -12,11 +12,11 @@
 
 ;; misc
 
-(desktop-save-mode t)
-(setq desktop-auto-save-timeout 60)
-(add-hook 'kill-emacs-hook
-          (lambda ()
-            (desktop-save (expand-file-name "~/.emacs.d/") t)))
+;; (desktop-save-mode t)
+;; (setq desktop-auto-save-timeout 60)
+;; (add-hook 'kill-emacs-hook
+;;           (lambda ()
+;;             (desktop-save (expand-file-name "~/.emacs.d/") t)))
 
 ;; haskell-mode
 (use-package haskell-mode

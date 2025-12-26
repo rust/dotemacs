@@ -22,6 +22,9 @@
 ;; treesit
 (require 'init_treesit)
 
+;; git
+(require 'init_git)
+
 ;; ruby-mode
 (require 'init_ruby)
 ;; rails-mode
@@ -42,9 +45,6 @@
 
 ;; markdown
 (require 'init_markdown)
-
-;; git
-(require 'init_git)
 
 ;; For infra
 (require 'init_infra)
