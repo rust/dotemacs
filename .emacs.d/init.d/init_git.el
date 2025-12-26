@@ -17,7 +17,9 @@
 
 (use-package magit
   :ensure t
-  :defer t)
+  :defer t
+  :custom
+  (magit-git-executable "/opt/homebrew/bin/git"))
 
 (use-package git-gutter
   :ensure t
