@@ -19,7 +19,8 @@
   :ensure t
   :defer t
   :custom
-  (magit-git-executable "/opt/homebrew/bin/git"))
+  (magit-git-executable (cond (mac-p "/opt/homebrew/bin/git")
+                              (t "/usr/bin/git"))))
 
 (use-package git-gutter
   :ensure t
