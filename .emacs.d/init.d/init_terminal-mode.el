@@ -22,5 +22,8 @@
 
 (load-theme 'solarized-dark t)
 
+;; CJK Ambiguous Charactersを1文字扱いしない
+(setopt cjk-ambiguous-chars-are-wide nil)
+
 (provide 'init_terminal-mode)
 ;; init_terminal-mode.el ends here

@@ -14,10 +14,6 @@
 
 ;; 大文字変換を無効化
 (put 'upcase-region 'disabled nil)
-;; 日本語
-(set-language-environment 'Japanese)
-;; (set-language-environment 'utf-8)
-(prefer-coding-system 'utf-8)
 ;; Startup message を非表示
 (setq inhibit-startup-message t)
 ;; 終了時にオートセーブファイルを消す
