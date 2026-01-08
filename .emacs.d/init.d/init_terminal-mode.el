@@ -20,7 +20,7 @@
 (setq highlight-indent-guides-auto-enabled nil)
 (setq highlight-indent-guides-suppress-auto-error t)
 
-(load-theme 'solarized-dark t)
+(load-theme 'solarized-wombat-dark t)
 
 ;; CJK Ambiguous Charactersを1文字扱いしない
 (setopt cjk-ambiguous-chars-are-wide nil)
