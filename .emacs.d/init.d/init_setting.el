@@ -85,12 +85,10 @@
   :config
   (define-key dired-mode-map "r" 'wdired-change-to-dired-mode))
 
-;; auto-save-buffers-enhanced
-(use-package auto-save-buffers-enhanced
-  :ensure t
-  :config
-  (setq auto-save-buffers-enhanced-interval 30)
-  (auto-save-buffers-enhanced t))
+;; visited file の自動保存は組み込み機能でまかなう
+(setq auto-save-visited-interval 30
+      auto-save-no-message t)
+(auto-save-visited-mode 1)
 
 ;; Open symlink, not real file
 (setq vc-follow-symlinks nil)
