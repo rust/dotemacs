@@ -47,9 +47,8 @@
 (use-package hcl-mode
   :ensure t
   :defer t)
-(use-package toml-mode
-  :ensure t
-  :defer t)
+;; toml-ts-mode は Emacs 29+ 組み込み（toml-mode は削除済み）
+(add-to-list 'auto-mode-alist '("\\.toml\\'" . toml-ts-mode))
 (use-package vimrc-mode
   :ensure t
   :defer t)

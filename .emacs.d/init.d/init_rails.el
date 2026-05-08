@@ -6,17 +6,13 @@
 ;;; Commentary:
 
 ;; Ruby on Rails開発のための設定。
-;; RHTMLモードなどのテンプレート関連の設定を含む。
 
 ;;; Code:
 
 ;; for rails
-;;;; rhtml-mode
-(use-package rhtml-mode
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.rhtml$" . rhtml-mode))
-  (add-to-list 'auto-mode-alist '("\\.erb$" . rhtml-mode)))
+;;;; .rhtml は web-mode で処理（rhtml-mode は削除済み）
+;;;; .erb は init_javascript.el の web-mode 設定でカバー済み
+(add-to-list 'auto-mode-alist '("\\.rhtml$" . web-mode))
 
 (use-package rspec-mode
   :ensure t
