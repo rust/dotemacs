@@ -40,5 +40,22 @@
 
 (load-theme 'solarized-light t)
 
+;; tab-bar: アクティブタブが浮き上がるように solarized-light に合わせて調整
+;; （テーマのデフォルトはアクティブ・非アクティブの区別がつきにくいため上書き）
+(with-eval-after-load 'tab-bar
+  (set-face-attribute 'tab-bar nil
+                      :background "#eee8d5"   ; base2: バー全体はやや暗め
+                      :foreground "#657b83")  ; base00
+  (set-face-attribute 'tab-bar-tab nil
+                      :background "#fdf6e3"   ; base3: アクティブタブはコンテンツ背景と同色で浮き上がる
+                      :foreground "#073642"   ; base02: 暗く太字で強調
+                      :weight 'bold
+                      :box '(:line-width 1 :color "#268bd2")) ; blue でアクティブを明示
+  (set-face-attribute 'tab-bar-tab-inactive nil
+                      :background "#eee8d5"   ; base2: バーに溶け込む
+                      :foreground "#93a1a1"   ; base1: 薄く表示
+                      :weight 'normal
+                      :box nil))
+
 (provide 'init_window)
 ;; init_window.el ends here
