@@ -58,7 +58,9 @@
 (setq use-package-always-ensure t)
 
 ;; Set PATH
-(use-package exec-path-from-shell)
+(use-package exec-path-from-shell
+  :config
+  (exec-path-from-shell-initialize))
 
 ;; 共通設定ファイル
 (require 'init_main)
