@@ -14,7 +14,7 @@
 
 ;; auto-mode by ruby
 (use-package ruby-ts-mode
-  :ensure t
+  :ensure nil
   :config
   (add-to-list 'auto-mode-alist '("Rakefile" . ruby-ts-mode))
   (add-to-list 'auto-mode-alist '("Gemfile" . ruby-ts-mode))
@@ -27,8 +27,7 @@
 
 (use-package yard-mode
   :ensure t
-  :config
-  (add-hook 'ruby-mode 'yard-mode))
+  :hook (ruby-ts-mode . yard-mode))
 
 ;; inf-ruby
 (use-package inf-ruby
@@ -40,48 +39,32 @@
 
 ;; for M-x align
 (use-package align
-  :ensure t
+  :ensure nil
   :config
   (add-to-list 'align-rules-list
                '(ruby-comma-delimiter
                  (regexp . ",\\(\\s-*\\)[^# \t\n]")
                  (repeat . t)
-                 (modes  . '(ruby-mode))))
+                 (modes  . '(ruby-ts-mode))))
   (add-to-list 'align-rules-list
                '(ruby-hash-literal
                  (regexp . "\\(\\s-*\\)=>\\s-*[^# \t\n]")
                  (repeat . t)
-                 (modes  . '(ruby-mode))))
+                 (modes  . '(ruby-ts-mode))))
   (add-to-list 'align-rules-list
                '(ruby-assignment-literal
                  (regexp . "\\(\\s-*\\)=\\s-*[^# \t\n]")
                  (repeat . t)
-                 (modes  . '(ruby-mode))))
+                 (modes  . '(ruby-ts-mode))))
   (add-to-list 'align-rules-list          ;TODO add to rcodetools.el
                '(ruby-xmpfilter-mark
                  (regexp . "\\(\\s-*\\)# => [^#\t\n]")
                  (repeat . nil)
-                 (modes  . '(ruby-mode)))))
-
-(defadvice ruby-indent-line (after unindent-closing-paren activate)
-  (let ((column (current-column))
-        indent offset)
-    (save-excursion
-      (back-to-indentation)
-      (let ((state (syntax-ppss)))
-        (setq offset (- column (current-column)))
-        (when (and (eq (char-after) ?\))
-                   (not (zerop (car state))))
-          (goto-char (cadr state))
-          (setq indent (current-indentation)))))
-    (when indent
-      (indent-line-to indent)
-      (when (> offset 0) (forward-char offset)))))
+                 (modes  . '(ruby-ts-mode)))))
 
 (use-package rubocop
   :ensure t
-  :config
-  (add-hook 'ruby-mode-hook 'rubocop-mode))
+  :hook (ruby-ts-mode . rubocop-mode))
 
 (provide 'init_ruby)
 ;; init_ruby.el ends here
