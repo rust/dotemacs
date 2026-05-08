@@ -6,7 +6,7 @@
 ;;; Commentary:
 
 ;; 各種言語モードやツールの設定。
-;; CSS、JSON、yasnippet、elscreen、multi-termなどを含む。
+;; CSS、JSON、yasnippet、tab-bar-modeなどを含む。
 ;; haskell-mode は init_progs.el に集約。
 ;; 補完は company（init_lsp.el）に一本化。ファイル選択は vertico（init_finder.el）に一本化。
 
@@ -31,7 +31,7 @@
 
 ;; css-mode
 (use-package css-mode
-  :ensure t
+  :ensure nil
   :defer t
   :config
   (setq cssm-indent-function #'cssm-c-style-indenter)
@@ -39,12 +39,12 @@
 
 ;; ido は vertico（init_finder.el）に置き換え済みのため削除
 
-;; json-mode
-(use-package json-mode
-  :ensure t
+;; json-ts-mode（Emacs 29+ 組み込み）: .json
+(use-package json-ts-mode
+  :ensure nil
   :defer t
   :config
-  (add-hook 'json-mode-hook
+  (add-hook 'json-ts-mode-hook
           (lambda ()
             (make-local-variable 'js-indent-level)
             (setq js-indent-level 2))))
@@ -68,12 +68,11 @@
 
   (set-face-attribute 'anzu-mode-line nil
                       :foreground "yellow" :weight 'bold)
-  (custom-set-variables
-   '(anzu-mode-lighter "")
-   '(anzu-deactivate-region t)
-   '(anzu-search-threshold 1000)
-   '(anzu-use-mimego t)
-   '(anzu-replace-to-string-separator " => "))
+  (setq anzu-mode-lighter ""
+        anzu-deactivate-region t
+        anzu-search-threshold 1000
+        anzu-use-migemo t
+        anzu-replace-to-string-separator " => ")
   (bind-keys ("M-%"   . anzu-query-replace)
              ("C-M-%" . anzu-query-replace-regexp)))
 
