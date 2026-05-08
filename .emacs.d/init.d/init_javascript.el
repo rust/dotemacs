@@ -37,6 +37,7 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.html?\\'"   . web-mode)
+         ("\\.ts\\'"      . web-mode)
          ("\\.tsx\\'"     . web-mode)
          ("\\.jsx\\'"     . web-mode)
          ("\\.erb$"       . web-mode)
