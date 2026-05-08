@@ -19,7 +19,7 @@
      default))
  '(package-selected-packages
    '(adaptive-wrap anzu auto-save-buffers-enhanced company copilot
-                   docker-compose-mode dockerfile-mode
+                   dockerfile-mode
                    exec-path-from-shell expand-region
                    git-gutter go-mode groovy-mode
                    haskell-mode highlight-indent-guides hl-todo

@@ -26,9 +26,8 @@
   :config
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
-(use-package docker-compose-mode
-  :ensure t
-  :defer t)
+;; docker-compose: yaml-ts-mode で代替（docker-compose-mode は yaml-mode 依存で削除済み）
+(add-to-list 'auto-mode-alist '("docker-compose[^/]*\\.ya?ml\\'" . yaml-ts-mode))
 
 ;; Nginx
 (use-package nginx-mode
