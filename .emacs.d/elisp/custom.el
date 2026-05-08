@@ -25,18 +25,18 @@
      default))
  '(package-selected-packages
    '(adaptive-wrap anzu auto-save-buffers-enhanced company copilot
-                   docker-compose-mode dockerfile-mode elixir-mode
+                   docker-compose-mode dockerfile-mode
                    exec-path-from-shell expand-region
                    git-gutter go-mode groovy-mode
                    haskell-mode highlight-indent-guides hl-todo
-                   inf-ruby json-mode jsonnet-mode kotlin-mode
+                   inf-ruby json-mode jsonnet-mode
                    lsp-mode magit nginx-mode nix-mode
-                   orderless php-mode pinentry prettier-js python-mode
+                   orderless php-mode pinentry prettier-js
                    rainbow-delimiters rainbow-mode
                    rspec-mode rubocop rust-mode sass-mode
                    scala-mode slim-mode smartparens solarized-theme
                    terraform-mode tide
-                   treesit-auto vertico vimrc-mode vue-mode web-mode
+                   treesit-auto vertico vimrc-mode web-mode
                    yard-mode yasnippet))
  '(rspec-use-rake-flag nil)
  '(show-paren-mode t)
