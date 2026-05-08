@@ -16,32 +16,28 @@
 (use-package haskell-mode
   :ensure t
   :defer t
+  :hook
+  ((haskell-mode . turn-on-haskell-doc-mode)
+   (haskell-mode . turn-on-haskell-indent)
+   (haskell-mode . font-lock-mode)
+   (haskell-mode . imenu-add-menubar-index))
   :config
-  (add-to-list 'auto-mode-alist '("\\.hs$" . haskell-mode))
-  (add-to-list 'auto-mode-alist '("\\.lhs$" . literate-haskell-mode))
+  (add-to-list 'auto-mode-alist '("\\.hs$"    . haskell-mode))
+  (add-to-list 'auto-mode-alist '("\\.lhs$"   . literate-haskell-mode))
   (add-to-list 'auto-mode-alist '("\\.cabal$" . haskell-cabal-mode)))
-;;(use-package haskell-cabal)
 
-;; go-mode
+;; go-mode（補完は gopls via LSP / company に委譲）
 (use-package go-mode
   :ensure t
   :defer t
   :config
   (add-to-list 'exec-path (expand-file-name "~/Works/golang/bin"))
-  (add-to-list 'load-path (expand-file-name "~/Works/golang/src/github.com/nsf/gocode/emacs"))
-  ;; Run gofmt before saving
   (add-hook 'before-save-hook 'gofmt-before-save)
-
-  ;; % go get -u github.com/rogpeppe/godef
   (add-hook 'go-mode-hook (lambda ()
                             (local-set-key (kbd "M-.") 'godef-jump)
                             (setq indent-tabs-mode nil)
                             (setq c-basic-offset 4)
                             (setq tab-width 4))))
-;; % go get -u github.com/nsf/gocode
-(use-package go-autocomplete
-  :ensure t
-  :defer t)
 
 ;; scala-mode
 (use-package scala-mode

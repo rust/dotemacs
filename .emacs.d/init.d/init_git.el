@@ -31,7 +31,6 @@
 
 (use-package pinentry
   :ensure t
-  :defer t
   :config
   (pinentry-start))
 

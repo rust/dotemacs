@@ -69,8 +69,8 @@
   (flycheck-add-mode 'typescript-tslint 'web-mode))
 
 (use-package typescript-ts-mode
-  :mode (("\\\\.tsx\\\\'" . tsx-ts-mode)
-         ("\\\\.ts\\\\'" . tsx-ts-mode))
+  :mode (("\\.tsx\\'" . tsx-ts-mode)
+         ("\\.ts\\'"  . typescript-ts-mode))
   :config
   (setq typescript-ts-mode-indent-offset 2))
 

@@ -14,7 +14,7 @@
 (use-package treesit-auto
   :ensure t
   :config
-  (add-hook 'prog-mode-hook #'treesit-auto-mode)
+  (global-treesit-auto-mode)
   ;; 自動インストールは手動実行時のみ行う（起動時の自動ダウンロードを防ぐ）
   (setq treesit-auto-install 'prompt))
 
