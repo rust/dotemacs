@@ -30,16 +30,8 @@
    (make-lsp-client
     :new-connection (lsp-stdio-connection
                      (lambda () '("mise" "x" "--" "ruby-lsp")))
-    :major-modes '(ruby-mode ruby-ts-mode)
-    :server-id 'ruby-lsp-mise)))
-
-(use-package company
-  :ensure t
-  :config
-  (setq company-show-numbers t)
-  (setq company-tooltip-align-annotations t)
-  (setq company-tooltip-flip-when-above t)
-  (global-company-mode))
+     :major-modes '(ruby-mode ruby-ts-mode)
+     :server-id 'ruby-lsp-mise)))
 
 (provide 'init_lsp)
 ;; init_lsp.el ends here

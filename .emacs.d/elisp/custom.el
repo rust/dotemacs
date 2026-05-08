@@ -18,7 +18,7 @@
       "0f9a1b7a0f1d09544668297c1f04e5a5452ae1f4cf69f11b125f4cff1d54783d"
       default))
   '(package-selected-packages
-    '(adaptive-wrap anzu company copilot
+    '(adaptive-wrap anzu copilot corfu
                     dockerfile-mode
                     exec-path-from-shell expand-region
                     git-gutter go-mode groovy-mode

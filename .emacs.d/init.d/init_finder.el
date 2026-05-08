@@ -25,7 +25,24 @@
   :demand t
   :config
   (setq completion-styles '(orderless basic)
-        completion-category-overrides '((file (styles basic partial-completion)))))
+         completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package corfu
+  :ensure t
+  :demand t
+  :custom
+  (corfu-auto t)
+  (corfu-cycle t)
+  (corfu-preselect 'prompt)
+  :config
+  (require 'corfu-auto)
+  (require 'corfu-history)
+  (setq corfu-auto-prefix 2
+        corfu-auto-delay 0.15)
+  (setq tab-always-indent 'complete
+        completion-cycle-threshold 3)
+  (global-corfu-mode 1)
+  (corfu-history-mode 1))
 
 (use-package marginalia
   :ensure t
