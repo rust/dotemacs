@@ -24,10 +24,11 @@
 
 (use-package git-gutter
   :ensure t
-  :defer t
-  :init (global-git-gutter-mode)
   :config
-  (add-hook 'prog-mode-hook 'git-gutter-mode))
+  (setq git-gutter:update-interval 2)
+  ;; ファイルオープン時の即時 git diff を防ぐため idle timer 経由で起動
+  (add-hook 'find-file-hook
+            (lambda () (run-with-idle-timer 0.5 nil #'git-gutter-mode 1))))
 
 (use-package pinentry
   :ensure t
