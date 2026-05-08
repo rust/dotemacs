@@ -12,12 +12,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(anzu-deactivate-region t)
- '(anzu-mode-lighter "")
- '(anzu-replace-to-string-separator " => ")
- '(anzu-search-threshold 1000)
- '(anzu-use-mimego t)
- '(column-number-mode -1)
  '(custom-safe-themes
    '("2b0fcc7cc9be4c09ec5c75405260a85e41691abb1ee28d29fcd5521e4fca575b"
      "7fea145741b3ca719ae45e6533ad1f49b2a43bf199d9afaee5b6135fd9e6f9b8"
@@ -29,7 +23,7 @@
                    exec-path-from-shell expand-region
                    git-gutter go-mode groovy-mode
                    haskell-mode highlight-indent-guides hl-todo
-                   inf-ruby json-mode jsonnet-mode
+                   inf-ruby jsonnet-mode
                    lsp-mode magit nginx-mode nix-mode
                    orderless php-mode pinentry prettier-js
                    rainbow-delimiters rainbow-mode
