@@ -79,6 +79,7 @@
 ;; yasnippet
 (use-package yasnippet
   :ensure t
+  :demand t
   :mode (("\\.yasnippet$" . snippet-mode))
   :config
   (yas-global-mode 1)

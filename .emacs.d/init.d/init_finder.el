@@ -16,20 +16,26 @@
 
 (use-package vertico
   :ensure t
-  :hook (after-init . vertico-mode))
+  :demand t
+  :config
+  (vertico-mode 1))
 
 (use-package orderless
   :ensure t
+  :demand t
   :config
   (setq completion-styles '(orderless basic)
         completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package marginalia
   :ensure t
-  :hook (after-init . marginalia-mode))
+  :demand t
+  :config
+  (marginalia-mode 1))
 
 (use-package consult
   :ensure t
+  :demand t
   :bind
   (("C-x b"   . consult-buffer)        ; ido-switch-buffer の代替
    ("C-x C-f" . find-file)             ; 標準のまま（vertico が補完）

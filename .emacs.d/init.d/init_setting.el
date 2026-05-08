@@ -181,6 +181,7 @@
 
 (use-package flycheck
   :ensure t
+  :demand t
   :hook (prog-mode . flycheck-mode))
 
 (provide 'init_setting)
