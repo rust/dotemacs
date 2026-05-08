@@ -52,13 +52,9 @@
   (add-hook 'php-mode-hook 'rainbow-mode)
   (add-hook 'html-mode-hook 'rainbow-mode))
 
-;; smartparens
-(use-package smartparens
-  :ensure smartparens  ;; install the package
-  :hook (prog-mode text-mode markdown-mode) ;; add `smartparens-mode` to these hooks
-  :config
-  ;; load default config
-  (require 'smartparens-config))
+;; electric-pair-mode（smartparens の代替、Emacs 組み込み）
+;; 括弧・クォートの自動ペアリング。smartparens より軽量でファイルオープンが高速。
+(electric-pair-mode 1)
 
 (provide 'init_templates)
 ;; init_haml.el ends here

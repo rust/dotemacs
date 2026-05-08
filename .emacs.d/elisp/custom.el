@@ -28,7 +28,7 @@
                    orderless php-mode pinentry prettier-js
                    rainbow-delimiters rainbow-mode
                    rspec-mode rubocop rust-mode sass-mode
-                   scala-mode slim-mode smartparens solarized-theme
+                   scala-mode slim-mode solarized-theme
                    terraform-mode tide
                    treesit-auto vertico vimrc-mode web-mode
                    yard-mode yasnippet))
