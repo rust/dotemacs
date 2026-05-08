@@ -16,6 +16,13 @@
 (defconst my-saved-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 
+;; LSP runtime tuning: 起動コストよりも編集中の応答性を優先する
+(setenv "LSP_USE_PLISTS" "true")
+(setq gc-cons-threshold (* 128 1024 1024)
+      gc-cons-percentage 0.5
+      read-process-output-max (* 1024 1024)
+      process-adaptive-read-buffering nil)
+
 (defun add-to-load-path (path-list)
   "Add paths to 'load-path"
   (let (path)

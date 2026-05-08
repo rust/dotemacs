@@ -19,7 +19,9 @@
    (ruby-ts-mode . lsp)
    )
   :init
-  (setq lsp-ruby-lsp-use-bundler t)
+  (setq lsp-ruby-lsp-use-bundler t
+        lsp-idle-delay 0.2
+        lsp-log-io nil)
   :config
   (lsp-register-client
    (make-lsp-client
