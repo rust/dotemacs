@@ -33,14 +33,55 @@
   :config
   (marginalia-mode 1))
 
+(use-package recentf
+  :ensure nil
+  :demand t
+  :config
+  (setq recentf-max-saved-items 200
+        recentf-auto-cleanup 'mode
+        recentf-filename-handlers nil)
+  (recentf-mode 1))
+
 (use-package consult
   :ensure t
   :demand t
+  :config
+  (defvar my/consult-source-recent-file
+    (list :name "Recent File"
+          :narrow ?r
+          :category 'file
+          :face 'consult-file
+          :history 'file-name-history
+          :state #'consult--file-state
+          :new #'consult--file-action
+          :enabled (lambda () recentf-mode)
+          :items
+          (lambda ()
+            (let ((ht (consult--buffer-file-hash))
+                  items)
+              (dolist (file (bound-and-true-p recentf-list) (nreverse items))
+                (unless (eq (aref file 0) ?/)
+                  (let (file-name-handler-alist)
+                    (setq file (expand-file-name file))))
+                (unless (gethash file ht)
+                  (push (consult--fast-abbreviate-file-name file) items)))))))
+  (setq consult-buffer-sources
+        '(consult-source-buffer
+          consult-source-hidden-buffer
+          consult-source-modified-buffer
+          consult-source-other-buffer
+          my/consult-source-recent-file
+          consult-source-buffer-register
+          consult-source-file-register
+          consult-source-bookmark
+          consult-source-project-buffer-hidden
+          consult-source-project-recent-file-hidden
+          consult-source-project-root-hidden))
   :bind
   (("C-x b"   . consult-buffer)        ; ido-switch-buffer の代替
-   ("C-x C-f" . find-file)             ; 標準のまま（vertico が補完）
-   ("M-y"     . consult-yank-pop)      ; kill-ring から貼り付け
-   ("C-s"     . consult-line)          ; バッファ内インクリメンタル検索
+    ("C-x C-f" . find-file)             ; 標準のまま（vertico が補完）
+    ("M-y"     . consult-yank-pop)      ; kill-ring から貼り付け
+    ("C-s"     . consult-line)          ; バッファ内インクリメンタル検索
    ("C-c g"   . consult-ripgrep)))     ; プロジェクト全体 grep
 
 (provide 'init_finder)
