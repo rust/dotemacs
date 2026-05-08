@@ -25,6 +25,7 @@
   :defer t
   :config
   (add-hook 'js-ts-mode-hook  'prettier-js-mode)
+  (add-hook 'typescript-ts-mode-hook 'prettier-js-mode)
   (add-hook 'tsx-ts-mode-hook 'prettier-js-mode)
   (add-hook 'web-mode-hook    'prettier-js-mode))
 
@@ -49,34 +50,15 @@
         web-mode-enable-current-element-highlight t)
   (setq web-mode-engines-alist
         '(("ruby"          . "\\.erb\\'")
-          ("elixir"        . "\\.eex\\'")))
-  (setq web-mode-extra-keywords '(("javascript" . ("type" "interface"))))
-  (add-hook 'web-mode-hook
-            (lambda()
-              (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                (setup-tide-mode))))
-  (flycheck-add-mode 'typescript-tslint 'web-mode))
+           ("elixir"        . "\\.eex\\'")))
+  (setq web-mode-extra-keywords '(("javascript" . ("type" "interface")))))
 
 (use-package typescript-ts-mode
   :ensure nil
   :mode (("\\.tsx\\'" . tsx-ts-mode)
-         ("\\.ts\\'"  . typescript-ts-mode))
+          ("\\.ts\\'"  . typescript-ts-mode))
   :config
   (setq typescript-ts-mode-indent-offset 2))
-
-(use-package tide
-  :ensure t
-  :hook (tsx-ts-mode . setup-tide-mode)
-  :config
-  (defun setup-tide-mode ()
-    (interactive)
-    (tide-setup)
-    (flycheck-mode +1)
-    (setq flycheck-check-syntax-automatically '(save mode-enabled))
-    (eldoc-mode +1)
-    (tide-hl-identifier-mode +1)
-    (company-mode +1))
-  (setq company-tooltip-align-annotations t))
 
 ;; vue-mode は放棄済み、vue-ts-mode は MELPA 未収録のため web-mode で代替
 ;; vue-ts-mode が MELPA に収録された時点で移行予定

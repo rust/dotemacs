@@ -17,21 +17,21 @@
      "7fea145741b3ca719ae45e6533ad1f49b2a43bf199d9afaee5b6135fd9e6f9b8"
      "0f9a1b7a0f1d09544668297c1f04e5a5452ae1f4cf69f11b125f4cff1d54783d"
      default))
- '(package-selected-packages
-   '(adaptive-wrap anzu company copilot
-                   dockerfile-mode
-                   exec-path-from-shell expand-region
-                   git-gutter go-mode groovy-mode
+  '(package-selected-packages
+    '(adaptive-wrap anzu company copilot
+                    dockerfile-mode
+                    exec-path-from-shell expand-region
+                    git-gutter go-mode groovy-mode
                    haskell-mode highlight-indent-guides hl-todo
                    inf-ruby jsonnet-mode
-                   lsp-mode magit nginx-mode nix-mode
-                   orderless php-mode pinentry prettier-js
-                   rainbow-delimiters rainbow-mode
-                   rspec-mode rubocop rust-mode sass-mode
-                   scala-mode slim-mode solarized-theme
-                   terraform-mode tide
-                   treesit-auto vertico vimrc-mode web-mode
-                   yard-mode yasnippet))
+                    lsp-mode magit nginx-mode nix-mode
+                    orderless php-mode pinentry prettier-js
+                    rainbow-delimiters rainbow-mode
+                    rspec-mode rubocop rust-mode sass-mode
+                    scala-mode slim-mode solarized-theme
+                    terraform-mode
+                    treesit-auto vertico vimrc-mode web-mode
+                    yard-mode yasnippet))
  '(rspec-use-rake-flag nil)
  '(show-paren-mode t)
  '(yas-trigger-key "TAB"))

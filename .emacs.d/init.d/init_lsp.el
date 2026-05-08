@@ -17,6 +17,9 @@
   :hook
   ((ruby-mode . lsp)
    (ruby-ts-mode . lsp)
+   (js-ts-mode . lsp)
+   (typescript-ts-mode . lsp)
+   (tsx-ts-mode . lsp)
    )
   :init
   (setq lsp-ruby-lsp-use-bundler t
