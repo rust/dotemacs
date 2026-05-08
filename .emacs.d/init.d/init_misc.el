@@ -6,7 +6,9 @@
 ;;; Commentary:
 
 ;; 各種言語モードやツールの設定。
-;; Haskell、CSS、JSON、yasnippet、elscreen、auto-completeなどを含む。
+;; CSS、JSON、yasnippet、elscreen、multi-termなどを含む。
+;; haskell-mode は init_progs.el に集約。
+;; 補完は company（init_lsp.el）に一本化。ファイル選択は vertico（init_finder.el）に一本化。
 
 ;;; Code:
 
@@ -18,18 +20,7 @@
 ;;           (lambda ()
 ;;             (desktop-save (expand-file-name "~/.emacs.d/") t)))
 
-;; haskell-mode
-(use-package haskell-mode
-  :ensure t
-  :defer t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.hs$"    . haskell-mode))
-  (add-to-list 'auto-mode-alist '("\\.lhs$"   . literate-haskell-mode))
-  (add-to-list 'auto-mode-alist '("\\.cabal$" . haskell-cabal-mode))
-  (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
-  (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
-  (add-hook 'haskell-mode-hook 'font-lock-mode)
-  (add-hook 'haskell-mode-hook 'imenu-add-menubar-index))
+;; haskell-mode は init_progs.el に集約
 
 ;; Makefile
 (add-to-list 'auto-mode-alist '("\\.make$" . makefile-gmake-mode))
@@ -46,11 +37,7 @@
   (setq cssm-indent-function #'cssm-c-style-indenter)
   (setq css-indent-offset 2))
 
-;;; Interactively Do Things
-(use-package ido
-  :ensure t
-  :config
-  (ido-mode t))
+;; ido は vertico（init_finder.el）に置き換え済みのため削除
 
 ;; json-mode
 (use-package json-mode
@@ -148,25 +135,7 @@
   (global-set-key [(C-tab)] 'elscreen-next)
   (global-set-key [(C-S-iso-lefttab)] 'elscreen-previous))
 
-;; autocomplete
-(use-package auto-complete
-  :commands auto-complete-config
-  :config
-  (add-to-list 'ac-dictionary-directories "~/.emacs.d/elisp/dict")
-  (ac-config-default)
-  ;; for global
-  (global-auto-complete-mode t)
-  (define-key ac-completing-map (kbd "M-n") 'ac-next)
-  (define-key ac-completing-map (kbd "M-p") 'ac-previous)
-  (setq ac-dwim t)
-  ;; sources
-  (setq-default ac-sources '(ac-source-filename ac-source-words-in-same-mode-buffers))
-  (add-hook 'emacs-lisp-mode-hool (lambda () (add-to-list 'ac-sources 'ac-source-symbold t)))
-  ;; automatic completion
-  (setq ac-auto-start 5)
-  (ac-set-trigger-key "TAB")
-  (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
-  (setq ac-quick-help-prefer-x t))
+;; auto-complete は company（init_lsp.el）に置き換え済みのため削除
 
 ;; multi-term
 (use-package multi-term
