@@ -62,9 +62,5 @@
                  (repeat . nil)
                  (modes  . '(ruby-ts-mode)))))
 
-(use-package rubocop
-  :ensure t
-  :defer t)  ; ruby-lsp が rubocop 診断を提供するため自動起動しない
-
 (provide 'init_ruby)
 ;; init_ruby.el ends here

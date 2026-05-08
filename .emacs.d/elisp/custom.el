@@ -27,7 +27,7 @@
                     lsp-mode magit nginx-mode nix-mode
                     orderless php-mode pinentry prettier-js
                     rainbow-delimiters rainbow-mode
-                    rspec-mode rubocop rust-mode sass-mode
+                    rspec-mode rust-mode sass-mode
                     scala-mode slim-mode solarized-theme
                     terraform-mode
                     treesit-auto vertico vimrc-mode web-mode
