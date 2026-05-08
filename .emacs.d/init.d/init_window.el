@@ -12,8 +12,10 @@
 
 ;; initialization for Window System
 
-;; hide menu
+;; hide menu bar, tool bar, and scroll bar
+(menu-bar-mode -1)
 (tool-bar-mode -1)
+(scroll-bar-mode -1)
 
 ;; frame title
 (setq frame-title-format (format "%%f - Emacs@%s" (system-name)))
