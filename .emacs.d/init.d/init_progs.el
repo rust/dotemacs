@@ -44,13 +44,16 @@
   :ensure t
   :defer t)
 
-;; kotlin-mode
-(use-package kotlin-mode
+;; kotlin-ts-mode（kotlin-mode から移行、Emacs 30+ 対応）
+(use-package kotlin-ts-mode
   :ensure t
   :defer t)
 
-;; elixir-mode
-(use-package elixir-mode
+;; elixir-ts-mode（elixir-mode から移行）
+(use-package heex-ts-mode
+  :ensure t
+  :defer t)
+(use-package elixir-ts-mode
   :ensure t
   :defer t)
 
