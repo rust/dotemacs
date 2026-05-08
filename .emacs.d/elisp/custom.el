@@ -17,13 +17,29 @@
  '(anzu-replace-to-string-separator " => ")
  '(anzu-search-threshold 1000)
  '(anzu-use-mimego t)
+ '(column-number-mode -1)
  '(custom-safe-themes
    '("2b0fcc7cc9be4c09ec5c75405260a85e41691abb1ee28d29fcd5521e4fca575b"
      "7fea145741b3ca719ae45e6533ad1f49b2a43bf199d9afaee5b6135fd9e6f9b8"
      "0f9a1b7a0f1d09544668297c1f04e5a5452ae1f4cf69f11b125f4cff1d54783d"
      default))
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(adaptive-wrap anzu auto-save-buffers-enhanced company copilot
+                   docker-compose-mode dockerfile-mode elixir-mode
+                   exec-path-from-shell expand-region
+                   git-gutter go-autocomplete go-mode groovy-mode
+                   haskell-mode highlight-indent-guides hl-todo
+                   inf-ruby json-mode jsonnet-mode kotlin-mode
+                   lsp-mode magit multi-term nginx-mode nix-mode
+                   orderless php-mode pinentry prettier-js python-mode
+                   rainbow-delimiters rainbow-mode rhtml-mode
+                   rjsx-mode rspec-mode rubocop rust-mode sass-mode
+                   scala-mode slim-mode smartparens solarized-theme
+                   terraform-mode tide toml-mode tree-sitter-langs
+                   treesit-auto vertico vimrc-mode vue-mode web-mode
+                   yard-mode yasnippet))
  '(rspec-use-rake-flag nil)
+ '(show-paren-mode t)
  '(yas-trigger-key "TAB"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

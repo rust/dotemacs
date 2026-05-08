@@ -99,41 +99,49 @@
   ;; 既存スニペットを閲覧・編集する
   (define-key yas-minor-mode-map (kbd "C-x s v") 'yas-visit-snippet-file))
 
-;; elscreen
-(use-package elscreen
-  :ensure t
-  ;; :bind (("C-z SPC"           . elscreen-next)
-  ;;        ("C-z DEL"           . elscreen-previous)
-  ;;        ;; compatibility for MacOS X
-  ;;        ("M-t"               . elscreen-create)
-  ;;        ("M-T"               . elscreen-clone)
-  ;;        ("M-}"               . elscreen-next)
-  ;;        ("M-{"               . elscreen-previous)
-  ;;        ([(s t)]             . elscreen-create)
-  ;;        ;; (global-set-key [(s w)] . elscreen-kill)
-  ;;        ([(s })]             . elscreen-next)
-  ;;        ([(s {)]             . elscreen-previous)
-  ;;        ([(C-tab)]           . elscreen-next)
-  ;;        ([(C-S-iso-lefttab)] . elscreen-previous)
-  :config
-  ;; (require 'elscreen-gf)
-  ;; (require 'elscreen-w3m)
-  (elscreen-start)
-  ;; prefix-setting
-  (elscreen-set-prefix-key "\C-z")
-  (global-set-key (kbd "C-z SPC") 'elscreen-next)
-  (global-set-key (kbd "C-z DEL") 'elscreen-previous)
-  ;; compatibility for MacOS X
-  (global-set-key "\M-t" 'elscreen-create)
-  (global-set-key "\M-T" 'elscreen-clone)
-  (global-set-key "\M-}" 'elscreen-next)
-  (global-set-key "\M-{" 'elscreen-previous)
-  (global-set-key [(s t)] 'elscreen-create)
-  ;; (global-set-key [(s w)] 'elscreen-kill)
-  (global-set-key [(s })] 'elscreen-next)
-  (global-set-key [(s {)] 'elscreen-previous)
-  (global-set-key [(C-tab)] 'elscreen-next)
-  (global-set-key [(C-S-iso-lefttab)] 'elscreen-previous))
+;; tab-bar-mode（elscreen の代替、Emacs 27+ 組み込み）
+(tab-bar-mode 1)
+(let ((map (make-sparse-keymap)))
+  ;; 作成・複製・削除
+  (define-key map (kbd "c")   'tab-new)
+  (define-key map (kbd "C-c") 'tab-new)
+  (define-key map (kbd "C")   'tab-duplicate)
+  (define-key map (kbd "k")   'tab-close)
+  (define-key map (kbd "C-k") 'tab-close)
+  (define-key map (kbd "K")   'tab-close-other)
+  ;; 移動
+  (define-key map (kbd "n")   'tab-next)
+  (define-key map (kbd "C-n") 'tab-next)
+  (define-key map (kbd "SPC") 'tab-next)
+  (define-key map (kbd "p")   'tab-previous)
+  (define-key map (kbd "C-p") 'tab-previous)
+  (define-key map (kbd "DEL") 'tab-previous)
+  (define-key map (kbd "a")   'tab-last)
+  (define-key map (kbd "C-a") 'tab-last)
+  ;; 番号指定ジャンプ（1〜9）
+  (dotimes (i 9)
+    (define-key map (kbd (number-to-string (1+ i)))
+      `(lambda () (interactive) (tab-bar-select-tab ,(1+ i)))))
+  ;; 名前で選択・リネーム
+  (define-key map (kbd "\"")  'tab-switch)
+  (define-key map (kbd "A")   'tab-rename)
+  ;; ファイルを新タブで開く
+  (define-key map (kbd "C-f") (lambda () (interactive) (tab-new) (call-interactively 'find-file)))
+  ;; タブ移動
+  (define-key map (kbd "C-s") 'tab-move)
+  ;; tab-bar 表示トグル
+  (define-key map (kbd "T")   'tab-bar-mode)
+  (global-set-key (kbd "C-z") map))
+;; Mac 互換キーバインド
+(global-set-key "\M-t"             'tab-new)
+(global-set-key "\M-T"             'tab-duplicate)
+(global-set-key "\M-}"             'tab-next)
+(global-set-key "\M-{"             'tab-previous)
+(global-set-key [(s t)]            'tab-new)
+(global-set-key [(s })]            'tab-next)
+(global-set-key [(s {)]            'tab-previous)
+(global-set-key [(C-tab)]          'tab-next)
+(global-set-key [(C-S-iso-lefttab)] 'tab-previous)
 
 ;; auto-complete は company（init_lsp.el）に置き換え済みのため削除
 
