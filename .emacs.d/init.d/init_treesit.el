@@ -11,12 +11,13 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; for treesit (Emacs 29+ 内蔵)
 
+;; treesit-auto: grammar インストール補助のみ使用。
+;; global-treesit-auto-mode は無効化する（ファイルオープンごとに全 grammar を
+;; チェックするため ~620ms のオーバーヘッドが発生する）。
+;; 各言語の ts-mode は init_*.el で明示的に設定済みのため自動切り替えは不要。
 (use-package treesit-auto
   :ensure t
-  :config
-  (global-treesit-auto-mode)
-  ;; 自動インストールは手動実行時のみ行う（起動時の自動ダウンロードを防ぐ）
-  (setq treesit-auto-install 'prompt))
+  :defer t)
 
 ;; grammar のインストール：未インストールのものだけ対象とし、起動時に通信しない
 (setq treesit-language-source-alist
