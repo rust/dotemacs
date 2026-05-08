@@ -26,9 +26,11 @@
   :ensure t
   :config
   (setq git-gutter:update-interval 2)
-  ;; ファイルオープン時の即時 git diff を防ぐため idle timer 経由で起動
-  (add-hook 'find-file-hook
-            (lambda () (run-with-idle-timer 0.5 nil #'git-gutter-mode 1))))
+  ;; 起動時に preload して、ファイルを開いた時点で即座に有効化する
+  (defun my/enable-git-gutter-on-find-file ()
+    "Enable git-gutter immediately in file-visiting buffers."
+    (git-gutter-mode 1))
+  (add-hook 'find-file-hook #'my/enable-git-gutter-on-find-file))
 
 (use-package pinentry
   :ensure t

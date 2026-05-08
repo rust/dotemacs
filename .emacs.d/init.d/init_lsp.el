@@ -14,10 +14,9 @@
 
 (use-package lsp-mode
   :ensure t
-  :defer t
   :hook
-  ((ruby-mode . lsp-deferred)
-   (ruby-ts-mode . lsp-deferred)
+  ((ruby-mode . lsp)
+   (ruby-ts-mode . lsp)
    )
   :init
   (setq lsp-ruby-lsp-use-bundler t)

@@ -14,12 +14,13 @@
 
 (use-package copilot
   :ensure t
-  :defer t
   :config
   (setq copilot-indent-offset-warning-disable t)
-  ;; ファイルオープン時のブロッキングを防ぐため idle timer 経由で起動
-  (add-hook 'find-file-hook
-            (lambda () (run-with-idle-timer 1.0 nil #'copilot-mode 1)))
+  ;; 起動時に preload して、ファイルを開いた時点で即座に有効化する
+  (defun my/enable-copilot-on-find-file ()
+    "Enable Copilot immediately in file-visiting buffers."
+    (copilot-mode 1))
+  (add-hook 'find-file-hook #'my/enable-copilot-on-find-file)
   (define-key copilot-completion-map (kbd "<tab>") 'copilot-accept-completion)
   (define-key copilot-completion-map (kbd "TAB") 'copilot-accept-completion))
 
