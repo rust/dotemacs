@@ -94,6 +94,9 @@
 
 ;; Open symlink, not real file
 (setq vc-follow-symlinks nil)
+;; Emacs 組み込み VC を無効化（magit・git-gutter が独自の git I/F を使うため不要）
+;; find-file-hook の vc-refresh-state (~90ms) を排除する
+(setq vc-handled-backends nil)
 
 ;; Region
 (use-package expand-region
