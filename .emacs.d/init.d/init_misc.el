@@ -144,28 +144,7 @@
 (global-set-key [(C-S-iso-lefttab)] 'tab-previous)
 
 ;; auto-complete は company（init_lsp.el）に置き換え済みのため削除
-
-;; multi-term
-(use-package multi-term
-  :ensure t
-  :bind (("C-c n" . multi-term-next)
-         ("C-c p" . multi-term-prev))
-  :config
-  (setq multi-term-program shell-file-name)
-
-  (add-hook 'term-mode-hook
-            '(lambda ()
-               ;; C-h を term 内文字削除にする
-               (define-key term-raw-map (kbd "C-h") 'term-send-backspace)
-               ;; C-y を term 内ペーストにする
-               (define-key term-raw-map (kbd "C-y") 'term-paste)
-               ))
-
-  (global-set-key (kbd "C-c t") '(lambda ()
-                                   (interactive)
-                                   (if (get-buffer "*terminal<1>*")
-                                       (switch-to-buffer "*terminal<1>*")
-                                     (multi-term)))))
+;; multi-term は放棄済み（2020年）のため削除。ターミナルは M-x term / eshell を使用。
 
 (use-package rainbow-delimiters
   :ensure t
