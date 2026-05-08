@@ -6,16 +6,15 @@
 ;;; Commentary:
 
 ;; Python開発環境の設定。
-;; python-modeとDjangoサポートの設定を含む。
+;; Emacs 29+ 組み込みの python-ts-mode を使用。
 
 ;;; Code:
 
-;; python
-
-;; python-mode, pycomplete
-(use-package python-mode
-  :ensure t
-  :defer t)
+;; python-ts-mode（Emacs 29+ 組み込み、python-mode から移行）
+(use-package python
+  :ensure nil
+  :defer t
+  :mode (("\\.py\\'" . python-ts-mode)))
 
 (provide 'init_python)
 ;; init_python.el ends here

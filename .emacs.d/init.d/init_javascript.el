@@ -82,13 +82,9 @@
     (company-mode +1))
   (setq company-tooltip-align-annotations t))
 
-(use-package vue-mode
-  :ensure t
-  :mode "\\.vue\\'"
-  :config
-  (setq vue-html-tab-width 2))
-(use-package vue-html-mode
-  :ensure t)
+;; vue-mode は放棄済み、vue-ts-mode は MELPA 未収録のため web-mode で代替
+;; vue-ts-mode が MELPA に収録された時点で移行予定
+(add-to-list 'auto-mode-alist '("\\.vue\\'" . web-mode))
 
 (provide 'init_javascript)
 ;; init_javascript.el ends here

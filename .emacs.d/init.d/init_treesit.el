@@ -26,7 +26,11 @@
         (go         "https://github.com/tree-sitter/tree-sitter-go")
         (gomod      "https://github.com/camdencheek/tree-sitter-go-mod")
         (python     "https://github.com/tree-sitter/tree-sitter-python")
-        (ruby       "https://github.com/tree-sitter/tree-sitter-ruby")))
+        (ruby       "https://github.com/tree-sitter/tree-sitter-ruby")
+        (yaml       "https://github.com/ikatyang/tree-sitter-yaml")
+        (elixir     "https://github.com/elixir-lang/tree-sitter-elixir")
+        (heex       "https://github.com/phoenixframework/tree-sitter-heex")
+        (kotlin     "https://github.com/nickel-lang/tree-sitter-kotlin")))
 
 ;; 未インストールの grammar を一括インストールするユーティリティ
 ;; 初回セットアップ時に M-x my/treesit-install-missing-grammars で実行
