@@ -6,33 +6,27 @@
 ;;; Commentary:
 
 ;; JavaScriptとReactの開発環境設定。
-;; RJSX-modeの設定を含む。
+;; Emacs 29+ 組み込みの js-ts-mode / tsx-ts-mode を使用。
 
 ;;; Code:
 
 ;; for javascript
 
-(use-package rjsx-mode
-  :ensure t
-  :mode (("\\.js\\'" . rjsx-mode)
-         ("\\.jsx\\'" . rjsx-mode))
+;; js-ts-mode（Emacs 29+ 組み込み）: .js / .jsx
+(use-package js-ts-mode
+  :ensure nil
+  :mode (("\\.js\\'"  . js-ts-mode)
+         ("\\.jsx\\'" . tsx-ts-mode))  ; JSX は tsx-ts-mode が担当
   :config
-  (add-hook 'rjsx-mode-hook
-            (lambda ()
-              (setq js-switch-indent-offset 2)
-              (setq jsx-indent-level 2)
-              (setq js2-strict-missing-semi-warning nil)
-              (define-key haml-mode-map "\C-m" 'newline-and-indent)))
-
-  ;; Set 2 spaces tab
-  (setq-default js2-basic-offset 2))
+  (setq js-indent-level 2))
 
 (use-package prettier-js
   :ensure t
+  :defer t
   :config
-  (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'web-mode-hook 'prettier-js-mode)
-  (add-hook 'rjsx-mode-hook 'prettier-js-mode))
+  (add-hook 'js-ts-mode-hook  'prettier-js-mode)
+  (add-hook 'tsx-ts-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook    'prettier-js-mode))
 
 (use-package web-mode
   :ensure t
