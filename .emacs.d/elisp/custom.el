@@ -12,27 +12,26 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes
-   '("2b0fcc7cc9be4c09ec5c75405260a85e41691abb1ee28d29fcd5521e4fca575b"
-     "7fea145741b3ca719ae45e6533ad1f49b2a43bf199d9afaee5b6135fd9e6f9b8"
-     "0f9a1b7a0f1d09544668297c1f04e5a5452ae1f4cf69f11b125f4cff1d54783d"
-     default))
+  '(custom-safe-themes
+    '("2b0fcc7cc9be4c09ec5c75405260a85e41691abb1ee28d29fcd5521e4fca575b"
+      "7fea145741b3ca719ae45e6533ad1f49b2a43bf199d9afaee5b6135fd9e6f9b8"
+      "0f9a1b7a0f1d09544668297c1f04e5a5452ae1f4cf69f11b125f4cff1d54783d"
+      default))
   '(package-selected-packages
     '(adaptive-wrap anzu company copilot
                     dockerfile-mode
                     exec-path-from-shell expand-region
                     git-gutter go-mode groovy-mode
-                   haskell-mode highlight-indent-guides hl-todo
-                   inf-ruby jsonnet-mode
+                    haskell-mode highlight-indent-guides hl-todo
+                    jsonnet-mode
                     lsp-mode magit nginx-mode nix-mode
                     orderless php-mode pinentry prettier-js
                     rainbow-delimiters rainbow-mode
-                    rspec-mode rust-mode sass-mode
+                    rust-mode sass-mode
                     scala-mode slim-mode solarized-theme
                     terraform-mode
-                    treesit-auto vertico vimrc-mode web-mode
+                    treesit-auto vertico vimrc-mode visual-fill-column web-mode
                     yard-mode yasnippet))
- '(rspec-use-rake-flag nil)
  '(show-paren-mode t)
  '(yas-trigger-key "TAB"))
 (custom-set-faces

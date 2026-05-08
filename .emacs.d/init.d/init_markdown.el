@@ -10,12 +10,25 @@
 ;;; Code:
 
 ;; markdown-mode
+(use-package visual-fill-column
+  :ensure t)
+
 (use-package markdown-mode
   :ensure t
   :init
   (setq markdown-fontify-code-blocks-natively t
         markdown-hide-markup nil)
   :config
+  (defun my/markdown-writing-mode ()
+    "Optimize markdown buffers for long-form writing."
+    (visual-line-mode 1)
+    (setq-local truncate-lines nil
+                word-wrap t
+                visual-fill-column-width 100
+                visual-fill-column-center-text t)
+    (visual-fill-column-mode 1))
+  (add-hook 'markdown-mode-hook #'my/markdown-writing-mode)
+  (add-hook 'gfm-mode-hook #'my/markdown-writing-mode)
   (defun my/apply-markdown-glow-faces (&rest _)
     "Apply glow-like colors for markdown buffers."
     (set-face-attribute 'markdown-header-face-1 nil :foreground "#268bd2" :weight 'bold :height 1.45)

@@ -14,23 +14,5 @@
 ;;;; .erb は init_javascript.el の web-mode 設定でカバー済み
 (add-to-list 'auto-mode-alist '("\\.rhtml$" . web-mode))
 
-(use-package rspec-mode
-  :ensure t
-  :config
-  (add-hook 'ruby-mode-hook 'rspec-mode)
-  (add-hook 'enh-ruby-mode-hook 'rspec-mode)
-
-  (custom-set-variables '(rspec-use-rake-flag nil))
-  (defun my-compilation-hook ()
-    (when (not (get-buffer-window "*rspec-compilation*"))
-      (save-selected-window
-        (save-excursion
-          (let* ((w (split-window-vertically))
-                 (h (window-height w)))
-            (select-window w)
-            (switch-to-buffer "*rspec-compilation*")
-            (shrink-window (- h 10)))))))
-  (add-hook 'compilation-mode-hook 'my-compilation-hook))
-
 (provide 'init_rails)
 ;; init_rails.el ends here

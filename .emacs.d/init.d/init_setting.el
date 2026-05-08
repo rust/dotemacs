@@ -182,5 +182,28 @@
   :demand t
   :hook (prog-mode . flycheck-mode))
 
+(use-package flyspell
+  :ensure nil
+  :init
+  (defconst my-spell-check-program
+    (or (executable-find "aspell")
+        (executable-find "hunspell")
+        (executable-find "ispell"))
+    "Spell checker backend used by flyspell.")
+  (when my-spell-check-program
+    (setq ispell-program-name my-spell-check-program))
+  :config
+  (defun my/enable-flyspell-if-available ()
+    "Enable flyspell when a spell checker backend is available."
+    (when my-spell-check-program
+      (flyspell-mode 1)))
+  (defun my/enable-flyspell-prog-if-available ()
+    "Enable flyspell comments/strings support when available."
+    (when my-spell-check-program
+      (flyspell-prog-mode)))
+  :hook
+  ((text-mode . my/enable-flyspell-if-available)
+   (prog-mode . my/enable-flyspell-prog-if-available)))
+
 (provide 'init_setting)
 ;; init_setting.el ends here
