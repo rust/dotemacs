@@ -31,16 +31,11 @@
 (use-package web-mode
   :ensure t
   :mode (("\\.html?\\'"   . web-mode)
-         ("\\.ts\\'"      . web-mode)
-         ("\\.tsx\\'"     . web-mode)
-         ("\\.jsx\\'"     . web-mode)
          ("\\.erb$"       . web-mode)
          ("\\.phtml$"     . web-mode)
          ("\\.tpl\\.php$" . web-mode)
          ("\\.jsp$"       . web-mode)
          ("\\.as[cp]x$"   . web-mode)
-         ("\\.erb$"       . web-mode)
-         ("\\.html?$"     . web-mode)
          ("\\.eex$"       . web-mode)
          ("\\.blade\\."   . web-mode))
   :config
@@ -63,6 +58,7 @@
   (flycheck-add-mode 'typescript-tslint 'web-mode))
 
 (use-package typescript-ts-mode
+  :ensure nil
   :mode (("\\.tsx\\'" . tsx-ts-mode)
          ("\\.ts\\'"  . typescript-ts-mode))
   :config
