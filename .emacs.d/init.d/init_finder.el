@@ -98,8 +98,16 @@
   (("C-x b"   . consult-buffer)        ; ido-switch-buffer の代替
     ("C-x C-f" . find-file)             ; 標準のまま（vertico が補完）
     ("M-y"     . consult-yank-pop)      ; kill-ring から貼り付け
-    ("C-s"     . consult-line)          ; バッファ内インクリメンタル検索
+   ("C-s"     . consult-line)          ; バッファ内インクリメンタル検索
    ("C-c g"   . consult-ripgrep)))     ; プロジェクト全体 grep
+
+(use-package project
+  :ensure nil
+  :bind
+  (("C-c p f" . project-find-file)
+   ("C-c p b" . project-switch-to-buffer)
+   ("C-c p p" . project-switch-project)
+   ("C-c p g" . project-find-regexp)))
 
 (provide 'init_finder)
 ;; init_finder.el ends here
