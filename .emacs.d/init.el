@@ -43,6 +43,18 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
 
+;; インストール失敗時に一度だけキャッシュを更新してリトライ
+(defvar my/package-refreshed-on-error nil)
+(defun my/package-install-refresh-on-error (orig-fn &rest args)
+  (condition-case nil
+      (apply orig-fn args)
+    (error
+     (unless my/package-refreshed-on-error
+       (setq my/package-refreshed-on-error t)
+       (package-refresh-contents))
+     (apply orig-fn args))))
+(advice-add 'package-install :around #'my/package-install-refresh-on-error)
+
 (require 'use-package)
 (setq use-package-always-ensure t)
 
