@@ -98,8 +98,11 @@
   (("C-x b"   . consult-buffer)        ; ido-switch-buffer の代替
     ("C-x C-f" . find-file)             ; 標準のまま（vertico が補完）
     ("M-y"     . consult-yank-pop)      ; kill-ring から貼り付け
-   ("C-s"     . consult-line)          ; バッファ内インクリメンタル検索
-   ("C-c g"   . consult-ripgrep)))     ; プロジェクト全体 grep
+   ("M-s l"   . consult-line)          ; バッファ内一覧検索（isearch 中からも呼べる）
+   ("C-c g"   . consult-ripgrep))      ; プロジェクト全体 grep
+  :bind
+  (:map isearch-mode-map
+   ("M-s l"   . consult-line)))        ; isearch 中に一覧検索へ切り替え
 
 (use-package project
   :ensure nil
