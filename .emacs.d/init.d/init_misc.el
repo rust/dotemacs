@@ -60,6 +60,18 @@
   (add-to-list 'auto-mode-alist '("\\.jsonnet\\'" . jsonnet-mode))
   (add-to-list 'auto-mode-alist '("\\.libsonnet\\'" . jsonnet-mode)))
 
+;; migemo
+(use-package migemo
+  :ensure t
+  :config
+  (setq migemo-command "cmigemo"
+        migemo-options '("-q" "--emacs")
+        migemo-dictionary "/usr/share/migemo/utf-8/migemo-dict"
+        migemo-user-dictionary nil
+        migemo-regex-dictionary nil
+        migemo-coding-system 'utf-8-unix)
+  (migemo-init))
+
 ;; anzu
 (use-package anzu
   :ensure t

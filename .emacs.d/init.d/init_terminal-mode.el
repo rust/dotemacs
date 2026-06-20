@@ -23,6 +23,14 @@
 (if (getenv "SSH_CONNECTION")
     (progn
       (use-package ef-themes :ensure t)
+      (add-hook 'ef-themes-post-load-hook
+                (lambda ()
+                  (set-face-attribute 'hl-line nil
+                                      :background (ef-themes-get-color-value 'bg-yellow-subtle)
+                                      :underline nil)
+                  (set-face-attribute 'vertico-current nil
+                                      :background (ef-themes-get-color-value 'bg-yellow-subtle)
+                                      :weight 'bold)))
       (load-theme 'ef-arbutus t))
   (load-theme 'solarized-wombat-dark t))
 
