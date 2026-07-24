@@ -14,6 +14,13 @@
 
 ;;; Code:
 
+;; Emacs 30.2 に同梱されるスタブ版 compat.el がバージョンチェックだけ通過してしまい、
+;; vertico/corfu が要求する set-local 等の実体が欠けたまま「インストール済み」と
+;; 誤認されるのを防ぐため、GNU ELPA 版 compat を明示的な依存として要求する。
+(use-package compat
+  :ensure t
+  :demand t)
+
 (use-package vertico
   :ensure t
   :demand t
